@@ -1,0 +1,27 @@
+{
+    "artifacts": {},
+    "attributes": [],
+    "capabilities": {},
+    {% include "sdc_resource_category.json.j2" %},
+    "componentInstances": [],
+    "componentInstancesAttributes": {},
+    "componentInstancesProperties": {},
+    "componentType": "RESOURCE",
+    "contactId": "cs0008",
+    {% if category.name != "Allotted Resource" %}
+        "csarUUID": "{{ vsp.csar_uuid }}",
+        "csarVersion": "1.0",
+    {% endif %}
+    "deploymentArtifacts": {},
+    "description": "VF",
+    "icon": "defaulticon",
+    "name": "{{ name }}",
+    "properties": [],
+    "groups": [],
+    "requirements": {},
+    "resourceType": "VF",
+    "tags": ["{{ name }}"],
+    "toscaArtifacts": {},
+    "vendorName": "{{ vendor.name }}",
+    "vendorRelease": "1.0"
+}

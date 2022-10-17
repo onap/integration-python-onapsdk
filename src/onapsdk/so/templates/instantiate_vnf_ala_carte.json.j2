@@ -1,0 +1,18 @@
+{% extends "instantiate_network_vnf_ala_carte_base.json.j2" %}
+{% block model_info %}
+    "modelType": "vnf",
+    "modelInvariantId": "{{ vnf.model_invariant_id }}",
+    "modelVersionId": "{{ vnf.model_version_id }}",
+    "modelName": "{{ vnf.model_name }}",
+    "modelVersion": "{{ vnf.model_version }}",
+    "modelCustomizationId": "{{ vnf.model_customization_id }}",
+    "modelCustomizationName": "{{ vnf.name }}"
+{% endblock %}
+{% block user_params %}
+{% for parameter in vnf_parameters %}
+{
+    "name": "{{ parameter.name }}",
+    "value": "{{ parameter.value }}"
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+{% endblock %}

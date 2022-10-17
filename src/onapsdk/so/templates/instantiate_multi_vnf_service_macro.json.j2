@@ -1,0 +1,121 @@
+{% extends "instantiate_service_macro.json.j2" %}
+
+{% block subscriptionServiceType %}
+    "subscriptionServiceType": "{{ so_service.subscription_service_type }}",
+{% endblock %}
+
+{% block pnfs %}
+    {% if so_service.pnfs %}
+    "pnfs": [
+        {% for pnf in so_service.pnfs %}
+        {
+            "modelInfo":{
+                {% for sdc_pnf in sdc_service.pnfs %}
+                {% if sdc_pnf.model_name == pnf.model_name %}
+                "modelCustomizationName":"{{ sdc_pnf.name }}",
+                "modelCustomizationId":"{{ sdc_pnf.model_customization_id }}",
+                "modelInvariantId":"{{ sdc_service.unique_uuid }}",
+                "modelVersionId":"{{ sdc_service.identifier }}",
+                "modelName":"{{ sdc_service.name }}",
+                "modelType":"pnf",
+                "modelVersion":"{{ sdc_pnf.model_version }}"
+                {% endif %}
+                {% endfor %}
+            },
+            "platform":{
+                "platformName":"{{ platform }}"
+            },
+            "lineOfBusiness":{
+                "lineOfBusinessName":"{{ line_of_business }}"
+            },
+            "productFamilyId":"{{ aai_service.service_id }}",
+            "instanceParams":[],
+            {% if pnf.processing_priority %}
+            "processingPriority": "{{ pnf.processing_priority }}",
+            {% endif %}
+            "instanceName": "{{ pnf.instance_name }}"
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]{% if so_service.vnfs %},{% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block vnfs %}
+    {% if so_service.vnfs %}
+    "vnfs": [
+        {% for vnf in so_service.vnfs %}
+        {
+            "modelInfo": {
+                {% for sdc_vnf in sdc_service.vnfs %}
+                {% if sdc_vnf.model_name == vnf.model_name %}
+                "modelName": "{{ sdc_vnf.model_name }}",
+                "modelVersionId": "{{ sdc_vnf.model_version_id }}",
+                "modelInvariantUuid": "{{ sdc_vnf.model_invariant_uuid }}",
+                "modelVersion": "{{ sdc_vnf.model_version }}",
+                "modelCustomizationId": "{{ sdc_vnf.model_customization_id }}",
+                "modelInstanceName": "{{ sdc_vnf.model_name }}"
+                {% endif %}
+                {% endfor %}
+            },
+            "cloudConfiguration": {
+                "tenantId": "{{ tenant.tenant_id }}",
+                "cloudOwner": "{{ cloud_region.cloud_owner }}",
+                "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
+            },
+            "platform": {
+                "platformName": "{{ platform }}"
+            },
+            "lineOfBusiness": {
+                "lineOfBusinessName": "{{ line_of_business }}"
+            },
+            "productFamilyId": "1234",
+            "instanceName": "{{ vnf.instance_name }}",
+            "instanceParams": [
+                {
+                    {% for key, value in vnf.parameters.items() %}
+                    "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                }
+            ],
+            {% if vnf.processing_priority %}
+            "processingPriority": "{{ vnf.processing_priority }}",
+            {% endif %}
+            "vfModules": [
+                {% for vf_module in vnf.vf_modules %}
+                {
+                    "modelInfo": {
+                        {% for sdc_vnf in sdc_service.vnfs %}
+                        {% if sdc_vnf.model_name == vnf.model_name %}
+                        {% for sdc_vf_module in sdc_vnf.vf_modules %}
+                        {% set mylist = sdc_vf_module.name.split('..') %}
+                        {% set item = mylist|length-2 %}
+                        {% if vf_module.model_name == mylist[item] %}
+                        "modelName": "{{ sdc_vf_module.model_name }}",
+                        "modelVersionId": "{{ sdc_vf_module.model_version_id }}",
+                        "modelInvariantUuid": "{{ sdc_vf_module.model_invariant_uuid }}",
+                        "modelVersion": "{{ sdc_vf_module.model_version }}",
+                        "modelCustomizationId": "{{ sdc_vf_module.model_customization_id }}"
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                    },
+                    "instanceName": "{{ vf_module.instance_name }}",
+                    {% if vf_module.processing_priority %}
+                    "processingPriority": "{{ vf_module.processing_priority }}",
+                    {% endif %}
+                    "instanceParams": [
+                        {
+                            {% for key, value in vf_module.parameters.items() %}
+                            "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        }
+                    ]
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+    {% endif %}
+{% endblock %}

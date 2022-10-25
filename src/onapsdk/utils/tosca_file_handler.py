@@ -14,7 +14,7 @@
 #   limitations under the License.
 import json
 import string
-import random
+import secrets
 from typing import Dict, List
 
 from onapsdk.exceptions import ValidationError
@@ -103,4 +103,4 @@ def random_string_generator(size=6,
         str: a sequence of random characters
 
     """
-    return ''.join(random.choice(chars) for _ in range(size))
+    return ''.join(secrets.choice(chars) for _ in range(size))

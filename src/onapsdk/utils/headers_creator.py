@@ -223,9 +223,9 @@ def headers_sdc_artifact_upload(base_header: Dict[str, str], data: str):
     headers["Accept"] = "application/json, text/plain, */*"
     headers["Accept-Encoding"] = "gzip, deflate, br"
     headers["Content-Type"] = "application/json; charset=UTF-8"
-    md5_content = hashlib.md5(data.encode('UTF-8')).hexdigest()
+    md5_content = hashlib.new('SHA256', data.encode('UTF-8'), usedforsecurity=False).hexdigest()
     content = base64.b64encode(md5_content.encode('ascii')).decode('UTF-8')
-    headers["Content-MD5"] = content
+    headers["Content-SHA256"] = content
     return headers
 
 def headers_clamp_creator(base_header: Dict[str, str]):

@@ -18,7 +18,6 @@ from pathlib import Path
 from unittest import mock
 from unittest.mock import MagicMock, PropertyMock
 import shutil
-
 import oyaml as yaml
 import pytest
 
@@ -513,7 +512,7 @@ def test_get_tosca_no_result(mock_send):
     mock_send.return_value = {}
     svc = Service()
     svc.identifier = "12"
-    svc.get_tosca()
+    svc.get_tosca('/tmp/tosca_files')
     headers = headers_sdc_creator(svc.headers)
     headers['Accept'] = 'application/octet-stream'
     mock_send.assert_called_once_with(
@@ -533,7 +532,8 @@ def test_get_tosca_bad_csart(requests_mock):
         requests_mock.get(
             'https://sdc.api.be.simpledemo.onap.org:30204/sdc/v1/catalog/services/12/toscaModel',
             content=file_content)
-    svc.get_tosca()
+    svc.get_tosca('directory')
+    assert not path.exists('/tmp/tosca_files')
 
 
 def test_get_tosca_result(requests_mock):
@@ -546,7 +546,9 @@ def test_get_tosca_result(requests_mock):
             content=file_content)
     svc = Service()
     svc.identifier = "12"
-    svc.get_tosca()
+    svc.get_tosca('directory')
+    assert not path.exists('/tmp/tosca_files')
+
 
 def test_get_tosca_result_no_service_in_csar(requests_mock):
     if path.exists('/tmp/tosca_files'):
@@ -559,7 +561,7 @@ def test_get_tosca_result_no_service_in_csar(requests_mock):
     svc = Service()
     svc.identifier = "12"
     with pytest.raises(ValidationError):
-        svc.get_tosca()
+        svc.get_tosca('directory')
 
 @mock.patch.object(Service, 'send_message_json')
 def test_distributed_api_error(mock_send):

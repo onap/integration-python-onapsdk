@@ -5,6 +5,7 @@
     - build
     - test
     - deploy
+    - bandit
 
   image: docker:git
   services:
@@ -101,6 +102,15 @@
   integration_tests:3.10:
     image: python:3.10
     <<: *integration_tests
+
+  bandit:
+    image: python:3.10
+    stage: linting
+    script:
+      - pip install -r requirements.txt
+      - pip3 install bandit
+      - bandit -r src/onapsdk
+
 
   pages:
     stage: deploy

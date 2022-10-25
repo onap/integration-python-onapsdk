@@ -591,7 +591,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
                                        const.DISTRIBUTE,
                                        headers=headers)
 
-    def get_tosca(self) -> None:
+    def get_tosca(self, paths) -> None:
         """Get Service tosca files and save it."""
         url = "{}/services/{}/toscaModel".format(self._base_url(),
                                                  self.identifier)
@@ -603,17 +603,17 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
                                    url,
                                    headers=headers)
         if result:
-            self._create_tosca_file(result)
+            self._create_tosca_file(paths, result)
 
-    def _create_tosca_file(self, result: Response) -> None:
+    def _create_tosca_file(self, paths, result: Response) -> None:
         """Create Service Tosca files from HTTP response."""
         csar_filename = "service-{}-csar.csar".format(self.name)
-        makedirs(tosca_path(), exist_ok=True)
-        with open((tosca_path() + csar_filename), 'wb') as csar_file:
+        makedirs(paths, exist_ok=True)
+        with open((paths + csar_filename), 'wb') as csar_file:
             for chunk in result.iter_content(chunk_size=128):
                 csar_file.write(chunk)
         try:
-            self._unzip_csar_file(tosca_path() + csar_filename,
+            self._unzip_csar_file(paths + csar_filename,
                                   self._write_csar_file)
         except BadZipFile as exc:
             self._logger.exception(exc)
@@ -795,7 +795,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
     def _write_csar_file(service_template: str,
                          template_file: TextIOWrapper) -> None:
         """Write service temple into a file."""
-        with open(tosca_path() + service_template[12:], 'wb') as file:
+        with open(paths + service_template[12:], 'wb') as file:
             file.write(template_file.read())
 
     # _service_template is not used but function generation is generic

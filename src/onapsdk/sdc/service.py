@@ -31,8 +31,7 @@ from onapsdk.exceptions import (ParameterError, RequestError, ResourceNotFound,
 from onapsdk.sdc.category_management import ServiceCategory
 from onapsdk.sdc.properties import NestedInput, Property
 from onapsdk.sdc.sdc_resource import SdcResource
-from onapsdk.utils.configuration import (components_needing_distribution,
-                                         tosca_path)
+from onapsdk.utils.configuration import components_needing_distribution
 from onapsdk.utils.headers_creator import headers_sdc_creator, headers_sdc_artifact_upload
 from onapsdk.utils.jinja import jinja_env
 
@@ -795,7 +794,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
     def _write_csar_file(service_template: str,
                          template_file: TextIOWrapper) -> None:
         """Write service temple into a file."""
-        with open(paths + service_template[12:], 'wb') as file:
+        with open(service_template[12:], 'wb') as file:
             file.write(template_file.read())
 
     # _service_template is not used but function generation is generic

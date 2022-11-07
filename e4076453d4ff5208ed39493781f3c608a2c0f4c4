@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cac612_59b77898",
+        "filename": ".gitlab-ci.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-07T08:39:28Z",
+      "side": 1,
+      "message": "do not add a new stage, bandit job is a part of linting stage",
+      "revId": "e4076453d4ff5208ed39493781f3c608a2c0f4c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbb20ac_89ba17f1",
+        "filename": "tests/test_service.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-07T08:39:28Z",
+      "side": 1,
+      "message": "is that library used anywhere on code?",
+      "revId": "e4076453d4ff5208ed39493781f3c608a2c0f4c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab5aa4d_cc0c8330",
+        "filename": "tox.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-07T08:39:28Z",
+      "side": 1,
+      "message": "won\u0027t it fail on a fresh environment as there is no bandit installed? Is it part of test-requirements?",
+      "revId": "e4076453d4ff5208ed39493781f3c608a2c0f4c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

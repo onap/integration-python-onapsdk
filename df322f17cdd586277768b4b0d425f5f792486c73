@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6de6a399_c0a63a6b",
+        "filename": ".gitlab-ci.yml",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-08T08:41:09Z",
+      "side": 1,
+      "message": "please keep one line break",
+      "revId": "df322f17cdd586277768b4b0d425f5f792486c73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

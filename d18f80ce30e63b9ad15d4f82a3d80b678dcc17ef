@@ -16,6 +16,23 @@
       "revId": "d18f80ce30e63b9ad15d4f82a3d80b678dcc17ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b30038d_fdbd6799",
+        "filename": "src/onapsdk/utils/headers_creator.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-09T08:43:34Z",
+      "side": 1,
+      "message": "Add `usedforsecurity\u003dFalse` parameter on hashlib.md5 method, do not change algorithm",
+      "revId": "d18f80ce30e63b9ad15d4f82a3d80b678dcc17ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

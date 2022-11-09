@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1136eb5c_5b5eea4a",
+        "filename": "src/onapsdk/utils/headers_creator.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-09T08:37:06Z",
+      "side": 1,
+      "message": "That won\u0027t work with SDC, please add an exception for bandit linter or fix that different way",
+      "revId": "d18f80ce30e63b9ad15d4f82a3d80b678dcc17ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

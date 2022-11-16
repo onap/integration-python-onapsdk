@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9d19944_c98888a6",
+        "filename": "src/onapsdk/utils/headers_creator.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-16T10:26:32Z",
+      "side": 1,
+      "message": "Header name can\u0027t be changed as well",
+      "revId": "cf29c6d6046faea4a90520f2ac466f198ddf19bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

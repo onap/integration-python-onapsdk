@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24fa1b80_e8e0e769",
+        "filename": "src/onapsdk/utils/headers_creator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-11-24T07:42:33Z",
+      "side": 1,
+      "message": "remove pulint and nosec comments - unnecessary as long as I check with tox",
+      "revId": "dddf89e3fc42f1e3cd6c65c2e5342c1431629baf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

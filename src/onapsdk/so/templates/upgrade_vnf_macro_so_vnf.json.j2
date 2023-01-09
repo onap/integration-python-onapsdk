@@ -1,0 +1,120 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "instanceName": "{{ vnf_instance.service_instance.instance_name }}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "demo",
+            "productFamilyId": {{ vnf_instance.service_instance.productFamilyId }}
+        },
+        "modelInfo": {
+            "modelType": "vnf",
+            "modelInvariantId": "{{ vnf_instance.vnf.model_invariant_id }}",
+            "modelVersionId": "{{ vnf_instance.vnf.model_version_id }}",
+            "modelName": "{{ vnf_instance.vnf.model_name }}",
+            "modelVersion": "{{ vnf_instance.vnf.model_version }}",
+            "modelCustomizationId": "{{ vnf_instance.vnf.model_customization_id }}",
+            "modelInstanceName": "{{ vnf_instance.vnf.name }}"
+        },
+        "cloudConfiguration": {
+            "tenantId": "{{ vnf_instance.service_instance.service_subscription.tenant.tenant_id }}",
+            "cloudOwner": "{{ vnf_instance.service_instance.cloud_region.cloud_owner }}",
+            "lcpCloudRegionId": "{{ vnf_instance.service_instance.cloud_region.cloud_region_id }}"
+        },
+        "platform": {
+            "platformName": "{{ vnf_instance.service_instance.platform }}"
+        },
+        "lineOfBusiness": {
+            "lineOfBusinessName": "{{ vnf_instance.service_instance.line_of_business }}"
+        },
+        "subscriberInfo": {
+            "globalSubscriberId": "{{ vnf_instance.service_instance.service_subscription.customer.global_customer_id }}"
+        },
+        "requestParameters": {
+            "subscriptionServiceType": "{{ vnf_instance.service.name }}",
+            "userParams": [
+                {
+                    "Homing_Solution": "none"
+                },
+                {
+                    "service": {
+                        "instanceParams": [],
+                        "resources": {
+                            "vnfs": [
+                                {
+                                    "modelInfo": {
+                                        "modelName": "{{ vnf_instance.vnf.model_name }}",
+                                        "modelVersionId": "{{ vnf_instance.vnf.model_version_id }}",
+                                        "modelInvariantUuid": "{{ vnf_instance.vnf.model_invariant_id }}",
+                                        "modelVersion": "{{ vnf_instance.vnf.model_version }}",
+                                        "modelCustomizationId": "{{ vnf_instance.vnf.model_customization_id }}",
+                                        "modelInstanceName": "{{ vnf_instance.vnf.name }}"
+                                    },
+                                    "cloudConfiguration": {
+                                        "tenantId": "{{ vnf_instance.service_instance.service_subscription.tenant.tenant_id }}",
+                                        "cloudOwner": "{{ vnf_instance.service_instance.cloud_region.cloud_owner }}",
+                                        "lcpCloudRegionId": "{{ vnf_instance.service_instance.cloud_region.cloud_region_id }}"
+                                    },
+                                    "platform": {
+                                        "platformName": "{{ vnf_instance.service_instance.platform }}"
+                                    },
+                                    "lineOfBusiness": {
+                                        "lineOfBusinessName": "{{ vnf_instance.service_instance.line_of_business }}"
+                                    },
+                                    "productFamilyId": "{{ vnf_instance.service_instance.productFamilyId }}",
+                                    "instanceName": "{{ vnf_instance.instance_name }}",
+                                    "instanceParams": [ ],
+                                    "vfModules": [
+                                        {
+                                            "modelInfo": {
+                                                "modelName": "{{ vnf_instance.vnf.sdc_vf_module.model_name }}",
+                                                "modelVersionId": "{{ vnf_instance.vnf.sdc_vf_module.model_version_id}}",
+                                                "modelInvariantUuid": "{{ vnf_instance.vnf.sdc_vf_module.model_invariant_uuid }}",
+                                                "modelVersion": "{{ vnf_instance.vnf.sdc_vf_module.model_version }}",
+                                                "modelCustomizationId": "{{ vnf_instance.vnf.sdc_vf_module.model_customization_id }}"
+                                            },
+                                            "instanceName": "{{ vnf_instance.vf_module.instance_name }}",
+                                            "instanceParams": [ ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "modelInfo": {
+                            "modelType": "vnf",
+                            "modelInvariantId": "{{ vnf_instance.vnf.model_invariant_id }}",
+                            "modelVersionId": "{{ vnf_instance.vnf.model_version_id }}",
+                            "modelName": "{{ vnf_instance.vnf.model_name }}",
+                            "modelVersion": "{{ vnf_instance.vnf.model_version }}",
+                            "modelCustomizationId": "{{ vnf_instance.vnf.model_customization_id }}",
+                            "modelCustomizationName": "{{ vnf_instance.vnf.name }}"
+                        }
+                    }
+                }
+            ],
+            "aLaCarte": false
+        },
+        "project": {
+            "projectName": "{{ vnf_instance.service_instance.projectName }}"
+        },
+        "owningEntity": {
+            "owningEntityId": "{{ vnf_instance.service_instance.owning_entity.owning_entity_id }}",
+            "owningEntityName": "{{ vnf_instance.service_instance.owning_entity.owning_entity.name }}"
+        },
+        "relatedInstanceList": [
+            {
+                "relatedInstance": {
+                    "instanceId": "{{ vnf_instance.service_instance.instance_id }}",
+                    "modelInfo": {
+                        "modelType": "service",
+                        "modelInvariantId": "{{ vnf_instance.service_instance.sdc_service.unique_uuid }}",
+                        "modelVersionId": "{{ vnf_instance.service_instance.sdc_service.identifier }}",
+                        "modelName": "{{ vnf_instance.service_instance.sdc_service.name }}",
+                        "modelVersion": "{{ vnf_instance.service_instance.sdc_service.version }}"
+                    }
+                }
+            }
+        ]
+    },
+    "serviceInstanceId": "{{ vnf_instance.service_instance.instance_id }}"
+}

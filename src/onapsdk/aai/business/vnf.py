@@ -427,6 +427,16 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         return self._execute_so_action(operation_type=VnfOperation.HEALTHCHECK)
+    
+    def upgrade(self,
+               vnf_parameters: Iterable["InstantiationParameter"] = None) -> VnfInstantiation:
+        """Execute upgrade operation for vnf instance.
+
+        Returns:
+            VnfInstantiation: VnfInstantiation object.
+
+        """
+        return self._execute_so_action(operation_type=VnfOperation.UPGRADE,vnf_parameters=vnf_parameters)
 
     def _execute_so_action(self,
                            operation_type: VnfOperation,

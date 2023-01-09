@@ -1,4 +1,4 @@
-"""Instantion module."""
+"""Instantiation module."""
 #   Copyright 2022 Orange, Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ from .so_element import OrchestrationRequest
 
 
 @dataclass
-class Operation:
+class Operation:  # pylint: disable=too-many-lines
     """Operation class with data about method and suffix for VnfOperation."""
 
     request_method: str
@@ -45,6 +45,13 @@ class VnfOperation(Operation):  # pylint: disable=too-few-public-methods
 
     UPDATE = Operation("PUT", "")
     HEALTHCHECK = Operation("POST", "/healthcheck")
+    UPGRADE = Operation("POST", "/upgradeCnf")
+
+
+class ServiceOperation(Operation): # pylint: disable=too-few-public-methods
+    """Class to store possible operations' data for service (request method and suffix)."""
+
+    UPGRADE_SERVICE = Operation("POST", "/upgrade")
 
 
 @dataclass
@@ -571,6 +578,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
     @classmethod
     def so_action(cls,  # pylint: disable=too-many-arguments, too-many-locals
                   vnf_instance: "VnfInstance",
+                  vnf_object: "Vnf",
                   operation_type: VnfOperation,
                   aai_service_instance: "ServiceInstance",
                   line_of_business: str,
@@ -582,6 +590,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
 
         Args:
             vnf_instance (VnfInstance): vnf instance object
+            vnf_object(VnfObject): vnf object
             operation_type (VnfOperation): name of the operation to trigger
             aai_service_instance (AaiService): Service Instance object from aai
             line_of_business (LineOfBusiness): LineOfBusiness name to use
@@ -597,7 +606,9 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
             VnfInstantiation: VnfInstantiation object
 
         """
-        if operation_type not in (VnfOperation.HEALTHCHECK, VnfOperation.UPDATE):
+        if operation_type not in (VnfOperation.HEALTHCHECK,
+                                  VnfOperation.UPDATE,
+                                  VnfOperation.UPGRADE):
             raise StatusError("Operation not supported!")
 
         owning_entity_id = None
@@ -628,8 +639,11 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                 owning_entity=owning_entity,
                 line_of_business=line_of_business,
                 platform=platform,
-                service_instance_name=aai_service_instance.instance_name,
-                so_service=so_service
+                service_instance_name=so_service.instance_name,
+                so_service=so_service,
+                service_instance=aai_service_instance,
+                vnf=vnf_object,
+                service=so_service
             ),
             headers=headers_so_creator(OnapService.headers)
         )
@@ -842,6 +856,73 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
             tenant=tenant,
             customer=customer,
             owning_entity=owning_entity,
+            project=project
+        )
+
+    @classmethod
+    def so_svcaction(cls,  # pylint: disable=too-many-arguments, too-many-locals
+                     aai_service_instance: "ServiceInstance",
+                     operation_svc_type: ServiceOperation,
+                     ##line_of_business: str,
+                     platform: str,
+                     sdc_service: "SdcService",
+                     so_service: "SoService" = None
+                     ) -> "ServiceInstantiation":
+        """Select Service  with SO macro request.
+
+        Raises:
+            StatusError: if the provided operation is not supported
+
+        Returns:
+            ServiceInstantiation: ServiceInstantiation object
+
+        """
+        if operation_svc_type == ServiceOperation.UPGRADE_SERVICE:
+            template = "upgrade_service.json.j2"
+        else:
+            raise StatusError("Operation not supported!")
+
+        owning_entity_id = None
+        project = settings.PROJECT
+
+        for relationship in aai_service_instance.relationships:
+            if relationship.related_to == "owning-entity":
+                owning_entity_id = relationship.relationship_data.pop().get("relationship-value")
+            if relationship.related_to == "project":
+                project = relationship.relationship_data.pop().get("relationship-value")
+
+        owning_entity = OwningEntity.get_by_owning_entity_id(
+            owning_entity_id=owning_entity_id)
+
+        response: dict = cls.send_message_json(
+            operation_svc_type.request_method,
+            (f"So Action {sdc_service.name} "
+             f" Service instance {aai_service_instance.instance_id}"),
+            (f"{cls.base_url}/onap/so/infra/serviceInstantiation/{cls.api_version}/"
+             f"serviceInstances/{aai_service_instance.instance_id}"
+             f"{operation_svc_type.request_suffix}"),
+            data=jinja_env().get_template(template).render(
+                sdc_service=sdc_service,
+                cloud_region=next(aai_service_instance.service_subscription.cloud_regions),
+                tenant=next(aai_service_instance.service_subscription.tenants),
+                project=project,
+                owning_entity=owning_entity,
+                platform=platform,
+                service_instance=aai_service_instance,
+                service=so_service
+            ),
+            headers=headers_so_creator(OnapService.headers)
+        )
+
+        return ServiceInstantiation(
+            request_id=response["requestReferences"]["requestId"],
+            instance_id=response["requestReferences"]["instanceId"],
+            name=aai_service_instance.name,
+            sdc_service="SdcService",
+            cloud_region="CloudRegion",
+            tenant="Tenant",
+            customer="Customer",
+            owning_entity=OwningEntity,
             project=project
         )
 

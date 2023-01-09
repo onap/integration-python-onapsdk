@@ -16,6 +16,7 @@
 from typing import Iterable, Iterator
 
 from onapsdk.exceptions import ResourceNotFound, StatusError
+from onapsdk.sdc.service import Vnf
 from onapsdk.so.deletion import VnfDeletionRequest
 from onapsdk.so.instantiation import VfModuleInstantiation, VnfInstantiation, SoService, \
     InstantiationParameter, VnfOperation
@@ -428,6 +429,15 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
         """
         return self._execute_so_action(operation_type=VnfOperation.HEALTHCHECK)
 
+    def upgrade(self) -> VnfInstantiation:
+        """Execute upgrade operation for vnf instance.
+
+        Returns:
+            VnfInstantiation: VnfInstantiation object.
+
+        """
+        return self._execute_so_action(operation_type=VnfOperation.UPGRADE)
+
     def _execute_so_action(self,
                            operation_type: VnfOperation,
                            vnf_parameters: Iterable["InstantiationParameter"] = None
@@ -460,6 +470,7 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         return VnfInstantiation.so_action(
             vnf_instance=self,
+            vnf_object=Vnf,
             operation_type=operation_type,
             aai_service_instance=self.service_instance,
             line_of_business=lob,

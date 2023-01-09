@@ -1,0 +1,38 @@
+{
+	    "requestDetails": {
+		    "subscriberInfo": {
+			    "globalSubscriberId": "{{ service_instance.service_subscription.customer.global_customer_id }}"
+		    },
+		    "requestInfo": {
+			    "suppressRollback": "false",
+			    "productFamilyId": "1234",
+			    "requestorId": "demo",
+			    "instanceName": "{{ service_instance.instance_name }}",
+			    "source": "VID"
+		    },
+		    "cloudConfiguration": {
+			    "tenantId": "{{ service_instance.service_subscription.tenant.tenant_id }}",
+			    "cloudOwner": "{{ service_instance.service_subscription.cloud_region.cloud_owner }}",
+			    "lcpCloudRegionId": "{{ service_instance.service_subscription.cloud_region.cloud_region_id }}"
+		    },
+		    "requestParameters": {
+			    "subscriptionServiceType": "{{ service.name }}",
+			    "userParams": [],
+			    "aLaCarte": "false"
+		    },
+		    "project": {
+			    "projectName": "{{ project }}"
+		    },
+		    "owningEntity": {
+			    "owningEntityId": "{{ owning_entity.owning_entity_id }}",
+			    "owningEntityName": "{{ owning_entity.name }}"
+		    },
+		    "modelInfo": {
+			    "modelVersion": "{{ service_instance.sdc_service.version }}",
+			    "modelVersionId": "{{ service_instance.sdc_service.identifier }}",
+			    "modelInvariantId": "{{ service_instance.sdc_service.unique_uuid }}",
+			    "modelName": "{{ service_instance.sdc_service.name }}",
+			    "modelType": "service"
+		    }
+	    }
+    }

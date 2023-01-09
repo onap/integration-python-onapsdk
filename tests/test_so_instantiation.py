@@ -31,6 +31,7 @@ from onapsdk.so.instantiation import (
     SoServiceVnf,
     VfModuleInstantiation,
     VnfInstantiation,
+    ServiceOperation,
     VnfOperation
 )
 from onapsdk.vid import Vid
@@ -145,6 +146,45 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
     assert url == (f"{ServiceInstantiation.base_url}/onap/so/infra/"
                    f"serviceInstantiation/{ServiceInstantiation.api_version}/serviceInstances")
 
+##upgrade Service
+@mock.patch.object(ServiceInstantiation, "send_message_json")
+@mock.patch.object(OwningEntity, "get_by_owning_entity_id")
+def test_svc_macro_so_action(mock_owning_entity_get, mock_svc_instantiation_send_message):
+    
+    mock_sdc_service = mock.MagicMock()
+    relation_1 = mock.MagicMock()
+    relation_1.related_to = "owning-entity"
+    relation_1.relationship_data = [{"relationship-value": "test"}]
+    relation_2 = mock.MagicMock()
+    relation_2.related_to = "project"
+    relation_2.relationship_data = [{"relationship-value": "test"}]
+
+    mock_aai_service_instance = mock.MagicMock()
+    mock_aai_service_instance.instance_id = mock.MagicMock()
+    ##mock_aai_service_instance.relationships = (item for item in [relation_1, relation_2])
+    mock_aai_service_instance.service_subscription = mock.MagicMock()
+    ##mock_vnf_instance = mock.MagicMock()
+    ##mock_vnf_instance.vnf_name = "test_name_update"
+    ##mock_vnf_instance.vnf_id = "1234"
+
+    ##upgrade of Service
+    ##mock_svc_instance = mock.MagicMock()
+    ##mock_svc_instance.name = "test_name_upgrade_svc" 
+    with pytest.raises(StatusError): 
+        svc_instance_upgrade = ServiceInstantiation. \
+            so_svc_action(operation_svc_type=ServiceOperation.UPGRADE_SERVICE,
+                    aai_service_instance=mock_aai_service_instance,
+                    ##line_of_business=mock.MagicMock(),
+                    platform=mock.MagicMock(),
+                    sdc_service=mock_sdc_service,
+                    so_service=mock.MagicMock())
+        assert svc_instance_upgrade.name == "test_name_upgrade_svc"
+    mock_svc_instantiation_send_message.assert_called()
+    method, _, url = mock_svc_instantiation_send_message.call_args[0]
+    assert method == "POST"
+    assert url == (f"{ServiceInstantiation.base_url}/onap/so/infra/"
+                   f"serviceInstantiation/{ServiceInstantiation.api_version}/serviceInstances/"
+                   f"{mock_aai_service_instance.instance_id}/upgrade")
 
 def test_service_instance_aai_service_instance():
     customer_mock = mock.MagicMock()
@@ -315,7 +355,8 @@ def test_vnf_macro_so_action(mock_owning_entity_get, mock_vnf_instantiation_send
                       line_of_business=mock.MagicMock(),
                       platform=mock.MagicMock(),
                       sdc_service=mock_sdc_service,
-                      so_service=mock.MagicMock())
+                      so_service=mock.MagicMock(),
+                      vnf_object=mock.MagicMock())
 
     relation_1 = mock.MagicMock()
     relation_1.related_to = "owning-entity"
@@ -339,7 +380,8 @@ def test_vnf_macro_so_action(mock_owning_entity_get, mock_vnf_instantiation_send
                   line_of_business=mock.MagicMock(),
                   platform=mock.MagicMock(),
                   sdc_service=mock_sdc_service,
-                  so_service=mock.MagicMock())
+                  so_service=mock.MagicMock(),
+                  vnf_object=mock.MagicMock())
     assert vnf_instance_update.name == "test_name_update"
     mock_vnf_instantiation_send_message.assert_called()
     method, _, url = mock_vnf_instantiation_send_message.call_args[0]
@@ -358,7 +400,8 @@ def test_vnf_macro_so_action(mock_owning_entity_get, mock_vnf_instantiation_send
                   line_of_business=mock.MagicMock(),
                   platform=mock.MagicMock(),
                   sdc_service=mock_sdc_service,
-                  so_service=mock.MagicMock())
+                  so_service=mock.MagicMock(),
+                  vnf_object=mock.MagicMock())
     assert vnf_instance_healthcheck.name == "test_name_healthcheck"
     mock_vnf_instantiation_send_message.assert_called()
     method, _, url = mock_vnf_instantiation_send_message.call_args[0]
@@ -366,6 +409,28 @@ def test_vnf_macro_so_action(mock_owning_entity_get, mock_vnf_instantiation_send
     assert url == (f"{ServiceInstantiation.base_url}/onap/so/infra/"
                    f"serviceInstantiation/{ServiceInstantiation.api_version}/serviceInstances/"
                    f"{mock_aai_service_instance.instance_id}/vnfs/{mock_vnf_instance.vnf_id}/healthcheck")
+
+    
+    ##upgrade of cnf
+    mock_vnf_instance = mock.MagicMock()
+    mock_vnf_instance.vnf_name = "test_name_upgrade"  
+    vnf_instance_upgrade = VnfInstantiation. \
+            so_action(vnf_instance=mock_vnf_instance,
+                     operation_type=VnfOperation.UPGRADE,
+                    aai_service_instance=mock_aai_service_instance,
+                    line_of_business=mock.MagicMock(),
+                    platform=mock.MagicMock(),
+                    sdc_service=mock_sdc_service,
+                    so_service=mock.MagicMock(),
+                    vnf_object=mock.MagicMock())
+    assert vnf_instance_upgrade.name == "test_name_upgrade"
+    mock_vnf_instantiation_send_message.assert_called()
+    method, _, url = mock_vnf_instantiation_send_message.call_args[0]
+    assert method == "POST"
+    assert url == (f"{ServiceInstantiation.base_url}/onap/so/infra/"
+                   f"serviceInstantiation/{ServiceInstantiation.api_version}/serviceInstances/"
+                   f"{mock_aai_service_instance.instance_id}/vnfs/{mock_vnf_instance.vnf_id}/upgradeCnf")
+
 
 
 @mock.patch.object(NetworkInstantiation, "send_message_json")

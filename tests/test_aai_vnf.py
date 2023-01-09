@@ -325,6 +325,19 @@ def test_vnf_healthcheck(mock_vnf_instantiation):
     vnf_instance.healthcheck()
     mock_vnf_instantiation.assert_called_once()
 
+@mock.patch.object(VnfInstance, "_execute_so_action")
+def test_vnf_upgrade(mock_vnf_instantiation):
+
+    instance3 = mock.MagicMock()
+    vnf_instance3 = VnfInstance(instance3,
+                               vnf_id="test_vnf_id",
+                               vnf_type="test_vnf_type",
+                               in_maint=False,
+                               is_closed_loop_disabled=True)
+
+    vnf_instance3.upgrade([mock.MagicMock()])
+    mock_vnf_instantiation.assert_called_once()
+
 
 @mock.patch.object(VnfInstance, "_build_so_input")
 @mock.patch.object(VnfInstantiation, "so_action")

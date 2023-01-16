@@ -183,7 +183,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: Url which can be used to delete SDC element
 
         """
-        return f"{self._get_all_url}/{self.identifier}"
+        return f"{self._get_all_url()}/{self.identifier}"
 
     def _copy_object(self, obj: 'SdcElement') -> None:
         """

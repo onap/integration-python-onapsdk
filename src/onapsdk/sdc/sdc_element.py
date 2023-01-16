@@ -175,16 +175,6 @@ class SdcElement(SdcOnboardable, ABC):
         """
         return "{}/{}".format(cls._base_url(), cls._sdc_path())
 
-    @property
-    def delete_url(self) -> str:
-        """Get an url to delete element.
-
-        Returns:
-            str: Url which can be used to delete SDC element
-
-        """
-        return f"{self._get_all_url}/{self.identifier}"
-
     def _copy_object(self, obj: 'SdcElement') -> None:
         """
         Copy relevant properties from object.
@@ -235,15 +225,3 @@ class SdcElement(SdcOnboardable, ABC):
 
         """
         raise NotImplementedError("SdcElement is an abstract class")
-
-    def delete(self) -> None:
-        """Delete SDC element.
-
-        Send a request to SDC to delete that element.
-
-        """
-        self.send_message(
-            "DELETE",
-            "Delete SDC element",
-            self.delete_url
-        )

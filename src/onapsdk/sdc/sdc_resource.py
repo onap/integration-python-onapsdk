@@ -958,19 +958,3 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             return None
         msg = f"Can't add resource to {self.origin_type} which is not in DRAFT status"
         raise StatusError(msg)
-
-    def archive(self) -> None:
-        """Archive resource."""
-        self.send_message(
-            "POST",
-            f"POST {self.name} component",
-            f"{self.resource_inputs_url}/archive"
-        )
-
-    def delete(self) -> None:
-        """Delete resource."""
-        self.send_message(
-            "DELETE",
-            f"Delete {self.name} component",
-            f"{self.resource_inputs_url}"
-            )

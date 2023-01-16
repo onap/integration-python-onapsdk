@@ -15,7 +15,6 @@
 
 from os import path
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from unittest import mock
 from unittest.mock import MagicMock, PropertyMock
 import shutil
@@ -532,8 +531,7 @@ def test_get_tosca_bad_csart(requests_mock):
         requests_mock.get(
             'https://sdc.api.be.simpledemo.onap.org:30204/sdc/v1/catalog/services/12/toscaModel',
             content=file_content)
-    with TemporaryDirectory() as tempdir:
-        svc.get_tosca(tempdir)
+    svc.get_tosca('directory')
     assert not path.exists('/tmp/tosca_files')
 
 

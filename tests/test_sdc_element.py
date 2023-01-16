@@ -107,3 +107,16 @@ def test_exists_versions(mock_vsp_created, mock_get_all):
     sdc_el2._identifier = "123"
     mock_get_all.return_value = [sdc_el1, sdc_el2]
     assert sdc_el1.exists()
+
+@mock.patch.object(SdcElement, "send_message")
+def test_delete(mock_send_message):
+    vsp = Vsp("test_vsp")
+    vsp.identifier = "test_vsp"
+    vsp.delete()
+    mock_send_message.assert_called_once()
+
+    mock_send_message.reset_mock()
+    vendor = Vendor("test_vendor")
+    vendor.identifier = "test_vendor"
+    vendor.delete()
+    mock_send_message.assert_called_once()

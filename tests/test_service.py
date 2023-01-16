@@ -15,10 +15,10 @@
 
 from os import path
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest import mock
 from unittest.mock import MagicMock, PropertyMock
 import shutil
-import oyaml as yaml
 import pytest
 import onapsdk.constants as const
 from onapsdk.exceptions import ParameterError, RequestError, ResourceNotFound, StatusError, ValidationError
@@ -531,7 +531,8 @@ def test_get_tosca_bad_csart(requests_mock):
         requests_mock.get(
             'https://sdc.api.be.simpledemo.onap.org:30204/sdc/v1/catalog/services/12/toscaModel',
             content=file_content)
-    svc.get_tosca('directory')
+    with TemporaryDirectory() as tempdir:
+        svc.get_tosca(tempdir)
     assert not path.exists('/tmp/tosca_files')
 
 
@@ -1490,10 +1491,27 @@ def test_service_components(mock_send_message_json):
     assert not service.has_vnfs
     assert not service.has_pnfs
     assert not service.has_vls
-
     mock_send_message_json.side_effect = [COMPONENTS_WITH_ALL_ORIGIN_TYPES, COMPONENT,
                                           COMPONENTS_WITH_ALL_ORIGIN_TYPES, COMPONENT, COMPONENT,
                                           COMPONENTS_WITH_ALL_ORIGIN_TYPES, COMPONENT, COMPONENT, COMPONENT]
     assert service.has_vnfs
     assert service.has_pnfs
     assert service.has_vls
+
+@mock.patch.object(Service, "send_message")
+def test_service_archive(mock_send):
+    service = Service(name="test")
+    service.archive()
+    mock_send.assert_called()
+    method, description, url = mock_send.call_args[0]
+    assert method == "POST"
+    assert description == "Archive test component"
+    assert "archive" in url
+
+@mock.patch.object(Service, "send_message")
+def test_service_delete(mock_send):
+    service = Service(name="test")
+    service.delete()
+    mock_send.assert_called()
+    method = mock_send.call_args[0][0]
+    assert method == "DELETE"

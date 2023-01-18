@@ -29,6 +29,7 @@ CDS_URL         = "http://portal.api.simpledemo.onap.org:30449"
 CDS_AUTH        = ("ccsdkapps", "ccsdkapps")
 CPS_URL         = "http://portal.api.simpledemo.onap.org:8080"
 CPS_AUTH        = ("cpsuser", "cpsr0cks!")
+CPS_VERSION     = "v1"
 MSB_URL         = "https://msb.api.simpledemo.onap.org:30283"
 SDC_BE_URL      = "https://sdc.api.be.simpledemo.onap.org:30204"
 SDC_FE_URL      = "https://sdc.api.fe.simpledemo.onap.org:30207"

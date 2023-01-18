@@ -50,7 +50,7 @@ class Dataspace(CpsElement):
             str: Dataspace url
 
         """
-        return f"{self._url}/cps/api/v1/dataspaces/{self.name}"
+        return f"{self._url}/dataspaces/{self.name}"
 
     @classmethod
     def create(cls, dataspace_name: str) -> "Dataspace":
@@ -66,7 +66,7 @@ class Dataspace(CpsElement):
         cls.send_message(
             "POST",
             f"Create {dataspace_name} dataspace",
-            f"{cls._url}/cps/api/v1/dataspaces?dataspace-name={dataspace_name}",
+            f"{cls._url}/dataspaces?dataspace-name={dataspace_name}",
             auth=cls.auth
         )
         return Dataspace(dataspace_name)
@@ -143,8 +143,8 @@ class Dataspace(CpsElement):
         """
         schema_set_data: Dict[str, Any] = self.send_message_json(
             "GET",
-            "Get all CPS dataspace schemasets",
-            f"{self._url}/cps/api/v1/dataspaces/{self.name}/schema-sets/{schema_set_name}",
+            f"Get CPS dataspace {schema_set_name} schemaset",
+            f"{self._url}/dataspaces/{self.name}/schema-sets/{schema_set_name}",
             auth=self.auth
         )
         return SchemaSet(
@@ -152,7 +152,7 @@ class Dataspace(CpsElement):
             dataspace=self,
             module_references=[
                 SchemaSetModuleReference(
-                    name=module_reference_data["name"],
+                    name=module_reference_data.get("name"),
                     namespace=module_reference_data["namespace"],
                     revision=module_reference_data["revision"]
                 ) for module_reference_data in schema_set_data["moduleReferences"]
@@ -175,7 +175,7 @@ class Dataspace(CpsElement):
         self.send_message(
             "POST",
             "Create schema set",
-            f"{self._url}/cps/api/v1/dataspaces/{self.name}/schema-sets/",
+            f"{self._url}/dataspaces/{self.name}/schema-sets/",
             files={"file": schema_set},
             data={"schema-set-name": schema_set_name},
             headers={},  # Leave headers empty to fill it correctly by `requests` library
@@ -188,6 +188,6 @@ class Dataspace(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {self.name} dataspace",
-            f"{self._url}/cps/api/v1/dataspaces/{self.name}",
+            f"{self._url}/dataspaces?dataspace-name={self.name}",
             auth=self.auth
         )

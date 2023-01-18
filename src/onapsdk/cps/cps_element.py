@@ -13,6 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from urllib.parse import urljoin
+
 from onapsdk.configuration import settings
 from onapsdk.onap_service import OnapService
 
@@ -20,5 +22,5 @@ from onapsdk.onap_service import OnapService
 class CpsElement(OnapService):
     """Mother Class of all CPS elements."""
 
-    _url: str = settings.CPS_URL
+    _url: str = urljoin(settings.CPS_URL, f"cps/api/{settings.CPS_VERSION}")
     auth: tuple = settings.CPS_AUTH

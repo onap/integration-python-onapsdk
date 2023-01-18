@@ -55,8 +55,7 @@ class Anchor(CpsElement):
             str: Anchor url
 
         """
-        return f"{self._url}/cps/api/v1/dataspaces/"\
-               f"{self.schema_set.dataspace.name}/anchors/{self.name}"
+        return f"{self._url}/dataspaces/{self.schema_set.dataspace.name}/anchors/{self.name}"
 
     def delete(self) -> None:
         """Delete anchor."""

@@ -29,9 +29,9 @@ class SchemaSetModuleReference:
     Stores all information about module reference.
     """
 
-    name: str
     namespace: str
     revision: str
+    name: Optional[str] = None
 
 
 class SchemaSet(CpsElement):
@@ -69,5 +69,5 @@ class SchemaSet(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {self.name} schema set",
-            f"{self._url}/cps/api/v1/dataspaces/{self.dataspace.name}/schema-sets/{self.name}"
+            f"{self._url}/dataspaces/{self.dataspace.name}/schema-sets/{self.name}"
         )

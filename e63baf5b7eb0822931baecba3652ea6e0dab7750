@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77187169_7b9c8224",
+        "filename": "src/onapsdk/aai/business/vnf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespaces",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0ef60d7_c788c12e",
+        "filename": "src/onapsdk/aai/business/vnf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "If it can be none that should be Optional[Iterable[\"InstantiationParameter\"]]",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9da693d_0d6ab8fd",
+        "filename": "src/onapsdk/aai/business/vnf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "add space after comma",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6281b38_ca91d413",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "Classes should be named using PascalCase (so it should be OperationSvc)",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adec875c_de8e59ee",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c92509a6_31ffeb71",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "Please inherit from Operation",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e2c1a0_e61f7cfc",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "add an argument into docs (starts from line 595)",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e61568_1d3a13fe",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f0d1f2_8d079e4a",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99abb50d_778ec0ba",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "please keep all arguments on one indentation level",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41312cd4_02a3f1ef",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "703978c0_8a71aa27",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "plase add Args section into documentation",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f70add56_882c05e1",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespaces",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cb9ee72_3decbac0",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespaces",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5483894_3af85041",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "that conditional statement is useless",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4771bd6_3ccd6e55",
+        "filename": "src/onapsdk/so/templates/upgrade_vnf_macro_so_vnf.json.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "Looks like that template is not used anywhere, please remove it",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3577e0c_a194620c",
+        "filename": "tests/test_so_instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00d442d6_30bb06a8",
+        "filename": "tests/test_so_instantiation.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-01-20T08:54:29Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "e63baf5b7eb0822931baecba3652ea6e0dab7750",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

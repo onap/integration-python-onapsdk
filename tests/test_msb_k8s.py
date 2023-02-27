@@ -13,7 +13,7 @@
 #   limitations under the License.
 from unittest import mock
 
-from onapsdk.msb.k8s import Definition, ConnectivityInfo, Instance
+from onapsdk.msb.k8s import Definition, ConnectivityInfo, Instance, K8sPluginViaMsb, Profile, ConfigurationTemplate
 
 
 CONNECTIVITY_INFO = {
@@ -146,6 +146,7 @@ def test_connectivity_info_create_delete(mock_send_message_json, mock_send_messa
     assert conn_info.cloud_owner == "test_cloud_owner"
     assert conn_info.other_connectivity_list == {}
     assert conn_info.kubeconfig == "test_kubeconfig"
+    assert conn_info.url == f"{K8sPluginViaMsb.base_url_and_version()}/connectivity-info/test_cloud_region"
     conn_info.delete()
 
 
@@ -185,7 +186,7 @@ def test_get_definition_by_name_version(mock_send_message_json):
 
 @mock.patch.object(Definition, "send_message_json")
 @mock.patch.object(Definition, "send_message")
-def test_create_definition(mock_send_message, mock_send_message_json):
+def test_create_delete_definition(mock_send_message, mock_send_message_json):
     mock_send_message_json.return_value = DEFINITION
     def_0 = Definition.create(
         rb_name="test_rb_name_0",
@@ -196,11 +197,35 @@ def test_create_definition(mock_send_message, mock_send_message_json):
     assert def_0.chart_name is None
     assert def_0.description is None
     assert def_0.labels is None
+    assert def_0.url == f"{K8sPluginViaMsb.base_url_and_version()}/rb/definition/test_rb_name_0/test_rb_version_0"
+    def_0.delete()
 
 
 @mock.patch.object(Definition, "send_message_json")
 @mock.patch.object(Definition, "send_message")
-def test_definition_create_profile(mock_send_message, mock_send_message_json):
+def test_update_definition(mock_send_message, mock_send_message_json):
+    mock_send_message_json.return_value = DEFINITION
+    def_0 = Definition(
+        rb_name="test_rb_name_0",
+        rb_version="test_rb_version_0",
+        chart_name=None,
+        description=None,
+        labels=None
+    )
+    def_0 = def_0.update()
+    assert def_0.rb_name == "test_rb_name_0"
+    assert def_0.rb_version == "test_rb_version_0"
+    assert def_0.chart_name is None
+    assert def_0.description is None
+    assert def_0.labels is None
+    assert def_0.url == f"{K8sPluginViaMsb.base_url_and_version()}/rb/definition/test_rb_name_0/test_rb_version_0"
+
+
+
+@mock.patch.object(Definition, "send_message_json")
+@mock.patch.object(Definition, "send_message")
+@mock.patch.object(Profile, "send_message")
+def test_definition_create_delete_profile(mock_send_message_profile, mock_send_message, mock_send_message_json):
     mock_send_message_json.return_value = PROFILE
     deff = Definition(
         rb_name="test_rb_name",
@@ -221,6 +246,29 @@ def test_definition_create_profile(mock_send_message, mock_send_message_json):
     assert profile.kubernetes_version is None
     assert profile.labels == {}
     assert profile.release_name == "test_profile_name"
+    assert profile.url == f"{deff.url}/profile/test_profile_name"
+    profile.delete()
+
+
+@mock.patch.object(Profile, "send_message")
+def test_definition_update_profile(mock_send_message):
+    mock_send_message.return_value = PROFILE
+    old_profile = Profile(
+        rb_name="test_rb_name",
+        rb_version="test_rb_version",
+        profile_name="test_profile_name",
+        namespace="test_namespace",
+        kubernetes_version=None
+    )
+    profile = old_profile.update()
+    assert profile.rb_name == "test_rb_name"
+    assert profile.rb_version == "test_rb_version"
+    assert profile.profile_name == "test_profile_name"
+    assert profile.namespace == "test_namespace"
+    assert profile.kubernetes_version is None
+    assert profile.labels == {}
+    assert profile.release_name == "test_profile_name"
+    assert profile.url == old_profile.url
 
 
 @mock.patch.object(Definition, "send_message_json")
@@ -298,7 +346,8 @@ def test_definition_get_configuration_template_by_name(mock_send_message_json):
 
 @mock.patch.object(Definition, "send_message_json")
 @mock.patch.object(Definition, "send_message")
-def test_definition_create_configuration_template(mock_send_message, mock_send_message_json):
+@mock.patch.object(ConfigurationTemplate, "send_message")
+def test_definition_create_delete_configuration_template(mock_send_message_config, mock_send_message, mock_send_message_json):
     mock_send_message_json.return_value = CONFIGURATION_TEMPLATE
     deff = Definition(
         rb_name="test_rb_name",
@@ -315,7 +364,25 @@ def test_definition_create_configuration_template(mock_send_message, mock_send_m
     assert configuration_tmpl.rb_version == deff.rb_version
     assert configuration_tmpl.template_name == "test_configuration_template_name"
     assert configuration_tmpl.description == "test_configuration_template_description"
-    assert configuration_tmpl.url == f"{deff.base_url}/{deff.rb_name}/{deff.rb_version}/config-template/test_configuration_template_name"
+    assert configuration_tmpl.url == f"{deff.url}/config-template/test_configuration_template_name"
+    configuration_tmpl.delete()
+
+
+@mock.patch.object(ConfigurationTemplate, "send_message")
+def test_definition_update_configuration_template(mock_send_message):
+    mock_send_message.return_value = CONFIGURATION_TEMPLATE
+    old_configuration_template = ConfigurationTemplate(
+        rb_name="test_rb_name",
+        rb_version="test_rb_version",
+        template_name="test_configuration_template_name",
+        description="test_configuration_template_description"
+    )
+    configuration_tmpl = old_configuration_template.update()
+    assert configuration_tmpl.rb_name == old_configuration_template.rb_name
+    assert configuration_tmpl.rb_version == old_configuration_template.rb_version
+    assert configuration_tmpl.template_name == old_configuration_template.template_name
+    assert configuration_tmpl.description == old_configuration_template.description
+    assert configuration_tmpl.url == old_configuration_template.url
 
 
 @mock.patch.object(Definition, "send_message_json")
@@ -356,7 +423,8 @@ def test_instance_get_all(mock_send_message_json):
 
 
 @mock.patch.object(Instance, "send_message_json")
-def test_instance_create(mock_send_message_json):
+@mock.patch.object(Instance, "send_message")
+def test_instance_create_delete(mock_send_message, mock_send_message_json):
     mock_send_message_json.return_value = INSTANCE
     instance = Instance.create(
         "test_cloud_region_id",
@@ -366,13 +434,34 @@ def test_instance_create(mock_send_message_json):
     )
     assert instance.instance_id == "ID_GENERATED_BY_K8SPLUGIN"
     assert instance.namespace == "NAMESPACE_WHERE_INSTANCE_HAS_BEEN_DEPLOYED_AS_DERIVED_FROM_PROFILE"
+    assert instance.url == f"{K8sPluginViaMsb.base_url_and_version()}/instance/ID_GENERATED_BY_K8SPLUGIN"
+    instance.delete()
 
 
 @mock.patch.object(Instance, "send_message_json")
-@mock.patch.object(Instance, "send_message")
-def test_instance_get_by_id(mock_send_message, mock_send_message_json):
+def test_instance_upgrade(mock_send_message_json):
+    mock_send_message_json.return_value = INSTANCE
+    old_instance = Instance(
+        "test_cloud_region_id",
+        "test_profile_name",
+        "test_rb_name",
+        "test_rb_version"
+    )
+    instance = old_instance.upgrade(
+        "test_cloud_region_id",
+        "test_profile_name",
+        "test_rb_name",
+        "test_rb_version"
+    )
+    assert instance.instance_id == "ID_GENERATED_BY_K8SPLUGIN"
+    assert instance.namespace == "NAMESPACE_WHERE_INSTANCE_HAS_BEEN_DEPLOYED_AS_DERIVED_FROM_PROFILE"
+    assert instance.url == f"{K8sPluginViaMsb.base_url_and_version()}/instance/ID_GENERATED_BY_K8SPLUGIN"
+
+
+@mock.patch.object(Instance, "send_message_json")
+def test_instance_get_by_id(mock_send_message_json):
     mock_send_message_json.return_value = INSTANCE
     instance = Instance.get_by_id("ID_GENERATED_BY_K8SPLUGIN")
     assert instance.instance_id == "ID_GENERATED_BY_K8SPLUGIN"
     assert instance.namespace == "NAMESPACE_WHERE_INSTANCE_HAS_BEEN_DEPLOYED_AS_DERIVED_FROM_PROFILE"
-    instance.delete()
+

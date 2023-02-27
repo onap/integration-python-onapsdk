@@ -12,15 +12,17 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from onapsdk.utils.jinja import jinja_env
-from ..msb_service import MSB
+from dataclasses import dataclass
+import onapsdk.k8s
+from deprecated import deprecated
+from .k8splugin_msb_service import K8sPluginViaMsb
 
 
-class ConnectivityInfo(MSB):
-    """Connectivity-Info class."""
-
-    api_version = "/api/multicloud-k8s/v1/v1"
-    url = f"{MSB.base_url}{api_version}/connectivity-info"
+# pylint: disable=too-many-ancestors, useless-super-delegation, duplicate-code
+@dataclass
+@deprecated(version="11.0.0", reason="K8sPlugin should be used without MSB now")
+class ConnectivityInfo(K8sPluginViaMsb, onapsdk.k8s.ConnectivityInfo):
+    """Connectivity-Info via MSB class."""
 
     def __init__(self, cloud_region_id: str,
                  cloud_owner: str,
@@ -34,72 +36,4 @@ class ConnectivityInfo(MSB):
             other_connectivity_list (dict): Optional other connectivity list
             kubeconfig (str): kubernetes cluster kubeconfig
         """
-        super().__init__()
-        self.cloud_region_id: str = cloud_region_id
-        self.cloud_owner: str = cloud_owner
-        self.other_connectivity_list: dict = other_connectivity_list
-        self.kubeconfig: str = kubeconfig
-
-    @classmethod
-    def get_connectivity_info_by_region_id(cls, cloud_region_id: str) -> "ConnectivityInfo":
-        """Get connectivity-info by its name (cloud region id).
-
-        Args:
-            cloud_region_id (str): Cloud region ID
-
-        Returns:
-            ConnectivityInfo: Connectivity-Info object
-
-        """
-        url: str = f"{cls.url}/{cloud_region_id}"
-        connectivity_info: dict = cls.send_message_json(
-            "GET",
-            "Get Connectivity Info",
-            url
-        )
-        return cls(
-            connectivity_info["cloud-region"],
-            connectivity_info["cloud-owner"],
-            connectivity_info.get("other-connectivity-list"),
-            connectivity_info["kubeconfig"]
-        )
-
-    def delete(self) -> None:
-        """Delete connectivity info."""
-        url: str = f"{self.url}/{self.cloud_region_id}"
-        self.send_message(
-            "DELETE",
-            "Delete Connectivity Info",
-            url
-        )
-
-    @classmethod
-    def create(cls,
-               cloud_region_id: str,
-               cloud_owner: str,
-               kubeconfig: bytes = None) -> "ConnectivityInfo":
-        """Create Connectivity Info.
-
-        Args:
-            cloud_region_id (str): Cloud region ID
-            cloud_owner (str): Cloud owner name
-            kubeconfig (bytes): kubernetes cluster kubeconfig file
-
-        Returns:
-            ConnectivityInfo: Created object
-
-        """
-        json_file = jinja_env().get_template("multicloud_k8s_add_connectivity_info.json.j2").render(
-            cloud_region_id=cloud_region_id,
-            cloud_owner=cloud_owner
-        )
-        url: str = f"{cls.url}"
-        cls.send_message(
-            "POST",
-            "Create Connectivity Info",
-            url,
-            files={"file": kubeconfig,
-                   "metadata": (None, json_file)},
-            headers={}
-        )
-        return cls.get_connectivity_info_by_region_id(cloud_region_id)
+        super().__init__(cloud_region_id, cloud_owner, other_connectivity_list, kubeconfig)

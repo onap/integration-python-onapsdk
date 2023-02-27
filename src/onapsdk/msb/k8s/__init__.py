@@ -1,4 +1,4 @@
-"""K8s package."""
+"""K8s MSB package."""
 #   Copyright 2022 Orange, Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,4 +14,5 @@
 #   limitations under the License.
 from .definition import Definition, Profile, ConfigurationTemplate
 from .connectivity_info import ConnectivityInfo
-from .instance import InstantiationParameter, InstantiationRequest, Instance
+from .instance import InstantiationParameter, InstantiationRequest, Instance, Configuration
+from .k8splugin_msb_service import K8sPlugin

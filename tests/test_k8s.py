@@ -13,8 +13,9 @@
 #   limitations under the License.
 from unittest import mock
 
-from onapsdk.msb.k8s import Definition, ConnectivityInfo, Instance, InstantiationRequest
-from onapsdk.msb.k8s import K8sPlugin, Profile, ConfigurationTemplate, Configuration
+from onapsdk.k8s import Definition, ConnectivityInfo, Instance, InstantiationRequest
+from onapsdk.k8s import K8sPlugin, Profile, ConfigurationTemplate, Configuration
+from onapsdk.k8s import CloudRegion
 
 
 CONNECTIVITY_INFO = {
@@ -246,6 +247,11 @@ STATUS = {
     ]
 }
 
+REGION_STATUS = {
+    "resourceCount": 1,
+    "resourcesStatus": STATUS["resourcesStatus"]
+}
+
 CONFIG = {
     "config-name": "conf",
     "template-name": "conf",
@@ -300,6 +306,43 @@ def test_connectivity_info_create_delete(mock_send_message_json, mock_send_messa
     assert conn_info.kubeconfig == "test_kubeconfig"
     assert conn_info.url == f"{K8sPlugin.base_url_and_version()}/connectivity-info/test_cloud_region"
     conn_info.delete()
+
+
+@mock.patch.object(ConnectivityInfo, "send_message_json")
+def test_get_cloud_region_by_region_id(mock_send_message_json):
+    mock_send_message_json.return_value = CONNECTIVITY_INFO
+    cloud_region: CloudRegion = CloudRegion.get_by_region_id("test_cloud_region")
+    assert cloud_region.cloud_region_id == "test_cloud_region"
+    assert cloud_region.connectivity_info.cloud_owner == "test_cloud_owner"
+    assert cloud_region.connectivity_info.other_connectivity_list == {}
+    assert cloud_region.connectivity_info.kubeconfig == "test_kubeconfig"
+
+
+@mock.patch.object(ConnectivityInfo, "send_message")
+@mock.patch.object(ConnectivityInfo, "send_message_json")
+def test_cloud_region_create_delete(mock_send_message_json, mock_send_message):
+    mock_send_message_json.return_value = CONNECTIVITY_INFO
+    cloud_region: CloudRegion = CloudRegion.create("test_cloud_region", "test_cloud_owner", b"kubeconfig")
+    assert cloud_region.cloud_region_id == "test_cloud_region"
+    assert cloud_region.connectivity_info.cloud_owner == "test_cloud_owner"
+    assert cloud_region.connectivity_info.other_connectivity_list == {}
+    assert cloud_region.connectivity_info.kubeconfig == "test_kubeconfig"
+    assert cloud_region.connectivity_info.url == f"{K8sPlugin.base_url_and_version()}/connectivity-info/test_cloud_region"
+    cloud_region.delete()
+
+
+@mock.patch.object(CloudRegion, "send_message_json")
+def test_region_query_resources(mock_send_message_json):
+    mock_send_message_json.return_value = REGION_STATUS
+    region = CloudRegion(
+        "test_cloud_region",
+        None
+    )
+    status = region.query_resources("Service", "v1", "default", "name", {"label_one": "two"})
+    assert status.resource_count == 1
+    assert status.resources_status[0].name == "test-k8s-apache"
+    assert status.resources_status[0].gvk.kind == "Service"
+    assert status.resources_status[0].gvk.version == "v1"
 
 
 @mock.patch.object(Definition, "send_message_json")

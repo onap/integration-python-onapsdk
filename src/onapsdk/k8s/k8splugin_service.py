@@ -1,5 +1,5 @@
-"""K8s MSB package."""
-#   Copyright 2022 Orange, Deutsche Telekom AG
+"""K8s package."""
+#   Copyright 2023 Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -12,7 +12,21 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from .definition import Definition, Profile, ConfigurationTemplate
-from .connectivity_info import ConnectivityInfo
-from .instance import InstantiationParameter, InstantiationRequest, Instance, Configuration
-from .k8splugin_msb_service import K8sPluginViaMsb
+from onapsdk.configuration import settings
+from onapsdk.onap_service import OnapService
+
+
+class K8sPlugin(OnapService):
+    """K8sPlugin base class."""
+
+    base_url = settings.K8SPLUGIN_URL
+    api_version = "/v1"
+    headers = OnapService.headers
+
+    @classmethod
+    def base_url_and_version(cls):
+        """Return base url with api version.
+
+        Returns base url with api version
+        """
+        return f"{K8sPlugin.base_url}{K8sPlugin.api_version}"

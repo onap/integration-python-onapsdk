@@ -24,12 +24,13 @@ from onapsdk.exceptions import ModuleError
 
 def test_global_settings():
     """Test global settings."""
-    assert len(settings._settings) == 44
+    assert len(settings._settings) == 45
     assert settings.AAI_URL == "https://aai.api.sparky.simpledemo.onap.org:30233"
     assert settings.CDS_URL == "http://portal.api.simpledemo.onap.org:30449"
     assert settings.SDNC_URL == "https://sdnc.api.simpledemo.onap.org:30267"
     assert settings.SO_URL == "http://so.api.simpledemo.onap.org:30277"
     assert settings.MSB_URL == "https://msb.api.simpledemo.onap.org:30283"
+    assert settings.K8SPLUGIN_URL == "http://k8splugin.api.simpledemo.onap.org:30455"
     assert settings.SDC_FE_URL == "https://sdc.api.fe.simpledemo.onap.org:30207"
     assert settings.SDC_BE_URL == "https://sdc.api.be.simpledemo.onap.org:30204"
     assert settings.VID_URL == "https://vid.api.simpledemo.onap.org:30200"

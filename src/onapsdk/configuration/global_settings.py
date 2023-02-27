@@ -31,6 +31,7 @@ CPS_URL         = "http://portal.api.simpledemo.onap.org:8080"
 CPS_AUTH        = ("cpsuser", "cpsr0cks!")
 CPS_VERSION     = "v1"
 MSB_URL         = "https://msb.api.simpledemo.onap.org:30283"
+K8SPLUGIN_URL   = "http://k8splugin.api.simpledemo.onap.org:30455"
 SDC_BE_URL      = "https://sdc.api.be.simpledemo.onap.org:30204"
 SDC_FE_URL      = "https://sdc.api.fe.simpledemo.onap.org:30207"
 SDC_AUTH        = "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="

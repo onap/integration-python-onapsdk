@@ -1,0 +1,9 @@
+{
+    {% if neighbour_cell_name is not none %}"neighbour-cell-name": "{{ neighbour_cell_name }}",{% endif %}
+    {% if neighbour_cell_id is not none %}"neighbour-cell-id": "{{ neighbour_cell_id }}",{% endif %}
+    {% if selflink=selflink is not none %}"selflink": "{{ selflink=selflink }}",{% endif %}
+    {% if data_owner is not none %}"data-owner": "{{ data_owner }}",{% endif %}
+    {% if data_source is not none %}"data-source": "{{ data_source }}",{% endif %}
+    {% if data_source_version is not none %}"data-source-version": "{{ data_source_version }}",{% endif %}
+    "neighbour-id": "{{ neighbour_id }}"
+}

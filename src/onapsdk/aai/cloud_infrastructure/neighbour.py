@@ -37,10 +37,10 @@ class Neighbour(AaiResource):  # pylint: disable=too-many-instance-attributes
         """Neigbour init.
 
         Args:
-            neighbour_id (str): UUID, key for neighbour object.
-            neighbour_cell_name (str, optional): Name of neighbour. Defaults to "".
-            neighbour_cell_id (str, optional): Type of neighbour. Defaults to "".
-            selflink (str, optional): Role of neighbour. Defaults to "".
+            neighbour_id (str): unique identifier of neighbour relation.
+            neighbour_cell_name (str, optional):name of the neighbour cell. Defaults to "".
+            neighbour_cell_id (str, optional): identifier of the neighbour cell. Defaults to "".
+            selflink (str, optional): CPS link to additional neighbour info (i.e. 3gpp NRCellRelation).
             data_owner (str, optional): Identifies the entity that is responsible managing
                 this inventory object. Defaults to "".
             data_source (str, optional): Identifies the upstream source of the data.
@@ -104,8 +104,8 @@ class Neighbour(AaiResource):  # pylint: disable=too-many-instance-attributes
 
         """
         for neighbour_data in cls.send_message_json("GET",
-                                                     "Get all neighbours",
-                                                     cls.get_all_url()).get("neighbour", []):
+                                                    "Get all neighbours",
+                                                    cls.get_all_url()).get("neighbour", []):
             yield cls(neighbour_id=neighbour_data["neighbour-id"],
                       neighbour_cell_name=neighbour_data.get("neighbour-name", ""),
                       neighbour_cell_id=neighbour_data.get("neighbour-type", ""),
@@ -150,10 +150,10 @@ class Neighbour(AaiResource):  # pylint: disable=too-many-instance-attributes
         """Create Neigbour.
 
         Args:
-            neighbour_id (str): UUID, key for neighbour object.
-            neighbour_cell_name (Optional[str], optional): Name of neighbour. Defaults to None.
-            neighbour_cell_id (Optional[str], optional): Type of neighbour. Defaults to None.
-            selflink (Optional[str], optional): Role of neighbour. Defaults to None.
+            neighbour_id (str): unique identifier of neighbour relation.
+            neighbour_cell_name (str, optional):name of the neighbour cell. Defaults to "".
+            neighbour_cell_id (str, optional): identifier of the neighbour cell. Defaults to "".
+            selflink (str, optional): CPS link to additional neighbour info (i.e. 3gpp NRCellRelation).
             data_owner (Optional[str], optional): Identifies the entity that is
                 responsible managing this inventory object.. Defaults to None.
             data_source (Optional[str], optional): Identifies the upstream source of the data.

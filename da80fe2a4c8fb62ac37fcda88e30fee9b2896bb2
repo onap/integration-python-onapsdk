@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a396f3f_00440728",
+        "filename": "src/onapsdk/k8s/region.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-03-01T14:20:37Z",
+      "side": 1,
+      "message": "This is common for region and instance so we may move ApiVersion and Kind out to the query_resource_status() function",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 54
+      },
+      "revId": "da80fe2a4c8fb62ac37fcda88e30fee9b2896bb2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

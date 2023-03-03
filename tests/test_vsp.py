@@ -31,15 +31,15 @@ def test_get_all_no_vsp(mock_send):
     assert Vsp.get_all() == []
     mock_send.assert_called_once_with(
         "GET", 'get Vsps',
-        'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products')
+        'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items?itemType=vsp')
 
 @mock.patch.object(Vsp, 'load_status')
 @mock.patch.object(Vsp, 'send_message_json')
 def test_get_all_some_vsps(mock_send, mock_load_status):
     """Returns a list of vsp."""
     mock_send.return_value = {'results':[
-        {'name': 'one', 'id': '1234', 'vendorName': 'vspOne'},
-        {'name': 'two', 'id': '1235', 'vendorName': 'vspOne'}]}
+        {'name': 'one', 'id': '1234', 'properties': {'vendorName': 'vspOne'}},
+        {'name': 'two', 'id': '1235', 'properties': {'vendorName': 'vspOne'}}]}
     assert len(Vsp.get_all()) == 2
     vsp_1 = Vsp.get_all()[0]
     assert vsp_1.name == "one"
@@ -52,7 +52,7 @@ def test_get_all_some_vsps(mock_send, mock_load_status):
     assert vsp_2.created()
     mock_send.assert_called_with(
         "GET", 'get Vsps',
-        'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products')
+        'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items?itemType=vsp')
 
 @mock.patch.object(Vsp, 'created')
 def test_init_no_name(mock_created):
@@ -797,3 +797,17 @@ def test_create_new_version(mock_load, mock_send):
                                       "Create new VSP version",
                                       "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items/1232/versions/4321",
                                       data='{"creationMethod": "major", "description": "New VSP version"}')
+
+
+@mock.patch.object(Vsp, 'load_status')
+@mock.patch.object(Vsp, "send_message")
+def test_archive_vsp(mock_send, mock_load):
+    vsp = Vsp(vendor=mock.MagicMock())
+    vsp._identifier = "1232"
+    vsp._version = "4321"
+    vsp._status = const.CERTIFIED
+    vsp.archive()
+    mock_send.assert_called_once_with("PUT",
+                                      "ARCHIVE Vsp",
+                                      "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items/1232/actions",
+                                      data='{\n\n  "action": "ARCHIVE"\n}')

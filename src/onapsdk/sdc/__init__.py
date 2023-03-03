@@ -458,9 +458,10 @@ class SdcOnboardable(SDC, ABC):
     @abstractmethod
     def _really_submit(self) -> None:
         """Really submit the SDC Vf in order to enable it."""
-    @staticmethod
+
     @abstractmethod
-    def _action_url(base: str,
+    def _action_url(self,
+                    base: str,
                     subpath: str,
                     version_path: str,
                     action_type: str = None) -> str:
@@ -471,6 +472,7 @@ class SdcOnboardable(SDC, ABC):
             NotImplementedError: this is an abstract method.
 
         """
+
     @classmethod
     @abstractmethod
     def _sdc_path(cls) -> None:

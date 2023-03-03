@@ -115,7 +115,7 @@ class SdcElement(SdcOnboardable, ABC):
 
         """
         subpath = self._sdc_path()
-        if action == const.COMMIT:
+        if action in (const.COMMIT, const.ARCHIVE):
             subpath = "items"
         return subpath
 
@@ -129,10 +129,7 @@ class SdcElement(SdcOnboardable, ABC):
         """
         return "{}/versions/{}".format(self.identifier, self.version)
 
-    @staticmethod
-    def _action_url(base: str,
-                    subpath: str,
-                    version_path: str,
+    def _action_url(self, base: str, subpath: str, version_path: str,
                     action_type: str = None) -> str:
         """
         Generate action URL for SDC.
@@ -183,7 +180,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: Url which can be used to delete SDC element
 
         """
-        return f"{self._get_all_url()}/{self.identifier}"
+        return f"{self._base_url()}/{self._sdc_path()}/{self.identifier}"
 
     def _copy_object(self, obj: 'SdcElement') -> None:
         """

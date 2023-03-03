@@ -139,6 +139,13 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
                      self._generic_action,
                      action=const.SUBMIT)
 
+    def archive(self) -> None:
+        """Archive VSP."""
+        self._action("archive",
+                     const.CERTIFIED,
+                     self._generic_action,
+                     action=const.ARCHIVE)
+
     def create_csar(self) -> None:
         """Create the CSAR package in the SDC Vsp."""
         self._action("create CSAR package", const.CERTIFIED,
@@ -226,7 +233,10 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
     def _generic_action(self, action=None):
         """Do a generic action for real."""
         if action:
-            self._action_to_sdc(action, action_type="lifecycleState")
+            if action == const.ARCHIVE:
+                self._action_to_sdc(action, action_type=const.ARCHIVE)
+            else:
+                self._action_to_sdc(action, action_type="lifecycleState")
 
     def _create_csar_action(self):
         """Create CSAR package for real."""
@@ -320,6 +330,36 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         return {}
 
     @classmethod
+    def _get_all_url(cls) -> str:
+        """
+        Get URL for all elements in SDC.
+
+        Returns:
+            str: the url
+
+        """
+        return f"{cls._base_url()}/items?itemType=vsp"
+
+    def _action_url(self, base: str, subpath: str, version_path: str,
+                    action_type: str = None) -> str:
+        """Generate action URL for VSP to send to SDC.
+
+        Args:
+            base (str): base part of vsp action url
+            subpath (str): subpath of vsp action url
+            version_path (str): version path. If action is equal to ARCHIVE
+                it's going to be edited
+            action_type (str, optional): the type of action.
+
+        Returns:
+            str: the URL to use
+
+        """
+        if action_type == const.ARCHIVE:
+            version_path = version_path.split("/")[0]
+        return super()._action_url(base, subpath, version_path, action_type)
+
+    @classmethod
     def import_from_sdc(cls, values: Dict[str, Any]) -> 'Vsp':
         """
         Import Vsp from SDC.
@@ -334,7 +374,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         cls._logger.debug("importing VSP %s from SDC", values['name'])
         vsp = Vsp(values['name'])
         vsp.identifier = values['id']
-        vsp.vendor = Vendor(name=values['vendorName'])
+        vsp.vendor = Vendor(name=values['properties']['vendorName'])
         return vsp
 
     def _really_submit(self) -> None:

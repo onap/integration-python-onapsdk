@@ -167,10 +167,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         """
         return self.unique_identifier
 
-    def _action_url(self,
-                    base: str,
-                    subpath: str,
-                    version_path: str,
+    def _action_url(self, base: str, subpath: str, version_path: str,
                     action_type: str = None) -> str:
         """
         Generate action URL for SDC.

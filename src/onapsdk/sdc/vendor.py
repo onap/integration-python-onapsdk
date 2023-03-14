@@ -46,6 +46,17 @@ class Vendor(SdcElement):
         super().__init__()
         self.name: str = name or "Generic-Vendor"
 
+    @classmethod
+    def _get_all_url(cls) -> str:
+        """
+        Get URL for all elements in SDC.
+
+        Returns:
+            str: the url
+
+        """
+        return f"{cls._base_url()}/items?itemType=vlm"
+
     def onboard(self) -> None:
         """Onboard the vendor in SDC."""
         if not self.status:
@@ -106,3 +117,8 @@ class Vendor(SdcElement):
     def _sdc_path(cls) -> None:
         """Give back the end of SDC path."""
         return cls.VENDOR_PATH
+
+    def archive(self) -> None:
+        """Archive Vendor."""
+        self._action_to_sdc(const.ARCHIVE, action_type=const.ARCHIVE)
+        self._status = const.ARCHIVED

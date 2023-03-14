@@ -340,25 +340,6 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         """
         return f"{cls._base_url()}/items?itemType=vsp"
 
-    def _action_url(self, base: str, subpath: str, version_path: str,
-                    action_type: str = None) -> str:
-        """Generate action URL for VSP to send to SDC.
-
-        Args:
-            base (str): base part of vsp action url
-            subpath (str): subpath of vsp action url
-            version_path (str): version path. If action is equal to ARCHIVE
-                it's going to be edited
-            action_type (str, optional): the type of action.
-
-        Returns:
-            str: the URL to use
-
-        """
-        if action_type == const.ARCHIVE:
-            version_path = version_path.split("/")[0]
-        return super()._action_url(base, subpath, version_path, action_type)
-
     @classmethod
     def import_from_sdc(cls, values: Dict[str, Any]) -> 'Vsp':
         """

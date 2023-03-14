@@ -26,7 +26,7 @@ def test_get_all_no_vendors(mock_send):
     """Returns empty array if no vendors."""
     mock_send.return_value = {}
     assert Vendor.get_all() == []
-    mock_send.assert_called_once_with("GET", 'get Vendors', 'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models')
+    mock_send.assert_called_once_with("GET", 'get Vendors', 'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items?itemType=vlm')
 
 @mock.patch.object(Vendor, 'send_message_json')
 def test_get_all_some_vendors(mock_send):
@@ -43,7 +43,7 @@ def test_get_all_some_vendors(mock_send):
     assert vendor_2.name == "two"
     assert vendor_2.identifier == "1235"
     assert vendor_2.created()
-    mock_send.assert_called_with("GET", 'get Vendors', 'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models')
+    mock_send.assert_called_with("GET", 'get Vendors', 'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items?itemType=vlm')
 
 @mock.patch.object(Vendor, 'exists')
 def test_init_no_name(mock_exists):
@@ -314,3 +314,14 @@ def test_onboard_whole_vendor(mock_create, mock_submit):
         vendor.onboard()
         mock_submit.assert_called_once()
         mock_create.assert_called_once()
+
+@mock.patch.object(Vendor, 'load')
+@mock.patch.object(Vendor, "send_message")
+def test_vendor_archive(mock_send, mock_load):
+    vendor = Vendor()
+    vendor.identifier = "12345"
+    vendor.archive()
+    mock_send.assert_called_once_with("PUT",
+                                      "ARCHIVE Vendor",
+                                      "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items/12345/actions",
+                                      data='{\n\n  "action": "ARCHIVE"\n}')

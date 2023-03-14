@@ -144,6 +144,8 @@ class SdcElement(SdcOnboardable, ABC):
             str: the URL to use
 
         """
+        if action_type == const.ARCHIVE:
+            version_path = version_path.split("/")[0]
         return "{}/{}/{}/actions".format(base, subpath, version_path)
 
     @classmethod

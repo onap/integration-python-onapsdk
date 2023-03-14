@@ -32,6 +32,7 @@ UNDER_CERTIFICATION = "Certification in progress"
 CHECKED_IN = "Checked In"
 SUBMITTED = "Submitted"
 DISTRIBUTED = "Distributed"
+ARCHIVED = "ARCHIVED"
 ##
 # Actions
 ##

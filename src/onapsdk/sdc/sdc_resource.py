@@ -969,5 +969,5 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         self.send_message(
             "DELETE",
             f"Delete {self.name} component",
-            f"{self.resource_inputs_url}"
+            f"{self.resource_inputs_url}?deleteAction=DELETE"
             )

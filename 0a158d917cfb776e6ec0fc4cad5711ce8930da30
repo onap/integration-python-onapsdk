@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2c34c65_3895463c",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-sdc:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a6ec44_580bbfaf",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-aai:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1808829_723b026d",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-so:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be64aeae_881d923e",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-sdnc:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b3a5db_95f80e43",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-clamp:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4c7efc4_54adaa15",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-cds:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f23c67b_3228db55",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-k8s:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee5680e_3db68a7c",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-ves:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38374baa_e146e316",
+        "filename": "integration_tests/docker-compose.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "use nexus3.onap.org:10003/onap/onap-component-mock-dmaap:master image",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c644c33_5285ff17",
+        "filename": "integration_tests/local_urls.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-23T13:16:41Z",
+      "side": 1,
+      "message": "make similar change on urls.py file (same directory)",
+      "revId": "0a158d917cfb776e6ec0fc4cad5711ce8930da30",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

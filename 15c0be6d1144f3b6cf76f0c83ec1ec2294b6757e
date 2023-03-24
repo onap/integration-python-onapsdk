@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e478cc05_846283dd",
+        "filename": "src/onapsdk/aai/business/vnf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-24T14:14:02Z",
+      "side": 1,
+      "message": "shouldn\u0027t be self.vnf?",
+      "revId": "15c0be6d1144f3b6cf76f0c83ec1ec2294b6757e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18c5eb47_92f44d41",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-24T14:14:02Z",
+      "side": 1,
+      "message": "Please rename that method, It\u0027s not clear what it does",
+      "revId": "15c0be6d1144f3b6cf76f0c83ec1ec2294b6757e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27c8aa4e_e1d3e7fa",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-03-24T14:14:02Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "15c0be6d1144f3b6cf76f0c83ec1ec2294b6757e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

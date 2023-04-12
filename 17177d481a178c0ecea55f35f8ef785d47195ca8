@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Submitted-by: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Submitted-at: Wed, 12 Apr 2023 09:50:52 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/python-onapsdk/+/134075
+Project: integration/python-onapsdk
+Branch: refs/heads/master

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "621cab11_f3c9ac26",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83633194_3b0a4c0d",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "do we still suports a\u0027la carte instantiation?",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb76d58_3442cd98",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34433f17_c3a5c6b3",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "do not use tabs, spaces only",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab390bbf_b11b22d8",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74e14276_3aa9acf9",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "keep 2 lines spaces between classes",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "205b986b_2768bcc2",
+        "filename": "tests/test_so_instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-04-12T06:13:14Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "4dec3ec24916b1828dd570ec98ab4b29d4cde60a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath('../src/onapsdk'))
 # -- Project information -----------------------------------------------------
 
 project = 'ONAP SDK'
-copyright = '2019, Sylvain Desbureaux'
-author = 'Sylvain Desbureaux'
+copyright = '2019, Orange. 2019, DT'
+author = 'ONAP Integration team'
 
 # The full version, including alpha/beta/rc tags
 package_version = {}

@@ -21,10 +21,10 @@ from onapsdk.exceptions import StatusError
 from onapsdk.aai.business import Customer, ServiceInstance
 from onapsdk.aai.cloud_infrastructure import CloudRegion
 from onapsdk.configuration import settings
-from onapsdk.sdc.service import Service, Vnf, VfModule
+from onapsdk.sdc.service import Service, Vnf, VfModule, Pnf
 from onapsdk.so.deletion import ServiceDeletionRequest, VfModuleDeletionRequest, VnfDeletionRequest
 from onapsdk.so.instantiation import (ServiceInstantiation, SoService,
-                                      VfModuleInstantiation, VnfInstantiation, InstantiationParameter,
+                                      VfModuleInstantiation, VnfInstantiation,PnfInstantiation, InstantiationParameter,
                                       VfmoduleParameters, VnfParameters)
 
 
@@ -303,6 +303,79 @@ def test_instantiate_macro(mock_service_components, mock_service_vnfs):
     assert service_deletion_request.status == ServiceDeletionRequest.StatusEnum.COMPLETED
     assert len(list(service_subscription.service_instances)) == 0
 
+@patch.object(Service, "pnfs", new_callable=PropertyMock)
+@patch.object(Service, "components", new_callable=PropertyMock)
+@pytest.mark.integration
+def test_instantiate_macro_for_pnf(mock_service_components, mock_service_pnfs):
+    requests.get(f"{ServiceInstantiation.base_url}/reset")
+    requests.get(f"{Customer.base_url}/reset")
+    requests.post(f"{ServiceInstantiation.base_url}/set_aai_mock", json={"AAI_MOCK": settings.AAI_URL})
+
+    customer = Customer.create(global_customer_id="test_global_customer_id",
+                               subscriber_name="test_subscriber_name",
+                               subscriber_type="test_subscriber_type")
+    service = Service("test_service")
+    service._tosca_template = "n/a"
+
+    mock_service_pnfs.return_value = [
+        Pnf(
+            name="test_pnf",
+            node_template_type="pnf",
+            model_name= "test_pnf_model",
+            model_version_id = str(uuid4()),
+            model_invariant_id=str(uuid4()),
+            model_version="1.0",
+            model_customization_id=str(uuid4()),
+            model_instance_name=str(uuid4()),
+            component=MagicMock(),
+        )
+    ]
+    service.unique_uuid = str(uuid4())
+    service.identifier = str(uuid4())
+    service.name = str(uuid4())
+    customer.subscribe_service("service_type")
+    service_subscription = customer.get_service_subscription_by_service_type("service_type")
+    cloud_region = CloudRegion.create(
+        "test_owner", "test_cloud_region", orchestration_disabled=True, in_maint=False
+    )
+    cloud_region.add_tenant(
+        tenant_id="test_tenant_name", tenant_name="test_tenant_name", tenant_context="test_tenant_context"
+    )
+    tenant = cloud_region.get_tenant(tenant_id="test_tenant_name")
+    service_subscription.link_to_cloud_region_and_tenant(cloud_region=cloud_region, tenant=tenant)
+    owning_entity = "test_owning_entity"
+    project = "test_project"
+    line_of_business = "test_line_of_business"
+    platform = "test_platform"
+
+    # Service instantiation
+    service._distributed = True
+    assert len(list(service_subscription.service_instances)) == 0
+    service_instantiation_request = ServiceInstantiation.instantiate_macro(
+        sdc_service=service,
+        customer=customer,
+        owning_entity=owning_entity,
+        project=project,
+        line_of_business=line_of_business,
+        platform=platform,
+        cloud_region=cloud_region,
+        tenant=tenant,
+        service_subscription=service_subscription
+    )
+    assert service_instantiation_request.status == ServiceInstantiation.StatusEnum.IN_PROGRESS
+    time.sleep(2)  # After 1 second mocked server changed request status to complete
+    assert service_instantiation_request.status == ServiceInstantiation.StatusEnum.COMPLETED
+    assert len(list(service_subscription.service_instances)) == 1
+    service_instance = next(service_subscription.service_instances)
+
+    # Cleanup
+    with patch.object(ServiceInstance, "sdc_service", return_value=service) as service_mock:
+        service_deletion_request = service_instance.delete()
+    assert service_deletion_request.status == ServiceDeletionRequest.StatusEnum.IN_PROGRESS
+    time.sleep(2)  # After 1 second mocked server changed request status to complete
+    assert service_deletion_request.status == ServiceDeletionRequest.StatusEnum.COMPLETED
+    assert len(list(service_subscription.service_instances)) == 0
+
 @patch.object(Service, "vnfs", new_callable=PropertyMock)
 @patch.object(Service, "components", new_callable=PropertyMock)
 @pytest.mark.integration
@@ -394,6 +467,99 @@ def test_instantiate_macro_multiple_vnf(mock_service_components, mock_service_vn
                         }
                     }
                 ]
+            }
+        ]
+    })
+
+    # Service instantiation
+    service._distributed = True
+    assert len(list(service_subscription.service_instances)) == 0
+    service_instantiation_request = ServiceInstantiation.instantiate_macro(
+        sdc_service=service,
+        customer=customer,
+        owning_entity=owning_entity,
+        project=project,
+        line_of_business=line_of_business,
+        platform=platform,
+        cloud_region=cloud_region,
+        tenant=tenant,
+        so_service=so_service
+    )
+    assert service_instantiation_request.status == ServiceInstantiation.StatusEnum.IN_PROGRESS
+    time.sleep(2)  # After 1 second mocked server changed request status to complete
+    assert service_instantiation_request.status == ServiceInstantiation.StatusEnum.COMPLETED
+    assert len(list(service_subscription.service_instances)) == 1
+    service_instance = next(service_subscription.service_instances)
+
+    # Cleanup
+    with patch.object(ServiceInstance, "sdc_service", return_value=service) as service_mock:
+        service_deletion_request = service_instance.delete()
+    assert service_deletion_request.status == ServiceDeletionRequest.StatusEnum.IN_PROGRESS
+    time.sleep(2)  # After 1 second mocked server changed request status to complete
+    assert service_deletion_request.status == ServiceDeletionRequest.StatusEnum.COMPLETED
+    assert len(list(service_subscription.service_instances)) == 0
+
+@patch.object(Service, "pnfs", new_callable=PropertyMock)
+@patch.object(Service, "components", new_callable=PropertyMock)
+@pytest.mark.integration
+def test_instantiate_macro_multiple_pnf(mock_service_components, mock_service_pnfs):
+    requests.get(f"{ServiceInstantiation.base_url}/reset")
+    requests.get(f"{Customer.base_url}/reset")
+    requests.post(f"{ServiceInstantiation.base_url}/set_aai_mock", json={"AAI_MOCK": settings.AAI_URL})
+
+    customer = Customer.create(global_customer_id="test_global_customer_id",
+                               subscriber_name="test_subscriber_name",
+                               subscriber_type="test_subscriber_type")
+    service = Service("test_service")
+    service._tosca_template = "n/a"
+
+    mock_service_pnfs.return_value = [
+        Pnf(
+            name="test_pnf",
+            node_template_type="pnf",
+            model_name= "test_pnf_model",
+            model_version_id = str(uuid4()),
+            model_invariant_id=str(uuid4()),
+            model_version="1.0",
+            model_customization_id=str(uuid4()),
+            model_instance_name=str(uuid4()),
+            component=MagicMock(),
+        )
+    ]
+    service.unique_uuid = str(uuid4())
+    service.identifier = str(uuid4())
+    service.name = str(uuid4())
+    customer.subscribe_service("service_type")
+    service_subscription = customer.get_service_subscription_by_service_type("service_type")
+    cloud_region = CloudRegion.create(
+        "test_owner", "test_cloud_region", orchestration_disabled=True, in_maint=False
+    )
+    cloud_region.add_tenant(
+        tenant_id="test_tenant_name", tenant_name="test_tenant_name", tenant_context="test_tenant_context"
+    )
+    tenant = cloud_region.get_tenant(tenant_id="test_tenant_name")
+    service_subscription.link_to_cloud_region_and_tenant(cloud_region=cloud_region, tenant=tenant)
+    owning_entity = "test_owning_entity"
+    project = "test_project"
+    line_of_business = "test_line_of_business"
+    platform = "test_platform"
+
+    so_service = SoService.load({
+        "subscription_service_type": "service_type",
+        "pnfs": [
+            {
+                "model_name": "test_pnf_model",
+                "instance_name": "pnf0",
+                "parameters": {
+                    "param1": "value1"
+                },
+            },
+            {
+                "model_name": "test_pnf_model",
+                "instance_name": "pnf1",
+                "parameters": {
+                    "param2": "value2"
+                },
             }
         ]
     })

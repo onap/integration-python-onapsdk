@@ -31,6 +31,7 @@ from onapsdk.so.instantiation import (
     SoServiceVnf,
     VfModuleInstantiation,
     VnfInstantiation,
+    PnfInstantiation,
     ServiceOperation,
     VnfOperation
 )
@@ -243,7 +244,7 @@ def test_vnf_instantiation(mock_vnf_instantiation_send_message):
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               sdc_service=mock.MagicMock())
-    assert vnf_instantiation.name == "test"
+    assert vnf_instantiation.name == "test"    
 
 
 @mock.patch.object(VnfInstantiation, "send_message_json")
@@ -343,6 +344,72 @@ def test_vnf_instantiation_macro(mock_owning_entity_get, mock_vnf_instantiation_
                           sdc_service=mock.MagicMock(),
                           so_vnf=so_vnf_mock)
     assert vnf_instantiation.name == "SoVnfInstanceName"
+
+@mock.patch.object(PnfInstantiation, "send_message_json")
+@mock.patch.object(OwningEntity, "get_by_owning_entity_id")
+def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_send_message):
+    aai_service_instance_mock = mock.MagicMock()
+    aai_service_instance_mock.instance_id = "test_instance_id"
+
+    relation_1 = mock.MagicMock()
+    relation_1.related_to = "owning-entity"
+    relation_1.relationship_data = [{"relationship-value": "test"}]
+    relation_2 = mock.MagicMock()
+    relation_2.related_to = "project"
+    relation_2.relationship_data = [{"relationship-value": "test"}]
+
+    aai_service_instance_mock.relationships = (item for item in [relation_1, relation_2])
+
+    pnf_instantiation = PnfInstantiation.\
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock())
+    assert pnf_instantiation.name.startswith("Python_ONAP_SDK_pnf_instance_")
+    mock_pnf_instantiation_send_message.assert_called_once()
+    method, _, url = mock_pnf_instantiation_send_message.call_args[0]
+    assert method == "POST"
+    assert url == (f"{PnfInstantiation.base_url}/onap/so/infra/serviceInstantiation/"
+                   f"{PnfInstantiation.api_version}/serviceInstances/"
+                   f"{aai_service_instance_mock.instance_id}/pnfs")
+
+    pnf_instantiation = PnfInstantiation. \
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          pnf_instance_name="test",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock())
+    assert pnf_instantiation.name == "test"
+
+    pnf_instantiation = PnfInstantiation. \
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock(),
+                          so_pnf=mock.MagicMock())
+    assert pnf_instantiation.name.startswith("Python_ONAP_SDK_service_instance_")
+
+    so_pnf_mock = mock.MagicMock()
+    so_pnf_mock.instance_name = "SoPnfInstanceName"
+    pnf_instantiation = PnfInstantiation. \
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock(),
+                          so_pnf=so_pnf_mock)
+    assert pnf_instantiation.name == "SoPnfInstanceName"    
 
 
 @mock.patch.object(VnfInstantiation, "send_message_json")
@@ -625,6 +692,103 @@ def test_vnf_instantiation_get_by_vnf_instance_name(mock_sdc_service, mock_send_
         ]
     }
     assert VnfInstantiation.get_by_vnf_instance_name("test_vnf_instance_name") is not None
+
+@mock.patch.object(Vid, "send_message")
+@mock.patch.object(PnfInstantiation, "send_message_json")
+@mock.patch("onapsdk.so.instantiation.SdcService")
+def test_pnf_instantiation_get_by_pnf_instance_name(mock_sdc_service, mock_send_message_json, mock_send):
+    mock_sdc_service.return_value.pnfs = []
+    mock_send_message_json.return_value = {}
+    with pytest.raises(InvalidResponse):
+        PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name")
+    mock_send_message_json.return_value = {
+        "requestList": [
+            {
+                "request": {
+                    "requestScope": "not_pnf"
+                }
+            }
+        ]
+    }
+    with pytest.raises(InvalidResponse):
+        PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name")
+    mock_send_message_json.return_value = {
+        "requestList": [
+            {
+                "request": {
+                    "requestScope": "pnf",
+                    "requestType": "updateInstance"
+                }
+            }
+        ]
+    }
+    with pytest.raises(InvalidResponse):
+        PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name")
+    mock_send_message_json.return_value = {
+        "requestList": [
+            {
+                "request": {
+                    "requestScope": "pnf",
+                    "requestType": "createInstance"
+                }
+            }
+        ]
+    }
+    with pytest.raises(ResourceNotFound):
+        PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name")
+    mock_send_message_json.return_value = {
+        "requestList": [
+            {
+                "request": {
+                    "requestScope": "pnf",
+                    "requestType": "createInstance",
+                    "requestDetails": {
+                        "relatedInstanceList": [
+                            {
+                                "relatedInstance": {
+                                    "modelInfo": {
+                                        "modelType": "service",
+                                        "modelName": "test_service"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+    with pytest.raises(ResourceNotFound):
+        PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name")
+    mock_pnf = mock.MagicMock()
+    mock_pnf.name = "test_pnf_name"
+    mock_sdc_service.return_value.pnfs = [mock_pnf]
+    mock_send_message_json.return_value = {
+        "requestList": [
+            {
+                "request": {
+                    "requestScope": "pnf",
+                    "requestType": "createInstance",
+                    "requestDetails": {
+                        "modelInfo": {
+                            "modelCustomizationName": "test_pnf_name"
+                        },
+                        "relatedInstanceList": [
+                            {
+                                "relatedInstance": {
+                                    "modelInfo": {
+                                        "modelType": "service",
+                                        "modelName": "test_service"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+    assert PnfInstantiation.get_by_pnf_instance_name("test_pnf_instance_name") is not None    
 
 
 @mock.patch.object(VfModuleInstantiation, "send_message_json")

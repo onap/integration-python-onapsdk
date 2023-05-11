@@ -1,0 +1,4 @@
+pypi_project: onapsdk
+python_version: '3.7'
+version: 10.5.0
+log_dir: integration-python-onapsdk-pypi-verify-master/15/

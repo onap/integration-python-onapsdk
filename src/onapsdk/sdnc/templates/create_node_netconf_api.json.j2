@@ -1,0 +1,23 @@
+{
+  "node": [
+    {
+    {%- for key, value in node.items() %}
+      {%- if loop.last %}
+        "{{key}}":
+          {%- if value is number %} {{value}}
+          {%- elif value is boolean %} {{value}}
+          {%- elif value is string %} "{{value}}"
+          {%- elif value is mapping %} {{value|replace("'",'"')|replace("True","true")|replace("False","false")}}
+          {%- endif %}
+      {%- else %}
+        "{{key}}":
+          {%- if value is number %} {{value}},
+          {%- elif value is boolean %} {{value}},
+          {%- elif value is string %} "{{value}}",
+          {%- elif value is mapping %} {{value|replace("'",'"')|replace("True","true")|replace("False","false")}},
+          {%- endif %}
+      {%- endif %}
+    {%- endfor %}
+    }
+  ]
+}

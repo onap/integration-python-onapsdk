@@ -1,0 +1,21 @@
+{
+  "service": [
+    {
+    {%- for key, value in service.items() %}
+      {%- if loop.last %}
+    "{{key}}":
+        {%- if value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}}
+        {%- elif value == "" %}{}
+        {%- else %}"{{value}}"
+        {%- endif %}
+      {%- else %}
+    "{{key}}":
+        {%- if value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}},
+        {%- elif value == "" %}{},
+        {%- else %}"{{value}}",
+        {%- endif %}
+      {%- endif %}
+    {%- endfor %}
+    }
+  ]
+}

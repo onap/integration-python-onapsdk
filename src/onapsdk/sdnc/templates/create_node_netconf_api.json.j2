@@ -1,0 +1,37 @@
+{
+  "node": [
+    {
+    {%- for key, value in node.items() %}
+      {%- if loop.last %}
+        {%- if key == "node-id" %}
+    "{{key}}": "{{node_id}}"
+        {%- elif key == "netconf-node-topology:host" %}"{{key}}": "{{host_}}"
+        {%- elif key == "netconf-node-topology:port" %}"{{key}}": {{port_}}
+        {%- elif key == "netconf-node-topology:username" %}"{{key}}": "{{username_}}"
+        {%- elif key == "netconf-node-topology:password" %}"{{key}}": "{{password_}}"
+        {%- else %}"{{key}}":
+          {%- if value is number %}{{value}}
+          {%- elif value is boolean %}{{value}}
+          {%- elif value is string %}{{value}}
+          {%- elif value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}}
+          {%- endif %}
+        {%- endif %}
+      {%- else %}
+        {%- if key == "node-id" %}
+    "{{key}}": "{{node_id}}",
+        {%- elif key == "netconf-node-topology:host" %}"{{key}}": "{{host_}}",
+        {%- elif key == "netconf-node-topology:port" %}"{{key}}": {{port_}},
+        {%- elif key == "netconf-node-topology:username" %}"{{key}}": "{{username_}}",
+        {%- elif key == "netconf-node-topology:password" %}"{{key}}": "{{password_}}",
+        {%- else %}"{{key}}":
+          {%- if value is number %}{{value}},
+          {%- elif value is boolean %}{{value|replace("True","true")}},
+          {%- elif value is string %}"{{value}}",
+          {%- elif value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}},
+          {%- endif %}
+        {%- endif %}
+      {%- endif %}
+    {% endfor %}
+    }
+  ]
+}

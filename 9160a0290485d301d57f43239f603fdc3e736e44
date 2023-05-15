@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b314dfe1_917b2064",
+        "filename": "src/onapsdk/sdnc/templates/create_node_netconf_api.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-15T10:34:39Z",
+      "side": 1,
+      "message": "the same like for service. Test data should be a prt of test. Here we need to parametrize it.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "9160a0290485d301d57f43239f603fdc3e736e44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adaa6634_5db79b31",
+        "filename": "src/onapsdk/sdnc/templates/create_service_gr_api.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-15T10:34:39Z",
+      "side": 1,
+      "message": "this should be templated as well. The test content can be a part of the test but not the sdk method.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "9160a0290485d301d57f43239f603fdc3e736e44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b724cc9_56e9fdd7",
+        "filename": "src/onapsdk/sdnc/topology.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-15T10:34:39Z",
+      "side": 1,
+      "message": "What is that and why we need it?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 71
+      },
+      "revId": "9160a0290485d301d57f43239f603fdc3e736e44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

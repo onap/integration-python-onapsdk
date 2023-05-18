@@ -24,7 +24,7 @@ from onapsdk.exceptions import (
 )
 from onapsdk.onap_service import OnapService
 from onapsdk.sdnc import NetworkPreload, VfModulePreload
-from onapsdk.sdc.service import Network, Service as SdcService, Vnf, VfModule
+from onapsdk.sdc.service import Network, Service as SdcService, Vnf, Pnf, VfModule
 from onapsdk.utils.jinja import jinja_env
 from onapsdk.utils.headers_creator import headers_so_creator
 from onapsdk.configuration import settings
@@ -655,6 +655,191 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
             line_of_business=line_of_business,
             platform=platform,
             vnf=vnf_instance
+        )
+
+class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-ancestors
+    """PNF instantiation class."""
+
+    def __init__(self,  # pylint: disable=too-many-arguments
+                 name: str,
+                 request_id: str,
+                 instance_id: str,
+                 line_of_business: str,
+                 platform: str,
+                 pnf: Pnf) -> None:
+        """Class PnfInstantion object initialization.
+
+        Args:
+            name (str): PNF name
+            request_id (str): request ID
+            instance_id (str): instance ID
+            service_instantiation ([type]): ServiceInstantiation class object
+            line_of_business (str): LineOfBusiness name
+            platform (str): Platform name
+            pnf (Pnf): Pnf class object
+        """
+        super().__init__(name, request_id, instance_id, line_of_business, platform)
+        self.pnf = pnf
+
+    @classmethod
+    def create_from_request_response(cls, request_response: dict) -> "PnfInstantiation":
+        """Create PNF instantiation object based on request details.
+
+        Raises:
+            ResourceNotFound: Service related with given object doesn't exist
+            ResourceNotFound: No ServiceInstantiation related with given PNF instantiation
+            ResourceNotFound: PNF related with given object doesn't exist
+            InvalidResponse: Invalid dictionary - couldn't create PnfInstantiation object
+
+        Returns:
+            PnfInstantiation: PnfInstantiation object
+
+        """
+        if request_response.get("request", {}).get("requestScope") == "pnf" and \
+            request_response.get("request", {}).get("requestType") == "createInstance":
+            service: SdcService = None
+            for related_instance in request_response.get("request", {}).get("requestDetails", {})\
+                    .get("relatedInstanceList", []):
+                if related_instance.get("relatedInstance", {}).get("modelInfo", {})\
+                        .get("modelType") == "service":
+                    service = SdcService(related_instance.get("relatedInstance", {})\
+                        .get("modelInfo", {}).get("modelName"))
+            if not service:
+                raise ResourceNotFound("No related service in Pnf instance details response")
+            pnf: Pnf = None
+            for service_pnf in service.pnfs:
+                if service_pnf.name == request_response.get("request", {})\
+                    .get("requestDetails", {}).get("modelInfo", {}).get("modelCustomizationName"):
+                    pnf: Pnf = service_pnf
+                    break
+            else:
+                raise ResourceNotFound("No pnf in service pnfs list")
+            return cls(
+                name=request_response.get("request", {})\
+                    .get("instanceReferences", {}).get("pnfInstanceName"),
+                request_id=request_response.get("request", {}).get("requestId"),
+                instance_id=request_response.get("request", {})\
+                    .get("instanceReferences", {}).get("pnfInstanceId"),
+                line_of_business=request_response.get("request", {})\
+                    .get("requestDetails", {}).get("lineOfBusiness", {}).get("lineOfBusinessName"),
+                platform=request_response.get("request", {})\
+                    .get("requestDetails", {}).get("platform", {}).get("platformName"),
+                pnf=pnf
+            )
+        raise InvalidResponse("Invalid pnf instantions in response dictionary's requestList")
+
+    @classmethod
+    def get_by_pnf_instance_name(cls, pnf_instance_name: str) -> "PnfInstantiation":
+        """Get PNF instantiation request by instance name.
+
+        Raises:
+            InvalidResponse: Pnf instance with given name does not contain
+                requestList or the requestList does not contain any details.
+
+        Returns:
+            PnfInstantiation: Pnf instantiation request object
+
+        """
+        response: dict = cls.send_message_json(
+            "GET",
+            f"Check {pnf_instance_name} service instantiation status",
+            (f"{cls.base_url}/onap/so/infra/orchestrationRequests/{cls.api_version}?"
+             f"filter=pnfInstanceName:EQUALS:{pnf_instance_name}"),
+            headers=headers_so_creator(OnapService.headers)
+        )
+        key = "requestList"
+        if not response.get(key, []):
+            raise InvalidResponse(f"{key} of a Pnf instance is missing.")
+        for details in response[key]:
+            return cls.create_from_request_response(details)
+        msg = f"No details available in response dictionary's {key}."
+        raise InvalidResponse(msg)
+
+    @classmethod
+    def instantiate_macro(cls,  # pylint: disable=too-many-arguments, too-many-locals
+                          aai_service_instance: "ServiceInstance",
+                          pnf_object: "Pnf",
+                          line_of_business: str,
+                          platform: str,
+                          cloud_region: "CloudRegion",
+                          tenant: "Tenant",
+                          sdc_service: "SdcService",
+                          pnf_instance_name: str = None,
+                          pnf_parameters: Iterable["InstantiationParameter"] = None,
+                          so_pnf: "SoServicePnf" = None
+                          ) -> "PnfInstantiation":
+        """Instantiate Pnf using macro method.
+
+        Args:
+            aai_service_instance (ServiceInstance): Service instance associated with request
+            pnf_object (Pnf): Pnf to instantiate
+            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
+            platform (Platform): Platform to use in instantiation request
+            cloud_region (CloudRegion): Cloud region to use in instantiation request.
+            tenant (Tenant): Tenant to use in instantiation request.
+            pnf_instance_name (str, optional): Pnf instance name. Defaults to None.
+            pnf_parameters (Iterable[InstantiationParameter], optional): Instantiation parameters
+                that are sent in the request. Defaults to None
+            so_pnf (SoServicePnf): object with pnf instance parameters
+
+
+         Returns:
+            PnfInstantiation: PnfInstantiation object
+
+        """
+        owning_entity_id = None
+        project = settings.PROJECT
+
+        for relationship in aai_service_instance.relationships:
+            if relationship.related_to == "owning-entity":
+                owning_entity_id = relationship.relationship_data.pop().get("relationship-value")
+            if relationship.related_to == "project":
+                project = relationship.relationship_data.pop().get("relationship-value")
+
+        owning_entity = OwningEntity.get_by_owning_entity_id(
+            owning_entity_id=owning_entity_id)
+
+        if so_pnf:
+            template_file = "instantiate_pnf_macro_so_pnf.json.j2"
+            if so_pnf.instance_name:
+                pnf_instance_name = so_pnf.instance_name
+        else:
+            template_file = "instantiate_pnf_macro.json.j2"
+            if pnf_instance_name is None:
+                pnf_instance_name = \
+                    f"Python_ONAP_SDK_pnf_instance_{str(uuid4())}"
+
+        response: dict = cls.send_message_json(
+            "POST",
+            (f"Instantiate {sdc_service.name} "
+             f"service pnf {pnf_object.name}"),
+            (f"{cls.base_url}/onap/so/infra/serviceInstantiation/{cls.api_version}/"
+             f"serviceInstances/{aai_service_instance.instance_id}/pnfs"),
+            data=jinja_env().get_template(template_file).render(
+                instance_name=pnf_instance_name,
+                pnf=pnf_object,
+                service=sdc_service,
+                cloud_region=cloud_region or \
+                             next(aai_service_instance.service_subscription.cloud_regions),
+                tenant=tenant or next(aai_service_instance.service_subscription.tenants),
+                project=project,
+                owning_entity=owning_entity,
+                line_of_business=line_of_business,
+                platform=platform,
+                service_instance=aai_service_instance,
+                pnf_parameters=pnf_parameters or [],
+                so_pnf=so_pnf
+            ),
+            headers=headers_so_creator(OnapService.headers)
+        )
+
+        return PnfInstantiation(
+            name=pnf_instance_name,
+            request_id=response["requestReferences"]["requestId"],
+            instance_id=response["requestReferences"]["instanceId"],
+            line_of_business=line_of_business,
+            platform=platform,
+            pnf=pnf_object
         )
 
 

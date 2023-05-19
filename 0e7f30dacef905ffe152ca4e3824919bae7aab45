@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e8199a_eda776f2",
+        "filename": "src/onapsdk/sdnc/topology.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-19T17:20:33Z",
+      "side": 1,
+      "message": "i guess that we should return topology even if there are no nodes inside. Node is an optional thing? so we need to check if nodes exist and if not just ignore them",
+      "range": {
+        "startLine": 193,
+        "startChar": 16,
+        "endLine": 195,
+        "endChar": 94
+      },
+      "revId": "0e7f30dacef905ffe152ca4e3824919bae7aab45",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a5dd53_84cdcee8",
+        "filename": "src/onapsdk/sdnc/topology.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-19T17:20:33Z",
+      "side": 1,
+      "message": "cancelled?",
+      "range": {
+        "startLine": 216,
+        "startChar": 37,
+        "endLine": 216,
+        "endChar": 46
+      },
+      "revId": "0e7f30dacef905ffe152ca4e3824919bae7aab45",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0441b92f_2a67a21f",
+        "filename": "src/onapsdk/sdnc/topology.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-19T17:20:33Z",
+      "side": 1,
+      "message": "quotations marks?",
+      "range": {
+        "startLine": 219,
+        "startChar": 35,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "0e7f30dacef905ffe152ca4e3824919bae7aab45",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a19c27_1de37368",
+        "filename": "src/onapsdk/sdnc/topology.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2023-05-19T17:20:33Z",
+      "side": 1,
+      "message": "nodes?",
+      "range": {
+        "startLine": 227,
+        "startChar": 48,
+        "endLine": 227,
+        "endChar": 59
+      },
+      "revId": "0e7f30dacef905ffe152ca4e3824919bae7aab45",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

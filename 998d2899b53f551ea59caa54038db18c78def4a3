@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42276df3_575bba04",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-05-22T09:39:48Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "862fc98f_32aed48d",
+      "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a14450cc_24626342",
         "filename": "src/onapsdk/so/instantiation.py",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2023-05-08T16:07:44Z",
       "side": 1,
       "message": "I don\u0027t get that. is there one \"requestList\" element or you want to call cls.create_from_request_response only for first one?",
+      "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffae6740_fb668b26",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-05-22T09:39:48Z",
+      "side": 1,
+      "message": "there\u0027s only one \"requestList\" element.",
+      "parentUuid": "a14450cc_24626342",
       "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2c9e43e2_7e770756",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-05-22T09:39:48Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ac839d75_98f1d366",
+      "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94ea3b41_05e27446",
         "filename": "src/onapsdk/so/instantiation.py",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2023-05-08T16:07:44Z",
       "side": 1,
       "message": "I wonder if we can even consider here if service instance can have none owning entity relationship and we should even set here that variable to None",
+      "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "777ab6ba_a747271d",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-05-22T09:39:48Z",
+      "side": 1,
+      "message": "if we set service instance to none we can\u0027t fetch values of relationships.",
+      "parentUuid": "94ea3b41_05e27446",
       "revId": "998d2899b53f551ea59caa54038db18c78def4a3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true

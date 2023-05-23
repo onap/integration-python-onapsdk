@@ -101,8 +101,8 @@ class Service(SdncElement):
 
     def update(self) -> None:
         """Update service information by service-instance-id using GENERIC-RESOURCES-API."""
-        service_data = self.service_data if len(self.service_data) != 0 else ""
-        service_status = self.service_status if self.service_status != 0 else ""
+        service_data = self.service_data if self.service_data is not None else ""
+        service_status = self.service_status if self.service_status is not None else ""
         self.send_message(
             "PUT",
             "Update service information by service-instance-id using GENERIC-RESOURCES-API",

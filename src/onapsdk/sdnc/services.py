@@ -77,6 +77,33 @@ class Service(SdncElement):
                           service_status=service_status
                           )
 
+    @classmethod
+    def get(cls, service_instance_id) -> "Service":
+        """Get service by service-instance-id via GENERIC-RESOURCES-API.
+
+        Return:
+            Service
+        """
+        service_iterable = cls.send_message_json(
+            "GET",
+            "Get SDNC services",
+            f"{cls.base_url}/rests/data/"
+            f"GENERIC-RESOURCE-API:services/service={service_instance_id}"
+        )
+        service = service_iterable["GENERIC-RESOURCE-API:service"][0]
+        try:
+            service_data = service["service-data"]
+        except KeyError:
+            service_data = {}
+        try:
+            service_status = service["service-status"]
+        except KeyError:
+            service_status = {}
+        return Service(service_instance_id=service_instance_id,
+                       service_data=service_data,
+                       service_status=service_status
+                       )
+
     def create(self) -> None:
         """Create service using GENERIC-RESOURCES-API."""
         service_data = self.service_data if self.service_data is not None else ""

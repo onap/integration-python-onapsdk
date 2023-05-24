@@ -69,6 +69,39 @@ SDNC_SERVICES_INFORMATION_GET = {
     ]
 }
 
+SDNC_SERVICES_INFORMATION_GET_STATUS_MISSING = {
+    "GENERIC-RESOURCE-API:service": [
+        {
+            "service-instance-id": "sdnc-int-test-fffffffffff",
+            "service-data": {
+                "service-level-oper-status": {
+                    "last-rpc-action": "assign",
+                    "last-action": "CreateServiceInstance",
+                    "order-status": "Created"
+                }
+            }
+        }
+    ]
+}
+
+SDNC_SERVICES_INFORMATION_GET_DATA_MISSING = {
+    "GENERIC-RESOURCE-API:service": [
+        {
+            "service-instance-id": "sdnc-int-test-fffffffffff",
+            "service-status": {
+                    "response-code": "string",
+                    "response-message": "string",
+                    "final-indicator": "string",
+                    "request-status": "string",
+                    "action": "string",
+                    "rpc-name": "string",
+                    "rpc-action": "string",
+                    "response-timestamp": "string"
+            }
+        }
+    ]
+}
+
 SDNC_SERVICES_INFORMATION_GET_ALL_SERVICE_DATA_MISSING = {
     "services": {
         "service": [
@@ -119,6 +152,14 @@ def test_sdnc_service_gr_api_get_all(mock_send_message_json):
     service = sdnc_all_services_list[0]
     assert isinstance(service, Service)
     assert service.service_instance_id == SDNC_SERVICE_ID
+
+
+@mock.patch.object(Service, "send_message_json")
+def test_sdnc_service_gr_api_get(mock_send_message_json):
+    mock_send_message_json.return_value = SDNC_SERVICES_INFORMATION_GET
+    sdnc_service = Service.get(SDNC_SERVICE_ID)
+    assert isinstance(sdnc_service, Service)
+    assert sdnc_service.service_instance_id == SDNC_SERVICE_ID
 
 
 @mock.patch.object(Service, "send_message")
@@ -186,3 +227,21 @@ def test_sdnc_service_gr_api_get_all_key_error_status(mock_send_message_json):
     service = sdnc_all_services_list[0]
     assert isinstance(service, Service)
     assert service.service_status == {}
+
+
+@mock.patch.object(Service, "send_message_json")
+def test_sdnc_service_gr_api_get_key_error_data(mock_send_message_json):
+    mock_send_message_json.return_value = SDNC_SERVICES_INFORMATION_GET_DATA_MISSING
+    sdnc_service = Service.get(SDNC_SERVICE_ID)
+    assert isinstance(sdnc_service, Service)
+    assert sdnc_service.service_instance_id == SDNC_SERVICE_ID
+    assert sdnc_service.service_data == {}
+
+
+@mock.patch.object(Service, "send_message_json")
+def test_sdnc_service_gr_api_get_key_error_status(mock_send_message_json):
+    mock_send_message_json.return_value = SDNC_SERVICES_INFORMATION_GET_STATUS_MISSING
+    sdnc_service = Service.get(SDNC_SERVICE_ID)
+    assert isinstance(sdnc_service, Service)
+    assert sdnc_service.service_instance_id == SDNC_SERVICE_ID
+    assert sdnc_service.service_status == {}

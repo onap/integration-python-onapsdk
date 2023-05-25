@@ -18,9 +18,10 @@ from urllib.parse import urlencode
 from onapsdk.utils.jinja import jinja_env
 
 from ..aai_element import AaiResource
+from ..mixins.link_to_geo_region import AaiResourceLinkToGeoRegionMixin
 
 
-class Complex(AaiResource):  # pylint: disable=too-many-instance-attributes
+class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=too-many-instance-attributes
     """Complex class.
 
     Collection of physical locations that can house cloud-regions.

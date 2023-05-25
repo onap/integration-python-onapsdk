@@ -16,10 +16,12 @@
 from typing import Iterable, Optional
 
 from onapsdk.utils.jinja import jinja_env
-from ..aai_element import AaiResource
+from ..aai_element import AaiResource, Relationship, RelationshipLabelEnum
+from ..cloud_infrastructure import Complex
+from ..mixins.link_to_complex import AaiResourceLinkToComplexMixin
 
 
-class SiteResource(AaiResource):  # pylint: disable=too-many-instance-attributes
+class SiteResource(AaiResource, AaiResourceLinkToComplexMixin):  # pylint: disable=too-many-instance-attributes
     """Site resource class."""
 
     def __init__(self,  # pylint: disable=too-many-locals
@@ -242,3 +244,33 @@ class SiteResource(AaiResource):  # pylint: disable=too-many-instance-attributes
                                  data_source=data_source,
                                  data_source_version=data_source_version))
         return cls.get_by_site_resource_id(site_resource_id)
+
+    def link_to_complex(self, cmplx: Complex, relationship_label: RelationshipLabelEnum =\
+            RelationshipLabelEnum.USES) -> None:  # pylint: disable=useless-super-delegation
+        """Create a relationship with complex resource.
+
+        Args:
+            cmplx (Complex): Complex object ot create relationship with.
+
+        """
+        return super().link_to_complex(cmplx, relationship_label)
+
+    def link_to_site_resource(self, site_resource: "SiteResource") -> None:
+        """Create a relationship with site-resource resource.
+
+        Args:
+            site_resource (SiteResource): Site resource object to create relationship with.
+
+        """
+        relationship: Relationship = Relationship(
+            related_to="site-resource",
+            related_link=site_resource.url,
+            relationship_data=[
+                {
+                    "relationship-key": "site_resource.site-resource-id",
+                    "relationship-value": site_resource.site_resource_id,
+                }
+            ],
+            relationship_label=RelationshipLabelEnum.SUPPORTS.value,
+        )
+        self.add_relationship(relationship)

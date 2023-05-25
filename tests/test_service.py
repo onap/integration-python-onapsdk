@@ -535,7 +535,6 @@ def test_get_tosca_bad_csart(requests_mock):
         svc.get_tosca(tempdir)
     assert not path.exists('/tmp/tosca_files')
 
-
 def test_get_tosca_result(requests_mock):
     if path.exists('/tmp/tosca_files'):
         shutil.rmtree('/tmp/tosca_files')
@@ -546,9 +545,8 @@ def test_get_tosca_result(requests_mock):
             content=file_content)
     svc = Service()
     svc.identifier = "12"
-    svc.get_tosca('directory')
+    svc.get_tosca('new/directory')
     assert not path.exists('/tmp/tosca_files')
-
 
 def test_get_tosca_result_no_service_in_csar(requests_mock):
     if path.exists('/tmp/tosca_files'):
@@ -561,7 +559,7 @@ def test_get_tosca_result_no_service_in_csar(requests_mock):
     svc = Service()
     svc.identifier = "12"
     with pytest.raises(ValidationError):
-        svc.get_tosca('directory')
+        svc.get_tosca('new/directory')
 
 @mock.patch.object(Service, 'send_message_json')
 def test_distributed_api_error(mock_send):

@@ -12,6 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import enum
 from dataclasses import dataclass, field
 from typing import Dict, Iterator, List, Optional
 
@@ -56,6 +57,38 @@ class Relationship:
             if data["relationship-key"] == relationship_key:
                 return data["relationship-value"]
         return None
+
+
+@enum.unique
+class RelationshipLabelEnum(enum.Enum):
+    """Class to hold relationship labels."""
+
+    APPLIES_TO = "org.onap.relationships.inventory.AppliesTo"
+    BELONGS_TO = "org.onap.relationships.inventory.BelongsTo"
+    BINDS_TO = "org.onap.relationships.inventory.BindsTo"
+    CAN_BE_INSTANTIATED_IN = "org.onap.relationships.inventory.CanBeInstantiatedIn"
+    COMPOSED_OF = "org.onap.relationships.inventory.ComposedOf"
+    CONTROLLED_BY = "org.onap.relationships.inventory.ControlledBy"
+    DEPENDS_ON = "org.onap.relationships.inventory.DependsOn"
+    DESTINATION = "org.onap.relationships.inventory.Destination"
+    FORWARDS_TO = "org.onap.relationships.inventory.ForwardsTo"
+    IS_A = "org.onap.relationships.inventory.IsA"
+    IMPLEMENTS = "org.onap.relationships.inventory.Implements"
+    LINKS_TO = "org.onap.relationships.inventory.LinksTo"
+    LOCATED_IN = "org.onap.relationships.inventory.LocatedIn"
+    MEMBER_OF = "org.onap.relationships.inventory.MemberOf"
+    NETWORK_APPLIES_TO = "org.onap.relationships.inventory.network.AppliesTo"
+    NETWORK_BELONGS_TO = "org.onap.relationships.inventory.network.BelongsTo"
+    NETWORK_MEMBER_OF = "org.onap.relationships.inventory.network.MemberOf"
+    NETWORK_USES = "org.onap.relationships.inventory.network.Uses"
+    PART_OF = "org.onap.relationships.inventory.PartOf"
+    PRIMARY = "org.onap.relationships.inventory.Primary"
+    SECONDARY = "org.onap.relationships.inventory.Secondary"
+    SOURCE = "org.onap.relationships.inventory.Source"
+    SUPPORTS = "org.onap.relationships.inventory.Supports"
+    TARGET = "org.onap.relationships.inventory.Target"
+    TARGETS = "org.onap.relationships.inventory.Targets"
+    USES = "org.onap.relationships.inventory.Uses"
 
 
 class AaiElement(OnapService):

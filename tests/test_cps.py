@@ -12,10 +12,13 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import requests
 from unittest import mock
 from typing import List
 
-from onapsdk.cps import Anchor, Dataspace, SchemaSet, SchemaSetModuleReference, anchor
+import pytest
+from onapsdk.cps import Anchor, Dataspace, SchemaSet, SchemaSetModuleReference
+from onapsdk.exceptions import (APIError, ResourceNotFound, SDKException)
 
 DATASPACE_ANCHOR = {
     "name": "anchor1",
@@ -238,3 +241,65 @@ def test_anchor_delete_nodes(mock_send_message):
     mock_send_message.assert_called_once()
     url = mock_send_message.call_args[0][2]
     assert "xpath=test-xpath" in url
+
+@mock.patch("onapsdk.cps.Dataspace.send_message")
+def test_dataspace_create_anchor_except(mock_send_message_json):
+    ds = Dataspace(name="test_creating_anchor")
+    mock_send_message_json.exceptions = requests.exceptions
+    mock_send_message_json.side_effect = APIError('Dataspace not found', 400)
+    with pytest.raises(ResourceNotFound):
+        ds.create_anchor(mock.MagicMock(), "test_creating_anchor")
+    mock_send_message_json.side_effect = APIError()
+    with pytest.raises(SDKException):
+        ds.create_anchor(mock.MagicMock(), "test_creating_anchor")
+
+@mock.patch("onapsdk.cps.Dataspace.send_message_json")
+def test_dataspace_get_anchors_except(mock_send_message_json):
+    ds = Dataspace(name="test_ds")
+    mock_send_message_json.exceptions = requests.exceptions
+    mock_send_message_json.side_effect = APIError('Dataspace not found', 400)
+    with pytest.raises(ResourceNotFound):
+        list(ds.get_anchors())
+    mock_send_message_json.side_effect = APIError()
+    with pytest.raises(SDKException):
+        list(ds.get_anchors())
+
+@mock.patch("onapsdk.cps.Dataspace.send_message_json")
+def test_dataspace_get_anchor_except(mock_send_message_json):
+    ds = Dataspace(name="test_ds")
+    mock_send_message_json.exceptions = requests.exceptions
+    mock_send_message_json.side_effect = APIError('Dataspace not found', 400)
+    with pytest.raises(ResourceNotFound):
+        ds.get_anchor(mock.MagicMock())
+    mock_send_message_json.side_effect = APIError()
+    with pytest.raises(SDKException):
+        ds.get_anchor(mock.MagicMock())
+
+@mock.patch("onapsdk.cps.Dataspace.send_message_json")
+def test_dataspace_get_schema_set_except(mock_send_message_json):
+    mock_send_message_json.return_value = DATASPACE_SCHEMA_SET
+    ds = Dataspace(name="test_ds")
+    mock_send_message_json.exceptions = requests.exceptions
+    mock_send_message_json.side_effect = APIError('Dataspace not found', 400)
+    with pytest.raises(ResourceNotFound):
+        ds.get_schema_set(mock.MagicMock())
+    mock_send_message_json.side_effect = APIError()
+    with pytest.raises(SDKException):
+        ds.get_schema_set(mock.MagicMock())
+
+
+@mock.patch("onapsdk.cps.Dataspace.send_message")
+@mock.patch("onapsdk.cps.Dataspace.get_schema_set")
+def test_dataspace_create_schema_set_except(mock_get_chema_set, mock_send_message):
+    ds = Dataspace(name="test_ds")
+    _ = ds.create_schema_set("test_schema_set_name", b"fake_file")
+    mock_send_message.exceptions = requests.exceptions
+    mock_send_message.side_effect = APIError('Dataspace not found', 400)
+    mock_get_chema_set.exceptions = requests.exceptions
+    mock_get_chema_set.side_effect = APIError('Dataspace not found', 400)
+    with pytest.raises(ResourceNotFound):
+        ds.create_schema_set(mock.MagicMock(), 8)
+    mock_send_message.side_effect = APIError()
+    mock_get_chema_set.side_effect = APIError()
+    with pytest.raises(SDKException):
+        ds.create_schema_set(mock.MagicMock(), 9)

@@ -13,7 +13,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from functools import wraps
 from typing import Any, Dict, Iterable
+from onapsdk.exceptions import (APIError, ResourceNotFound)
 
 from .anchor import Anchor
 from .cps_element import CpsElement
@@ -52,6 +54,22 @@ class Dataspace(CpsElement):
         """
         return f"{self._url}/dataspaces/{self.name}"
 
+    def exception_handler(function): # pylint: disable= no-self-argument
+        """Exception handler.
+
+        Handling APIError and throwing ResourceNotFound if Data space does not exist.
+
+        """
+        @wraps(function)
+        def wrapper(*args):
+            try:
+                return function(*args) # pylint: disable= not-callable
+            except APIError as error:
+                if (error.response_status_code == 400 and 'Dataspace not found' in str(error)):
+                    raise ResourceNotFound(error) from error
+                raise
+        return wrapper
+
     @classmethod
     def create(cls, dataspace_name: str) -> "Dataspace":
         """Create dataspace with given name.
@@ -71,6 +89,7 @@ class Dataspace(CpsElement):
         )
         return Dataspace(dataspace_name)
 
+    @exception_handler
     def create_anchor(self, schema_set: SchemaSet, anchor_name: str) -> Anchor:
         """Create anchor.
 
@@ -90,6 +109,7 @@ class Dataspace(CpsElement):
         )
         return Anchor(name=anchor_name, schema_set=schema_set)
 
+    @exception_handler
     def get_anchors(self) -> Iterable[Anchor]:
         """Get all dataspace's anchors.
 
@@ -99,16 +119,23 @@ class Dataspace(CpsElement):
             Iterator[Anchor]: Anchor object
 
         """
-        for anchor_data in self.send_message_json(\
-            "GET",\
-            "Get all CPS dataspace anchors",\
-            f"{self.url}/anchors",\
-            auth=self.auth\
-        ):
-            yield Anchor(name=anchor_data["name"],
-                         schema_set=SchemaSet(name=anchor_data["schemaSetName"],
-                                              dataspace=self))
+        try:
+            for anchor_data in self.send_message_json(\
+                "GET",\
+                "Get all CPS dataspace anchors",\
+                f"{self.url}/anchors",\
+                auth=self.auth\
+            ):
+                yield Anchor(name=anchor_data["name"],
+                             schema_set=SchemaSet(name=anchor_data["schemaSetName"],
+                                                  dataspace=self))
+        except APIError as error:
+            if (error.response_status_code == 400 and 'Dataspace not found' in str(error)):
+                raise ResourceNotFound(error) from error
+            raise
 
+
+    @exception_handler
     def get_anchor(self, anchor_name: str) -> Anchor:
         """Get dataspace anchor by name.
 
@@ -131,6 +158,7 @@ class Dataspace(CpsElement):
                       schema_set=SchemaSet(name=anchor_data["schemaSetName"],
                                            dataspace=self))
 
+    @exception_handler
     def get_schema_set(self, schema_set_name: str) -> SchemaSet:
         """Get schema set by name.
 
@@ -159,6 +187,7 @@ class Dataspace(CpsElement):
             ]
         )
 
+    @exception_handler
     def create_schema_set(self, schema_set_name: str, schema_set: bytes) -> SchemaSet:
         """Create schema set.
 

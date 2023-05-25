@@ -378,3 +378,15 @@ def test_set_header(mock_session):
     assert headers["test-header-dict-key"] == "test-header-dict-value"
     assert "test-header-common-key" in headers
     assert headers["test-header-common-key"] == "test-header-common-value"
+
+    mock_session.reset_mock()
+    cert = mock.MagicMock(name="test-cert")
+    OnapService.send_message("GET", 'test get', 'http://my.url/', headers={"test-header-common-key": "test-header-common-value"}, cert=cert)
+    _, _, kwargs = mock_session.return_value.request.mock_calls[0]
+    headers = kwargs["headers"]
+    assert "test-header-callable-key" in headers
+    assert headers["test-header-callable-key"] == "test-header-callable-value"
+    assert "test-header-dict-key" in headers
+    assert headers["test-header-dict-key"] == "test-header-dict-value"
+    assert "test-header-common-key" in headers
+    assert headers["test-header-common-key"] == "test-header-common-value"

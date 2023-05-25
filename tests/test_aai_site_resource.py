@@ -11,7 +11,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 from onapsdk.aai.network.site_resource import SiteResource
 
@@ -55,3 +55,36 @@ def test_site_resource_create(mock_get_by_site_resource_id, mock_send_message):
     SiteResource.create("123")
     mock_send_message.assert_called_once()
     assert mock_get_by_site_resource_id.called_once_with("123")
+
+@patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")
+def test_site_resource_link_to_complex(mock_add_relationship):
+    cmplx = MagicMock(physical_location_id="test-complex-physical-location-id",
+                      url="test-complex-url")
+    site_resource = SiteResource("test-site-resource")
+    site_resource.link_to_complex(cmplx)
+    mock_add_relationship.assert_called_once()
+    relationship = mock_add_relationship.call_args[0][0]
+    assert relationship.related_to == "complex"
+    assert relationship.related_link == "test-complex-url"
+    assert relationship.relationship_label == "org.onap.relationships.inventory.Uses"
+    assert relationship.relationship_data == [{
+        "relationship-key": "complex.physical-location-id",
+        "relationship-value": "test-complex-physical-location-id",
+    }]
+
+
+@patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")
+def test_site_resource_link_to_site_resource(mock_add_relationship):
+    site_resource_rel = MagicMock(site_resource_id="test-site-resource-id",
+                                  url="test-site-resource-url")
+    site_resource = SiteResource("test-site-resource")
+    site_resource.link_to_site_resource(site_resource_rel)
+    mock_add_relationship.assert_called_once()
+    relationship = mock_add_relationship.call_args[0][0]
+    assert relationship.related_to == "site-resource"
+    assert relationship.related_link == "test-site-resource-url"
+    assert relationship.relationship_label == "org.onap.relationships.inventory.Supports"
+    assert relationship.relationship_data == [{
+        "relationship-key": "site_resource.site-resource-id",
+        "relationship-value": "test-site-resource-id",
+    }]

@@ -42,7 +42,7 @@ PNF_INSTANCE = {
             {
                 "related-to":"service-instance",
                 "relationship-label":"org.onap.relationships.inventory.ComposedOf",
-                "related-link":"/aai/v21/business/customers/customer/test/service-subscriptions/service-subscription/test/service-instances/service-instance/4c3ab996-afdb-4956-9c4d-038b4eed3db1",
+                "related-link":"/aai/v27/business/customers/customer/test/service-subscriptions/service-subscription/test/service-instances/service-instance/4c3ab996-afdb-4956-9c4d-038b4eed3db1",
                 "relationship-data":[
                     {
                         "relationship-key":"customer.global-customer-id",

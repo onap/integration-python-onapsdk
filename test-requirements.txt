@@ -5,3 +5,5 @@ pytest
 pytest-cov
 pydocstyle
 requests-mock
+setuptools==65.4.0
+python-jenkins<1.8.0

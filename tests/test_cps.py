@@ -53,7 +53,7 @@ DATASPACE_SCHEMA_SET = {
 def test_dataspace():
     ds = Dataspace(name="test_ds")
     assert ds.name == "test_ds"
-    assert f"cps/api/v1/dataspaces/{ds.name}" in ds.url
+    assert f"cps/api/v2/dataspaces/{ds.name}" in ds.url
 
 @mock.patch("onapsdk.cps.Dataspace.send_message")
 def test_dataspace_create_anchor(mock_send_message):
@@ -119,6 +119,13 @@ def test_dataspace_delete(mock_send_message):
     ds = Dataspace(name="test_ds")
     ds.delete()
     mock_send_message.assert_called_once()
+
+@mock.patch("onapsdk.cps.Dataspace.send_message_json")
+def test_dataspace_get_dataspace(mock_send_message_json):
+    mock_send_message_json.return_value = {"name": "test_ds"}
+    dataspace_name = "test_ds"
+    dataspace = Dataspace.get_dataspace(dataspace_name)
+    assert dataspace.name == dataspace_name
 
 # Schemaset tests
 def test_schema_set():

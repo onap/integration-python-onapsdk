@@ -43,9 +43,11 @@ class Anchor(CpsElement):
             str: Human readable string
 
         """
-        return f"Anchor(name={self.name}, "\
-               f"schema set={self.schema_set.name}, "\
-               f"dataspace={self.schema_set.dataspace.name})"
+        return (
+            f"Anchor(name={self.name}, "
+            f"schema set={self.schema_set.name}, "
+            f"dataspace={self.schema_set.dataspace.name})"
+        )
 
     @property
     def url(self) -> str:
@@ -60,10 +62,7 @@ class Anchor(CpsElement):
     def delete(self) -> None:
         """Delete anchor."""
         self.send_message(
-            "DELETE",
-            f"Delete {self.name} anchor",
-            self.url,
-            auth=self.auth
+            "DELETE", f"Delete {self.name} anchor", self.url, auth=self.auth
         )
 
     def create_node(self, node_data: str) -> None:
@@ -80,18 +79,23 @@ class Anchor(CpsElement):
             f"Create {self.name} anchor node",
             f"{self.url}/nodes",
             data=node_data,
-            auth=self.auth
+            auth=self.auth,
         )
 
-    def get_node(self, xpath: str, include_descendants: bool = False) -> Dict[Any, Any]:
+    def get_node(
+            self, xpath: str, include_descendants: bool = False, descendants: int = 0
+    ) -> Dict[Any, Any]:
         """Get anchor node data.
 
-        Using XPATH get anchor's node data.
+        Using XPATH, get anchor's node data.
 
         Args:
             xpath (str): Anchor node xpath.
-            include_descendants (bool, optional): Determies if descendants should be included in
-                response. Defaults to False.
+            include_descendants (bool, optional): Determines if descendants should be included in
+                the response. Defaults to False.
+            descendants (int, optional): Determines the number of descendant levels that
+                should be returned.
+                Can be -1 (all), 0 (none), or any positive number.
 
         Returns:
             Dict[Any, Any]: Anchor node data.
@@ -100,14 +104,17 @@ class Anchor(CpsElement):
         return self.send_message_json(
             "GET",
             f"Get {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/node?xpath={xpath}&include-descendants={include_descendants}",
+            self.url + "/node?xpath=" + xpath +
+            "&include-descendants=" + str(include_descendants) +
+            "&descendants=" + str(descendants),
             auth=self.auth
         )
 
     def update_node(self, xpath: str, node_data: str) -> None:
         """Update anchor node data.
 
-        Using XPATH update anchor's node data.
+        Using XPATH, update
+        anchor's node data.
 
         Args:
             xpath (str): Anchor node xpath.
@@ -119,7 +126,7 @@ class Anchor(CpsElement):
             f"Update {self.name} anchor node with {xpath} xpath",
             f"{self.url}/nodes?xpath={xpath}",
             data=node_data,
-            auth=self.auth
+            auth=self.auth,
         )
 
     def replace_node(self, xpath: str, node_data: str) -> None:
@@ -137,7 +144,7 @@ class Anchor(CpsElement):
             f"Replace {self.name} anchor node with {xpath} xpath",
             f"{self.url}/nodes?xpath={xpath}",
             data=node_data,
-            auth=self.auth
+            auth=self.auth,
         )
 
     def add_list_node(self, xpath: str, node_data: str) -> None:
@@ -153,15 +160,17 @@ class Anchor(CpsElement):
             f"Add element to {self.name} anchor node with {xpath} xpath",
             f"{self.url}/list-nodes?xpath={xpath}",
             data=node_data,
-            auth=self.auth
+            auth=self.auth,
         )
 
-    def query_node(self, query: str, include_descendants: bool = False) -> Dict[Any, Any]:
+    def query_node(
+        self, query: str, include_descendants: bool = False
+    ) -> Dict[Any, Any]:
         """Query CPS anchor data.
 
         Args:
             query (str): Query
-            include_descendants (bool, optional):  Determies if descendants should be included in
+            include_descendants (bool, optional): Determines if descendants should be included in
                 response. Defaults to False.
 
         Returns:
@@ -172,7 +181,7 @@ class Anchor(CpsElement):
             "GET",
             f"Get {self.name} anchor node with {query} query",
             f"{self.url}/nodes/query?cps-path={query}&include-descendants={include_descendants}",
-            auth=self.auth
+            auth=self.auth,
         )
 
     def delete_nodes(self, xpath: str) -> None:
@@ -188,5 +197,5 @@ class Anchor(CpsElement):
             "DELETE",
             f"Delete {self.name} anchor nodes with {xpath} xpath",
             f"{self.url}/nodes?xpath={xpath}",
-            auth=self.auth
+            auth=self.auth,
         )

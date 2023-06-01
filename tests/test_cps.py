@@ -53,7 +53,7 @@ DATASPACE_SCHEMA_SET = {
 def test_dataspace():
     ds = Dataspace(name="test_ds")
     assert ds.name == "test_ds"
-    assert f"cps/api/v1/dataspaces/{ds.name}" in ds.url
+    assert f"cps/api/v2/dataspaces/{ds.name}" in ds.url
 
 @mock.patch("onapsdk.cps.Dataspace.send_message")
 def test_dataspace_create_anchor(mock_send_message):

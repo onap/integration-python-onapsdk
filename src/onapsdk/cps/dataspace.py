@@ -14,8 +14,8 @@
 #   limitations under the License.
 
 from functools import wraps
-from typing import Any, Dict, Iterable
-from onapsdk.exceptions import (APIError, ResourceNotFound)
+from typing import Any, BinaryIO, Dict, Iterable, Union
+from ..exceptions import (APIError, ResourceNotFound)
 
 from .anchor import Anchor
 from .cps_element import CpsElement
@@ -88,6 +88,26 @@ class Dataspace(CpsElement):
             auth=cls.auth
         )
         return Dataspace(dataspace_name)
+
+    @classmethod
+    @exception_handler
+    def get_dataspace(cls, dataspace_name: str) -> "Dataspace":
+        """Get existing dataspace with given name.
+
+        Args:
+            dataspace_name (str): Dataspace name
+
+        Returns:
+            Dataspace: Dataspace object
+
+        """
+        dataspace_data = cls.send_message_json(
+            "GET",
+            f"Get {dataspace_name} dataspace",
+            f"{cls._url}/admin/dataspaces/{dataspace_name}",
+            auth=cls.auth
+        )
+        return Dataspace(name=dataspace_data["name"])
 
     @exception_handler
     def create_anchor(self, schema_set: SchemaSet, anchor_name: str) -> Anchor:
@@ -188,7 +208,11 @@ class Dataspace(CpsElement):
         )
 
     @exception_handler
-    def create_schema_set(self, schema_set_name: str, schema_set: bytes) -> SchemaSet:
+    def create_schema_set(
+            self,
+            schema_set_name: str,
+            schema_set: Union[bytes, BinaryIO]
+    ) -> SchemaSet:
         """Create schema set.
 
         Create CPS schema set in dataspace

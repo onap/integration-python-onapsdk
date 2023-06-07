@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf2bd357_fc3833b9",
+        "filename": "src/onapsdk/cps/anchor.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-06-07T12:21:28Z",
+      "side": 1,
+      "message": "use f\u0027string\u0027 formatting",
+      "revId": "417c445aee6942e89367a94907f1f66d8a3ec350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

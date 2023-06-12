@@ -185,21 +185,21 @@ def test_anchor_get_node(mock_send_message_json):
     mock_send_message_json.assert_called_once()
     url = mock_send_message_json.call_args[0][2]
     assert "xpath=test-xpath" in url
-    assert "include-descendants=False" in url
+    assert "descendants=0" in url
 
     mock_send_message_json.reset_mock()
     anchor.get_node("test-xpath-2", include_descendants=True)
     mock_send_message_json.assert_called_once()
     url = mock_send_message_json.call_args[0][2]
     assert "xpath=test-xpath-2" in url
-    assert "include-descendants=True" in url
+    assert "descendants=-1" in url
 
     mock_send_message_json.reset_mock()
     anchor.get_node("test-xpath-3", include_descendants=False)
     mock_send_message_json.assert_called_once()
     url = mock_send_message_json.call_args[0][2]
     assert "xpath=test-xpath-3" in url
-    assert "include-descendants=False" in url
+    assert "descendants=2" in url
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_update_node(mock_send_message):

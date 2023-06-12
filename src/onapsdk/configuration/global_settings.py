@@ -21,37 +21,38 @@
 ######################
 
 ## API
-AAI_URL         = "https://aai.api.sparky.simpledemo.onap.org:30233"
-AAI_API_VERSION = "v27"
-AAI_AUTH        = "Basic QUFJOkFBSQ=="
-AAI_BULK_CHUNK  = 30
-CDS_URL         = "http://portal.api.simpledemo.onap.org:30449"
-CDS_AUTH        = ("ccsdkapps", "ccsdkapps")
-CPS_URL         = "http://portal.api.simpledemo.onap.org:8080"
-CPS_AUTH        = ("cpsuser", "cpsr0cks!")
-CPS_VERSION     = "v2"
-MSB_URL         = "https://msb.api.simpledemo.onap.org:30283"
-K8SPLUGIN_URL   = "http://k8splugin.api.simpledemo.onap.org:30455"
-SDC_BE_URL      = "https://sdc.api.be.simpledemo.onap.org:30204"
-SDC_FE_URL      = "https://sdc.api.fe.simpledemo.onap.org:30207"
-SDC_AUTH        = "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-SDNC_URL        = "https://sdnc.api.simpledemo.onap.org:30267"
-SDNC_AUTH       = "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="
-SO_URL          = "http://so.api.simpledemo.onap.org:30277"
-SO_API_VERSION  = "v7"
-SO_AUTH         = "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-SO_CAT_DB_AUTH  = "Basic YnBlbDpwYXNzd29yZDEk"
-VID_URL         = "https://vid.api.simpledemo.onap.org:30200"
-VID_API_VERSION = "/vid"
-CLAMP_URL       = "https://clamp.api.simpledemo.onap.org:30258"
-CLAMP_AUTH      = "Basic ZGVtb0BwZW9wbGUub3NhYWYub3JnOmRlbW8xMjM0NTYh"
-VES_URL         = "http://ves.api.simpledemo.onap.org:30417"
-DMAAP_URL       = "http://dmaap.api.simpledemo.onap.org:3904"
-NBI_URL         = "https://nbi.api.simpledemo.onap.org:30274"
-NBI_API_VERSION = "/nbi/api/v4"
-DCAEMOD_URL = ""
-HOLMES_URL = "https://aai.api.sparky.simpledemo.onap.org:30293"
-POLICY_URL = ""
+AAI_URL                     = "https://aai.api.sparky.simpledemo.onap.org:30233"
+AAI_API_VERSION             = "v27"
+AAI_AUTH                    = "Basic QUFJOkFBSQ=="
+AAI_BULK_CHUNK              = 30
+CDS_URL                     = "http://portal.api.simpledemo.onap.org:30449"
+CDS_AUTH                    = ("ccsdkapps", "ccsdkapps")
+CPS_URL                     = "http://portal.api.simpledemo.onap.org:8080"
+CPS_AUTH                    = ("cpsuser", "cpsr0cks!")
+CPS_VERSION                 = "v2"
+MSB_URL                     = "https://msb.api.simpledemo.onap.org:30283"
+K8SPLUGIN_URL               = "http://k8splugin.api.simpledemo.onap.org:30455"
+SDC_BE_URL                  = "https://sdc.api.be.simpledemo.onap.org:30204"
+SDC_FE_URL                  = "https://sdc.api.fe.simpledemo.onap.org:30207"
+SDC_AUTH                    = "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="  # pylint: disable=line-too-long
+SDNC_URL                    = "https://sdnc.api.simpledemo.onap.org:30267"
+SDNC_AUTH                   = "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="  # pylint: disable=line-too-long
+SO_CATALOG_DB_ADAPTER_URL   = "http://so-catalog-db-adapter:8082"
+SO_URL                      = "http://so.api.simpledemo.onap.org:30277"
+SO_API_VERSION              = "v7"
+SO_AUTH                     = "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+SO_CAT_DB_AUTH              = "Basic YnBlbDpwYXNzd29yZDEk"
+VID_URL                     = "https://vid.api.simpledemo.onap.org:30200"
+VID_API_VERSION             = "/vid"
+CLAMP_URL                   = "https://clamp.api.simpledemo.onap.org:30258"
+CLAMP_AUTH                  = "Basic ZGVtb0BwZW9wbGUub3NhYWYub3JnOmRlbW8xMjM0NTYh"
+VES_URL                     = "http://ves.api.simpledemo.onap.org:30417"
+DMAAP_URL                   = "http://dmaap.api.simpledemo.onap.org:3904"
+NBI_URL                     = "https://nbi.api.simpledemo.onap.org:30274"
+NBI_API_VERSION             = "/nbi/api/v4"
+DCAEMOD_URL                 = ""
+HOLMES_URL                  = "https://aai.api.sparky.simpledemo.onap.org:30293"
+POLICY_URL                  = ""
 
 ## GUI
 AAI_GUI_URL = "https://aai.api.sparky.simpledemo.onap.org:30220"

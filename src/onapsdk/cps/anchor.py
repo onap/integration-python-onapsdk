@@ -82,26 +82,28 @@ class Anchor(CpsElement):
             auth=self.auth,
         )
 
-    def get_node(self, xpath: str, include_descendants: bool = False) -> Dict[Any, Any]:
-        """Get anchor node data.
+    def get_node(self, xpath: str, descendants: int = 0) -> Dict[Any, Any]:
+        """
+        Get anchor node data.
 
         Using XPATH get anchor's node data.
 
         Args:
             xpath (str): Anchor node xpath.
-            include_descendants (bool, optional): Determies if descendants should be included in
-                response. Defaults to False.
-
+            descendants (int, optional): (Only v2)
+            Determines the number of descendant levels that should be returned.
+                Can be -1 (all), 0 (none), or any positive number.
         Returns:
             Dict[Any, Any]: Anchor node data.
-
         """
         return self.send_message_json(
             "GET",
             f"Get {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/node?xpath={xpath}&include-descendants={include_descendants}",
+            f"{self.url}/node?xpath={xpath}"
+            f"?descendants={descendants}",
             auth=self.auth
         )
+
 
     def update_node(self, xpath: str, node_data: str) -> None:
         """Update anchor node data.

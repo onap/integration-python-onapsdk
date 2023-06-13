@@ -13,7 +13,7 @@
 #   limitations under the License.
 from unittest import mock
 
-from onapsdk.so.catalog_cb_adapter import CatalogDbAdapter
+from onapsdk.so.catalog_db_adapter import CatalogDbAdapter
 
 
 SERVICE_RESPONSE = {

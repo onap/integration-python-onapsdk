@@ -32,6 +32,7 @@ from onapsdk.so.instantiation import (
     VfModuleInstantiation,
     VnfInstantiation,
     PnfInstantiation,
+    PnfRegistrationParameters,
     ServiceOperation,
     VnfOperation
 )
@@ -946,6 +947,50 @@ def test_service_instantiation_multicloud(mock_send_message_json):
     data = json.loads(kwargs["data"])
     assert any(filter(lambda x: x == {"name": "orchestrator", "value": "multicloud"}, data["requestDetails"]["requestParameters"]["userParams"]))
 
+@mock.patch.object(PnfInstantiation, "send_message_json")
+def test_pnf_instantiation_so_service(mock_send_message_json):
+    mock_sdc_service = mock.MagicMock()
+    mock_sdc_service.distributed = True
+
+    so_pnf = SoServicePnf(
+        model_name="test_so_service_pnf_model_name_1",
+        instance_name="test_so_service_pnf_instance_name_1",
+        registration_parameters=PnfRegistrationParameters(
+            model_number="Simulated Device Melacon",
+            oam_v4_ip_address="10.42.6.245",
+            oam_v6_ip_address="0:0:0:0:0:ffff:a0a:011",
+            serial_number="ORAN_SIM-172.30.1.6-400600927-Simulated Device Melacon",
+            software_version="2.3.5",
+            unit_type="ntsim_oran",
+            vendor_name="Melacon"
+        )
+    )
+
+
+    _ = PnfInstantiation. \
+        instantiate_macro(aai_service_instance=mock_sdc_service,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business=mock.MagicMock(),
+                          platform=mock.MagicMock(),
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock(),
+                          pnf_instance_name="test",
+                          so_pnf=so_pnf)
+    _, kwargs = mock_send_message_json.call_args
+    data = json.loads(kwargs["data"])
+
+    pnf_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][0]
+
+    assert pnf_data["instanceName"] == "test_so_service_pnf_instance_name_1"
+
+    assert pnf_data["pnfRegistrationField"]["modelNumber"] == "Simulated Device Melacon"
+    assert pnf_data["pnfRegistrationField"]["oamV4IpAddress"] == "10.42.6.245"
+    assert pnf_data["pnfRegistrationField"]["oamV6IpAddress"] == "0:0:0:0:0:ffff:a0a:011"
+    assert pnf_data["pnfRegistrationField"]["serialNumber"] == "ORAN_SIM-172.30.1.6-400600927-Simulated Device Melacon"
+    assert pnf_data["pnfRegistrationField"]["softwareVersion"] == "2.3.5"
+    assert pnf_data["pnfRegistrationField"]["unitType"] == "ntsim_oran"
+    assert pnf_data["pnfRegistrationField"]["vendorName"] == "Melacon"
 
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_instantiation_so_service(mock_send_message_json):
@@ -954,6 +999,10 @@ def test_service_instantiation_so_service(mock_send_message_json):
 
     so_service = SoService(
         subscription_service_type="test_so_service",
+        parameters={
+            "service_param_1": "service_param_1_value",
+            "service_param_2": "service_param_2_value"
+        },
         vnfs=[
             SoServiceVnf(
                 model_name="test_so_service_vnf_model_name_1",
@@ -1014,10 +1063,16 @@ def test_service_instantiation_so_service(mock_send_message_json):
     assert data["requestDetails"]["requestParameters"]["subscriptionServiceType"] == "test_so_service"
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"]) == 2
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"]) == 2
+
+    instance_params = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["instanceParams"]
     vnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][0]
     vnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][1]
     pnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][0]
     pnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][1]
+
+    assert len(instance_params[0]) == 2
+    assert instance_params[0]["service_param_1"] == "service_param_1_value"
+    assert instance_params[0]["service_param_2"] == "service_param_2_value"
 
     assert vnf_1_data["instanceName"] == "test_so_service_vnf_instance_name_1"
     assert len(vnf_1_data["instanceParams"][0]) == 2

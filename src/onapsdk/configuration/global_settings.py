@@ -72,3 +72,5 @@ POLICY_CLAMP_GUI_SERVICE = f"{CLAMP_URL}/"
 PROJECT = "Onapsdk_project"
 LOB = "Onapsdk_lob"
 PLATFORM = "Onapsdk_platform"
+
+DEFAULT_REQUEST_TIMEOUT = 60

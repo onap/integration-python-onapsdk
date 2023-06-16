@@ -12,25 +12,23 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import functools
+import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
-import logging
 import requests
-import urllib3
-from urllib3.util.retry import Retry
 import simplejson.errors
-
+import urllib3
+from requests import (ConnectionError,  # pylint: disable=redefined-builtin
+                      HTTPError, RequestException)
 from requests.adapters import HTTPAdapter
-from requests import (  # pylint: disable=redefined-builtin
-    HTTPError, RequestException, ConnectionError
-)
+from urllib3.util.retry import Retry
 
-from onapsdk.exceptions import (
-    RequestError, APIError, ResourceNotFound, InvalidResponse,
-    ConnectionFailed, NoGuiError
-)
+from onapsdk.configuration import settings
+from onapsdk.exceptions import (APIError, ConnectionFailed, InvalidResponse,
+                                NoGuiError, RequestError, ResourceNotFound)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -124,6 +122,7 @@ class OnapService(ABC):
         cert = kwargs.pop('cert', None)
         basic_auth: Dict[str, str] = kwargs.pop('basic_auth', None)
         exception = kwargs.pop('exception', None)
+        timeout = kwargs.pop('timeout', None)
         headers = kwargs.pop('headers', cls.headers).copy()
         if OnapService.permanent_headers:
             for header in OnapService.permanent_headers:
@@ -131,7 +130,7 @@ class OnapService(ABC):
         data = kwargs.get('data', None)
         try:
             # build the request with the requested method
-            session = cls.__requests_retry_session()
+            session = cls.__requests_retry_session(timeout=timeout)
             if cert:
                 session.cert = cert
             OnapService._set_basic_auth_if_needed(basic_auth, session)
@@ -252,7 +251,8 @@ class OnapService(ABC):
     @staticmethod
     def __requests_retry_session(retries: int = 10,
                                  backoff_factor: float = 0.3,
-                                 session: requests.Session = None
+                                 session: requests.Session = None,
+                                 timeout: int = None
                                  ) -> requests.Session:
         """
         Create a request Session with retries.
@@ -262,12 +262,18 @@ class OnapService(ABC):
             backoff_factor (float, optional): backoff_factor. Defaults to 0.3.
             session (requests.Session, optional): an existing session to
                 enhance. Defaults to None.
+            timeout (int, optional): timeout for request execution
 
         Returns:
             requests.Session: the session with retries set
 
         """
         session = session or requests.Session()
+        if timeout is None and settings.DEFAULT_REQUEST_TIMEOUT > 0:
+            timeout = settings.DEFAULT_REQUEST_TIMEOUT
+        if timeout is not None and timeout > 0:
+            OnapService._logger.debug(f"TIMEOUT: {timeout}")
+            session.request = functools.partial(session.request, timeout=timeout)
         retry = Retry(
             total=retries,
             read=retries,

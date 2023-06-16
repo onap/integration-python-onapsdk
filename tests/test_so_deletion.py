@@ -14,6 +14,7 @@
 from unittest import mock
 
 from onapsdk.so.deletion import (
+    PnfDeletionRequest,
     ServiceDeletionRequest,
     VfModuleDeletionRequest,
     VnfDeletionRequest
@@ -72,3 +73,21 @@ def test_vnf_deletion_request(mock_send_message):
                    f"serviceInstantiation/{VnfDeletionRequest.api_version}/"
                    "serviceInstances/test_service_instance/"
                    "vnfs/test_vnf_id")
+
+@mock.patch.object(PnfDeletionRequest, "send_message")
+def test_pnf_deletion_request(mock_send_message):
+    mock_pnf_instance = mock.MagicMock()
+    mock_pnf_instance.pnf_id = "test_pnf_id"
+
+    mock_service_instance = mock.MagicMock()
+    mock_service_instance.instance_id = "test_service_instance"
+    mock_pnf_instance.service_instance = mock_service_instance
+    PnfDeletionRequest.send_request(instance=mock_pnf_instance)
+    mock_send_message.assert_called_once()
+    method, _, url = mock_send_message.call_args[0]
+    assert method == "DELETE"
+    assert url == (f"{PnfDeletionRequest.base_url}/onap/so/infra/"
+                   f"serviceInstantiation/{PnfDeletionRequest.api_version}/"
+                   "serviceInstances/test_service_instance/"
+                   "pnfs/test_pnf_id")
+

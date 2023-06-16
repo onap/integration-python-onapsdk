@@ -954,6 +954,10 @@ def test_service_instantiation_so_service(mock_send_message_json):
 
     so_service = SoService(
         subscription_service_type="test_so_service",
+        parameters={
+            "service_param_1": "service_param_1_value",
+            "service_param_2": "service_param_2_value"
+        },
         vnfs=[
             SoServiceVnf(
                 model_name="test_so_service_vnf_model_name_1",
@@ -1014,10 +1018,16 @@ def test_service_instantiation_so_service(mock_send_message_json):
     assert data["requestDetails"]["requestParameters"]["subscriptionServiceType"] == "test_so_service"
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"]) == 2
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"]) == 2
+
+    instance_params = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["instanceParams"]
     vnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][0]
     vnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][1]
     pnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][0]
     pnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][1]
+
+    assert len(instance_params[0]) == 2
+    assert instance_params[0]["service_param_1"] == "service_param_1_value"
+    assert instance_params[0]["service_param_2"] == "service_param_2_value"
 
     assert vnf_1_data["instanceName"] == "test_so_service_vnf_instance_name_1"
     assert len(vnf_1_data["instanceParams"][0]) == 2

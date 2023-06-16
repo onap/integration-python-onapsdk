@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a867dac3_7aa169aa",
+        "filename": "src/onapsdk/so/templates/deletion_pnf.json.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-06-16T14:50:13Z",
+      "side": 1,
+      "message": "could you use tab or spaces?",
+      "revId": "079f6e6f48c5f0cddffa555aaa6a66a17618369a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

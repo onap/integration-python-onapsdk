@@ -97,6 +97,7 @@ class SoServiceVnf(SoServiceXnf):
 class SoServicePnf(SoServiceXnf):
     """Class to store a Pnf instance parameters."""
 
+    registration_parameters: Optional["PnfRegistrationParameters"] = None
 
 @dataclass
 class SoService:
@@ -109,6 +110,7 @@ class SoService:
     subscription_service_type: str
     vnfs: List[SoServiceVnf] = field(default_factory=list)
     pnfs: List[SoServicePnf] = field(default_factory=list)
+    parameters: Dict[str, Any] = field(default_factory=dict)
     instance_name: Optional[str] = None
 
     @classmethod
@@ -146,6 +148,34 @@ class VfmoduleParameters:
 
     name: str
     vfmodule_parameters: Iterable["InstantiationParameter"] = None
+
+
+@dataclass
+class PnfRegistrationParameters:
+    """Class to store parameters required for pnf-instantiation without pnf-registration-event.
+
+    Contains required parameters for instantiation request
+    """
+
+    model_number: str
+    oam_v4_ip_address: str
+    oam_v6_ip_address: str
+    serial_number: str
+    software_version: str
+    unit_type: str
+    vendor_name: str
+
+    @classmethod
+    def load(cls, data: Dict[str, Any]) -> "PnfRegistrationParameters":
+        """Create a service instance description object from the dict.
+
+        Useful if you keep your instance data in file.
+
+        Returns:
+            SoService: SoService object created from the dictionary
+
+        """
+        return from_dict(data_class=cls, data=data)
 
 
 @dataclass
@@ -961,7 +991,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           vnf_parameters: Iterable["VnfParameters"] = None,
                           enable_multicloud: bool = False,
                           so_service: "SoService" = None,
-                          service_subscription: "ServiceSubscription" = None
+                          service_subscription: "ServiceSubscription" = None,
                           ) -> "ServiceInstantiation":
         """Instantiate service using SO macro request.
 
@@ -984,6 +1014,8 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
             so_service (SoService, optional): SO values to use in instantiation request
             service_subscription(ServiceSubscription, optional): Customer service subscription
                 for the instantiated service. Required if so_service is not provided.
+            instance_parameters (Iterable[InstantiationParameter], optional): Instantiation parameters
+                that are sent in the request. Defaults to None
 
         Raises:
             StatusError: if a service is not distributed.

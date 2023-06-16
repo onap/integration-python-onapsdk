@@ -89,12 +89,12 @@ class VnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
         """
         cls._logger.debug("VNF %s deletion request", instance.vnf_id)
         response = cls.send_message_json("DELETE",
-                                         f"Create {instance.vnf_id} VNF deletion request",
+                                         f"Create {instance.pnf_id} VNF deletion request",
                                          (f"{cls.base_url}/onap/so/infra/"
                                           f"serviceInstantiation/{cls.api_version}/"
                                           "serviceInstances/"
                                           f"{instance.service_instance.instance_id}/"
-                                          f"vnfs/{instance.vnf_id}"),
+                                          f"vnfs/{instance.pnf_id}"),
                                          data=jinja_env().
                                          get_template("deletion_vnf.json.j2").
                                          render(vnf_instance=instance,
@@ -102,6 +102,37 @@ class VnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
                                          headers=headers_so_creator(OnapService.headers))
         return cls(request_id=response["requestReferences"]["requestId"])
 
+class PnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
+    """PNF deletion class."""
+
+    @classmethod
+    def send_request(cls,
+                     instance: "PnfInstance",
+                     a_la_carte: bool = True) -> "PnfDeletionRequest":
+        """Send request to SO to delete PNF instance.
+
+        Args:
+            instance (PnfInstance): PNF instance to delete
+            a_la_carte (boolean): deletion mode
+
+        Returns:
+            PnfDeletionRequest: Deletion request object
+
+        """
+        cls._logger.debug("PNF %s deletion request", instance.pnf_id)
+        response = cls.send_message_json("DELETE",
+                                         f"Create {instance.pnf_id} PNF deletion request",
+                                         (f"{cls.base_url}/onap/so/infra/"
+                                          f"serviceInstantiation/{cls.api_version}/"
+                                          "serviceInstances/"
+                                          f"{instance.service_instance.instance_id}/"
+                                          f"pnfs/{instance.pnf_id}"),
+                                         data=jinja_env().
+                                         get_template("deletion_pnf.json.j2").
+                                         render(pnf_instance=instance,
+                                                a_la_carte=a_la_carte),
+                                         headers=headers_so_creator(OnapService.headers))
+        return cls(request_id=response["requestReferences"]["requestId"])
 
 class ServiceDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
     """Service deletion request class."""

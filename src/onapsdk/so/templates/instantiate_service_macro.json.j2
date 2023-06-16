@@ -44,7 +44,15 @@
                 {% endif %}
                 {
                     "service": {
-                        "instanceParams": [],
+                        "instanceParams": [
+                             {% if so_service %}
+                             {
+                                 {% for key, value in so_service.parameters.items() %}
+                                 "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                 {% endfor %}
+                             }
+                             {% endif %}
+                        ],
                         "instanceName": "{{ service_instance_name }}",
                         "resources": {
                             {% block pnfs %}

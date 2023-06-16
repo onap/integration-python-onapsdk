@@ -1,0 +1,27 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "source": "VID",
+            "requestorId": "demo"
+        },
+        "modelInfo": {
+            "modelType": "pnf",
+            "modelName": "{{ pnf_instance.pnf.model_name }}",
+            "modelInvariantId": "{{ pnf_instance.pnf.model_invariant_id }}",
+            "modelVersion": "{{ pnf_instance.pnf.model_version }}",
+            "modelVersionId": "{{ pnf_instance.pnf.model_version_id }}",
+            "modelCustomizationId": "{{ pnf_instance.pnf.model_customization_id }}",
+            "modelCustomizationName": "{{ pnf_instance.pnf.name }}"
+        },
+        "requestParameters": {
+            "testApi": "GR_API",
+            "aLaCarte": {{ a_la_carte | tojson }}
+        },
+        {# the code below is needed to be refactored #
+        }
+        {# https: //gitlab.com/Orange-OpenSource/lfn/onap/python-onapsdk/-/issues/133 #} "cloudConfiguration": { "cloudOwner": "{{ pnf_instance.service_instance.service_subscription.cloud_region.cloud_owner }}",
+            "lcpCloudRegionId": "{{ pnf_instance.service_instance.service_subscription.cloud_region.cloud_region_id }}",
+            "tenantId": "{{ pnf_instance.service_instance.service_subscription.tenant.tenant_id }}"
+        }
+    }
+}

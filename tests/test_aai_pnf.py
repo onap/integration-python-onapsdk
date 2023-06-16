@@ -15,7 +15,7 @@ from unittest import mock
 
 import pytest
 
-from onapsdk.aai.business import PnfInstance, pnf
+from onapsdk.aai.business import PnfInstance, pnf, ServiceInstance
 from onapsdk.exceptions import ResourceNotFound
 # from onapsdk.so.deletion import NetworkDeletionRequest
 
@@ -104,13 +104,25 @@ def test_create_pnf_instance_from_api_response():
     assert pnf_instance.url.endswith(pnf_instance.pnf_name)
 
 
-@mock.patch.object(PnfInstance, "send_message")
-def test_delete_pnf_instance(mock_send_message):
-    pnf = PnfInstance(mock.MagicMock, "test_pnf", False)
-    pnf.delete()
-    method, _, address = mock_send_message.call_args[0]
-    assert method == "DELETE"
-    assert address == f"{pnf.url}?resource-version={pnf.resource_version}"
+@mock.patch.object(PnfInstance, "send_request")
+def test_delete_pnf_instance(mock_pnf_deletion_request):
+    service_instance = ServiceInstance(None,
+                                       instance_id="test_service_instance_id")
+    pnf_instance = PnfInstance(service_instance,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               in_maint=False)
+
+    assert pnf_instance.service_instance == service_instance
+    assert pnf_instance.pnf_id == "test_pnf_id"
+    assert pnf_instance.in_maint is False
+    assert pnf_instance.serial_number == "test_serial_number"
+    assert pnf_instance._pnf is None
+    assert pnf_instance.url == (f"{pnf_instance.base_url}{pnf_instance.api_version}/network/"
+                                f"pnfs/pnf/{pnf_instance.pnf_id}")
+    pnf_instance.delete()
+    mock_pnf_deletion_request.assert_called_once_with(pnf_instance, True)
+
 
 
 def test_pnf_instance_pnf():

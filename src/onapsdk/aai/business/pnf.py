@@ -16,6 +16,7 @@
 from typing import Iterator, Optional, TYPE_CHECKING
 
 from onapsdk.exceptions import ResourceNotFound
+from onapsdk.so.deletion import PnfDeletionRequest
 from .instance import Instance
 
 if TYPE_CHECKING:
@@ -254,14 +255,17 @@ class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
                    pnf_ipv4_address=api_response.get("pnf-ipv4-address"),
                    pnf_ipv6_address=api_response.get("pnf-ipv6-address"))
 
-    def delete(self, a_la_carte: bool = True) -> None:
-        """Delete Pnf instance.
+    def delete(self, a_la_carte: bool = True) -> "PnfDeletionRequest":
+        """Create PNF deletion request.
 
-        PNF deletion it's just A&AI resource deletion. That's difference between another instances.
-        You don't have to wait for that task finish, because it's not async task.
+        Send request to delete PNF instance
+
+        Args:
+            a_la_carte (boolean): deletion mode
+
+        Returns:
+            PnfDeletionRequest: Deletion request
 
         """
         self._logger.debug("Delete %s pnf", self.pnf_name)
-        self.send_message("DELETE",
-                          f"Delete {self.pnf_name} PNF",
-                          f"{self.url}?resource-version={self.resource_version}")
+        return PnfDeletionRequest.send_request(self, a_la_carte)

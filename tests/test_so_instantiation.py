@@ -32,6 +32,7 @@ from onapsdk.so.instantiation import (
     VfModuleInstantiation,
     VnfInstantiation,
     PnfInstantiation,
+    PnfRegistrationParameters,
     ServiceOperation,
     VnfOperation
 )
@@ -946,6 +947,59 @@ def test_service_instantiation_multicloud(mock_send_message_json):
     data = json.loads(kwargs["data"])
     assert any(filter(lambda x: x == {"name": "orchestrator", "value": "multicloud"}, data["requestDetails"]["requestParameters"]["userParams"]))
 
+@mock.patch.object(PnfInstantiation, "send_message_json")
+@mock.patch.object(OwningEntity, "get_by_owning_entity_id")
+def test_pnf_instantiation_so_service(mock_owning_entity_get, mock_send_message_json):
+    aai_service_instance_mock = mock.MagicMock()
+    aai_service_instance_mock.instance_id = "test_instance_id"
+
+    relation_1 = mock.MagicMock()
+    relation_1.related_to = "owning-entity"
+    relation_1.relationship_data = [{"relationship-value": "test"}]
+    relation_2 = mock.MagicMock()
+    relation_2.related_to = "project"
+    relation_2.relationship_data = [{"relationship-value": "test"}]
+
+    aai_service_instance_mock.relationships = (item for item in [relation_1, relation_2])
+
+    so_pnf = SoServicePnf(
+        model_name="test_so_service_pnf_model_name_1",
+        instance_name="test_so_service_pnf_instance_name_1",
+        registration_parameters=PnfRegistrationParameters(
+            model_number="test_model_number",
+            oam_v4_ip_address="test_ip",
+            oam_v6_ip_address="test_mac",
+            serial_number="test_serial_number",
+            software_version="test_software_version",
+            unit_type="test_unit_type",
+            vendor_name="test_vendor"
+        )
+    )
+
+    _ = PnfInstantiation. \
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          pnf_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          sdc_service=mock.MagicMock(),
+                          so_pnf=so_pnf)
+
+    _, kwargs = mock_send_message_json.call_args
+    data = json.loads(kwargs["data"])
+
+    pnf_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][0]
+
+    assert pnf_data["instanceName"] == "test_so_service_pnf_instance_name_1"
+
+    assert pnf_data["pnfRegistrationFields"]["modelNumber"] == "test_model_number"
+    assert pnf_data["pnfRegistrationFields"]["oamV4IpAddress"] == "test_ip"
+    assert pnf_data["pnfRegistrationFields"]["oamV6IpAddress"] == "test_mac"
+    assert pnf_data["pnfRegistrationFields"]["serialNumber"] == "test_serial_number"
+    assert pnf_data["pnfRegistrationFields"]["softwareVersion"] == "test_software_version"
+    assert pnf_data["pnfRegistrationFields"]["unitType"] == "test_unit_type"
+    assert pnf_data["pnfRegistrationFields"]["vendorName"] == "test_vendor"
 
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_instantiation_so_service(mock_send_message_json):
@@ -954,6 +1008,10 @@ def test_service_instantiation_so_service(mock_send_message_json):
 
     so_service = SoService(
         subscription_service_type="test_so_service",
+        parameters={
+            "service_param_1": "service_param_1_value",
+            "service_param_2": "service_param_2_value"
+        },
         vnfs=[
             SoServiceVnf(
                 model_name="test_so_service_vnf_model_name_1",
@@ -1014,10 +1072,16 @@ def test_service_instantiation_so_service(mock_send_message_json):
     assert data["requestDetails"]["requestParameters"]["subscriptionServiceType"] == "test_so_service"
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"]) == 2
     assert len(data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"]) == 2
+
+    instance_params = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["instanceParams"]
     vnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][0]
     vnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["vnfs"][1]
     pnf_1_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][0]
     pnf_2_data = data["requestDetails"]["requestParameters"]["userParams"][1]["service"]["resources"]["pnfs"][1]
+
+    assert len(instance_params[0]) == 2
+    assert instance_params[0]["service_param_1"] == "service_param_1_value"
+    assert instance_params[0]["service_param_2"] == "service_param_2_value"
 
     assert vnf_1_data["instanceName"] == "test_so_service_vnf_instance_name_1"
     assert len(vnf_1_data["instanceParams"][0]) == 2

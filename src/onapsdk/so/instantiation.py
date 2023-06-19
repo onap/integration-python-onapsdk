@@ -97,6 +97,7 @@ class SoServiceVnf(SoServiceXnf):
 class SoServicePnf(SoServiceXnf):
     """Class to store a Pnf instance parameters."""
 
+    registration_parameters: Optional["PnfRegistrationParameters"] = None
 
 @dataclass
 class SoService:
@@ -109,6 +110,7 @@ class SoService:
     subscription_service_type: str
     vnfs: List[SoServiceVnf] = field(default_factory=list)
     pnfs: List[SoServicePnf] = field(default_factory=list)
+    parameters: Dict[str, Any] = field(default_factory=dict)
     instance_name: Optional[str] = None
 
     @classmethod
@@ -146,6 +148,32 @@ class VfmoduleParameters:
 
     name: str
     vfmodule_parameters: Iterable["InstantiationParameter"] = None
+
+
+@dataclass
+class PnfRegistrationParameters:
+    """Class to store parameters required for pnf-instantiation without pnf-registration-event.
+
+    Contains required parameters for instantiation request
+    """
+
+    model_number: str
+    oam_v4_ip_address: str
+    oam_v6_ip_address: str
+    serial_number: str
+    software_version: str
+    unit_type: str
+    vendor_name: str
+
+    @classmethod
+    def load(cls, data: Dict[str, Any]) -> "PnfRegistrationParameters":
+        """Create a PnfRegistrationParameters object from the dict.
+
+        Returns:
+            PnfRegistrationParameters: PnfRegistrationParameters object created from the dictionary
+
+        """
+        return from_dict(data_class=cls, data=data)
 
 
 @dataclass

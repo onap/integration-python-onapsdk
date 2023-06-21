@@ -1051,7 +1051,16 @@ def test_service_instantiation_so_service(mock_send_message_json):
             ),
             SoServicePnf(
                 model_name="test_so_service_pnf_model_name_2",
-                instance_name="test_so_service_pnf_instance_name_2"
+                instance_name="test_so_service_pnf_instance_name_2",
+                registration_parameters=PnfRegistrationParameters(
+                    model_number="test_model_number",
+                    oam_v4_ip_address="test_ip",
+                    oam_v6_ip_address="test_mac",
+                    serial_number="test_serial_number",
+                    software_version="test_software_version",
+                    unit_type="test_unit_type",
+                    vendor_name="test_vendor"
+                )
             )
         ]
     )
@@ -1106,8 +1115,17 @@ def test_service_instantiation_so_service(mock_send_message_json):
     assert vf_module_2_data["instanceParams"][0]["vf_module_param_2"] == "vf_module_param_2_value"
 
     assert pnf_1_data["instanceName"] == "test_so_service_pnf_instance_name_1"
+    assert not "pnfRegistrationFields" in pnf_1_data
 
     assert pnf_2_data["instanceName"] == "test_so_service_pnf_instance_name_2"
+    assert pnf_2_data["pnfRegistrationFields"]["modelNumber"] == "test_model_number"
+    assert pnf_2_data["pnfRegistrationFields"]["oamV4IpAddress"] == "test_ip"
+    assert pnf_2_data["pnfRegistrationFields"]["oamV6IpAddress"] == "test_mac"
+    assert pnf_2_data["pnfRegistrationFields"]["serialNumber"] == "test_serial_number"
+    assert pnf_2_data["pnfRegistrationFields"]["softwareVersion"] == "test_software_version"
+    assert pnf_2_data["pnfRegistrationFields"]["unitType"] == "test_unit_type"
+    assert pnf_2_data["pnfRegistrationFields"]["vendorName"] == "test_vendor"
+
 
 
 def test_so_service_load_from_yaml():

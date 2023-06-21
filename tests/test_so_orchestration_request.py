@@ -21,28 +21,32 @@ from onapsdk.onap_service import OnapService
 IN_PROGRESS = {
     "request": {
         "requestStatus": {
-            "requestState": "IN_PROGRESS"
+            "requestState": "IN_PROGRESS",
+            "statusMessage": "test-message"
         }
     }
 }
 FAILED = {
     "request": {
         "requestStatus": {
-            "requestState": "FAILED"
+            "requestState": "FAILED",
+            "statusMessage": "test-message"
         }
     }
 }
 COMPLETE = {
     "request": {
         "requestStatus": {
-            "requestState": "COMPLETE"
+            "requestState": "COMPLETE",
+            "statusMessage": "test-message"
         }
     }
 }
 UNKNOWN = {
     "request": {
         "requestStatus": {
-            "requestState": "INVALID"
+            "requestState": "INVALID",
+            "statusMessage": "Unknown request state."
         }
     }
 }
@@ -80,6 +84,22 @@ def test_orchestration_request_status(mock_send_message):
     assert orchestration_req.finished
     assert not orchestration_req.completed
     assert orchestration_req.failed
+
+@mock.patch.object(OrchestrationRequest, "send_message_json")
+def test_orchestration_request_status_message(mock_send_message):
+    orchestration_req = OrchestrationRequest(request_id="test")
+
+    mock_send_message.return_value = BAD_RESPONSE
+    assert orchestration_req.status_message == "test-message"
+
+    mock_send_message.return_value = UNKNOWN
+    assert orchestration_req.status_message == "test-message"
+
+    mock_send_message.return_value = FAILED
+    assert orchestration_req.status_message == "test-message"
+
+    mock_send_message.return_value = COMPLETE
+    assert orchestration_req.status_message == "test-message"
 
 
 #Test the Class SoElement

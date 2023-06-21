@@ -221,3 +221,26 @@ class OrchestrationRequest(SoElement, WaitForFinishMixin, ABC):
 
         """
         return self.finished and self.status == self.StatusEnum.FAILED
+
+    @property
+    def status_message(self) -> str:
+        """Object instantiation status information.
+
+        It's populated by call SO orchestation request endpoint.
+
+        Returns:
+            str: status_message.
+
+        """
+        response: dict = self.send_message_json(
+            "GET",
+            f"Check {self.request_id} orchestration request status",
+            (f"{self.base_url}/onap/so/infra/"
+             f"orchestrationRequests/{self.api_version}/{self.request_id}"),
+            headers=headers_so_creator(OnapService.headers)
+        )
+        try:
+            return self.StatusEnum(response["request"]["requestStatus"]["statusMessage"])
+        except (KeyError, ValueError):
+            self._logger.exception("Invalid statusMessage.")
+            return "Unknown request state"

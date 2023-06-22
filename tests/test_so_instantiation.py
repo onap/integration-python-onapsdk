@@ -85,10 +85,12 @@ def test_service_ala_carte_instantiation(mock_service_instantiation_send_message
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_macro_instantiation(mock_service_instantiation_send_message):
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_service_1 = mock.MagicMock()
     mock_sdc_service.distributed = False
     with pytest.raises(StatusError):
         ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -101,6 +103,7 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
     mock_sdc_service.distributed = True
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -114,6 +117,7 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
 
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -133,6 +137,7 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
     so_service_mock.instance_name = "SoServiceInstanceName"
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -887,6 +892,7 @@ def test_instantiation_wait_for_finish():
 def test_service_instantiation_multicloud(mock_send_message_json):
 
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_service_1 = mock.MagicMock()
     mock_sdc_service.distributed = True
     _ = ServiceInstantiation.\
             instantiate_ala_carte(sdc_service=mock_sdc_service,
@@ -917,6 +923,7 @@ def test_service_instantiation_multicloud(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -933,6 +940,7 @@ def test_service_instantiation_multicloud(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -1004,6 +1012,7 @@ def test_pnf_instantiation_so_service(mock_owning_entity_get, mock_send_message_
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_instantiation_so_service(mock_send_message_json):
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_service_1 = mock.MagicMock()
     mock_sdc_service.distributed = True
 
     so_service = SoService(
@@ -1058,6 +1067,7 @@ def test_service_instantiation_so_service(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_service_1=mock_sdc_service_1,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),

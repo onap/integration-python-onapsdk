@@ -977,6 +977,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
     @classmethod
     def instantiate_macro(cls,
                           sdc_service: "SdcService",
+                          sdc_service_1: "SdcService",
                           customer: "Customer",
                           owning_entity: OwningEntity,
                           project: str,
@@ -988,6 +989,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           service_instance_name: str = None,
                           vnf_parameters: Iterable["VnfParameters"] = None,
                           enable_multicloud: bool = False,
+                          rec_service: bool = False,
                           so_service: "SoService" = None,
                           service_subscription: "ServiceSubscription" = None
                           ) -> "ServiceInstantiation":
@@ -1021,7 +1023,9 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
 
         """
         template_file = "instantiate_service_macro.json.j2"
-        if so_service:
+        if rec_service:
+            template_file = "instantiate_recursive_service_macro.json.j2"
+        elif so_service:
             template_file = "instantiate_multi_vnf_service_macro.json.j2"
             if so_service.instance_name:
                 service_instance_name = so_service.instance_name
@@ -1044,6 +1048,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                 render(
                     so_service=so_service,
                     sdc_service=sdc_service,
+                    sdc_service_1=sdc_service_1,
                     cloud_region=cloud_region,
                     tenant=tenant,
                     customer=customer,
@@ -1055,6 +1060,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                     service_instance_name=service_instance_name,
                     vnf_parameters=vnf_parameters,
                     enable_multicloud=enable_multicloud,
+                    rec_service=rec_service,
                     service_subscription=service_subscription
                 ),
             headers=headers_so_creator(OnapService.headers)

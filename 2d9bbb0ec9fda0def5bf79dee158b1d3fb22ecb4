@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b75561d_0397e2b7",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-22T10:58:49Z",
+      "side": 1,
+      "message": "Pls keep it boolean",
+      "revId": "2d9bbb0ec9fda0def5bf79dee158b1d3fb22ecb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a442d0cd_e184a442",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-22T10:58:49Z",
+      "side": 1,
+      "message": "Pls keep it boolean",
+      "revId": "2d9bbb0ec9fda0def5bf79dee158b1d3fb22ecb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

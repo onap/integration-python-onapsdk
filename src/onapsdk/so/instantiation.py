@@ -977,6 +977,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
     @classmethod
     def instantiate_macro(cls,
                           sdc_service: "SdcService",
+                          sdc_recursive_service: "SdcService",
                           customer: "Customer",
                           owning_entity: OwningEntity,
                           project: str,
@@ -986,8 +987,10 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           cloud_region: "CloudRegion" = None,
                           tenant: "Tenant" = None,
                           service_instance_name: str = None,
+                          parent_service_instance_name: str = None,
                           vnf_parameters: Iterable["VnfParameters"] = None,
                           enable_multicloud: bool = False,
+                          recursive_service: bool = False,
                           so_service: "SoService" = None,
                           service_subscription: "ServiceSubscription" = None
                           ) -> "ServiceInstantiation":
@@ -1021,7 +1024,9 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
 
         """
         template_file = "instantiate_service_macro.json.j2"
-        if so_service:
+        if recursive_service:
+            template_file = "instantiate_recursive_service_macro.json.j2"
+        elif so_service:
             template_file = "instantiate_multi_vnf_service_macro.json.j2"
             if so_service.instance_name:
                 service_instance_name = so_service.instance_name
@@ -1043,6 +1048,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
             data=jinja_env().get_template(template_file). \
                 render(
                     so_service=so_service,
+                    sdc_recursive_service=sdc_recursive_service,
                     sdc_service=sdc_service,
                     cloud_region=cloud_region,
                     tenant=tenant,
@@ -1053,8 +1059,10 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                     line_of_business=line_of_business,
                     platform=platform,
                     service_instance_name=service_instance_name,
+                    parent_service_instance_name=parent_service_instance_name,
                     vnf_parameters=vnf_parameters,
                     enable_multicloud=enable_multicloud,
+                    recursive_service=recursive_service,
                     service_subscription=service_subscription
                 ),
             headers=headers_so_creator(OnapService.headers)

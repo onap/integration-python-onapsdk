@@ -24,8 +24,22 @@ from onapsdk.so.deletion import (
 @mock.patch.object(ServiceDeletionRequest, "send_message")
 def test_service_deletion_request(mock_send_message):
     mock_instance = mock.MagicMock()
+    mock_sdc_service = mock.MagicMock()
+    mock_sdc_recursive_service = mock.MagicMock()
     mock_instance.instance_id = "test_instance_id"
-    ServiceDeletionRequest.send_request(instance=mock_instance)
+    ServiceDeletionRequest.send_request(instance=mock_instance,
+                                        sdc_service=mock_sdc_service,
+                                        sdc_recursive_service=mock_sdc_recursive_service,
+                                        cloud_region=mock.MagicMock(),
+                                        tenant=mock.MagicMock(),
+                                        customer=mock.MagicMock(),
+                                        owning_entity=mock.MagicMock(),
+                                        project=mock.MagicMock(),
+                                        line_of_business=mock.MagicMock(),
+                                        platform=mock.MagicMock(),
+                                        service_instance_name="test",
+										parent_service_instance_name="parent_test",
+                                        service_subscription=mock.MagicMock())
     mock_send_message.assert_called_once()
     method, _, url = mock_send_message.call_args[0]
     assert method == "DELETE"

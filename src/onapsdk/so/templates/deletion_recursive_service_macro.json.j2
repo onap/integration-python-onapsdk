@@ -11,30 +11,20 @@
             "instanceName": "{{ parent_service_instance_name }}",
             "source": "VID"
         },
-        {% if recursive_service %}
-           "modelInfo": {
-                 "modelType": "service",
-                 "modelInvariantId": "{{ sdc_recursive_service.unique_uuid }}",
-                 "modelVersionId": "{{ sdc_recursive_service.identifier }}",
-                 "modelName": "{{ sdc_recursive_service.name }}",
-                 "modelVersion": "1.0"
-            },
-        {% else %}
-            "modelInfo": {
-                 "modelType": "service",
-                 "modelInvariantId": "{{ sdc_service.unique_uuid }}",
-                 "modelVersionId": "{{ sdc_service.identifier }}",
-                 "modelName": "{{ sdc_service.name }}",
-                 "modelVersion": "1.0"
-             },
-        {% endif %}
+        "modelInfo": {
+            "modelType": "service",
+			"modelInvariantId": "{{ sdc_recursive_service.unique_uuid }}",
+			"modelVersionId": "{{ sdc_recursive_service.identifier }}",
+			"modelName": "{{ sdc_recursive_service.name }}",
+            "modelVersion": "1.0"
+        },
         {% if sdc_service.has_vnfs %}
         "cloudConfiguration": {
             "tenantId": "{{ tenant.tenant_id }}",
             "cloudOwner": "{{ cloud_region.cloud_owner }}",
             "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
         },
-        {% endif %}
+        {% endif %}1
         "subscriberInfo": {
             "globalSubscriberId": "{{ customer.global_customer_id }}"
         },
@@ -54,52 +44,24 @@
                 {% endif %}
                 {
                     "service": {
-                        "instanceParams": [
-						     {% if so_service %}
-                             {
-                                 {% for key, value in so_service.parameters.items() %}
-                                 "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
-                                 {% endfor %}
-                             }
-                             {% endif %}
-							 ],
-                        "instanceName": "{{ service_instance_name }}",
-                     {% if recursive_service %}
-                     "resources":{
-                         {% block services %}
-                         {% endblock %}
-                        }
-                     {% else %}
-                        "resources": {
-                            {% block pnfs %}
-                            {% if sdc_service.pnfs %}
-                            "pnfs":[
-                                {% for pnf in sdc_service.pnfs  %}
+                        "instanceParams": [],
+                        "instanceName":parent_service_instance_name,
+                    "resources":{
+                       "services":[
+                          {
+                             "cloudConfiguration":{
+                                 "lcpCloudRegionId":cloud_region.cloud_region_id,
+                                 "tenantId":tenant.tenant_id,
+                                 "cloudOwner":cloud_region.cloud_owner
+                             },
+                             "instanceParams":[
                                 {
-                                    "modelInfo":{
-                                        "modelCustomizationName":"{{ pnf.name }}",
-                                        "modelCustomizationId":"{{ pnf.model_customization_id }}",
-                                        "modelInvariantId":"{{ sdc_service.unique_uuid }}",
-                                        "modelVersionId":"{{ sdc_service.identifier }}",
-                                        "modelName":"{{ sdc_service.name }}",
-                                        "modelType":"pnf",
-                                        "modelVersion":"1.0"
-                                    },
-                                    "platform":{
-                                        "platformName":"{{ platform }}"
-                                    },
-                                    "lineOfBusiness":{
-                                        "lineOfBusinessName":"{{ line_of_business }}"
-                                    },
-                                    "productFamilyId":"{{ aai_service.service_id }}",
-                                    "instanceParams":[],
-                                    "instanceName":"{{ service_instance_name }}"
-                                }{% if not loop.last %},{% endif %}
-                                {% endfor %}
-                            ]
-                                {% if sdc_service.vnfs %},{% endif %}
-                            {% endif %}
-                            {% endblock %}
+
+                                }
+                             ],
+
+                        "instanceName": "{{ service_instance_name }}",
+                        "resources": {
                             {% block vnfs %}
                             {% if sdc_service.vnfs %}
                             "vnfs": [
@@ -174,26 +136,26 @@
                             {% endif %}
                             {% endblock %}
                         },
-						"modelInfo": {
+                        "modelInfo": {
                             "modelVersion": "1.0",
                             "modelVersionId": "{{ sdc_service.identifier }}",
                             "modelInvariantId": "{{ sdc_service.unique_uuid }}",
                             "modelName": "{{ sdc_service.name }}",
                             "modelType": "service"
-                        }
-                {% endif %}
-				{% if recursive_service %}
-                "modelInfo": {
-                 "modelType": "service",
-                 "modelInvariantId": "{{ sdc_recursive_service.unique_uuid }}",
-                 "modelVersionId": "{{ sdc_recursive_service.identifier }}",
-                 "modelName": "{{ sdc_recursive_service.name }}",
-                 "modelVersion": "1.0"
-                },
-				{% endif %}
+                          }
+                         }
+                       ]
+                    },
+					"modelInfo": {
+                        "modelType": "service",
+			            "modelInvariantId": "{{ sdc_recursive_service.unique_uuid }}",
+			            "modelVersionId": "{{ sdc_recursive_service.identifier }}",
+			           "modelName": "{{ sdc_recursive_service.name }}",
+                       "modelVersion": "1.0"
+                       }
+                    }
                 }
-             }
-           ],
+            ],
             "aLaCarte": false
         },
         "project": {

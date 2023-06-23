@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccd255f9_9cdc8733",
+        "filename": "integration_tests/test_07_instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "Pl take Child references",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 54
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8876b9_4bbac516",
+        "filename": "src/onapsdk/so/deletion.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "Need to choose deletion payload format for recursive_svc , limited parameters which include only sdc model details.",
+      "range": {
+        "startLine": 208,
+        "startChar": 7,
+        "endLine": 210,
+        "endChar": 73
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95783d67_be9966d8",
+        "filename": "src/onapsdk/so/deletion.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "limited parameters which include only sdc model details which are required for DELETE payload",
+      "range": {
+        "startLine": 221,
+        "startChar": 48,
+        "endLine": 233,
+        "endChar": 7
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d30c8c_e888c96f",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "sdc_child_svc",
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58d94e10_60f1cf93",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "has_child_service --\u003e instantiate_recursive_service_macro.json.j2",
+      "range": {
+        "startLine": 1027,
+        "startChar": 11,
+        "endLine": 1027,
+        "endChar": 28
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "676744a7_0518f7dc",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "Consider child_service here",
+      "range": {
+        "startLine": 1062,
+        "startChar": 49,
+        "endLine": 1062,
+        "endChar": 77
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a745bd6d_69a989c1",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "Keep it \"service_instance_name\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d59cba4_aa1ee367",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7813
+      },
+      "writtenOn": "2023-06-23T11:31:07Z",
+      "side": 1,
+      "message": "Consider for child_service",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "be0b8202f953b68d399f9adcdefe7583b2833ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

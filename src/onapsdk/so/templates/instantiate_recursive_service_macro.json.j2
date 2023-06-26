@@ -1,82 +1,20 @@
-{
-    "requestDetails": {
-        "requestInfo": {
-            "suppressRollback": false,
-            {% if aai_service %}
-            "productFamilyId":"{{ aai_service.service_id }}",
-            {% else %}
-            "productFamilyId": "1234",
-            {% endif %}
-            "requestorId": "demo",
-			{% if recursive_service %}
-            "instanceName": "{{ parent_service_instance_name }}",
-			{% else %}
-			"instanceName": "{{ service_instance_name }}",
-			{% endif %}
-            "source": "VID"
-        },
-        {% if recursive_service %}
-                "modelInfo": {
-                   "modelType": "service",
-                   "modelInvariantId": "{{ sdc_parent_service.unique_uuid }}",
-                   "modelVersionId": "{{ sdc_parent_service.identifier }}",
-                   "modelName": "{{ sdc_parent_service.name }}",
-                   "modelVersion": "1.0"
-            },
-        {% else %}
-            "modelInfo": {
-                 "modelType": "service",
-                 "modelInvariantId": "{{ sdc_service.unique_uuid }}",
-                 "modelVersionId": "{{ sdc_service.identifier }}",
-                 "modelName": "{{ sdc_service.name }}",
-                 "modelVersion": "1.0"
-             },
-        {% endif %}
-        {% if sdc_service.has_vnfs %}
-        "cloudConfiguration": {
-            "tenantId": "{{ tenant.tenant_id }}",
-            "cloudOwner": "{{ cloud_region.cloud_owner }}",
-            "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
-        },
-        {% endif %}
-        "subscriberInfo": {
-            "globalSubscriberId": "{{ customer.global_customer_id }}"
-        },
-        "requestParameters": {
-            {% block subscriptionServiceType %}
-            "subscriptionServiceType": "{{ service_subscription.service_type }}",
-            {% endblock %}
-            "userParams": [
-                {
-                    "Homing_Solution": "none"
-                },
-                {% if enable_multicloud %}
-                {
-                    "name":"orchestrator",
-                    "value":"multicloud"
-                },
-                {% endif %}
-                {
-                    "service": {
-                        "instanceParams": [
-			 {% if so_service %}
-                             {
-                                 {% for key, value in so_service.parameters.items() %}
-                                 "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
-                                 {% endfor %}
-                             }
-                             {% endif %}
-							 ],
-		     {% if recursive_service %}
-                     "instanceName": "{{ parent_service_instance_name }}",
-		     {% endif %}
-                     {% if recursive_service %}
-                     "resources":{
-                         {% block services %}
-                         {% endblock %}
-                        }
-                     {% else %}
-		     "instanceName": "{{ service_instance_name }}",
+{% extends "instantiate_service_macro.json.j2" %}
+
+{% block services %}
+
+"services":[
+                        {
+                           "cloudConfiguration":{
+                              "tenantId": "{{ tenant.tenant_id }}",
+                              "cloudOwner": "{{ cloud_region.cloud_owner }}",
+                              "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
+                           },
+                           "instanceParams":[
+                              {
+
+                              }
+                           ],
+                        "instanceName":"{{ service_instance_name }}",
                         "resources": {
                             {% block pnfs %}
                             {% if sdc_service.pnfs %}
@@ -181,34 +119,16 @@
                             {% endif %}
                             {% endblock %}
                         },
-			"modelInfo": {
+                        "modelInfo": {
                             "modelVersion": "1.0",
                             "modelVersionId": "{{ sdc_service.identifier }}",
                             "modelInvariantId": "{{ sdc_service.unique_uuid }}",
                             "modelName": "{{ sdc_service.name }}",
                             "modelType": "service"
                         }
-                {% endif %}
-		{% if recursive_service %}
-                "modelInfo": {
-                   "modelType": "service",
-                   "modelInvariantId": "{{ sdc_parent_service.unique_uuid }}",
-                   "modelVersionId": "{{ sdc_parent_service.identifier }}",
-                   "modelName": "{{ sdc_parent_service.name }}",
-                   "modelVersion": "1.0"
-            },
-        {% endif %}
-                }
-             }
-           ],
-            "aLaCarte": false
-        },
-        "project": {
-            "projectName": "{{ project }}"
-        },
-        "owningEntity": {
-            "owningEntityId": "{{ owning_entity.owning_entity_id }}",
-            "owningEntityName": "{{ owning_entity.name }}"
-        }
-    }
-}
+						
+						}
+                                                                        }
+                     ]
+
+        {% endblock %}

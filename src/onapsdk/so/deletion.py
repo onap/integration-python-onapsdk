@@ -137,10 +137,15 @@ class PnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
 class ServiceDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
     """Service deletion request class."""
 
+    
+    # pylint: disable=too-many-arguments, too-many-locals
     @classmethod
     def send_request(cls,
-                     instance: "ServiceInstance",
-                     a_la_carte: bool = True) -> "ServiceDeletionRequest":
+                          instance: "ServiceInstance",
+			  instance_parent: "ServiceInstance",
+                          a_la_carte: bool = True,
+                          recursive_service: bool = False
+                          ) -> "ServiceDeletionRequest":
         """Send request to SO to delete service instance.
 
         Args:
@@ -151,18 +156,25 @@ class ServiceDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ances
             ServiceDeletionRequest: Deletion request object
 
         """
-        cls._logger.debug("Service %s deletion request", instance.instance_id)
+        instance_id=instance.instance_id
+        if recursive_service:
+            instance_id=instance_parent.instance_id
+        cls._logger.debug("Service %s deletion request", instance_id)
         response = cls.send_message_json("DELETE",
                                          f"Create {instance.instance_id} Service deletion request",
-                                         (f"{cls.base_url}/onap/so/infra/"
+					 (f"{cls.base_url}/onap/so/infra/"
                                           f"serviceInstantiation/{cls.api_version}/"
-                                          f"serviceInstances/{instance.instance_id}"),
+                                          f"serviceInstances/{instance_id}"),
                                          data=jinja_env().
                                          get_template("deletion_service.json.j2").
                                          render(service_instance=instance,
-                                                a_la_carte=a_la_carte),
+					        parent_service_instance=instance_parent,
+                                                a_la_carte=a_la_carte,
+						recursive_service=recursive_service
+                                                ),
                                          headers=headers_so_creator(OnapService.headers))
         return cls(request_id=response["requestReferences"]["requestId"])
+
 
 
 class NetworkDeletionRequest(DeletionRequest):  # pylint: disable=too-many-ancestors

@@ -218,6 +218,8 @@ def test_instantiate_macro(mock_service_components, mock_service_vnfs):
                                subscriber_type="test_subscriber_type")
     service = Service("test_service")
     service._tosca_template = "n/a"
+    parent_service = Service("test_service_parent")
+    parent_service._tosca_template = "n/a"
 
     mock_service_vnfs.return_value = [
         Vnf(
@@ -247,6 +249,9 @@ def test_instantiate_macro(mock_service_components, mock_service_vnfs):
     service.unique_uuid = str(uuid4())
     service.identifier = str(uuid4())
     service.name = str(uuid4())
+    parent_service.unique_uuid = str(uuid4())
+    parent_service.identifier = str(uuid4())
+    parent_service.name = str(uuid4())
     customer.subscribe_service("service_type")
     service_subscription = customer.get_service_subscription_by_service_type("service_type")
     cloud_region = CloudRegion.create(
@@ -276,9 +281,11 @@ def test_instantiate_macro(mock_service_components, mock_service_vnfs):
 
     # Service instantiation
     service._distributed = True
+    parent_service._distributed = True
     assert len(list(service_subscription.service_instances)) == 0
     service_instantiation_request = ServiceInstantiation.instantiate_macro(
         sdc_service=service,
+        sdc_parent_service=parent_service,
         customer=customer,
         owning_entity=owning_entity,
         project=project,
@@ -316,6 +323,8 @@ def test_instantiate_macro_for_pnf(mock_service_components, mock_service_pnfs):
                                subscriber_type="test_subscriber_type")
     service = Service("test_service")
     service._tosca_template = "n/a"
+    parent_service = Service("test_service_parent")
+    parent_service._tosca_template = "n/a"
 
     mock_service_pnfs.return_value = [
         Pnf(
@@ -333,6 +342,9 @@ def test_instantiate_macro_for_pnf(mock_service_components, mock_service_pnfs):
     service.unique_uuid = str(uuid4())
     service.identifier = str(uuid4())
     service.name = str(uuid4())
+    parent_service.unique_uuid = str(uuid4())
+    parent_service.identifier = str(uuid4())
+    parent_service.name = str(uuid4())
     customer.subscribe_service("service_type")
     service_subscription = customer.get_service_subscription_by_service_type("service_type")
     cloud_region = CloudRegion.create(
@@ -350,9 +362,11 @@ def test_instantiate_macro_for_pnf(mock_service_components, mock_service_pnfs):
 
     # Service instantiation
     service._distributed = True
+    parent_service._distributed = True
     assert len(list(service_subscription.service_instances)) == 0
     service_instantiation_request = ServiceInstantiation.instantiate_macro(
         sdc_service=service,
+        sdc_parent_service=parent_service,
         customer=customer,
         owning_entity=owning_entity,
         project=project,
@@ -389,6 +403,8 @@ def test_instantiate_macro_multiple_vnf(mock_service_components, mock_service_vn
                                subscriber_type="test_subscriber_type")
     service = Service("test_service")
     service._tosca_template = "n/a"
+    parent_service = Service("test_service_parent")
+    parent_service._tosca_template = "n/a"
 
     mock_service_vnfs.return_value = [
         Vnf(
@@ -418,6 +434,9 @@ def test_instantiate_macro_multiple_vnf(mock_service_components, mock_service_vn
     service.unique_uuid = str(uuid4())
     service.identifier = str(uuid4())
     service.name = str(uuid4())
+    parent_service.unique_uuid = str(uuid4())
+    parent_service.identifier = str(uuid4())
+    parent_service.name = str(uuid4())
     customer.subscribe_service("service_type")
     service_subscription = customer.get_service_subscription_by_service_type("service_type")
     cloud_region = CloudRegion.create(
@@ -473,9 +492,11 @@ def test_instantiate_macro_multiple_vnf(mock_service_components, mock_service_vn
 
     # Service instantiation
     service._distributed = True
+    parent_service._distributed = True
     assert len(list(service_subscription.service_instances)) == 0
     service_instantiation_request = ServiceInstantiation.instantiate_macro(
         sdc_service=service,
+        sdc_parent_service=parent_service,
         customer=customer,
         owning_entity=owning_entity,
         project=project,
@@ -512,6 +533,8 @@ def test_instantiate_macro_multiple_pnf(mock_service_components, mock_service_pn
                                subscriber_type="test_subscriber_type")
     service = Service("test_service")
     service._tosca_template = "n/a"
+    parent_service = Service("test_service_parent")
+    parent_service._tosca_template = "n/a"
 
     mock_service_pnfs.return_value = [
         Pnf(
@@ -529,6 +552,9 @@ def test_instantiate_macro_multiple_pnf(mock_service_components, mock_service_pn
     service.unique_uuid = str(uuid4())
     service.identifier = str(uuid4())
     service.name = str(uuid4())
+    parent_service.unique_uuid = str(uuid4())
+    parent_service.identifier = str(uuid4())
+    parent_service.name = str(uuid4())
     customer.subscribe_service("service_type")
     service_subscription = customer.get_service_subscription_by_service_type("service_type")
     cloud_region = CloudRegion.create(
@@ -566,9 +592,11 @@ def test_instantiate_macro_multiple_pnf(mock_service_components, mock_service_pn
 
     # Service instantiation
     service._distributed = True
+    parent_service._distributed = True
     assert len(list(service_subscription.service_instances)) == 0
     service_instantiation_request = ServiceInstantiation.instantiate_macro(
         sdc_service=service,
+        sdc_parent_service=parent_service,
         customer=customer,
         owning_entity=owning_entity,
         project=project,

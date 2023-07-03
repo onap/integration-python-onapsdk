@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c71398a_0bd49e68",
+        "filename": "docs/conf.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1201
+      },
+      "writtenOn": "2023-07-03T08:54:35Z",
+      "side": 1,
+      "message": "I think that\u0027s false. It should rather be ../src",
+      "revId": "744619e251de9338a1ad9011f92910e7c3786003",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

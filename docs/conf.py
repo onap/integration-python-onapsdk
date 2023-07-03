@@ -18,9 +18,20 @@ sys.path.insert(0, os.path.abspath('../src/onapsdk'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'ONAP SDK'
-copyright = '2019, Orange. 2019, DT'
-author = 'ONAP Integration team'
+project = "onap"
+release = "master"
+version = "master"
+
+author = "Open Network Automation Platform"
+# yamllint disable-line rule:line-length
+copyright = "ONAP. Licensed under Creative Commons Attribution 4.0 International License"
+
+#
+# Map to 'latest' if this file is used in 'latest' (master) 'doc' branch.
+# Change to {releasename} after you have created the new 'doc' branch.
+#
+
+branch = 'latest'
 
 # The full version, including alpha/beta/rc tags
 package_version = {}
@@ -35,10 +46,13 @@ release = package_version['__version__']
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.napoleon',
-    'sphinx_autodoc_typehints'
+    'sphinx.ext.graphviz',
+    'sphinx.ext.autodoc',
+    'sphinxcontrib.blockdiag',
+    'sphinxcontrib.seqdiag',
+    'sphinxcontrib.swaggerdoc',
+    'sphinxcontrib.plantuml'
 ]
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
@@ -52,13 +66,16 @@ html_css_files = [
     'css/custom.css',
 ]
 
+def setup(app):
+    app.add_css_file("css/ribbon.css")
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.tox']
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -72,4 +89,5 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+doc_url = 'https://docs.onap.org/projects'
 master_doc = 'index'

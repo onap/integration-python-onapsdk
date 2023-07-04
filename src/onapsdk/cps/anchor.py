@@ -101,7 +101,7 @@ class Anchor(CpsElement):
             "GET",
             f"Get {self.name} anchor node with {xpath} xpath",
             f"{self.url}/node?xpath={xpath}"
-            f"?descendants={descendants}",
+            f"&descendants={descendants}",
             auth=self.auth
         )
 

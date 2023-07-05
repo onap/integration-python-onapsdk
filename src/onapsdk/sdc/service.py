@@ -197,6 +197,26 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
                 return service
         raise ResourceNotFound("Service with given unique uuid doesn't exist")
 
+    @classmethod
+    def get_by_identifier(cls, identifier: str) -> "Service":
+        """Get service by an identifier.
+
+        Args:
+            identifier (str): Service identifier
+
+        Returns:
+            Service: Service with provided identifier
+
+        Raises:
+            ResourceNotFound: Service with given identifier does not exist
+
+        """
+        services: List["Service"] = cls.get_all()
+        for service in services:
+            if service.identifier == identifier:
+                return service
+        raise ResourceNotFound("Service with given identifier doesn't exist")
+
     def onboard(self) -> None:
         """Onboard the Service in SDC.
 

@@ -1442,6 +1442,7 @@ def test_service_origin_type():
     service = Service(name="test")
     assert service.origin_type == "ServiceProxy"
 
+
 @mock.patch.object(Service, "unique_identifier", new_callable=PropertyMock)
 def test_service_metadata_url(mock_uniquie_identifier):
     mock_uniquie_identifier.return_value = "1233"
@@ -1480,6 +1481,7 @@ def test_service_get_by_unique_uuid(mock_get_all):
     mock_get_all.return_value = [mock_service]
     Service.get_by_unique_uuid("test")
 
+
 @mock.patch.object(Service, "send_message_json")
 def test_service_components(mock_send_message_json):
     service = Service(name="test")
@@ -1496,6 +1498,7 @@ def test_service_components(mock_send_message_json):
     assert service.has_pnfs
     assert service.has_vls
 
+
 @mock.patch.object(Service, "send_message")
 def test_service_archive(mock_send):
     service = Service(name="test")
@@ -1506,6 +1509,7 @@ def test_service_archive(mock_send):
     assert description == "Archive test component"
     assert "archive" in url
 
+
 @mock.patch.object(Service, "send_message")
 def test_service_delete(mock_send):
     service = Service(name="test")
@@ -1513,3 +1517,14 @@ def test_service_delete(mock_send):
     mock_send.assert_called()
     method = mock_send.call_args[0][0]
     assert method == "DELETE"
+
+
+@mock.patch.object(Service, "get_all")
+def test_service_get_by_identifier(mock_get_all):
+    mock_get_all.return_value = []
+    with pytest.raises(ResourceNotFound):
+        Service.get_by_identifier("test")
+    mock_service = MagicMock()
+    mock_service.identifier = "test"
+    mock_get_all.return_value = [mock_service]
+    Service.get_by_identifier("test")

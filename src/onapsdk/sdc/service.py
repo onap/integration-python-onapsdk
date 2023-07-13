@@ -406,8 +406,8 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
         Load VNFs from components generator.
         It creates a generator of the vf modules as well, but without
-            vf modules which has "vf_module_label" property value equal
-            to "base_template_dummy_ignore".
+        vf modules which has "vf_module_label" property value equal
+        to "base_template_dummy_ignore".
 
         Returns:
             Iterator[Vnf]: Vnf objects iterator

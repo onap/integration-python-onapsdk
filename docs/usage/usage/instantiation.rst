@@ -274,7 +274,7 @@ To provide more control on the SO macro instantiation, you can define your servi
 
 
 Instantiate VNF (Macro)
----------------
+-----------------------
 
 Since ONAP Istanbul the creation or deletion of VNFs in macro mode is supported. Examples below:
 
@@ -334,7 +334,7 @@ Since ONAP Istanbul the creation or deletion of VNFs in macro mode is supported.
 
 
 Instantiate VNF using SO service template (Macro)
----------------
+-------------------------------------------------
 
 To provide more control on the SO macro instantiation for new vnf, you can define your vnf as follows:
 
@@ -398,7 +398,7 @@ To provide more control on the SO macro instantiation for new vnf, you can defin
 
 
 Instantiate VNF (ALaCarte)
----------------
+--------------------------
 
 .. code:: Python
 
@@ -423,7 +423,7 @@ Instantiate VNF (ALaCarte)
         print("Instantiation failed, check logs")
 
 Instantiate Vf module (ALaCarte)
----------------------
+--------------------------------
 
 .. code:: Python
 
@@ -448,7 +448,7 @@ Instantiate Vf module (ALaCarte)
         print("Instantiation failed, check logs")
 
 Instantiate Vl module (ALaCarte)
----------------------
+--------------------------------
 
 .. code:: Python
 

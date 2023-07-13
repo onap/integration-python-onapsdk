@@ -2,7 +2,7 @@ VES
 ###
 
 Preparation for DMAAP tests
--------------------------
+---------------------------
 
 #. Check existing DMaap Services:
 
@@ -15,7 +15,7 @@ Preparation for DMAAP tests
 
 
 Remove all events from DMaap
----------------------------
+----------------------------
 
 .. code:: Python
 
@@ -31,7 +31,7 @@ Get all events from DMaap
     response = Dmaap.get_all_events()
 
 Get events from specific topic from DMaap
--------------------------
+-----------------------------------------
 
 .. code:: Python
 

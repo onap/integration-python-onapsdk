@@ -30,7 +30,7 @@ Send event to Ves Collector
     )
 
 Send event batch to Ves Collector
--------------------------
+---------------------------------
 
 .. code:: Python
 

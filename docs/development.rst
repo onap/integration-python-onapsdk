@@ -111,7 +111,7 @@ Also, containers are not reachable by their IP addresses on Windows host since
 Docker for Windows does not support bridged network interface for Linux containers.
 For reference, please see Docker docs_.
 
-.. _docs: https://docs.docker.com/docker-for-windows/networking/#known-limitations-use-cases-and-workarounds
+.. _docs: https://docs.docker.com/desktop/networking/#known-limitations-for-all-platforms
 
 Once containers are running, execute the following in the project's directory:
 

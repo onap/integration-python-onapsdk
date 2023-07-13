@@ -136,6 +136,7 @@ class DataDictionary(CdsElement):
              - "entry_schema"
              - "updatedBy"
              - "definition"
+
             "definition" key value should contains the "raw" data dictionary.
 
         Returns:
@@ -153,15 +154,17 @@ class DataDictionary(CdsElement):
             this kind of data dictionary can't be uploaded to blueprintprocessor.
             That method tries to fix it. It can be done only if "raw" data dictionary
             has a given schema:
-                {
-                    "name": "string",
-                    "tags": "string",
-                    "updated-by": "string",
-                    "property": {
-                        "description": "string",
-                        "type": "string"
-                    }
-                }
+
+            .. code-block: json:
+               {
+                   "name": "string",
+                   "tags": "string",
+                   "updated-by": "string",
+                   "property": {
+                       "description": "string",
+                       "type": "string"
+                   }
+               }
 
         Raises:
             ValidationError: Data dictionary doesn't have all required keys

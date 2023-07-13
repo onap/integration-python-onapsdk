@@ -127,7 +127,7 @@ Upload data dictionary set
     dd_set.upload()
 
 Retrieve Blueprint Models from CDS
---------------------------
+----------------------------------
 
 #. All
 
@@ -149,14 +149,14 @@ Retrieve Blueprint Models from CDS
     blueprint_model = BlueprintModel.get_by_name_and_version(blueprint_name='test_name', blueprint_version='1.0.0')
 
 Delete Blueprint Model
---------------------------
+----------------------
 
 .. code:: Python
 
     blueprint_model.delete()
 
 Download Blueprint Model
---------------------------
+------------------------
 
 .. code:: Python
 
@@ -164,7 +164,7 @@ Download Blueprint Model
 
 
 Get Blueprint object for Blueprint Model
---------------------------
+----------------------------------------
 
 After that, all operation for blueprint object, like execute blueprint workflow etc. can be executed.
 

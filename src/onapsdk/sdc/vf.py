@@ -72,7 +72,7 @@ class Vf(SdcResource):
         If Vf is created vendor is get from it's resource metadata.
         Otherwise it's vendor provided by the user or the vendor from vsp.
         It's possible that method returns None, but it won't be possible then
-            to create that Vf resource.
+        to create that Vf resource.
 
         Returns:
             Optional[Vendor]: Vendor object related with Vf

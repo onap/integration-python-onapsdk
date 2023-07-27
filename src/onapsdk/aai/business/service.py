@@ -18,7 +18,7 @@ from typing import Iterator, Type, Union, Iterable, Optional
 from onapsdk.exceptions import StatusError, ParameterError
 from onapsdk.sdc.service import Service
 from onapsdk.so.deletion import ServiceDeletionRequest
-from onapsdk.so.instantiation import NetworkInstantiation, VnfInstantiation
+from onapsdk.so.instantiation import NetworkInstantiation, VnfInstantiation, PnfInstantiation
 from onapsdk.utils.jinja import jinja_env
 
 from .instance import Instance
@@ -415,6 +415,49 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
             vnf_parameters=vnf_parameters,
             so_vnf=so_vnf,
             sdc_service=self.sdc_service
+        )
+
+    def add_pnf(self,  # pylint: disable=too-many-arguments
+                pnf: "Pnf",
+                line_of_business: "LineOfBusiness",
+                platform: "Platform",
+                pnf_instance_name: str = None,
+                customer: "Customer" = None,
+                service_subscription: "ServiceSubscription" = None,
+                sdc_service: "SdcService" = None,
+                ) -> "PnfInstantiation":
+        """Add pnf into service instance.
+
+        Instantiate PNF.
+
+        Args:
+            pnf (Pnf): Pnf from service configuration to instantiate
+            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
+            platform (Platform): Platform to use in instantiation request
+            customer (Customer): Customer to use in instantiation request
+            service_subscription(ServiceSubscription):  ServiceSubscription
+            pnf_instance_name (str): PNF instantiation name
+            sdc_service (SdcService): service model from sdc
+
+        Raises:
+            StatusError: Service orchestration status is not "Active".
+
+        Returns:
+            PnfInstantiation: PnfInstantiation request object
+
+        """
+        if not self.active:
+            raise StatusError('Service orchestration status must be "Active"')
+
+        return PnfInstantiation.instantiate_macro(
+            self,
+            pnf,
+            line_of_business,
+            customer,
+            service_subscription,
+            platform,
+            pnf_instance_name,
+            sdc_service
         )
 
     def add_network(self,  # pylint: disable=too-many-arguments

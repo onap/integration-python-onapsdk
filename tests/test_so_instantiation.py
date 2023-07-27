@@ -34,7 +34,8 @@ from onapsdk.so.instantiation import (
     PnfInstantiation,
     PnfRegistrationParameters,
     ServiceOperation,
-    VnfOperation
+    VnfOperation,
+    PnfInstantiation
 )
 from onapsdk.vid import Vid
 from onapsdk.aai.business.owning_entity import OwningEntity
@@ -109,7 +110,21 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
-                              service_subscription=mock.MagicMock())
+                              service_subscription=mock.MagicMock(),
+                              skip_pnf_registration_event=True)
+    assert service_instance.name == "test"
+
+    service_instance = ServiceInstantiation. \
+        instantiate_macro(sdc_service=mock_sdc_service,
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          customer=mock.MagicMock(),
+                          owning_entity=mock.MagicMock(),
+                          project=mock.MagicMock(),
+                          line_of_business=mock.MagicMock(),
+                          platform=mock.MagicMock(),
+                          service_instance_name="test",
+                          service_subscription=mock.MagicMock())
     assert service_instance.name == "test"
 
     service_instance = ServiceInstantiation.\
@@ -366,8 +381,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock())
     assert pnf_instantiation.name.startswith("Python_ONAP_SDK_pnf_instance_")
     mock_pnf_instantiation_send_message.assert_called_once()
@@ -383,8 +396,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           line_of_business="test_lob",
                           platform="test_platform",
                           pnf_instance_name="test",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock())
     assert pnf_instantiation.name == "test"
 
@@ -393,8 +404,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=mock.MagicMock())
     assert pnf_instantiation.name.startswith("Python_ONAP_SDK_service_instance_")
@@ -406,8 +415,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=so_pnf_mock)
     assert pnf_instantiation.name == "SoPnfInstanceName"
@@ -981,8 +988,6 @@ def test_pnf_instantiation_so_service(mock_owning_entity_get, mock_send_message_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=so_pnf)
 

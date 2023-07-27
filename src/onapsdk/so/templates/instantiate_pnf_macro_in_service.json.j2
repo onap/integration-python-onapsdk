@@ -1,0 +1,109 @@
+instantiate_service_macro_skip_pnf_registration_event.json.j2{
+    "requestDetails": {
+        "requestInfo": {
+            "instanceName": "{{ service_instance.instance_name }}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "demo",
+            "productFamilyId": "1234"
+        },
+        "modelInfo": {
+            "modelType": "pnf",
+            "modelInvariantId": "{{ pnf.model_invariant_id }}",
+            "modelVersionId": "{{ pnf.model_version_id }}",
+            "modelName": "{{ pnf.model_name }}",
+            "modelVersion": "{{ pnf.model_version }}",
+            "modelCustomizationId": "{{ pnf.model_customization_id }}",
+            "modelInstanceName": "{{ pnf.name }}"
+        },
+        "platform": {
+            "platformName": "{{ platform }}"
+        },
+        "lineOfBusiness": {
+            "lineOfBusinessName": "{{ line_of_business }}"
+        },
+        "subscriberInfo": {
+            "globalSubscriberId": "{{ service_instance.service_subscription.customer.global_customer_id }}"
+        },
+        "requestParameters": {
+            {% block subscriptionServiceType %}
+            "subscriptionServiceType": "{{ service.name }}",
+            {% endblock %}
+            "userParams": [
+                {
+                    "Homing_Solution": "none"
+                },
+                {
+                    "service": {
+                        "instanceParams": [],
+                        "resources": {
+                            {% block pnfs %}
+                            "pnfs": [
+                                {
+                                    "modelInfo": {
+                                        "modelName": "{{ pnf.model_name }}",
+                                        "modelVersionId": "{{ pnf.model_version_id }}",
+                                        "modelInvariantUuid": "{{ pnf.model_invariant_id }}",
+                                        "modelVersion": "{{ pnf.model_version }}",
+                                        "modelCustomizationId": "{{ pnf.model_customization_id }}",
+                                        "modelInstanceName": "{{ pnf.name }}"
+                                    },
+                                    "pnfRegistrationFields": {
+                                        "modelNumber": "Simulated Device Melacon",
+                                        "oamV4IpAddress": "10.42.6.245",
+                                        "oamV6IpAddress": "0:0:0:0:0:ffff:a0a:011",
+                                        "serialNumber": "ORAN_SIM-172.30.1.6-400600927-Simulated Device Melacon",
+                                        "softwareVersion": "2.3.5",
+                                        "unitType": "ntsim_oran",
+                                        "vendorName": "Melacon"
+                                    },
+                                    "platform": {
+                                        "platformName": "{{ platform }}"
+                                    },
+                                    "lineOfBusiness": {
+                                        "lineOfBusinessName": "{{ line_of_business }}"
+                                    },
+                                    "productFamilyId": "1234",
+                                    "instanceName": "{{ instance_name }}"
+                                }
+                            ]
+                            {% endblock %}
+                        },
+                        "modelInfo": {
+                            "modelType": "pnf",
+                            "modelInvariantId": "{{ pnf.model_invariant_id }}",
+                            "modelVersionId": "{{ pnf.model_version_id }}",
+                            "modelName": "{{ pnf.model_name }}",
+                            "modelVersion": "{{ pnf.model_version }}",
+                            "modelCustomizationId": "{{ pnf.model_customization_id }}",
+                            "modelCustomizationName": "{{ pnf.name }}"
+                        }
+                    }
+                }
+            ],
+            "aLaCarte": false
+        },
+        "project": {
+            "projectName": "{{ project }}"
+        },
+        "owningEntity": {
+            "owningEntityId": "{{ owning_entity.owning_entity_id }}",
+            "owningEntityName": "{{ owning_entity.name }}"
+        },
+        "relatedInstanceList": [
+            {
+                "relatedInstance": {
+                    "instanceId": "{{ service_instance.instance_id }}",
+                    "modelInfo": {
+                        "modelType": "service",
+                        "modelInvariantId": "{{ service.unique_uuid }}",
+                        "modelVersionId": "{{ service.identifier }}",
+                        "modelName": "{{ service.name }}",
+                        "modelVersion": "1.0"
+                    }
+                }
+            }
+        ]
+    },
+    "serviceInstanceId": "{{ service_instance.instance_id }}"
+}

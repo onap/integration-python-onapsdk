@@ -34,7 +34,8 @@ from onapsdk.so.instantiation import (
     PnfInstantiation,
     PnfRegistrationParameters,
     ServiceOperation,
-    VnfOperation
+    VnfOperation,
+    PnfInstantiation
 )
 from onapsdk.vid import Vid
 from onapsdk.aai.business.owning_entity import OwningEntity
@@ -109,7 +110,21 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
-                              service_subscription=mock.MagicMock())
+                              service_subscription=mock.MagicMock(),
+                              skip_pnf_registration_event=True)
+    assert service_instance.name == "test"
+
+    service_instance = ServiceInstantiation. \
+        instantiate_macro(sdc_service=mock_sdc_service,
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          customer=mock.MagicMock(),
+                          owning_entity=mock.MagicMock(),
+                          project=mock.MagicMock(),
+                          line_of_business=mock.MagicMock(),
+                          platform=mock.MagicMock(),
+                          service_instance_name="test",
+                          service_subscription=mock.MagicMock())
     assert service_instance.name == "test"
 
     service_instance = ServiceInstantiation.\

@@ -789,8 +789,6 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                           pnf_object: "Pnf",
                           line_of_business: str,
                           platform: str,
-                          cloud_region: "CloudRegion",
-                          tenant: "Tenant",
                           sdc_service: "SdcService",
                           pnf_instance_name: str = None,
                           pnf_parameters: Iterable["InstantiationParameter"] = None,
@@ -803,8 +801,7 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
             pnf_object (Pnf): Pnf to instantiate
             line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
             platform (Platform): Platform to use in instantiation request
-            cloud_region (CloudRegion): Cloud region to use in instantiation request.
-            tenant (Tenant): Tenant to use in instantiation request.
+            sdc_service(SdcService): service model to instantiate
             pnf_instance_name (str, optional): Pnf instance name. Defaults to None.
             pnf_parameters (Iterable[InstantiationParameter], optional): Instantiation parameters
                 that are sent in the request. Defaults to None
@@ -847,9 +844,6 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                 instance_name=pnf_instance_name,
                 pnf=pnf_object,
                 service=sdc_service,
-                cloud_region=cloud_region or \
-                             next(aai_service_instance.service_subscription.cloud_regions),
-                tenant=tenant or next(aai_service_instance.service_subscription.tenants),
                 project=project,
                 owning_entity=owning_entity,
                 line_of_business=line_of_business,
@@ -989,7 +983,8 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           vnf_parameters: Iterable["VnfParameters"] = None,
                           enable_multicloud: bool = False,
                           so_service: "SoService" = None,
-                          service_subscription: "ServiceSubscription" = None
+                          service_subscription: "ServiceSubscription" = None,
+                          skip_pnf_registration_event: "skip_event" = False
                           ) -> "ServiceInstantiation":
         """Instantiate service using SO macro request.
 
@@ -1012,6 +1007,8 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
             so_service (SoService, optional): SO values to use in instantiation request
             service_subscription(ServiceSubscription, optional): Customer service subscription
                 for the instantiated service. Required if so_service is not provided.
+            skip_pnf_registration_event(skip_event, optional) Required to skip
+                WaitForPnfReadyEvent.
 
         Raises:
             StatusError: if a service is not distributed.
@@ -1034,6 +1031,9 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
         if not sdc_service.distributed:
             msg = f"Service {sdc_service.name} is not distributed."
             raise StatusError(msg)
+
+        if skip_pnf_registration_event:
+            template_file = "instantiate_service_macro_skip_pnf_registration_event.json.j2"
 
         response: dict = cls.send_message_json(
             "POST",

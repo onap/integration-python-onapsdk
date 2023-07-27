@@ -988,8 +988,6 @@ def test_pnf_instantiation_so_service(mock_owning_entity_get, mock_send_message_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=so_pnf)
 

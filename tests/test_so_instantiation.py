@@ -381,8 +381,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock())
     assert pnf_instantiation.name.startswith("Python_ONAP_SDK_pnf_instance_")
     mock_pnf_instantiation_send_message.assert_called_once()
@@ -398,8 +396,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           line_of_business="test_lob",
                           platform="test_platform",
                           pnf_instance_name="test",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock())
     assert pnf_instantiation.name == "test"
 
@@ -408,8 +404,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=mock.MagicMock())
     assert pnf_instantiation.name.startswith("Python_ONAP_SDK_service_instance_")
@@ -421,8 +415,6 @@ def test_pnf_instantiation_macro(mock_owning_entity_get, mock_pnf_instantiation_
                           pnf_object=mock.MagicMock(),
                           line_of_business="test_lob",
                           platform="test_platform",
-                          cloud_region=mock.MagicMock(),
-                          tenant=mock.MagicMock(),
                           sdc_service=mock.MagicMock(),
                           so_pnf=so_pnf_mock)
     assert pnf_instantiation.name == "SoPnfInstanceName"

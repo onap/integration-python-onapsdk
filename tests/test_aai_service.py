@@ -23,10 +23,9 @@ from onapsdk.aai.cloud_infrastructure import (
     EsrSystemInfo,
     Tenant
 )
-from onapsdk.aai.business import Customer
+from onapsdk.aai.business import Customer, ServiceInstance
 from onapsdk.aai.service_design_and_creation import Service, Model
 from onapsdk.onap_service import OnapService
-
 
 # pylint: disable=C0301
 TENANT = {
@@ -88,7 +87,6 @@ TENANT = {
     ]
 }
 
-
 CLOUD_REGIONS = {
     "cloud-region": [
         {
@@ -122,7 +120,6 @@ CLOUD_REGIONS = {
     ]
 }
 
-
 CLOUD_REGION = {
     "cloud-region": [
         {
@@ -155,7 +152,6 @@ CLOUD_REGION = {
         }
     ]
 }
-
 
 COMPLEXES = {
     "complex": [
@@ -225,7 +221,6 @@ COMPLEXES = {
     ]
 }
 
-
 CLOUD_REGION_RELATIONSHIP = {
     "relationship": [
         {
@@ -241,7 +236,6 @@ CLOUD_REGION_RELATIONSHIP = {
         }
     ]
 }
-
 
 SERVICE_SUBSCRIPTION = {
     "service-subscription": [
@@ -282,7 +276,6 @@ SERVICE_SUBSCRIPTION = {
     ]
 }
 
-
 SUBSCRIPTION_TYPES_NO_RESOURCES = {
     "requestError": {
         "serviceException": {
@@ -292,15 +285,14 @@ SUBSCRIPTION_TYPES_NO_RESOURCES = {
                 "GET",
                 "service-design-and-creation/services",
                 (
-                    "Node Not Found:No Node of type service found at: "
-                    + "/service-design-and-creation/services"
+                        "Node Not Found:No Node of type service found at: "
+                        + "/service-design-and-creation/services"
                 ),
                 "ERR.5.4.6114",
             ],
         }
     }
 }
-
 
 SUBSCRIPTION_TYPES_LIST = {
     "service": [
@@ -322,7 +314,6 @@ SUBSCRIPTION_TYPES_LIST = {
     ]
 }
 
-
 CUSTOMERS_NO_RESOURCES = {
     "requestError": {
         "serviceException": {
@@ -332,15 +323,14 @@ CUSTOMERS_NO_RESOURCES = {
                 "GET",
                 "business/customers",
                 (
-                    "Node Not Found:No Node of type customer found at: "
-                    + "business/customers"
+                        "Node Not Found:No Node of type customer found at: "
+                        + "business/customers"
                 ),
                 "ERR.5.4.6114",
             ],
         }
     }
 }
-
 
 SIMPLE_CUSTOMER = {
     "customer": [
@@ -352,7 +342,6 @@ SIMPLE_CUSTOMER = {
         }
     ]
 }
-
 
 ESR_SYSTEM_INFO = {
     'esr-system-info': [
@@ -368,28 +357,29 @@ ESR_SYSTEM_INFO = {
     ]
 }
 
-
 CLOUD_REGIONS_ITERATOR = (
     cloud_region
     for cloud_region in [
-        CloudRegion(
-            cloud_owner="OPNFV",
-            cloud_region_id="RegionOne",
-            cloud_type="openstack",
-            owner_defined_type="N/A",
-            cloud_region_version="pike",
-            identity_url=None,
-            cloud_zone="OPNFV LaaS",
-            complex_name="Cruguil",
-            sriov_automation=None,
-            cloud_extra_info=None,
-            upgrade_cycle=None,
-            orchestration_disabled=False,
-            in_maint=False,
-            resource_version=None,
-        )
-    ]
+    CloudRegion(
+        cloud_owner="OPNFV",
+        cloud_region_id="RegionOne",
+        cloud_type="openstack",
+        owner_defined_type="N/A",
+        cloud_region_version="pike",
+        identity_url=None,
+        cloud_zone="OPNFV LaaS",
+        complex_name="Cruguil",
+        sriov_automation=None,
+        cloud_extra_info=None,
+        upgrade_cycle=None,
+        orchestration_disabled=False,
+        in_maint=False,
+        resource_version=None,
+    )
+]
 )
+
+
 # pylint: enable=C0301
 
 
@@ -410,6 +400,7 @@ def test_class_variables():
         "x-transactionid": "0a3f6713-ba96-4971-a6f8-c2da85a3176e",
         "authorization": "Basic QUFJOkFBSQ=="}
 
+
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_customers(mock_send):
     """Test get_customer function of A&AI."""
@@ -422,12 +413,14 @@ def test_customers(mock_send):
     assert aai_customer_1.resource_version == "1561218640404"
     mock_send.assert_called_with("GET", 'get customers', mock.ANY)
 
+
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_customers_no_resources(mock_send):
     """Test get_customer function with no customer declared in A&AI."""
     mock_send.return_value = CUSTOMERS_NO_RESOURCES
     assert len(list(Customer.get_all())) == 0
     mock_send.assert_called_with("GET", 'get customers', mock.ANY)
+
 
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_subscription_type_list(mock_send):
@@ -454,12 +447,14 @@ def test_subscription_type_list(mock_send):
     assert aai_service_3.resource_version == "1561219799684"
     mock_send.assert_called_with("GET", 'get subscriptions', mock.ANY)
 
+
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_subscription_types_no_resources(mock_send):
     """Test get_customer function with no customer declared in A&AI."""
     mock_send.return_value = SUBSCRIPTION_TYPES_NO_RESOURCES
     assert len(list(Service.get_all())) == 0
     mock_send.assert_called_with("GET", 'get subscriptions', mock.ANY)
+
 
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_cloud_regions(mock_send):
@@ -486,6 +481,7 @@ def test_cloud_regions(mock_send):
     mock_send.return_value = CLOUD_REGIONS
     cloud_regions = list(CloudRegion.get_all())
     assert len(cloud_regions) == 1
+
 
 @mock.patch.object(CloudRegion, "send_message")
 def test_cloud_region_creation(mock_send):
@@ -514,6 +510,7 @@ def test_cloud_region_creation(mock_send):
     assert cloud_region.cloud_extra_info == ""
     assert cloud_region.upgrade_cycle == "Test"
 
+
 @mock.patch.object(CloudRegion, 'get_all')
 @mock.patch.object(AaiElement, 'send_message_json')
 def test_tenants_info(mock_send, mock_cloud_regions):
@@ -535,6 +532,7 @@ def test_tenants_info(mock_send, mock_cloud_regions):
         f"OPNFV/RegionOne/tenants/tenant/4bdc6f0f2539430f9428c852ba606808?"
         f"resource-version=1562591004273"
     )
+
 
 @mock.patch.object(CloudRegion, 'get_all')
 @mock.patch.object(AaiElement, 'send_message_json')
@@ -558,7 +556,7 @@ def test_cloud_regions_relationship(mock_send):
     assert isinstance(relationship, Relationship)
     assert relationship.relationship_label == "org.onap.relationships.inventory.LocatedIn"
     assert relationship.related_link == \
-        "/aai/v16/cloud-infrastructure/complexes/complex/integration_test_complex"
+           "/aai/v16/cloud-infrastructure/complexes/complex/integration_test_complex"
     assert relationship.related_to == "complex"
     assert relationship.relationship_data[0]["relationship-key"] == "complex.physical-location-id"
     assert relationship.relationship_data[0]["relationship-value"] == "integration_test_complex"
@@ -593,6 +591,7 @@ def test_cloud_regions_esr_system_infos(mock_send):
     assert esr_system_info.remote_path is None
     assert esr_system_info.system_status is None
     assert esr_system_info.openstack_region_id is None
+
 
 @mock.patch.object(Complex, "send_message")
 def test_create_complex(mock_send):
@@ -701,6 +700,8 @@ SIMPLE_MODEL = {
         }
     ]
 }
+
+
 # pylint: enable=C0301
 
 
@@ -708,7 +709,7 @@ def test_service_url():
     """Test service property"""
     service = Service("12345", "description", "version1.0")
     assert service.url == (f"{service.base_url}{service.api_version}/service-design-and-creation/services/service/"
-                f"{service.service_id}?resource-version={service.resource_version}")
+                           f"{service.service_id}?resource-version={service.resource_version}")
 
 
 @mock.patch.object(Service, 'send_message')
@@ -768,3 +769,13 @@ def test_cloud_region_complex_property(mock_complex_get_by_physical_location_id,
     mock_send.return_value = CLOUD_REGION_RELATIONSHIP
     assert cloud_region.complex is not None
     assert mock_complex_get_by_physical_location_id.called_once_with("integration_test_complex")
+
+
+@mock.patch.object(ServiceInstance, 'send_message')
+def test_service_instance_create(mock_send):
+    """Test service instance creation"""
+    service_subscription = mock.MagicMock()
+    ServiceInstance.create(service_subscription=service_subscription, instance_id="1234")
+    mock_send.assert_called_once()
+    method, description, url = mock_send.call_args[0]
+    assert method == "PUT"

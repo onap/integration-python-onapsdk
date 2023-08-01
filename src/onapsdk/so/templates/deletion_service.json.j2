@@ -4,13 +4,23 @@
 			"source": "VID",
 			"requestorId": "demo"
 		},
-		"modelInfo": {
+        {% if recursive_service %}
+	 "modelInfo": {
+            "modelType": "service",
+            "modelName": "{{ parent_service_instance.sdc_service.name }}",
+            "modelInvariantId": "{{ parent_service_instance.sdc_service.unique_uuid }}",
+            "modelVersion": "1.0",
+            "modelVersionId": "{{ parent_service_instance.sdc_service.identifier }}"
+		},
+	{% else %}
+	 "modelInfo": {
             "modelType": "service",
             "modelName": "{{ service_instance.sdc_service.name }}",
             "modelInvariantId": "{{ service_instance.sdc_service.unique_uuid }}",
             "modelVersion": "1.0",
             "modelVersionId": "{{ service_instance.sdc_service.identifier }}"
 		},
+          {% endif %}
 		"requestParameters": {
 			"testApi": "GR_API",
 			"aLaCarte": {{ a_la_carte | tojson }}

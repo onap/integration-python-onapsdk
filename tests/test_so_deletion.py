@@ -24,8 +24,10 @@ from onapsdk.so.deletion import (
 @mock.patch.object(ServiceDeletionRequest, "send_message")
 def test_service_deletion_request(mock_send_message):
     mock_instance = mock.MagicMock()
+    mock_instance_parent = mock.MagicMock()
     mock_instance.instance_id = "test_instance_id"
-    ServiceDeletionRequest.send_request(instance=mock_instance)
+    mock_instance_parent.instance_id = "test_parent_instance_id"
+    ServiceDeletionRequest.send_request(instance=mock_instance,instance_parent=mock_instance_parent)
     mock_send_message.assert_called_once()
     method, _, url = mock_send_message.call_args[0]
     assert method == "DELETE"
@@ -37,7 +39,9 @@ def test_service_deletion_request(mock_send_message):
 @mock.patch.object(VfModuleDeletionRequest, "send_message")
 def test_vf_module_deletion_request(mock_send_message):
     mock_vf_module_instance = mock.MagicMock()
+    mock_instance_parent = mock.MagicMock()
     mock_vf_module_instance.vf_module_id = "test_vf_module_id"
+    mock_instance_parent.instance_id = "test_parent_instance_id"
 
     mock_vnf_instance = mock.MagicMock()
     mock_vnf_instance.vnf_id = "test_vnf_id"
@@ -47,7 +51,7 @@ def test_vf_module_deletion_request(mock_send_message):
     mock_service_instance.instance_id = "test_service_instance_id"
     mock_vnf_instance.service_instance = mock_service_instance
 
-    VfModuleDeletionRequest.send_request(instance=mock_vf_module_instance)
+    VfModuleDeletionRequest.send_request(instance=mock_vf_module_instance,instance_parent=mock_instance_parent)
     mock_send_message.assert_called_once()
     method, _, url = mock_send_message.call_args[0]
     assert method == "DELETE"
@@ -60,12 +64,14 @@ def test_vf_module_deletion_request(mock_send_message):
 @mock.patch.object(VnfDeletionRequest, "send_message")
 def test_vnf_deletion_request(mock_send_message):
     mock_vnf_instance = mock.MagicMock()
+    mock_instance_parent = mock.MagicMock()
     mock_vnf_instance.vnf_id = "test_vnf_id"
+    mock_instance_parent.instance_id = "test_parent_instance_id"
 
     mock_service_instance = mock.MagicMock()
     mock_service_instance.instance_id = "test_service_instance"
     mock_vnf_instance.service_instance = mock_service_instance
-    VnfDeletionRequest.send_request(instance=mock_vnf_instance)
+    VnfDeletionRequest.send_request(instance=mock_vnf_instance,instance_parent=mock_instance_parent)
     mock_send_message.assert_called_once()
     method, _, url = mock_send_message.call_args[0]
     assert method == "DELETE"
@@ -77,12 +83,14 @@ def test_vnf_deletion_request(mock_send_message):
 @mock.patch.object(PnfDeletionRequest, "send_message")
 def test_pnf_deletion_request(mock_send_message):
     mock_pnf_instance = mock.MagicMock()
+    mock_instance_parent = mock.MagicMock()
     mock_pnf_instance.pnf_id = "test_pnf_id"
+    mock_instance_parent.instance_id = "test_parent_instance_id"
 
     mock_service_instance = mock.MagicMock()
     mock_service_instance.instance_id = "test_service_instance"
     mock_pnf_instance.service_instance = mock_service_instance
-    PnfDeletionRequest.send_request(instance=mock_pnf_instance)
+    PnfDeletionRequest.send_request(instance=mock_pnf_instance,instance_parent=mock_instance_parent)
     mock_send_message.assert_called_once()
     method, _, url = mock_send_message.call_args[0]
     assert method == "DELETE"
@@ -90,4 +98,3 @@ def test_pnf_deletion_request(mock_send_message):
                    f"serviceInstantiation/{PnfDeletionRequest.api_version}/"
                    "serviceInstances/test_service_instance/"
                    "pnfs/test_pnf_id")
-

@@ -86,10 +86,12 @@ def test_service_ala_carte_instantiation(mock_service_instantiation_send_message
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_macro_instantiation(mock_service_instantiation_send_message):
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_parent_service = mock.MagicMock()
     mock_sdc_service.distributed = False
     with pytest.raises(StatusError):
         ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -98,10 +100,12 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
+                              parent_service_instance_name="parent_test",
                               service_subscription=mock.MagicMock())
     mock_sdc_service.distributed = True
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -110,12 +114,14 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
+                              parent_service_instance_name="parent_test",
                               service_subscription=mock.MagicMock(),
                               skip_pnf_registration_event=True)
     assert service_instance.name == "test"
 
     service_instance = ServiceInstantiation. \
         instantiate_macro(sdc_service=mock_sdc_service,
+                          sdc_parent_service=mock_sdc_parent_service,
                           cloud_region=mock.MagicMock(),
                           tenant=mock.MagicMock(),
                           customer=mock.MagicMock(),
@@ -124,11 +130,13 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
                           line_of_business=mock.MagicMock(),
                           platform=mock.MagicMock(),
                           service_instance_name="test",
+                          parent_service_instance_name="parent_test",
                           service_subscription=mock.MagicMock())
     assert service_instance.name == "test"
 
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -148,6 +156,7 @@ def test_service_macro_instantiation(mock_service_instantiation_send_message):
     so_service_mock.instance_name = "SoServiceInstanceName"
     service_instance = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -894,6 +903,7 @@ def test_instantiation_wait_for_finish():
 def test_service_instantiation_multicloud(mock_send_message_json):
 
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_parent_service = mock.MagicMock()
     mock_sdc_service.distributed = True
     _ = ServiceInstantiation.\
             instantiate_ala_carte(sdc_service=mock_sdc_service,
@@ -924,6 +934,7 @@ def test_service_instantiation_multicloud(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -932,6 +943,7 @@ def test_service_instantiation_multicloud(mock_send_message_json):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
+                              parent_service_instance_name="parent_test",
                               service_subscription=mock.MagicMock())
     _, kwargs = mock_send_message_json.call_args
     data = json.loads(kwargs["data"])
@@ -940,6 +952,7 @@ def test_service_instantiation_multicloud(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -948,8 +961,47 @@ def test_service_instantiation_multicloud(mock_send_message_json):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
+                              parent_service_instance_name="parent_test",
+                              service_subscription=mock.MagicMock(),
+                              recursive_service=True)
+    _, kwargs = mock_send_message_json.call_args
+    data = json.loads(kwargs["data"])
+    assert not any(filter(lambda x: x == {"name": "orchestrator", "value": "multicloud"}, data["requestDetails"]["requestParameters"]["userParams"]))
+    mock_send_message_json.reset_mock()
+
+    _ = ServiceInstantiation.\
+            instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
+                              cloud_region=mock.MagicMock(),
+                              tenant=mock.MagicMock(),
+                              customer=mock.MagicMock(),
+                              owning_entity=mock.MagicMock(),
+                              project=mock.MagicMock(),
+                              line_of_business=mock.MagicMock(),
+                              platform=mock.MagicMock(),
+                              service_instance_name="test",
+                              parent_service_instance_name="parent_test",
                               enable_multicloud=True,
                               service_subscription=mock.MagicMock())
+    _, kwargs = mock_send_message_json.call_args
+    data = json.loads(kwargs["data"])
+    assert any(filter(lambda x: x == {"name": "orchestrator", "value": "multicloud"}, data["requestDetails"]["requestParameters"]["userParams"]))
+
+    _ = ServiceInstantiation.\
+            instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
+                              cloud_region=mock.MagicMock(),
+                              tenant=mock.MagicMock(),
+                              customer=mock.MagicMock(),
+                              owning_entity=mock.MagicMock(),
+                              project=mock.MagicMock(),
+                              line_of_business=mock.MagicMock(),
+                              platform=mock.MagicMock(),
+                              service_instance_name="test",
+                              parent_service_instance_name="parent_test",
+                              enable_multicloud=True,
+                              service_subscription=mock.MagicMock(),
+                              recursive_service=True)
     _, kwargs = mock_send_message_json.call_args
     data = json.loads(kwargs["data"])
     assert any(filter(lambda x: x == {"name": "orchestrator", "value": "multicloud"}, data["requestDetails"]["requestParameters"]["userParams"]))
@@ -1009,6 +1061,7 @@ def test_pnf_instantiation_so_service(mock_owning_entity_get, mock_send_message_
 @mock.patch.object(ServiceInstantiation, "send_message_json")
 def test_service_instantiation_so_service(mock_send_message_json):
     mock_sdc_service = mock.MagicMock()
+    mock_sdc_parent_service = mock.MagicMock()
     mock_sdc_service.distributed = True
 
     so_service = SoService(
@@ -1072,6 +1125,7 @@ def test_service_instantiation_so_service(mock_send_message_json):
 
     _ = ServiceInstantiation.\
             instantiate_macro(sdc_service=mock_sdc_service,
+                              sdc_parent_service=mock_sdc_parent_service,
                               cloud_region=mock.MagicMock(),
                               tenant=mock.MagicMock(),
                               customer=mock.MagicMock(),
@@ -1080,6 +1134,7 @@ def test_service_instantiation_so_service(mock_send_message_json):
                               line_of_business=mock.MagicMock(),
                               platform=mock.MagicMock(),
                               service_instance_name="test",
+                              parent_service_instance_name="parent_test",
                               so_service=so_service)
     _, kwargs = mock_send_message_json.call_args
     data = json.loads(kwargs["data"])

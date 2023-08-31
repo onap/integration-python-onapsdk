@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37615581_a3f18ee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "I\u0027d prefer to not add non optional parameters if they are not really required for each kind of instantiation",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde94937_13d11253",
+        "filename": "src/onapsdk/so/deletion.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "why that argument is needed for service instance? Shouldn\u0027t be optional I believe with None by default?",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2895d86c_49059922",
+        "filename": "src/onapsdk/so/deletion.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "that parameter is valid only for service or what each kind of resource?",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c449e3e_66225928",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "shouldn\u0027t be optional?",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64808b14_09b639f4",
+        "filename": "src/onapsdk/so/templates/instantiate_recursive_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "please remove whitespaces",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3716823_9e8d9035",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "keep spaces",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0846a8a9_54e6fa67",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-08-31T13:34:58Z",
+      "side": 1,
+      "message": "I can see that block is going to be added if it\u0027s recursive service, so exactly the same conditial statement is checked as in line 70",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

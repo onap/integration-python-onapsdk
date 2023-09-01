@@ -25,7 +25,7 @@ class DeletionRequest(OrchestrationRequest, ABC):
     """Deletion request base class."""
 
     @classmethod
-    def send_request(cls, instance: "AaiResource", a_la_carte: bool = True) -> "Deletion":
+    def send_request(cls, instance: "AaiResource", instance_parent: "ServiceInstance" = None, a_la_carte: bool = True, recursive_service: bool = False) -> "Deletion":
         """Abstract method to send instance deletion request.
 
         Raises:
@@ -41,7 +41,9 @@ class VfModuleDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ance
     @classmethod
     def send_request(cls,
                      instance: "VfModuleInstance",
-                     a_la_carte: bool = True) -> "VfModuleDeletion":
+                     instance_parent: "ServiceInstance" = None,
+                     a_la_carte: bool = True,
+                     recursive_service: bool = False) -> "VfModuleDeletion":
         """Send request to SO to delete VNF instance.
 
         Args:
@@ -76,7 +78,9 @@ class VnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
     @classmethod
     def send_request(cls,
                      instance: "VnfInstance",
-                     a_la_carte: bool = True) -> "VnfDeletionRequest":
+                     instance_parent: "ServiceInstance" = None,
+                     a_la_carte: bool = True,
+                     recursive_service: bool = False) -> "VnfDeletionRequest":
         """Send request to SO to delete VNF instance.
 
         Args:
@@ -108,7 +112,9 @@ class PnfDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ancestors
     @classmethod
     def send_request(cls,
                      instance: "PnfInstance",
-                     a_la_carte: bool = True) -> "PnfDeletionRequest":
+                     instance_parent: "ServiceInstance" = None,
+                     a_la_carte: bool = True,
+                     recursive_service: bool = False) -> "PnfDeletionRequest":
         """Send request to SO to delete PNF instance.
 
         Args:
@@ -140,7 +146,9 @@ class ServiceDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ances
     @classmethod
     def send_request(cls,
                      instance: "ServiceInstance",
-                     a_la_carte: bool = True) -> "ServiceDeletionRequest":
+                     instance_parent: "ServiceInstance" = None,
+                     a_la_carte: bool = True,
+                     recursive_service: bool = False) -> "ServiceDeletionRequest":
         """Send request to SO to delete service instance.
 
         Args:
@@ -151,16 +159,21 @@ class ServiceDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ances
             ServiceDeletionRequest: Deletion request object
 
         """
-        cls._logger.debug("Service %s deletion request", instance.instance_id)
+        instance_id = instance.instance_id
+        if recursive_service:
+            instance_id = instance_parent.instance_id
+        cls._logger.debug("Service %s deletion request", instance_id)
         response = cls.send_message_json("DELETE",
-                                         f"Create {instance.instance_id} Service deletion request",
+                                         f"Create {instance_id} Service deletion request",
                                          (f"{cls.base_url}/onap/so/infra/"
                                           f"serviceInstantiation/{cls.api_version}/"
-                                          f"serviceInstances/{instance.instance_id}"),
+                                          f"serviceInstances/{instance_id}"),
                                          data=jinja_env().
                                          get_template("deletion_service.json.j2").
                                          render(service_instance=instance,
-                                                a_la_carte=a_la_carte),
+                                                parent_service_instance=instance_parent,
+                                                a_la_carte=a_la_carte,
+                                                recursive_service=recursive_service),
                                          headers=headers_so_creator(OnapService.headers))
         return cls(request_id=response["requestReferences"]["requestId"])
 
@@ -171,7 +184,9 @@ class NetworkDeletionRequest(DeletionRequest):  # pylint: disable=too-many-ances
     @classmethod
     def send_request(cls,
                      instance: "NetworkInstance",
-                     a_la_carte: bool = True) -> "VnfDeletionRequest":
+                     instance_parent: "ServiceInstance" = None,
+                     a_la_carte: bool = True,
+                     recursive_service: bool = False) -> "VnfDeletionRequest":
         """Send request to SO to delete Network instance.
 
         Args:

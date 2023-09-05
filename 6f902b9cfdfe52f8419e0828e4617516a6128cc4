@@ -105,6 +105,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f89e5b48_74d9e270",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-09-05T10:33:47Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e3716823_9e8d9035",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0846a8a9_54e6fa67",
         "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
         "patchSetId": 9

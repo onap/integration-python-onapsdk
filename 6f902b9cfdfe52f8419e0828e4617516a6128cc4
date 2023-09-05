@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc0e4522_ad7c4f55",
+        "filename": "src/onapsdk/so/instantiation.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-09-05T10:37:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "6c449e3e_66225928",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64808b14_09b639f4",
         "filename": "src/onapsdk/so/templates/instantiate_recursive_service_macro.json.j2",
         "patchSetId": 9
@@ -118,6 +136,24 @@
       "writtenOn": "2023-08-31T13:34:58Z",
       "side": 1,
       "message": "please remove whitespaces",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cea58b6_7997e786",
+        "filename": "src/onapsdk/so/templates/instantiate_recursive_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-09-05T10:37:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "64808b14_09b639f4",
       "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
@@ -159,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4e2cd97_554da324",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-09-05T10:37:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "f89e5b48_74d9e270",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0846a8a9_54e6fa67",
         "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
         "patchSetId": 9
@@ -170,6 +224,24 @@
       "writtenOn": "2023-08-31T13:34:58Z",
       "side": 1,
       "message": "I can see that block is going to be added if it\u0027s recursive service, so exactly the same conditial statement is checked as in line 70",
+      "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d850405_1bc3c160",
+        "filename": "src/onapsdk/so/templates/instantiate_service_macro.json.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7949
+      },
+      "writtenOn": "2023-09-05T10:37:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "0846a8a9_54e6fa67",
       "revId": "6f902b9cfdfe52f8419e0828e4617516a6128cc4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }

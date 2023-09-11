@@ -15,10 +15,9 @@ from unittest import mock
 
 import pytest
 
-from onapsdk.aai.business import PnfInstance, pnf, ServiceInstance
-from onapsdk.exceptions import ResourceNotFound
+from onapsdk.aai.business import PnfInstance, ServiceInstance, pnf
+from onapsdk.exceptions import ResourceNotFound, APIError, ConnectionFailed
 from onapsdk.so.deletion import PnfDeletionRequest
-
 
 PNF_INSTANCE = {
     "pnf-name": "blablabla",
@@ -151,3 +150,76 @@ def test_pnf_instance_pnf():
 def test_pnf_count(mock_send_message_json):
     mock_send_message_json.return_value = COUNT
     assert PnfInstance.count() == 12
+
+@mock.patch.object(PnfInstance,"send_message")
+def test_delete_from_aai_success(mock_send_message):
+    
+    delete_response = mock.MagicMock()
+    delete_response.status_code = 204 #success case
+
+    mock_send_message.return_value= delete_response
+    pnf_instance = PnfInstance(service_instance=None,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               serial_number="test_serial_number",
+                               in_maint=False)
+    try:
+        pnf_instance.delete_from_aai()
+    except APIError:
+        assert False  # Exception is not expected
+
+@mock.patch.object(PnfInstance,"send_message")
+def test_delete_from_aai_failure(mock_send_message):
+    
+    mock_send_message.side_effect = ConnectionFailed('Can not connect to AAI')
+
+    pnf_instance = PnfInstance(service_instance=None,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               serial_number="test_serial_number",
+                               in_maint=False)
+    with pytest.raises(ConnectionFailed):
+        pnf_instance.delete_from_aai()
+
+@mock.patch.object(PnfInstance,"send_message")
+def test_put_in_aai_success(mock_send_message):
+    put_response = mock.MagicMock()
+    put_response.status_code = 201 #success case
+
+    mock_send_message.return_value = put_response
+    pnf_instance = PnfInstance(service_instance=None,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               serial_number="test_serial_number",
+                               in_maint=False)
+    try:
+        pnf_instance.put_in_aai()
+    except APIError:
+        assert False  # Exception is not expected
+
+@mock.patch.object(PnfInstance,"send_message")
+def test_put_in_aai_success_with_none_attribute(mock_send_message):
+    put_response = mock.MagicMock()
+    put_response.status_code = 201 #success case
+
+    mock_send_message.return_value = put_response
+    pnf_instance = PnfInstance(service_instance=None,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               serial_number=None,
+                               in_maint=False)
+    try:
+        pnf_instance.put_in_aai()
+    except APIError:
+        assert False  # Exception is not expected
+
+@mock.patch.object(PnfInstance,"send_message")
+def test_put_in_aai_failure(mock_send_message):
+    mock_send_message.side_effect = ConnectionFailed('Can not connect to AAI')
+    pnf_instance = PnfInstance(service_instance=None,
+                               pnf_id="test_pnf_id",
+                               pnf_name="test_pnf_name",
+                               serial_number="test_serial_number",
+                               in_maint=False)
+    with pytest.raises(ConnectionFailed):
+        pnf_instance.put_in_aai()

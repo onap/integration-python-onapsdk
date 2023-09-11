@@ -11,10 +11,12 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from unittest import mock
 from unittest.mock import patch
-
-from onapsdk.dmaap.dmaap import Dmaap, ACTION, GET_HTTP_METHOD
-
+from requests import RequestException
+from onapsdk.dmaap.dmaap import ACTION, GET_HTTP_METHOD, Dmaap
+from onapsdk.exceptions import APIError, ConnectionFailed
+import pytest
 TOPIC = "fault"
 
 DMAAP_EVENTS_URL = "http://dmaap.api.simpledemo.onap.org:3904/events"
@@ -45,3 +47,19 @@ def verify_send_event_to_ves_called(send_message_mock, dmaap_url):
         basic_auth=BASIC_AUTH
     )
 
+@patch.object(Dmaap, "send_message")
+def test_post_event_success(send_message_mock):
+    post_response = mock.MagicMock()
+    post_response.status_code = 200 #success case
+    send_message_mock.return_value = post_response
+    try:
+        Dmaap.post_event("test_topic", "test_event")
+    except RequestException:
+        assert False  # Exception is not expected
+
+
+@patch.object(Dmaap, "send_message")
+def test_post_event_failure(send_message_mock):
+    send_message_mock.side_effect = ConnectionFailed('Can not connect to dmaap')
+    with pytest.raises(ConnectionFailed):
+        Dmaap.post_event("test_topic", "test_event")

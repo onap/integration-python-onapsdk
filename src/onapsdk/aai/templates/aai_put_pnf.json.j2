@@ -1,0 +1,54 @@
+{
+{% if pnf_object.admin_status %}"admin_status": "{{ pnf_object.admin_status }}",{% else %}{%endif %}
+{% if pnf_object.equip_model %}"equip_model": "{{ pnf_object.equip_model }}",{% else %}{%endif %}
+{% if pnf_object.equip_type %}"equip_type": "{{ pnf_object.equip_type }}",{% else %}{%endif %}
+{% if pnf_object.equip_vendor %}"equip_vendor": "{{ pnf_object.equip_vendor }}",{% else %}{%endif %}
+{% if pnf_object.frame_id %}"frame_id": "{{ pnf_object.frame_id }}",{% else %}{%endif %}
+{% if pnf_object.in_maint != None %}"in_maint": {{ convert_bool_for_json(pnf_object.in_maint) }},{% else %}{%endif %}
+{% if pnf_object.inv_status %}"inv_status": "{{ pnf_object.inv_status }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v4_aim %}"ipaddress_v4_aim": "{{ pnf_object.ipaddress_v4_aim }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v4_loopback_0 %}"ipaddress_v4_loopback_0": "{{ pnf_object.ipaddress_v4_loopback_0 }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v4_oam %}"ipaddress_v4_oam": "{{ pnf_object.ipaddress_v4_oam }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v6_aim %}"ipaddress_v6_aim": "{{ pnf_object.ipaddress_v6_aim }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v6_loopback_0 %}"ipaddress_v6_loopback_0": "{{ pnf_object.ipaddress_v6_loopback_0 }}",{% else %}{%endif %}
+{% if pnf_object.ipaddress_v6_oam %}"ipaddress_v6_oam": "{{ pnf_object.ipaddress_v6_oam }}",{% else %}{%endif %}
+{% if pnf_object.management_option %}"management_option": "{{ pnf_object.management_option }}",{% else %}{%endif %}
+{% if pnf_object.model_customization_id %}"model_customization_id": "{{ pnf_object.model_customization_id }}",{% else %}{%endif %}
+{% if pnf_object.model_invariant_id %}"model_invariant_id": "{{ pnf_object.model_invariant_id }}",{% else %}{%endif %}
+{% if pnf_object.model_version_id %}"model_version_id": "{{ pnf_object.model_version_id }}",{% else %}{%endif %}
+{% if pnf_object.nf_role %}"nf_role": "{{ pnf_object.nf_role }}",{% else %}{%endif %}
+{% if pnf_object.operational_status %}"operational_status": "{{ pnf_object.operational_status }}",{% else %}{%endif %}
+{% if pnf_object.orchestration_status %}"orchestration_status": "{{ pnf_object.orchestration_status }}",{% else %}{%endif %}
+{% if pnf_object.pnf_id %}"pnf_id": "{{ pnf_object.pnf_id }}",{% else %}{%endif %}
+{% if pnf_object.pnf_ipv4_address %}"pnf_ipv4_address": "{{ pnf_object.pnf_ipv4_address }}",{% else %}{%endif %}
+{% if pnf_object.pnf_ipv6_address %}"pnf_ipv6_address": "{{ pnf_object.pnf_ipv6_address }}",{% else %}{%endif %}
+{% if pnf_object.pnf_name %}"pnf_name": "{{ pnf_object.pnf_name }}",{% else %}{%endif %}
+{% if pnf_object.prov_status %}"prov_status": "{{ pnf_object.prov_status }}",{% else %}{%endif %}
+{% if pnf_object.selflink %}"selflink": "{{ pnf_object.selflink }}",{% else %}{%endif %}
+{% if pnf_object.serial_number %}"serial_number": "{{ pnf_object.serial_number }}",{% else %}{%endif %}
+{% if pnf_object.sw_version %}"sw_version": "{{ pnf_object.sw_version }}",{% else %}{%endif %}
+{% if pnf_object.service_instance %}"service_instance": {
+{% if pnf_object.service_instance.service_subscription %}"service_subscription": "{{ pnf_object.service_instance.service_subscription }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.instance_id %}"instance_id": "{{ pnf_object.service_instance.instance_id }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.instance_name %}"instance_name": "{{ pnf_object.service_instance.instance_name }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.service_type %}"service_type": "{{ pnf_object.service_instance.service_type }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.service_role %}"service_role": "{{ pnf_object.service_instance.service_role }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.environment_context %}"environment_context": "{{ pnf_object.service_instance.environment_context }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.workload_context %}"workload_context": "{{ pnf_object.service_instance.workload_context }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.created_at %}"created_at": "{{ pnf_object.service_instance.created_at }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.updated_at %}"updated_at": "{{ pnf_object.service_instance.updated_at }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.resource_version %}"resource_version": "{{ pnf_object.service_instance.resource_version }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.description %}"description": "{{ pnf_object.service_instance.description }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.model_invariant_id %}"model_invariant_id": "{{ pnf_object.service_instance.model_invariant_id }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.model_version_id %}"model_version_id": "{{ pnf_object.service_instance.model_version_id }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.persona_model_version %}"persona_model_version": "{{ pnf_object.service_instance.persona_model_version }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.widget_model_id %}"widget_model_id": "{{ pnf_object.service_instance.widget_model_id }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.widget_model_version %}"widget_model_version": "{{ pnf_object.service_instance.widget_model_version }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.bandwith_total %}"bandwith_total": "{{ pnf_object.service_instance.bandwith_total }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.vhn_portal_url %}"vhn_portal_url": "{{ pnf_object.service_instance.vhn_portal_url }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.service_instance_location_id %}"service_instance_location_id": "{{ pnf_object.service_instance.service_instance_location_id }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.selflink %}"selflink": "{{ pnf_object.service_instance.selflink }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.orchestration_status %}"orchestration_status": "{{ pnf_object.service_instance.orchestration_status }}",{% else %}{%endif %}
+{% if pnf_object.service_instance.input_parameters %}"input_parameters": "{{ pnf_object.service_instance.input_parameters }}",{% else %}{%endif %}
+}{% else %}{%endif %}
+}

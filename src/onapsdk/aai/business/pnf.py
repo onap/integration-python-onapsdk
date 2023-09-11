@@ -13,19 +13,25 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from typing import Iterator, Optional, TYPE_CHECKING
+import json
+from pathlib import Path
+from typing import TYPE_CHECKING, Iterator, Optional
+
+from jinja2 import Environment, FileSystemLoader
 
 from onapsdk.exceptions import ResourceNotFound
 from onapsdk.so.deletion import PnfDeletionRequest
+
 from .instance import Instance
 
 if TYPE_CHECKING:
     from .service import ServiceInstance  # pylint: disable=cyclic-import
 
+
 class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """Pnf instance class."""
 
-    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self, # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_instance: "ServiceInstance",
                  pnf_name: str,
                  in_maint: bool,
@@ -171,10 +177,10 @@ class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         for pnf_data in cls.send_message_json( \
-            "GET", \
-            "Get all pnf instances", \
-            cls.get_all_url() \
-        ).get("pnf", []):
+                "GET", \
+                "Get all pnf instances", \
+                cls.get_all_url() \
+                ).get("pnf", []):
             yield cls.create_from_api_response(pnf_data, None)
 
     @property
@@ -269,3 +275,52 @@ class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
         """
         self._logger.debug("Delete %s pnf", self.pnf_name)
         return PnfDeletionRequest.send_request(self, a_la_carte)
+
+    def delete_from_aai(self):
+        """DELETE PNF from AAI.
+
+        Send request to AAI to delete PNF from inventory
+
+        """
+        self._logger.debug("DELETE %s pnf from AAI", self.pnf_name)
+
+        # Get resource_version from AAI which is needed in DELETE
+        pnf_get_response = self.send_message_json("GET",
+                                                  f"Get {self.pnf_name} PNF",
+                                                  f"{self.url}")
+        temp_pnf = PnfInstance.create_from_api_response(pnf_get_response, None)
+        self._logger.info("resource_verison of Pnf is %s", temp_pnf.resource_version)
+
+        delete_url = self.url + "?resource-version=" + temp_pnf.resource_version
+        delete_response = self.send_message("DELETE",
+                                            f"Delete {self.pnf_name} PNF",
+                                            f"{delete_url}")
+
+        self._logger.debug("AAI Delete response status code is %s", delete_response.status_code)
+
+    def put_in_aai(self):
+        """PUT PNF in AAI.
+
+        Send request to AAI to put PNF in inventory
+
+        """
+        self._logger.debug("PUT %s pnf in AAI", self.pnf_name)
+
+        environment = Environment(autoescape=True,
+                                  loader=FileSystemLoader(
+                                      (Path(__file__).parent.parent).joinpath("templates/")))
+        template = environment.get_template("aai_put_pnf.json.j2")
+        environment.globals.update(convert_bool_for_json=json.dumps)
+        pnf_str = template.render(pnf_object=self)
+
+        # Remove blank lines and comma at the end, if present
+        req_body = "\n".join(item for item in pnf_str.split('\n') if item).replace(",\n}", "\n}")
+
+        self._logger.debug("PUT request body is %s", req_body)
+
+        put_response = self.send_message("PUT",
+                                         f"Put {self.pnf_name} PNF",
+                                         f"{self.url}",
+                                         data=req_body)
+
+        self._logger.debug("AAI Put response status code is %s", put_response.status_code)

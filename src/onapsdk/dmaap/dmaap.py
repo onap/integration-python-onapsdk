@@ -13,7 +13,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from typing import Dict
-
 from onapsdk.dmaap.dmaap_service import DmaapService
 
 ACTION = "Get events from Dmaap"
@@ -85,3 +84,21 @@ class Dmaap(DmaapService):
             url,
             basic_auth=basic_auth
         )
+
+    @classmethod
+    def post_event(cls,
+                   topic: str,
+                   event: str):
+        """Post an event on given topic.
+
+        Post an event on given topic by calling DMaaP REST API
+
+        Args:
+            topic: (str) topic on which to publish the event
+            event: (str) event payload
+
+        """
+        cls.send_message("POST",
+                         f"Publish Event via DMaaP on {topic} topic",
+                         f"{cls.get_all_events_url}/{topic}",
+                         data=event)

@@ -18,7 +18,7 @@
 			"modelName": "{{ sdc_service.name }}",
             "modelVersion": "1.0"
         },
-        {% if sdc_service.has_vnfs %}
+        {% if sdc_service.resources and sdc_service.has_vnfs %}
         "cloudConfiguration": {
             "tenantId": "{{ tenant.tenant_id }}",
             "cloudOwner": "{{ cloud_region.cloud_owner }}",
@@ -44,16 +44,32 @@
                 {% endif %}
                 {
                     "service": {
+                        {% if not sdc_service.resources %}
+                        "instanceParams": [],
+                        {% else %}
                         "instanceParams": [
-                             {% if so_service %}
+                             {% if so_service  %}
                              {
                                  {% for key, value in so_service.parameters.items() %}
-                                 "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                 "{{ key }}": "{{ value }}"{% if not loop.last %},
+                                 {% endif %}
                                  {% endfor %}
                              }
                              {% endif %}
                         ],
+                        {% endif %}
                         "instanceName": "{{ service_instance_name }}",
+                        {% if not sdc_service.resources %}
+                        "resources": {},
+                        "modelInfo": {
+                            "modelVersion": "1.0",
+                            "modelVersionId": "{{ sdc_service.identifier }}",
+                            "modelInvariantId": "{{ sdc_service.unique_uuid }}",
+                            "modelName": "{{ sdc_service.name }}",
+                            "modelType": "service"
+                        }
+                    }
+                        {% else %}
                         "resources": {
                             {% block pnfs %}
                             {% if sdc_service.pnfs %}
@@ -166,7 +182,9 @@
                             "modelType": "service"
                         }
                     }
+                    {% endif %}
                 }
+
             ],
             "aLaCarte": false
         },

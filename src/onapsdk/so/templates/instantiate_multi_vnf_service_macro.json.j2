@@ -12,11 +12,11 @@
             "modelInfo":{
                 {% for sdc_pnf in sdc_service.pnfs %}
                 {% if sdc_pnf.model_name == pnf.model_name %}
-                "modelCustomizationName":"{{ sdc_pnf.name }}",
+                "modelCustomizationName":"{{ sdc_pnf.model_name }}",
                 "modelCustomizationId":"{{ sdc_pnf.model_customization_id }}",
-                "modelInvariantId":"{{ sdc_service.unique_uuid }}",
-                "modelVersionId":"{{ sdc_service.identifier }}",
-                "modelName":"{{ sdc_service.name }}",
+                "modelInvariantId":"{{ sdc_pnf.unique_uuid }}",
+                "modelVersionId":"{{ sdc_pnf.identifier }}",
+                "modelName":"{{ sdc_pnf.name }}",
                 "modelType":"pnf",
                 "modelVersion":"{{ sdc_pnf.model_version }}"
                 {% endif %}
@@ -61,7 +61,7 @@
                 {% if sdc_vnf.model_name == vnf.model_name %}
                 "modelName": "{{ sdc_vnf.model_name }}",
                 "modelVersionId": "{{ sdc_vnf.model_version_id }}",
-                "modelInvariantUuid": "{{ sdc_vnf.model_invariant_uuid }}",
+                "modelInvariantUuid": "{{ sdc_vnf.model_invariant_id }}",
                 "modelVersion": "{{ sdc_vnf.model_version }}",
                 "modelCustomizationId": "{{ sdc_vnf.model_customization_id }}",
                 "modelInstanceName": "{{ sdc_vnf.model_name }}"

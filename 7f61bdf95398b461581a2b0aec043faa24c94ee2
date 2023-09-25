@@ -1,0 +1,8 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Matthew Watkins <mwatkins@linuxfoundation.org>
+Submitted-by: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Submitted-at: Mon, 25 Sep 2023 13:48:45 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/python-onapsdk/+/135916
+Project: integration/python-onapsdk
+Branch: refs/heads/master

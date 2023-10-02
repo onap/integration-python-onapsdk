@@ -179,6 +179,20 @@ class Dataspace(CpsElement):
                                            dataspace=self))
 
     @exception_handler
+    def delete_anchor(self, anchor_name: str) -> None:
+        """Delete dataspace anchor by name.
+
+        Args:
+            anchor_name (str): Anchor name.
+        """
+        self.send_message(
+            "DELETE",
+            f"Delete {anchor_name} anchor",
+            f"{self.url}/anchors/{anchor_name}",
+            auth=self.auth
+        )        
+
+    @exception_handler
     def get_schema_set(self, schema_set_name: str) -> SchemaSet:
         """Get schema set by name.
 

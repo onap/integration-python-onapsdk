@@ -21,8 +21,10 @@ from onapsdk.exceptions import ResourceNotFound
 
 from ..aai_element import AaiResource
 
+from ..mixins.link_to_tenant import AaiResourceLinkToTenantMixin
 
-class OwningEntity(AaiResource):
+
+class OwningEntity(AaiResource, AaiResourceLinkToTenantMixin):
     """Owning entity class."""
 
     def __init__(self, name: str, owning_entity_id: str, resource_version: str) -> None:
@@ -152,3 +154,15 @@ class OwningEntity(AaiResource):
             )
         )
         return cls.get_by_owning_entity_id(owning_entity_id)
+
+    def delete(self) -> None:
+        """Delete owning entity.
+
+        Sends request to A&AI to delete owning entity object.
+
+        """
+        self.send_message(
+            "DELETE",
+            f"Delete owning entity",
+            f"{self.url}?resource-version={self.resource_version}"
+        )

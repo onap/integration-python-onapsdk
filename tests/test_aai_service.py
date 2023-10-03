@@ -655,6 +655,15 @@ def test_add_relationship(mock_send):
                                                related_link="test",
                                                relationship_data={}))
 
+@mock.patch.object(AaiResource, "send_message")
+def test_delete_relationship(mock_send):
+    """Test delete_relationship method."""
+    cloud_region = CloudRegion(cloud_owner="tester", cloud_region_id="test",
+                               orchestration_disabled=True, in_maint=False)
+    cloud_region.delete_relationship(Relationship(related_to="test",
+                                               related_link="test",
+                                               relationship_data={}))
+
 
 # # -----------------------------------------------------------------------------
 # def test_check_aai_resource_service():

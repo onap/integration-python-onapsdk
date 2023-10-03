@@ -22,6 +22,7 @@ from onapsdk.exceptions import ResourceNotFound
 
 from ..aai_element import AaiResource
 from ..mixins.link_to_complex import AaiResourceLinkToComplexMixin
+from ..mixins.link_to_project import AaiResourceLinkToProjectMixin
 from .complex import Complex
 from .tenant import Tenant
 
@@ -66,7 +67,7 @@ class EsrSystemInfo:  # pylint: disable=too-many-instance-attributes
     openstack_region_id: str = None
 
 
-class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin):  # pylint: disable=too-many-instance-attributes
+class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToProjectMixin):  # pylint: disable=too-many-instance-attributes
     """Cloud region class.
 
     Represents A&AI cloud region object.

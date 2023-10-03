@@ -22,7 +22,6 @@ from onapsdk.msb.multicloud import Multicloud
 from onapsdk.sdc.service import Service as SdcService
 from onapsdk.exceptions import ParameterError, ResourceNotFound
 
-
 SIMPLE_CUSTOMER = {
     "customer": [
         {
@@ -33,7 +32,6 @@ SIMPLE_CUSTOMER = {
         }
     ]
 }
-
 
 SERVICE_SUBSCRIPTION = {
     "service-subscription": [
@@ -74,7 +72,6 @@ SERVICE_SUBSCRIPTION = {
     ]
 }
 
-
 CUSTOMERS = {
     "customer": [
         {
@@ -86,7 +83,6 @@ CUSTOMERS = {
     ]
 }
 
-
 SIMPLE_CUSTOMER_2 = {
     "global-customer-id": "generic",
     "subscriber-name": "generic",
@@ -94,39 +90,38 @@ SIMPLE_CUSTOMER_2 = {
     "resource-version": "1561218640404",
 }
 
-
 SERVICE_INSTANCES = {
-    "service-instance":[
+    "service-instance": [
         {
-            "service-instance-id":"5410bf79-2aa3-450e-a324-ec5630dc18cf",
-            "service-instance-name":"test",
-            "environment-context":"General_Revenue-Bearing",
-            "workload-context":"Production",
-            "model-invariant-id":"2a51a89b-6f94-4417-8831-c468fb30ed02",
-            "model-version-id":"92a82807-b483-4579-86b1-c79b1286aab4",
-            "resource-version":"1589457727708",
-            "orchestration-status":"Active",
-            "relationship-list":{
-                "relationship":[
+            "service-instance-id": "5410bf79-2aa3-450e-a324-ec5630dc18cf",
+            "service-instance-name": "test",
+            "environment-context": "General_Revenue-Bearing",
+            "workload-context": "Production",
+            "model-invariant-id": "2a51a89b-6f94-4417-8831-c468fb30ed02",
+            "model-version-id": "92a82807-b483-4579-86b1-c79b1286aab4",
+            "resource-version": "1589457727708",
+            "orchestration-status": "Active",
+            "relationship-list": {
+                "relationship": [
                     {
-                        "related-to":"owning-entity",
-                        "relationship-label":"org.onap.relationships.inventory.BelongsTo",
-                        "related-link":"/aai/v16/business/owning-entities/owning-entity/ff6c945f-89ab-4f14-bafd-0cdd6eac791a",
-                        "relationship-data":[
+                        "related-to": "owning-entity",
+                        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+                        "related-link": "/aai/v16/business/owning-entities/owning-entity/ff6c945f-89ab-4f14-bafd-0cdd6eac791a",
+                        "relationship-data": [
                             {
-                                "relationship-key":"owning-entity.owning-entity-id",
-                                "relationship-value":"ff6c945f-89ab-4f14-bafd-0cdd6eac791a"
+                                "relationship-key": "owning-entity.owning-entity-id",
+                                "relationship-value": "ff6c945f-89ab-4f14-bafd-0cdd6eac791a"
                             }
                         ]
                     },
                     {
-                        "related-to":"project",
-                        "relationship-label":"org.onap.relationships.inventory.Uses",
-                        "related-link":"/aai/v16/business/projects/project/python_onap_sdk_project",
-                        "relationship-data":[
+                        "related-to": "project",
+                        "relationship-label": "org.onap.relationships.inventory.Uses",
+                        "related-link": "/aai/v16/business/projects/project/python_onap_sdk_project",
+                        "relationship-data": [
                             {
-                                "relationship-key":"project.project-name",
-                                "relationship-value":"python_onap_sdk_project"
+                                "relationship-key": "project.project-name",
+                                "relationship-value": "python_onap_sdk_project"
                             }
                         ]
                     }
@@ -135,7 +130,6 @@ SERVICE_INSTANCES = {
         }
     ]
 }
-
 
 SERVICE_SUBSCRIPTION_RELATIONSHIPS = {
     "relationship": [
@@ -166,7 +160,6 @@ SERVICE_SUBSCRIPTION_RELATIONSHIPS = {
         }
     ]
 }
-
 
 CLOUD_REGION = {
     "cloud-region": [
@@ -200,7 +193,6 @@ CLOUD_REGION = {
         }
     ]
 }
-
 
 TENANT = {
     "tenant-id": "4bdc6f0f2539430f9428c852ba606808",
@@ -257,11 +249,10 @@ TENANT = {
     },
 }
 
-
 CUSTOMERS_COUNT = {
-    "results":[
+    "results": [
         {
-            "customer":12
+            "customer": 12
         }
     ]
 }
@@ -402,6 +393,24 @@ def test_customer_delete(mock_send):
     )
 
 
+@mock.patch.object(Customer, "send_message")
+def test_delete_subscribed_service(mock_send):
+    """Test Customer's delete_subscribed_service method."""
+    customer = Customer("test", "test", "test", "test")
+    service_subscription = ServiceSubscription(customer=None,
+                                               service_type="test_service_type",
+                                               resource_version="test_resource_version")
+    customer.delete_subscribed_service(service_subscription)
+    mock_send.assert_called_once_with(
+        "DELETE",
+        "Delete service subscription",
+        (f"{customer.base_url}{customer.api_version}/business/customers/"
+         f"customer/{customer.global_customer_id}/service-subscriptions/"
+         f"service-subscription/{service_subscription.service_type}?"
+         f"resource-version={service_subscription.resource_version}")
+    )
+
+
 def test_customer_url():
     """Test Customer's url property."""
     customer = Customer("generic", "generic", "INFRA")
@@ -444,21 +453,21 @@ def test_customer_subscribe_service(mock_send_message, mock_send_message_json):
     customer.subscribe_service("test_service")
 
 
-#test the Cloud Region Class
+# test the Cloud Region Class
 AVAILABILITY_ZONE = {
-    "availability-zone-name":"OPNFV LaaS",
-    "hypervisor-type":"1234",
-    "operational-status":"working",
-    "resource-version":"version1.0"
+    "availability-zone-name": "OPNFV LaaS",
+    "hypervisor-type": "1234",
+    "operational-status": "working",
+    "resource-version": "version1.0"
 }
 
 AVAILABILITY_ZONES = {
-    "availability-zone":[
+    "availability-zone": [
         {
-            "availability-zone-name":"OPNFV LaaS",
-            "hypervisor-type":"1234",
-            "operational-status":"working",
-            "resource-version":"version1.0"
+            "availability-zone-name": "OPNFV LaaS",
+            "hypervisor-type": "1234",
+            "operational-status": "working",
+            "resource-version": "version1.0"
         }
     ]
 }
@@ -477,6 +486,7 @@ def test_availability_zones(mock_send_message_json):
     assert zone1.name == "OPNFV LaaS"
     assert zone1.hypervisor_type == "1234"
 
+
 @mock.patch.object(CloudRegion, "send_message_json")
 def test_get_availability_zone_from_name(mock_send_message_json):
     """Test get Availability Zone by name"""
@@ -489,6 +499,7 @@ def test_get_availability_zone_from_name(mock_send_message_json):
     assert availability_zone.name == "OPNFV LaaS"
     assert availability_zone.hypervisor_type == "1234"
     assert availability_zone.resource_version == "version1.0"
+
 
 @mock.patch.object(CloudRegion, "send_message")
 def test_add_availability_zone(mock_send_message):
@@ -504,6 +515,7 @@ def test_add_availability_zone(mock_send_message):
     assert method == "PUT"
     assert description == "Add availability zone to cloud region"
     assert url == f"{cloud_region.url}/availability-zones/availability-zone/test_zone"
+
 
 @mock.patch.object(CloudRegion, "send_message")
 def test_add_tenant_to_cloud(mock_send_message):
@@ -573,8 +585,8 @@ def test_delete_cloud_region(mock_send_message):
     assert descritption == f"Delete cloud region test_cloud_region"
     assert url == cloud_region.url
 
+
 @mock.patch.object(Customer, "send_message_json")
 def test_customer_count(mock_send_message_json):
     mock_send_message_json.return_value = CUSTOMERS_COUNT
     assert Customer.count() == 12
-

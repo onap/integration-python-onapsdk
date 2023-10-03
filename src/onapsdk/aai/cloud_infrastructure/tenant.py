@@ -12,11 +12,11 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-# from onapsdk.aai.cloud_infrastructure.cloud_region import CloudRegion
+#from onapsdk.aai.cloud_infrastructure.cloud_region import CloudRegion
 from ..aai_element import AaiResource
 
 
-class Tenant(AaiResource):
+class Tenant(AaiResource):  # pylint: disable=too-many-instance-attributes
     """Tenant class."""
 
     def __init__(self,  # pylint: disable=too-many-arguments
@@ -69,9 +69,12 @@ class Tenant(AaiResource):
             str: Url to get all tenants
 
         """
-        return (f"{cls.base_url}{cls.api_version}/cloud-infrastructure/cloud-regions/cloud-region/"
-                f"{cloud_region.cloud_owner}/{cloud_region.cloud_region_id}"
-                f"/tenants/")
+        return (
+            f"{cls.base_url}{cls.api_version}/cloud-infrastructure/"
+            f"cloud-regions/cloud-region/"
+            f"{cloud_region.cloud_owner}/{cloud_region.cloud_region_id}"
+            f"/tenants/"
+        )
 
     @property
     def url(self) -> str:
@@ -82,7 +85,8 @@ class Tenant(AaiResource):
 
         """
         return (
-            f"{self.base_url}{self.api_version}/cloud-infrastructure/cloud-regions/cloud-region/"
+            f"{self.base_url}{self.api_version}/cloud-infrastructure/"
+            f"cloud-regions/cloud-region/"
             f"{self.cloud_region.cloud_owner}/{self.cloud_region.cloud_region_id}"
             f"/tenants/tenant/{self.tenant_id}?"
             f"resource-version={self.resource_version}"

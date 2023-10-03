@@ -80,3 +80,14 @@ def test_line_of_business_count(mock_send_message_json):
 def test_line_of_business_url():
     line_of_business = LineOfBusiness(name="test-lob", resource_version="123")
     assert line_of_business.name in line_of_business.url
+
+@mock.patch.object(LineOfBusiness, "send_message")
+def test_line_of_business_delete(mock_send_message):
+    line_of_business = LineOfBusiness(name="test_line_of_business",
+                    resource_version="12468")
+    line_of_business.delete()
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        "Delete line of business",
+        f"{line_of_business.url}?resource-version={line_of_business.resource_version}"
+    )

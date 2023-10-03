@@ -19,9 +19,10 @@ from onapsdk.utils.jinja import jinja_env
 from ..aai_element import AaiResource, Relationship, RelationshipLabelEnum
 from ..cloud_infrastructure import Complex
 from ..mixins.link_to_complex import AaiResourceLinkToComplexMixin
+from ..mixins.link_to_project import AaiResourceLinkToProjectMixin
 
 
-class SiteResource(AaiResource, AaiResourceLinkToComplexMixin):  # pylint: disable=too-many-instance-attributes
+class SiteResource(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToProjectMixin):  # pylint: disable=too-many-instance-attributes
     """Site resource class."""
 
     def __init__(self,  # pylint: disable=too-many-locals

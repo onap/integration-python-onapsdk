@@ -121,3 +121,11 @@ class Platform(AaiResource):
                                   f"Get {name} platform",
                                   url)
         return cls(response["platform-name"], response["resource-version"])
+
+    def delete(self) -> None:
+        """Delete platform."""
+        self.send_message(
+            "DELETE",
+            f"Delete platform",
+            f"{self.url}?resource-version={self.resource_version}"
+        )

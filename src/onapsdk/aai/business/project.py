@@ -121,3 +121,11 @@ class Project(AaiResource):
                                   f"Get {name} project",
                                   url)
         return cls(response["project-name"], response["resource-version"])
+
+    def delete(self) -> None:
+        """Delete cloud region."""
+        self.send_message(
+            "DELETE",
+            "Delete test_project project",
+            f"{self.url}?resource-version={self.resource_version}"
+        )

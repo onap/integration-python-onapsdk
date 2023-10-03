@@ -25,8 +25,8 @@ class AaiResourceLinkToComplexMixin:  # pylint: disable=too-few-public-methods
     """Link aai resource to complex mixin."""
 
     def link_to_complex(self, cmplx: "Complex",
-                        relationship_label: RelationshipLabelEnum =\
-                            RelationshipLabelEnum.LOCATED_IN) -> None:
+                        relationship_label: RelationshipLabelEnum = \
+                                RelationshipLabelEnum.LOCATED_IN) -> None:
         """Create a relationship with complex resource.
 
         Args:

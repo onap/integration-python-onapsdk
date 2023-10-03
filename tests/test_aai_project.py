@@ -14,7 +14,7 @@
 from unittest import mock
 
 from onapsdk.aai.business.project import Project
-
+from onapsdk.aai.cloud_infrastructure import CloudRegion
 
 PROJECTS = {
     "project": [
@@ -29,11 +29,10 @@ PROJECTS = {
     ]
 }
 
-
 COUNT = {
-    "results":[
+    "results": [
         {
-            "project":1
+            "project": 1
         }
     ]
 }
@@ -77,6 +76,62 @@ def test_project_count(mock_send_message_json):
     mock_send_message_json.return_value = COUNT
     assert Project.count() == 1
 
+
 def test_project_url():
     project = Project(name="test-project", resource_version="123")
     assert project.name in project.url
+
+
+@mock.patch.object(Project, "send_message")
+def test_project_delete(mock_send_message):
+    project = Project(name="test_project",
+                      resource_version="12345")
+    project.delete()
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        "Delete test_project project",
+        f"{project.url}?resource-version={project.resource_version}"
+    )
+
+
+@mock.patch.object(CloudRegion, "add_relationship")
+def test_cloud_region_link_to_project(mock_add_rel):
+    """Test Cloud Region linking with Project.
+
+    Test Relationship object creation
+    """
+    cloud_region = CloudRegion(cloud_owner="test_cloud_owner",
+                               cloud_region_id="test_cloud_region",
+                               orchestration_disabled=True,
+                               in_maint=False)
+    project = Project(name="test_project",
+                      resource_version="12345")
+    cloud_region.link_to_project(project)
+    mock_add_rel.assert_called_once()
+    relationship = mock_add_rel.call_args[0][0]
+    assert relationship.related_to == "project"
+    assert relationship.related_link == (f"https://aai.api.sparky.simpledemo.onap.org:30233/aai/"
+                                         f"v27/business/projects/project"
+                                         f"/test_project")
+    assert len(relationship.relationship_data) == 1
+
+@mock.patch.object(CloudRegion, "delete_relationship")
+def test_cloud_region_delete_project(mock_del_rel):
+    """Test delete Cloud Region's linked Project.
+
+    Test Relationship object deletion
+    """
+    cloud_region = CloudRegion(cloud_owner="test_cloud_owner",
+                               cloud_region_id="test_cloud_region",
+                               orchestration_disabled=True,
+                               in_maint=False)
+    project = Project(name="test_project",
+                      resource_version="12345")
+    cloud_region.delete_project(project)
+    mock_del_rel.assert_called_once()
+    relationship = mock_del_rel.call_args[0][0]
+    assert relationship.related_to == "project"
+    assert relationship.related_link == (f"https://aai.api.sparky.simpledemo.onap.org:30233/aai/"
+                                         f"v27/business/projects/project"
+                                         f"/test_project")
+    assert len(relationship.relationship_data) == 1

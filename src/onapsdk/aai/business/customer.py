@@ -265,8 +265,8 @@ class ServiceSubscription(AaiResource):
                 yield CloudRegion.get_by_id(cloud_owner=cloud_region_data[0],
                                             cloud_region_id=cloud_region_data[1])
             except ResourceNotFound:
-                self._logger.error("Can't get cloud region %s %s", cloud_region_data[0], \
-                                                                   cloud_region_data[1])
+                self._logger.error("Can't get cloud region %s %s", cloud_region_data[0],
+                                   cloud_region_data[1])
 
     @property
     def tenants(self) -> Iterator["Tenant"]:
@@ -560,7 +560,7 @@ class Customer(AaiResource):
                 )
         except ResourceNotFound as exc:
             self._logger.info(
-                "Subscriptions are not " \
+                "Subscriptions are not "
                 "found for a customer: %s", exc)
         except APIError as exc:
             self._logger.error(
@@ -589,6 +589,22 @@ class Customer(AaiResource):
              f"service-subscription/{service_type}")
         )
         return self.get_service_subscription_by_service_type(service_type)
+
+    def delete_subscribed_service(self, service_sub: ServiceSubscription) -> None:
+        """Delete SDC Service subscription.
+
+        Args:
+            service_sub (str): Value defined by orchestration to identify this service
+                across ONAP.
+        """
+        self.send_message(
+            "DELETE",
+            "Delete service subscription",
+            (f"{self.base_url}{self.api_version}/business/customers/"
+             f"customer/{self.global_customer_id}/service-subscriptions/"
+             f"service-subscription/{service_sub.service_type}?"
+             f"resource-version={service_sub.resource_version}")
+        )
 
     def delete(self) -> None:
         """Delete customer.

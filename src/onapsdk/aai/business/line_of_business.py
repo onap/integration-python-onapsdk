@@ -16,11 +16,12 @@
 from typing import Any, Dict, Iterator
 
 from onapsdk.utils.jinja import jinja_env
+from onapsdk.aai.mixins.link_to_tenant import AaiResourceLinkToTenantMixin
 
 from ..aai_element import AaiResource
 
 
-class LineOfBusiness(AaiResource):
+class LineOfBusiness(AaiResource, AaiResourceLinkToTenantMixin):
     """Line of business class."""
 
     def __init__(self, name: str, resource_version: str) -> None:
@@ -121,3 +122,15 @@ class LineOfBusiness(AaiResource):
                                   f"Get {name} line of business",
                                   url)
         return cls(response["line-of-business-name"], response["resource-version"])
+
+    def delete(self) -> None:
+        """Delete line of business.
+
+        Sends request to A&AI to delete line of business object.
+
+        """
+        self.send_message(
+            "DELETE",
+            "Delete test_line_of_business line of business",
+            f"{self.url}?resource-version={self.resource_version}"
+        )

@@ -215,11 +215,31 @@ class AaiResource(AaiElement):
             relationship (Relationship): Relationship to add
 
         """
+        self._logger.info("Adding relationship to aai resource")
         self.send_message(
             "PUT",
             f"add relationship to {self.__class__.__name__}",
             f"{self.url}/relationship-list/relationship",
             data=jinja_env()
             .get_template("aai_add_relationship.json.j2")
+            .render(relationship=relationship),
+        )
+
+    def delete_relationship(self, relationship: Relationship) -> None:
+        """Delete relationship to aai resource.
+
+        Delete relationship to resource using A&AI API
+
+        Args:
+            relationship (Relationship): Relationship to delete
+
+        """
+        self._logger.info("Deleting relationship from aai resource")
+        self.send_message(
+            "DELETE",
+            f"add relationship to {self.__class__.__name__}",
+            f"{self.url}/relationship-list/relationship",
+            data=jinja_env()
+            .get_template("aai_add_relationship.json.j2") # uses same templete for delete also
             .render(relationship=relationship),
         )

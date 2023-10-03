@@ -18,10 +18,12 @@ from typing import Iterable, Optional
 from onapsdk.utils.jinja import jinja_env
 from ..aai_element import AaiResource, Relationship, RelationshipLabelEnum
 from ..cloud_infrastructure import Complex
+from ..business import Project
 from ..mixins.link_to_complex import AaiResourceLinkToComplexMixin
+from ..mixins.link_to_project import AaiResourceLinkToProjectMixin
 
 
-class SiteResource(AaiResource, AaiResourceLinkToComplexMixin):  # pylint: disable=too-many-instance-attributes
+class SiteResource(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToProjectMixin):  # pylint: disable=too-many-instance-attributes
     """Site resource class."""
 
     def __init__(self,  # pylint: disable=too-many-locals
@@ -254,6 +256,15 @@ class SiteResource(AaiResource, AaiResourceLinkToComplexMixin):  # pylint: disab
 
         """
         return super().link_to_complex(cmplx, relationship_label)
+
+    def link_to_project(self, project: Project) -> None:  # pylint: disable=useless-super-delegation
+        """Create a relationship with project resource.
+
+        Args:
+            project (Project): Project object ot create relationship with.
+
+        """
+        return super().link_to_project(project)
 
     def link_to_site_resource(self, site_resource: "SiteResource") -> None:
         """Create a relationship with site-resource resource.

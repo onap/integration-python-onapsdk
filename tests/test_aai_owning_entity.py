@@ -18,32 +18,30 @@ import pytest
 from onapsdk.aai.business import OwningEntity
 from onapsdk.exceptions import ResourceNotFound
 
-
 OWNING_ENTITIES = {
-    "owning-entity":[
+    "owning-entity": [
         {
-            "owning-entity-id":"ff6c945f-89ab-4f14-bafd-0cdd6eac791a",
-            "owning-entity-name":"OE-Generic",
-            "resource-version":"1588244348931",
+            "owning-entity-id": "ff6c945f-89ab-4f14-bafd-0cdd6eac791a",
+            "owning-entity-name": "OE-Generic",
+            "resource-version": "1588244348931",
         },
         {
-            "owning-entity-id":"OE-generic",
-            "owning-entity-name":"OE-generic",
-            "resource-version":"1587388597761"
+            "owning-entity-id": "OE-generic",
+            "owning-entity-name": "OE-generic",
+            "resource-version": "1587388597761"
         },
         {
-            "owning-entity-id":"b3dcdbb0-edae-4384-b91e-2f114472520c"
-            ,"owning-entity-name":"test",
-            "resource-version":"1588145971158"
+            "owning-entity-id": "b3dcdbb0-edae-4384-b91e-2f114472520c"
+            , "owning-entity-name": "test",
+            "resource-version": "1588145971158"
         }
     ]
 }
 
-
 OWNING_ENTITY = {
-    "owning-entity-id":"OE-generic",
-    "owning-entity-name":"OE-generic",
-    "resource-version":"1587388597761"
+    "owning-entity-id": "OE-generic",
+    "owning-entity-name": "OE-generic",
+    "resource-version": "1587388597761"
 }
 
 
@@ -85,3 +83,16 @@ def test_owning_entity_create(mock_send_json, mock_send):
     )
     assert owning_entity.owning_entity_id == "OE-generic"
     assert owning_entity.name == "OE-generic"
+
+
+@mock.patch.object(OwningEntity, "send_message")
+def test_owning_entity_delete(mock_send_message):
+    owning_entity = OwningEntity(name="test_owning_entity",
+                                 owning_entity_id="test_owning_id",
+                                 resource_version="12345")
+    owning_entity.delete()
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        "Delete test_owning_entity owning entity",
+        f"{owning_entity.url}?resource-version={owning_entity.resource_version}"
+    )

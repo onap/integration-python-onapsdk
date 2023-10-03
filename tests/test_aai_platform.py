@@ -15,7 +15,6 @@ from unittest import mock
 
 from onapsdk.aai.business.platform import Platform
 
-
 PLATFORMS = {
     "platform": [
         {
@@ -29,11 +28,10 @@ PLATFORMS = {
     ]
 }
 
-
 COUNT = {
-    "results":[
+    "results": [
         {
-            "platform":1
+            "platform": 1
         }
     ]
 }
@@ -77,6 +75,19 @@ def test_line_of_business_count(mock_send_message_json):
     mock_send_message_json.return_value = COUNT
     assert Platform.count() == 1
 
+
 def test_platform_url():
     platform = Platform(name="test-platform", resource_version="123")
     assert platform.name in platform.url
+
+
+@mock.patch.object(Platform, "send_message")
+def test_platform_delete(mock_send_message):
+    platform = Platform(name="test_platform",
+                             resource_version="12345")
+    platform.delete()
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        "Delete test_platform platform",
+        f"{platform.url}?resource-version={platform.resource_version}"
+    )

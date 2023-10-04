@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b028cca_7eaacca6",
+        "filename": "src/onapsdk/aai/aai_element.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Delete relationship from",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2058dea_df415d89",
+        "filename": "src/onapsdk/aai/aai_element.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f921a2b_d5fdbdbe",
+        "filename": "src/onapsdk/aai/aai_element.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "can you please rename that template if it\u0027s used both for add and delete?",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f560fb3_74bdbb10",
+        "filename": "src/onapsdk/aai/business/line_of_business.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Please fix log",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db31aee_f48bc6e9",
+        "filename": "src/onapsdk/aai/business/owning_entity.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Fix log",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e31a96eb_87b4b3f9",
+        "filename": "src/onapsdk/aai/business/platform.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Change log",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e87bd5_bc5f8c23",
+        "filename": "src/onapsdk/aai/business/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Delete project",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15316acf_0e5a958d",
+        "filename": "src/onapsdk/aai/business/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "That log shouldn\u0027t have `test_project` inside",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c35ae9b_24cf9bc1",
+        "filename": "src/onapsdk/aai/mixins/link_to_project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "that method didn\u0027t delete project, but relationship with project. Please rename it",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3ed8ee3_0a338630",
+        "filename": "src/onapsdk/aai/mixins/link_to_project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Delete relationship",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b50e0a1_b64f7061",
+        "filename": "src/onapsdk/aai/mixins/link_to_project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "please add indentation -- I thought it is another parameter",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f004a9_76fa3957",
+        "filename": "src/onapsdk/aai/mixins/link_to_tenant.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "That method doesn\u0027t delete tenant -- please rename it",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3830058_c0f6d431",
+        "filename": "src/onapsdk/aai/mixins/link_to_tenant.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b4ffbea_137e1266",
+        "filename": "src/onapsdk/aai/mixins/link_to_tenant.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "typo",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1eece8_04d6d40a",
+        "filename": "src/onapsdk/aai/network/site_resource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-04T10:56:26Z",
+      "side": 1,
+      "message": "if it uses LinkToProject mixin then it shoulnd\u0027t implement that method",
+      "revId": "41157ff23d85065e75bfa5880f0b12b2dd2e6fbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

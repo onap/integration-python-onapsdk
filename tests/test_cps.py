@@ -94,9 +94,9 @@ def test_dataspace_delete_anchor(mock_send_message):
     ds = Dataspace(name="test_ds")
     ds.delete_anchor("some-anchor")
     mock_send_message.assert_called_once()
-    args = mock_send_message.call_args.args
-    assert args[0] == "DELETE"
-    assert args[2].split('/')[-1] == "some-anchor"
+    args = mock_send_message.call_args
+    assert args[0][0] == "DELETE"
+    assert args[0][2].split('/')[-1] == "some-anchor"
 
 @mock.patch("onapsdk.cps.Dataspace.send_message_json")
 def test_dataspace_get_schema_set(mock_send_message_json):

@@ -80,12 +80,12 @@ execute *tox*:
     $ tox
 
 Please note that the above runs unit tests on all major versions of Python available on your
-OS (3.7, 3.8, 3.9). To limit execution to only specific version of Python Interpreter,
+OS (3.8, 3.9). To limit execution to only specific version of Python Interpreter,
 use the following example:
 
 .. code:: shell
 
-    $ tox -e py37
+    $ tox -e py38
 
 Integration testing
 -------------------

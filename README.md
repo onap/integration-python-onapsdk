@@ -22,8 +22,8 @@ $ pip install onapsdk
 
 ## Development
 
-Before you start, ensure you have Python installation in version 3.7 or higher.
-Please see [the official Python documentation](https://docs.python.org/3/using/index.html) 
+Before you start, ensure you have Python installation in version 3.8 or higher.
+Please see [the official Python documentation](https://docs.python.org/3/using/index.html)
 in case you have to upgrade or install certain Python version.
 
 ### Setting up development environment
@@ -90,13 +90,13 @@ OS (3.7, 3.8, 3.9). To limit execution to only specific version of Python interp
 use the following example:
 
 ```
-$ tox -e py37
+$ tox -e py38
 ```
 
 ### Integration testing
 
 It is possible to run integration tests using [mock-servers](https://gitlab.com/Orange-OpenSource/lfn/onap/mock_servers)
-project. 
+project.
 Make sure Docker Compose is available on your system. Install required dependencies:
 ```
 $ pip install pytest mock
@@ -107,8 +107,8 @@ Go to *integration_tests/* directory and execute:
 $ docker-compose up
 ```
 Please note that *docker-compose* attempts to create subnet 172.20.0.0/24, so it can not be run if the scope is already allocated.
-Also, containers are not reachable by their IP addresses on Windows host since 
-Docker for Windows [does not support](https://docs.docker.com/desktop/networking/#known-limitations-for-all-platforms) 
+Also, containers are not reachable by their IP addresses on Windows host since
+Docker for Windows [does not support](https://docs.docker.com/desktop/networking/#known-limitations-for-all-platforms)
 bridged network interface for Linux containers.
 
 Once containers are running, execute the following in the project's directory:

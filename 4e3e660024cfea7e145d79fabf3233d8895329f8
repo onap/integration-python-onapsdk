@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Submitted-by: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Submitted-at: Mon, 16 Oct 2023 10:47:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/python-onapsdk/+/136089
+Project: integration/python-onapsdk
+Branch: refs/heads/master

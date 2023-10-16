@@ -190,7 +190,7 @@ class Dataspace(CpsElement):
             f"Delete {anchor_name} anchor",
             f"{self.url}/anchors/{anchor_name}",
             auth=self.auth
-        )        
+        )
 
     @exception_handler
     def get_schema_set(self, schema_set_name: str) -> SchemaSet:

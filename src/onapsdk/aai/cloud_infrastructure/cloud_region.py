@@ -275,6 +275,59 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
         )
         return cloud_region
 
+    @classmethod
+    def update(cls,  # pylint: disable=too-many-locals
+               cloud_owner: str,
+               cloud_region_id: str,
+               orchestration_disabled: bool,
+               in_maint: bool,
+               *,  # rest of parameters are keyword
+               cloud_type: str = "",
+               owner_defined_type: str = "",
+               cloud_region_version: str = "",
+               identity_url: str = "",
+               cloud_zone: str = "",
+               complex_name: str = "",
+               sriov_automation: str = "",
+               cloud_extra_info: str = "",
+               upgrade_cycle: str = "") -> "CloudRegion":
+        """Update CloudRegion object.
+
+        Update cloud region with given values.
+
+        Returns:
+            CloudRegion: Updated cloud region.
+
+        """
+        cloud_region: "CloudRegion" = CloudRegion(
+            cloud_owner=cloud_owner,
+            cloud_region_id=cloud_region_id,
+            orchestration_disabled=orchestration_disabled,
+            in_maint=in_maint,
+            cloud_type=cloud_type,
+            owner_defined_type=owner_defined_type,
+            cloud_region_version=cloud_region_version,
+            identity_url=identity_url,
+            cloud_zone=cloud_zone,
+            complex_name=complex_name,
+            sriov_automation=sriov_automation,
+            cloud_extra_info=cloud_extra_info,
+            upgrade_cycle=upgrade_cycle,
+        )
+        url: str = (
+            f"{cls.base_url}{cls.api_version}/cloud-infrastructure/cloud-regions/cloud-region/"
+            f"{cloud_region.cloud_owner}/{cloud_region.cloud_region_id}"
+        )
+        cls.send_message(
+            "PATCH",
+            "Update cloud region",
+            url,
+            data=jinja_env()
+            .get_template("cloud_region_update.json.j2")
+            .render(cloud_region=cloud_region),
+        )
+        return cloud_region
+
     @property
     def url(self) -> str:
         """Cloud region object url.

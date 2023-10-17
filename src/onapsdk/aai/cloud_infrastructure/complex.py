@@ -189,6 +189,71 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
         return complex_object
 
     @classmethod
+    def update(cls,  # pylint: disable=too-many-locals
+               physical_location_id: str,
+               *,
+               name: str = "",
+               data_center_code: str = "",
+               identity_url: str = "",
+               resource_version: str = "",
+               physical_location_type: str = "",
+               street1: str = "",
+               street2: str = "",
+               city: str = "",
+               state: str = "",
+               postal_code: str = "",
+               country: str = "",
+               region: str = "",
+               latitude: str = "",
+               longitude: str = "",
+               elevation: str = "",
+               lata: str = "",
+               timezone: str = "",
+               data_owner: str = "",
+               data_source: str = "",
+               data_source_version: str = "") -> "Complex":
+        """Update complex.
+
+        Update complex object by calling A&AI API.
+        If API request doesn't fail it returns Complex object.
+
+        Returns:
+            Complex: Updated complex object
+
+        """
+        complex_object: Complex = Complex(
+            name=name,
+            physical_location_id=physical_location_id,
+            data_center_code=data_center_code,
+            identity_url=identity_url,
+            resource_version=resource_version,
+            physical_location_type=physical_location_type,
+            street1=street1,
+            street2=street2,
+            city=city,
+            state=state,
+            postal_code=postal_code,
+            country=country,
+            region=region,
+            latitude=latitude,
+            longitude=longitude,
+            elevation=elevation,
+            lata=lata,
+            timezone=timezone,
+            data_owner=data_owner,
+            data_source=data_source,
+            data_source_version=data_source_version
+        )
+        payload: str = jinja_env().get_template("complex_update.json.j2").render(
+            complex=complex_object)
+        url: str = (
+            f"{cls.base_url}{cls.api_version}/cloud-infrastructure/complexes/complex/"
+            f"{complex_object.physical_location_id}"
+        )
+        cls.send_message("PATCH", "update complex", url, data=payload)
+        return complex_object
+
+    @classmethod
     def get_all_url(cls) -> str:  # pylint: disable=arguments-differ
         """Return an url to get all complexes.
 

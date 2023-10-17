@@ -523,6 +523,56 @@ class Customer(AaiResource):
             resource_version=response["resource-version"],
         )
 
+    @classmethod
+    def update(cls,
+               global_customer_id: str,
+               subscriber_name: str,
+               subscriber_type: str,
+               service_subscriptions: Optional[Iterable[str]] = None) -> "Customer":
+        """Update customer.
+
+        Args:
+            global_customer_id (str): Global customer id used across ONAP
+                to uniquely identify customer.
+            subscriber_name (str): Subscriber name, an alternate way
+                to retrieve a customer.
+            subscriber_type (str): Subscriber type, a way to provide
+                VID with only the INFRA customers.
+            service_subscriptions (Optional[Iterable[str]], optional): Iterable
+                of service subscription names should be created for newly
+                created customer. Defaults to None.
+
+        Returns:
+            Customer: Customer object.
+
+        """
+        url: str = (
+            f"{cls.base_url}{cls.api_version}/business/customers/"
+            f"customer/{global_customer_id}"
+        )
+        cls.send_message(
+            "PATCH",
+            "update customer",
+            url,
+            data=jinja_env()
+            .get_template("customer_update.json.j2")
+            .render(
+                global_customer_id=global_customer_id,
+                subscriber_name=subscriber_name,
+                subscriber_type=subscriber_type,
+                service_subscriptions=service_subscriptions
+            ),
+        )
+        response: dict = cls.send_message_json(
+            "GET", "get updated customer", url
+        )  # Call API one more time to get Customer's resource version
+        return Customer(
+            global_customer_id=response["global-customer-id"],
+            subscriber_name=response["subscriber-name"],
+            subscriber_type=response["subscriber-type"],
+            resource_version=response["resource-version"],
+        )
+
     @property
     def url(self) -> str:
         """Return customer object url.

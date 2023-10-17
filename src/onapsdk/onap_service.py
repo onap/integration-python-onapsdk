@@ -79,6 +79,10 @@ class OnapService(ABC):
         "Content-Type": "application/json",
         "Accept": "application/json",
     }
+    patch_headers: Dict[str, str] = {
+        "Content-Type": "application/merge-patch+json",
+        "Accept": "application/json",
+    }
     proxy: Dict[str, str] = None
     permanent_headers: PermanentHeadersCollection = PermanentHeadersCollection()
 
@@ -123,7 +127,10 @@ class OnapService(ABC):
         basic_auth: Dict[str, str] = kwargs.pop('basic_auth', None)
         exception = kwargs.pop('exception', None)
         timeout = kwargs.pop('timeout', None)
-        headers = kwargs.pop('headers', cls.headers).copy()
+        if method == "PATCH":
+            headers = kwargs.pop('headers', cls.patch_headers).copy()
+        else:
+            headers = kwargs.pop('headers', cls.headers).copy()
         if OnapService.permanent_headers:
             for header in OnapService.permanent_headers:
                 headers.update(header)

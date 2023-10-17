@@ -69,3 +69,29 @@ def test_cloud_region_get_tenants_by_name(mock_tenants):
 def test_cloud_region_count(mock_send_message_json):
     mock_send_message_json.return_value = COUNT
     assert CloudRegion.count() == 2
+
+@mock.patch.object(CloudRegion, "send_message")
+def test_cloud_region_delete(mock_send_message):
+    cloud_region = CloudRegion("test_cloud_owner", "test_cloud_region_id", False, False)
+    cloud_region.delete()
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        f"Delete cloud region {cloud_region.cloud_region_id}",
+        f"{cloud_region.url}",
+        params={'resource-version': cloud_region.resource_version}
+    )
+
+
+@mock.patch.object(CloudRegion, "send_message")
+def test_cloud_region_update(mock_send_message):
+    cloud_region = CloudRegion("test_cloud_owner", "test_cloud_region_id", False, False)
+    cloud_region.update("test_cloud_owner", "test_cloud_region_id", False, False)
+    mock_send_message.assert_called_once()
+    assert cloud_region.cloud_owner == "test_cloud_owner"
+    assert cloud_region.cloud_region_id == "test_cloud_region_id"
+    assert cloud_region.url == (f"{CloudRegion.base_url}{CloudRegion.api_version}/cloud-infrastructure/cloud-regions/"
+                                f"cloud-region/test_cloud_owner/test_cloud_region_id")
+    method, _, url = mock_send_message.call_args[0]
+    assert method == "PATCH"
+    assert url == (f"{CloudRegion.base_url}{CloudRegion.api_version}/cloud-infrastructure/cloud-regions/"
+                   "cloud-region/test_cloud_owner/test_cloud_region_id")

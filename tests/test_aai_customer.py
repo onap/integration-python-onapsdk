@@ -392,6 +392,23 @@ def test_customer_delete(mock_send):
         customer.url
     )
 
+@mock.patch.object(Customer, "send_message")
+@mock.patch.object(Customer, "send_message_json")
+def test_customer_update(mock_send_json, mock_send):
+    """Test Customer's update method."""
+    mock_send_json.return_value = SIMPLE_CUSTOMER_2
+    customer = Customer.update("generic", "generic", "INFRA")
+    assert customer.global_customer_id == "generic"
+    assert customer.subscriber_name == "generic"
+    assert customer.subscriber_type == "INFRA"
+    assert customer.resource_version is not None
+
+    customer = Customer.create("generic", "generic", "INFRA", service_subscriptions=["test-service-type"])
+    assert customer.global_customer_id == "generic"
+    assert customer.subscriber_name == "generic"
+    assert customer.subscriber_type == "INFRA"
+    assert customer.resource_version is not None
+
 
 @mock.patch.object(Customer, "send_message")
 def test_delete_subscribed_service(mock_send):

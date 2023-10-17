@@ -18,191 +18,185 @@ from onapsdk.aai.business import Customer
 from onapsdk.exceptions import RequestError
 from onapsdk.nbi import Nbi, Service, ServiceOrder, ServiceSpecification
 
-
 SERVICE_SPECIFICATION = {
-    "id":"a80c901c-6593-491f-9465-877e5acffb46",
-    "name":"testService1",
-    "invariantUUID":"217deaa7-dfc3-41d8-aa53-bb009029c09f",
-    "category":"Network Service",
-    "distributionStatus":"DISTRIBUTED",
-    "version":"1.0",
-    "lifecycleStatus":"CERTIFIED",
-    "relatedParty":{
-        "id":"cs0008",
-        "role":"lastUpdater"
+    "id": "a80c901c-6593-491f-9465-877e5acffb46",
+    "name": "testService1",
+    "invariantUUID": "217deaa7-dfc3-41d8-aa53-bb009029c09f",
+    "category": "Network Service",
+    "distributionStatus": "DISTRIBUTED",
+    "version": "1.0",
+    "lifecycleStatus": "CERTIFIED",
+    "relatedParty": {
+        "id": "cs0008",
+        "role": "lastUpdater"
     }
 }
 
-
 SERVICE_SPECIFICATIONS = [
     {
-        "id":"a80c901c-6593-491f-9465-877e5acffb46",
-        "name":"testService1",
-        "invariantUUID":"217deaa7-dfc3-41d8-aa53-bb009029c09f",
-        "category":"Network Service",
-        "distributionStatus":"DISTRIBUTED",
-        "version":"1.0",
-        "lifecycleStatus":"CERTIFIED",
-        "relatedParty":{
-            "id":"cs0008",
-            "role":"lastUpdater"
+        "id": "a80c901c-6593-491f-9465-877e5acffb46",
+        "name": "testService1",
+        "invariantUUID": "217deaa7-dfc3-41d8-aa53-bb009029c09f",
+        "category": "Network Service",
+        "distributionStatus": "DISTRIBUTED",
+        "version": "1.0",
+        "lifecycleStatus": "CERTIFIED",
+        "relatedParty": {
+            "id": "cs0008",
+            "role": "lastUpdater"
         }
     },
     {
-        "id":"b1cda0ab-d968-41ef-9051-d26b33b120be",
-        "name":"testService2",
-        "invariantUUID":"906c3185-9656-4639-8f4d-d51d9ee0695d",
-        "category":"Network Service",
-        "distributionStatus":"DISTRIBUTED",
-        "version":"1.0",
-        "lifecycleStatus":"CERTIFIED",
-        "relatedParty":{
-            "id":"cs0008"
-            ,"role":"lastUpdater"
+        "id": "b1cda0ab-d968-41ef-9051-d26b33b120be",
+        "name": "testService2",
+        "invariantUUID": "906c3185-9656-4639-8f4d-d51d9ee0695d",
+        "category": "Network Service",
+        "distributionStatus": "DISTRIBUTED",
+        "version": "1.0",
+        "lifecycleStatus": "CERTIFIED",
+        "relatedParty": {
+            "id": "cs0008"
+            , "role": "lastUpdater"
         }
     }
 ]
-
 
 SERVICES = [
     {
-        "id":"5c855390-7c39-4fe4-b164-2029b09de57c",
-        "name":"test6",
-        "serviceSpecification":{
-            "name":"testService9",
-            "id":"125727ad-8660-423e-b4a1-99cd4a749f45"
+        "id": "5c855390-7c39-4fe4-b164-2029b09de57c",
+        "name": "test6",
+        "serviceSpecification": {
+            "name": "testService9",
+            "id": "125727ad-8660-423e-b4a1-99cd4a749f45"
         },
-        "relatedParty":{
-            "role":"ONAPcustomer",
-            "id":"generic"
+        "relatedParty": {
+            "role": "ONAPcustomer",
+            "id": "generic"
         },
-        "href":"service/5c855390-7c39-4fe4-b164-2029b09de57c"
+        "href": "service/5c855390-7c39-4fe4-b164-2029b09de57c"
     },
     {
-        "id":"f948be83-c3e8-4515-a27d-2983eba63911",
-        "name":"test4",
-        "serviceSpecification":{
-            "name":"testService8",
-            "id":"0960aedb-3ad8-49e1-ade5-a59414f6fda4"
+        "id": "f948be83-c3e8-4515-a27d-2983eba63911",
+        "name": "test4",
+        "serviceSpecification": {
+            "name": "testService8",
+            "id": "0960aedb-3ad8-49e1-ade5-a59414f6fda4"
         },
-        "relatedParty":{
-            "role":"ONAPcustomer",
-            "id":"generic"
+        "relatedParty": {
+            "role": "ONAPcustomer",
+            "id": "generic"
         },
-        "href":"service/f948be83-c3e8-4515-a27d-2983eba63911"
+        "href": "service/f948be83-c3e8-4515-a27d-2983eba63911"
     },
     {
-        "id":"5066eabd-846c-4ed9-886b-69892a12968d",
-        "name":"test5",
-        "serviceSpecification":{
-            "name":"testService8",
-            "id":"0960aedb-3ad8-49e1-ade5-a59414f6fda4"
+        "id": "5066eabd-846c-4ed9-886b-69892a12968d",
+        "name": "test5",
+        "serviceSpecification": {
+            "name": "testService8",
+            "id": "0960aedb-3ad8-49e1-ade5-a59414f6fda4"
         },
-        "relatedParty":{
-            "role":"ONAPcustomer",
-            "id":"generic"
+        "relatedParty": {
+            "role": "ONAPcustomer",
+            "id": "generic"
         },
-        "href":"service/5066eabd-846c-4ed9-886b-69892a12968d"
+        "href": "service/5066eabd-846c-4ed9-886b-69892a12968d"
     }
 ]
-
 
 SERVICES_CUSTOMER = [
     {
-        "id":"6a855390-7c39-4fe4-b164-2029b09de57d",
-        "name":"test7",
-        "serviceSpecification":{
-            "name":"testService9",
-            "id":"125727ad-8660-423e-b4a1-99cd4a749f45"
+        "id": "6a855390-7c39-4fe4-b164-2029b09de57d",
+        "name": "test7",
+        "serviceSpecification": {
+            "name": "testService9",
+            "id": "125727ad-8660-423e-b4a1-99cd4a749f45"
         },
-        "relatedParty":{
-            "role":"ONAPcustomer",
-            "id":"test_customer"
+        "relatedParty": {
+            "role": "ONAPcustomer",
+            "id": "test_customer"
         },
-        "href":"service/6a855390-7c39-4fe4-b164-2029b09de57d"
+        "href": "service/6a855390-7c39-4fe4-b164-2029b09de57d"
     }
 ]
 
-
-
 SERVICE_ORDERS = [
     {
-        "id":"5e9d6d98ae76af6b04e4df9a",
-        "href":"serviceOrder/5e9d6d98ae76af6b04e4df9a",
-        "externalId":"",
-        "priority":"1",
-        "description":"testService order for generic customer via Python ONAP SDK",
-        "category":"Consumer",
-        "state":"rejected",
-        "orderDate":"2020-04-20T09:38:32.286Z",
-        "completionDateTime":"2020-04-20T09:38:47.866Z",
-        "expectedCompletionDate":None,
-        "requestedStartDate":"2020-04-20T09:47:49.919Z",
-        "requestedCompletionDate":"2020-04-20T09:47:49.919Z",
-        "startDate":None,
-        "@baseType":None,
-        "@type":None,
-        "@schemaLocation":None,
-        "relatedParty":[
+        "id": "5e9d6d98ae76af6b04e4df9a",
+        "href": "serviceOrder/5e9d6d98ae76af6b04e4df9a",
+        "externalId": "",
+        "priority": "1",
+        "description": "testService order for generic customer via Python ONAP SDK",
+        "category": "Consumer",
+        "state": "rejected",
+        "orderDate": "2020-04-20T09:38:32.286Z",
+        "completionDateTime": "2020-04-20T09:38:47.866Z",
+        "expectedCompletionDate": None,
+        "requestedStartDate": "2020-04-20T09:47:49.919Z",
+        "requestedCompletionDate": "2020-04-20T09:47:49.919Z",
+        "startDate": None,
+        "@baseType": None,
+        "@type": None,
+        "@schemaLocation": None,
+        "relatedParty": [
             {
-                "id":"generic",
-                "href":None,
-                "role":"ONAPcustomer",
-                "name":"generic",
-                "@referredType":None
+                "id": "generic",
+                "href": None,
+                "role": "ONAPcustomer",
+                "name": "generic",
+                "@referredType": None
             }
         ],
-        "orderRelationship":None,
-        "orderItem":[
+        "orderRelationship": None,
+        "orderItem": [
             {
-                "orderMessage":[],
-                "id":"1",
-                "action":"add",
-                "state":"rejected",
-                "percentProgress":"0",
-                "@type":None,
-                "@schemaLocation":None,
-                "@baseType":None,
-                "orderItemRelationship":[],
-                "service":{
-                    "id":None,
-                    "serviceType":None,
-                    "href":None,
-                    "name":"08d960ae-c2e1-4d5c-baf0-6420659ea68a",
-                    "serviceState":"active",
-                    "@type":None,
-                    "@schemaLocation":None,
-                    "serviceCharacteristic":None,
-                    "serviceRelationship":None,
-                    "relatedParty":None,
-                    "serviceSpecification":{
-                        "id":"a80c901c-6593-491f-9465-877e5acffb46",
-                        "href":None,
-                        "name":None,
-                        "version":None,
-                        "targetServiceSchema":None,
-                        "@type":None,
-                        "@schemaLocation":None,
-                        "@baseType":None
+                "orderMessage": [],
+                "id": "1",
+                "action": "add",
+                "state": "rejected",
+                "percentProgress": "0",
+                "@type": None,
+                "@schemaLocation": None,
+                "@baseType": None,
+                "orderItemRelationship": [],
+                "service": {
+                    "id": None,
+                    "serviceType": None,
+                    "href": None,
+                    "name": "08d960ae-c2e1-4d5c-baf0-6420659ea68a",
+                    "serviceState": "active",
+                    "@type": None,
+                    "@schemaLocation": None,
+                    "serviceCharacteristic": None,
+                    "serviceRelationship": None,
+                    "relatedParty": None,
+                    "serviceSpecification": {
+                        "id": "a80c901c-6593-491f-9465-877e5acffb46",
+                        "href": None,
+                        "name": None,
+                        "version": None,
+                        "targetServiceSchema": None,
+                        "@type": None,
+                        "@schemaLocation": None,
+                        "@baseType": None
                     }
                 },
-                "orderItemMessage":[]
+                "orderItemMessage": []
             }
         ],
-        "orderMessage":[
+        "orderMessage": [
             {
-                "code":"501",
-                "field":None,
-                "messageInformation":"Problem with AAI API",
-                "severity":"error",
-                "correctionRequired":True
+                "code": "501",
+                "field": None,
+                "messageInformation": "Problem with AAI API",
+                "severity": "error",
+                "correctionRequired": True
             },
             {
-                "code":"503",
-                "field":None,
-                "messageInformation":"tenantId not found in AAI",
-                "severity":"error",
-                "correctionRequired":True
+                "code": "503",
+                "field": None,
+                "messageInformation": "tenantId not found in AAI",
+                "severity": "error",
+                "correctionRequired": True
             }
         ]
     }
@@ -210,74 +204,74 @@ SERVICE_ORDERS = [
 
 SERVICE_ORDERS_NO_RELATED_PARTY = [
     {
-        "id":"5e9d6d98ae76af6b04e4df9a",
-        "href":"serviceOrder/5e9d6d98ae76af6b04e4df9a",
-        "externalId":"",
-        "priority":"1",
-        "description":"testService order for generic customer via Python ONAP SDK",
-        "category":"Consumer",
-        "state":"rejected",
-        "orderDate":"2020-04-20T09:38:32.286Z",
-        "completionDateTime":"2020-04-20T09:38:47.866Z",
-        "expectedCompletionDate":None,
-        "requestedStartDate":"2020-04-20T09:47:49.919Z",
-        "requestedCompletionDate":"2020-04-20T09:47:49.919Z",
-        "startDate":None,
-        "@baseType":None,
-        "@type":None,
-        "@schemaLocation":None,
+        "id": "5e9d6d98ae76af6b04e4df9a",
+        "href": "serviceOrder/5e9d6d98ae76af6b04e4df9a",
+        "externalId": "",
+        "priority": "1",
+        "description": "testService order for generic customer via Python ONAP SDK",
+        "category": "Consumer",
+        "state": "rejected",
+        "orderDate": "2020-04-20T09:38:32.286Z",
+        "completionDateTime": "2020-04-20T09:38:47.866Z",
+        "expectedCompletionDate": None,
+        "requestedStartDate": "2020-04-20T09:47:49.919Z",
+        "requestedCompletionDate": "2020-04-20T09:47:49.919Z",
+        "startDate": None,
+        "@baseType": None,
+        "@type": None,
+        "@schemaLocation": None,
         "relatedParty": None,
-        "orderRelationship":None,
-        "orderItem":[
+        "orderRelationship": None,
+        "orderItem": [
             {
-                "orderMessage":[],
-                "id":"1",
-                "action":"add",
-                "state":"rejected",
-                "percentProgress":"0",
-                "@type":None,
-                "@schemaLocation":None,
-                "@baseType":None,
-                "orderItemRelationship":[],
-                "service":{
-                    "id":None,
-                    "serviceType":None,
-                    "href":None,
-                    "name":"08d960ae-c2e1-4d5c-baf0-6420659ea68a",
-                    "serviceState":"active",
-                    "@type":None,
-                    "@schemaLocation":None,
-                    "serviceCharacteristic":None,
-                    "serviceRelationship":None,
-                    "relatedParty":None,
-                    "serviceSpecification":{
-                        "id":"a80c901c-6593-491f-9465-877e5acffb46",
-                        "href":None,
-                        "name":None,
-                        "version":None,
-                        "targetServiceSchema":None,
-                        "@type":None,
-                        "@schemaLocation":None,
-                        "@baseType":None
+                "orderMessage": [],
+                "id": "1",
+                "action": "add",
+                "state": "rejected",
+                "percentProgress": "0",
+                "@type": None,
+                "@schemaLocation": None,
+                "@baseType": None,
+                "orderItemRelationship": [],
+                "service": {
+                    "id": None,
+                    "serviceType": None,
+                    "href": None,
+                    "name": "08d960ae-c2e1-4d5c-baf0-6420659ea68a",
+                    "serviceState": "active",
+                    "@type": None,
+                    "@schemaLocation": None,
+                    "serviceCharacteristic": None,
+                    "serviceRelationship": None,
+                    "relatedParty": None,
+                    "serviceSpecification": {
+                        "id": "a80c901c-6593-491f-9465-877e5acffb46",
+                        "href": None,
+                        "name": None,
+                        "version": None,
+                        "targetServiceSchema": None,
+                        "@type": None,
+                        "@schemaLocation": None,
+                        "@baseType": None
                     }
                 },
-                "orderItemMessage":[]
+                "orderItemMessage": []
             }
         ],
-        "orderMessage":[
+        "orderMessage": [
             {
-                "code":"501",
-                "field":None,
-                "messageInformation":"Problem with AAI API",
-                "severity":"error",
-                "correctionRequired":True
+                "code": "501",
+                "field": None,
+                "messageInformation": "Problem with AAI API",
+                "severity": "error",
+                "correctionRequired": True
             },
             {
-                "code":"503",
-                "field":None,
-                "messageInformation":"tenantId not found in AAI",
-                "severity":"error",
-                "correctionRequired":True
+                "code": "503",
+                "field": None,
+                "messageInformation": "tenantId not found in AAI",
+                "severity": "error",
+                "correctionRequired": True
             }
         ]
     }
@@ -303,9 +297,9 @@ SERVICE_ORDER_STATE_UNKNOWN = {
     'state': 'lalala'
 }
 
+
 @mock.patch.object(Nbi, "send_message")
 def test_nbi(mock_send_message):
-
     assert Nbi.base_url == "https://nbi.api.simpledemo.onap.org:30274"
     assert Nbi.api_version == "/nbi/api/v4"
 
@@ -343,7 +337,6 @@ def test_service_specification_get_all(mock_service_specification_send_message):
 
 @mock.patch.object(ServiceSpecification, "send_message_json")
 def test_service_specification_get_by_id(mock_service_specification_send_message):
-
     mock_service_specification_send_message.return_value = SERVICE_SPECIFICATION
     service_specification = ServiceSpecification.get_by_id("test")
     assert service_specification.unique_id == "a80c901c-6593-491f-9465-877e5acffb46"
@@ -404,7 +397,6 @@ def test_service_get_all(mock_service_specification_get_by_id,
     assert service.href == "service/6a855390-7c39-4fe4-b164-2029b09de57d"
 
 
-
 @mock.patch.object(ServiceOrder, "send_message_json")
 def test_service_order(mock_service_order_send_message):
     mock_service_order_send_message.return_value = []
@@ -415,7 +407,7 @@ def test_service_order(mock_service_order_send_message):
     assert len(service_orders) == 1
     service_order = service_orders[0]
     assert service_order.unique_id == "5e9d6d98ae76af6b04e4df9a"
-    assert service_order.href =="serviceOrder/5e9d6d98ae76af6b04e4df9a"
+    assert service_order.href == "serviceOrder/5e9d6d98ae76af6b04e4df9a"
     assert service_order.priority == "1"
     assert service_order.category == "Consumer"
     assert service_order.description == "testService order for generic customer via Python ONAP SDK"
@@ -486,7 +478,7 @@ def test_service_order_no_related_party(mock_service_order_send_message):
     assert len(service_orders) == 1
     service_order = service_orders[0]
     assert service_order.unique_id == "5e9d6d98ae76af6b04e4df9a"
-    assert service_order.href =="serviceOrder/5e9d6d98ae76af6b04e4df9a"
+    assert service_order.href == "serviceOrder/5e9d6d98ae76af6b04e4df9a"
     assert service_order.priority == "1"
     assert service_order.category == "Consumer"
     assert service_order.description == "testService order for generic customer via Python ONAP SDK"
@@ -547,13 +539,13 @@ def test_service_order_wait_for_finish():
     with mock.patch.object(ServiceOrder, "finished", new_callable=mock.PropertyMock) as mock_finished:
         with mock.patch.object(ServiceOrder, "completed", new_callable=mock.PropertyMock) as mock_completed:
             service_order = ServiceOrder(
-                 unique_id="test",
-                 href="test",
-                 priority="test",
-                 description="test",
-                 category="test",
-                 external_id="test",
-                 service_instance_name="test",
+                unique_id="test",
+                href="test",
+                priority="test",
+                description="test",
+                category="test",
+                external_id="test",
+                service_instance_name="test",
             )
             service_order.WAIT_FOR_SLEEP_TIME = 0
             mock_finished.side_effect = [False, False, True]

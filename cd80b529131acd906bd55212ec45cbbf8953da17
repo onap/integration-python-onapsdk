@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "352f2d0a_30b487f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:10:11Z",
+      "side": 1,
+      "message": "one small change required",
+      "revId": "cd80b529131acd906bd55212ec45cbbf8953da17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067c8c8f_1adb2342",
+        "filename": "src/onapsdk/so/modification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:10:11Z",
+      "side": 1,
+      "message": "please import both ServiceInstance and Pnf under one TYPE_CHECKING conditional statement",
+      "revId": "cd80b529131acd906bd55212ec45cbbf8953da17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

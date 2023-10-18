@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b138597a_a2116871",
+        "filename": "src/onapsdk/aai/templates/aai_owning_entity_update.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:25:05Z",
+      "side": 1,
+      "message": "There is no difference between aai_owning_entity_update.json.j2 and aai_owning_entity_create.json.j2. Use one file",
+      "revId": "e18e8377958e92569a992f15393fb32e358f0950",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa58bc3c_cafa80f2",
+        "filename": "src/onapsdk/aai/templates/cloud_region_update.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:25:05Z",
+      "side": 1,
+      "message": "No difference between cloud_region_update.json.j2 and cloud_region_create.json.j2. Please use one file",
+      "revId": "e18e8377958e92569a992f15393fb32e358f0950",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11038bdc_1340dbf0",
+        "filename": "src/onapsdk/aai/templates/complex_update.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:25:05Z",
+      "side": 1,
+      "message": "No difference between complex_update.json.j2 and complex_create.json.j2. Please use one file",
+      "revId": "e18e8377958e92569a992f15393fb32e358f0950",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51737a8e_511d1cca",
+        "filename": "src/onapsdk/aai/templates/customer_update.json.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-10-18T06:25:05Z",
+      "side": 1,
+      "message": "No difference between customer_update.json.j2 and customer_create.json.j2. Plese use one file",
+      "revId": "e18e8377958e92569a992f15393fb32e358f0950",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

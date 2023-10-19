@@ -184,8 +184,11 @@ class Service(Nbi):
 
         """
         return (f"Service(name={self.name}, service_id={self.service_id}, "
-                f"service_specification={self.service_specification}, customer={self.customer}, "
-                f"customer_role={self.customer_role})")
+                f"service_specification_id={self._service_specification_id}, "
+                f"service_specification_name={self._service_specification_name}, "
+                f"customer_id={self._customer_id}, "
+                f"customer_role={self.customer_role}, "
+                f"href={self.href})")
 
     @classmethod
     def get_all(cls, customer_id: str = 'generic') -> Iterator["Service"]:
@@ -199,9 +202,11 @@ class Service(Nbi):
 
         """
         for service in cls.send_message_json("GET",
-                                             "Get service instances from NBI",
-                                             f"{cls.base_url}{cls.api_version}/service?"
-                                             f"relatedParty.id={customer_id}"):
+                                             f"Get service instances from NBI {customer_id}"
+                                             f" ID from NBI",
+                                             f"{cls.base_url}{cls.api_version}/"
+                                             f"service/?relatedParty.id={customer_id}"
+                                             ):
             yield cls(service.get("name"),
                       service.get("id"),
                       service.get("serviceSpecification", {}).get("name"),
@@ -343,8 +348,8 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
             if not self._service_specification_id:
                 self._logger.error("No service specification")
                 return None
-            self._service_specification = ServiceSpecification.\
-                get_by_id(self._service_specification_id)
+            self._service_specification = ServiceSpecification.get_by_id(
+                self._service_specification_id)
         return self._service_specification
 
     @classmethod
@@ -371,9 +376,9 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
                 description=service_order.get("description"),
                 external_id=service_order.get("externalId"),
                 customer_id=service_order_related_party,
-                service_specification_id=service_order.get("orderItem", [{}])[0].get("service")\
+                service_specification_id=service_order.get("orderItem", [{}])[0].get("service") \
                     .get("serviceSpecification").get("id"),
-                service_instance_name=service_order.get("orderItem", [{}])[0].\
+                service_instance_name=service_order.get("orderItem", [{}])[0]. \
                     get("service", {}).get("name"),
                 state=service_order.get("state")
             )

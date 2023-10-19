@@ -129,7 +129,7 @@ def test_cloud_region_link_to_complex(mock_add_rel):
 def test_complex_get_by_physical_location_id(mock_send_message_json):
     """Test complex get_by_physical_location_id url creation."""
     Complex.get_by_physical_location_id("test")
-    assert mock_send_message_json.called_once_with(
+    mock_send_message_json.assert_called_once_with(
         "GET",
         "Get complex with physical location id: test",
         f"{Complex.base_url}{Complex.api_version}/cloud-infrastructure/"

@@ -54,7 +54,7 @@ def test_site_resource_get_by_id(mock_send_message_json):
 def test_site_resource_create(mock_get_by_site_resource_id, mock_send_message):
     SiteResource.create("123")
     mock_send_message.assert_called_once()
-    assert mock_get_by_site_resource_id.called_once_with("123")
+    mock_get_by_site_resource_id.assert_called_once_with("123")
 
 @patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")
 def test_site_resource_link_to_complex(mock_add_relationship):

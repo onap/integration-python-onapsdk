@@ -777,7 +777,7 @@ def test_cloud_region_complex_property(mock_complex_get_by_physical_location_id,
     assert cloud_region.complex is None
     mock_send.return_value = CLOUD_REGION_RELATIONSHIP
     assert cloud_region.complex is not None
-    assert mock_complex_get_by_physical_location_id.called_once_with("integration_test_complex")
+    mock_complex_get_by_physical_location_id.assert_called_once_with("integration_test_complex")
 
 
 @mock.patch.object(ServiceInstance, 'send_message')

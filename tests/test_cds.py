@@ -327,12 +327,12 @@ def test_data_dictionary_validation():
 def test_blueprintprocessor_bootstrap(mock_send_message):
 
     Blueprintprocessor.bootstrap()
-    assert mock_send_message.called_once()
+    mock_send_message.assert_called_once()
     assert mock_send_message.call_args[1]["data"] == '{\n    "loadModelType" : true,\n    "loadResourceDictionary" : true,\n    "loadCBA" : true\n}'
     mock_send_message.reset_mock()
 
     Blueprintprocessor.bootstrap(load_cba=False, load_model_type=False, load_resource_dictionary=False)
-    assert mock_send_message.called_once()
+    mock_send_message.assert_called_once()
     assert mock_send_message.call_args[1]["data"] == '{\n    "loadModelType" : false,\n    "loadResourceDictionary" : false,\n    "loadCBA" : false\n}'
 
 
@@ -363,7 +363,7 @@ def test_blueprint_get_resolved_template(cds_element_url_property_mock, mock_sen
     with open(Path(Path(__file__).resolve().parent, "data/vLB_CBA_Python.zip"), "rb") as cba_file:
         b = Blueprint(cba_file.read())
     b.get_resolved_template("test_artifact")
-    assert mock_send_message_json.called_once()
+    mock_send_message_json.assert_called_once()
     assert mock_send_message_json.call_args[0][2] == 'http://127.0.0.1/api/v1/template?bpName=vDNS-CDS-test1&bpVersion=1.0&artifactName=test_artifact&format=application%2Fjson'
 
 
@@ -375,7 +375,7 @@ def test_blueprint_store_resolved_template(cds_element_url_property_mock, mock_s
     with open(Path(Path(__file__).resolve().parent, "data/vLB_CBA_Python.zip"), "rb") as cba_file:
         b = Blueprint(cba_file.read())
     b.store_resolved_template("test_artifact", resolution_key="resolution_key", data={"a": "b"})
-    assert mock_send_message.called_once()
+    mock_send_message.assert_called_once()
     assert mock_send_message.call_args[0][2] == 'http://127.0.0.1/api/v1/template/vDNS-CDS-test1/1.0/test_artifact/resolution_key'
 
 
@@ -388,7 +388,7 @@ def test_resolved_template_get_template_url(cds_element_url_property_mock, mock_
     blueprint.metadata.template_version = "v1.0.0"
     rt = ResolvedTemplate(blueprint, "test_artifact")
     rt.get_resolved_template()
-    assert mock_send_message_json.called_once()
+    mock_send_message_json.assert_called_once()
     assert mock_send_message_json.call_args[0][2] == 'http://127.0.0.1/api/v1/template?bpName=test_blueprint&bpVersion=v1.0.0&artifactName=test_artifact&format=application%2Fjson'
 
     mock_send_message_json.reset_mock()
@@ -397,7 +397,7 @@ def test_resolved_template_get_template_url(cds_element_url_property_mock, mock_
     blueprint.metadata.template_version = "v1.0.0"
     rt = ResolvedTemplate(blueprint, resolution_key="test_rk")
     rt.get_resolved_template()
-    assert mock_send_message_json.called_once()
+    mock_send_message_json.assert_called_once()
     assert mock_send_message_json.call_args[0][2] == 'http://127.0.0.1/api/v1/template?bpName=test_blueprint&bpVersion=v1.0.0&resolutionKey=test_rk&format=application%2Fjson'
 
     mock_send_message_json.reset_mock()
@@ -406,7 +406,7 @@ def test_resolved_template_get_template_url(cds_element_url_property_mock, mock_
     blueprint.metadata.template_version = "v1.0.0"
     rt = ResolvedTemplate(blueprint, resource_id="r_id", resource_type="r_type")
     rt.get_resolved_template()
-    assert mock_send_message_json.called_once()
+    mock_send_message_json.assert_called_once()
     assert mock_send_message_json.call_args[0][2] == 'http://127.0.0.1/api/v1/template?bpName=test_blueprint&bpVersion=v1.0.0&resourceType=r_type&resourceId=r_id&format=application%2Fjson'
 
 
@@ -420,13 +420,13 @@ def test_resolved_template_store_template_url(cds_element_url_property_mock, moc
     blueprint.metadata.template_version = "v1.0.0"
     rt = ResolvedTemplate(blueprint, "test_artifact", resolution_key="resolution_key")
     rt.store_resolved_template({"a": "b"})
-    assert mock_send_message.called_once()
+    mock_send_message.assert_called_once()
     assert mock_send_message.call_args[0][2] == 'http://127.0.0.1/api/v1/template/test_blueprint/v1.0.0/test_artifact/resolution_key'
 
     mock_send_message.reset_mock()
     rt = ResolvedTemplate(blueprint, "test_artifact", resource_id="resource_id", resource_type="resource_type")
     rt.store_resolved_template({"a": "b"})
-    assert mock_send_message.called_once()
+    mock_send_message.assert_called_once()
     assert mock_send_message.call_args[0][2] == 'http://127.0.0.1/api/v1/template/test_blueprint/v1.0.0/test_artifact/resource_type/resource_id'
 
     mock_send_message.reset_mock()

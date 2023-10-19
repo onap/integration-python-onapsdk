@@ -1,0 +1,94 @@
+{
+    "requestDetails": {
+        "modelInfo": {
+            "modelInvariantId": "{{ service.unique_uuid }}",
+            "modelType": "service",
+            "modelName": "{{ service.name }}",
+            "modelVersion": "1.0",
+            "modelVersionId": "{{ service.identifier }}",
+            "modelUuid": "{{ service.identifier }}"
+        },
+        "requestInfo": {
+            "productFamilyId": "5G",
+            "source": "VID",
+            "instanceName": "{{ service_instance.instance_name }}",
+            "suppressRollback": false,
+            "requestorId": "NBI"
+        },
+        "subscriberInfo": {
+            "globalSubscriberId": "{{ service_instance.service_subscription.customer.global_customer_id }}"
+        },
+        "requestParameters": {
+            "subscriptionServiceType": "{{ service.name }}",
+            "userParams": [
+                {
+                    "service": {
+                        "modelInfo": {
+                            "modelVersionId": "{{ service.identifier }}",
+                            "modelName": "{{ service.name }}",
+                            "modelType": "service"
+                        },
+                        "instanceName": "{{ service_instance.instance_name }}",
+                        "instanceParams": [],
+                        "resources": {
+                            {% block pnfs %}
+                            {% if service.pnfs %}
+                            "pnfs": [
+                                {% for pnf in service.pnfs  %}
+                                {
+                                    "modelInfo": {
+                                    "modelType": "pnf",
+                                    "modelInvariantId": "{{ pnf.model_invariant_id }}",
+                                    "modelVersionId": "{{ pnf.model_version_id }}",
+                                    "modelName": "{{ service.name }}",
+                                    "modelVersion": "1.0",
+                                    "modelCustomizationId": "{{ pnf.model_customization_id }}",
+                                    "modelCustomizationName": "{{ pnf.name }}"
+                                },
+                                    "platform": {
+                                        "platformName": "{{ platform_name }}"
+                                    },
+                                    "lineOfBusiness": {
+                                        "lineOfBusinessName": "{{ line_of_business }}"
+                                    },
+                                    "pnfRegistrationFields": {
+                                        "modelNumber": "Simulated Device Melacon",
+                                        "oamV4IpAddress": "10.42.6.245",
+                                        "oamV6IpAddress": "0:0:0:0:0:ffff:a0a:011",
+                                        "serialNumber": "ORAN_SIM-172.30.1.6-400600927-Simulated Device Melacon",
+                                        "softwareVersion": "2.3.5",
+                                        "unitType": "ntsim_oran",
+                                        "vendorName": "Melacon"
+                                    },
+                                    "productFamilyId": "5G",
+                                    "instanceParams": [
+                                        {
+                                           "text": "test-pnf-level"
+                                        }
+                                    ],
+                                    "instanceName": "{{ service_instance.instance_name }}",
+                                    "processingPriority": 1
+                                }
+                                {% endfor %}
+                            ]
+                            {% endif %}
+                            {% endblock %}
+                        }
+                    }
+                },
+                {
+                    "Homing_Solution": "none"
+                }
+            ],
+            "aLaCarte": false,
+            "usePreload": false
+        },
+        "project": {
+            "projectName": "{{ project }}"
+        },
+        "owningEntity": {
+            "owningEntityId": "{{ owning_entity.owning_entity_id }}",
+            "owningEntityName": "{{ owning_entity.name }}"
+        }
+    }
+}

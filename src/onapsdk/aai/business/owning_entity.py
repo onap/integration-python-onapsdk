@@ -148,7 +148,31 @@ class OwningEntity(AaiResource, AaiResourceLinkToTenantMixin):
             "Declare A&AI owning entity",
             (f"{cls.base_url}{cls.api_version}/business/owning-entities/"
              f"owning-entity/{owning_entity_id}"),
-            data=jinja_env().get_template("aai_owning_entity_create.json.j2").render(
+            data=jinja_env().get_template("aai_owning_entity_create_update.json.j2").render(
+                owning_entity_name=name,
+                owning_entity_id=owning_entity_id
+            )
+        )
+        return cls.get_by_owning_entity_id(owning_entity_id)
+
+    @classmethod
+    def update(cls, name: str, owning_entity_id: str) -> "OwningEntity":
+        """Update owning entity A&AI resource.
+
+        Args:
+            name (str): owning entity name
+            owning_entity_id (str): owning entity ID.
+
+        Returns:
+            OwningEntity: Updated OwningEntity object
+
+        """
+        cls.send_message(
+            "PATCH",
+            "update A&AI owning entity",
+            (f"{cls.base_url}{cls.api_version}/business/owning-entities/"
+             f"owning-entity/{owning_entity_id}"),
+            data=jinja_env().get_template("aai_owning_entity_create_update.json.j2").render(
                 owning_entity_name=name,
                 owning_entity_id=owning_entity_id
             )

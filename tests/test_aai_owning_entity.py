@@ -96,3 +96,19 @@ def test_owning_entity_delete(mock_send_message):
         "Delete owning entity",
         f"{owning_entity.url}?resource-version={owning_entity.resource_version}"
     )
+
+@mock.patch.object(OwningEntity, "send_message")
+@mock.patch.object(OwningEntity, "send_message_json")
+def test_owning_entity_update(mock_send_json, mock_send):
+    mock_send_json.return_value = OWNING_ENTITY
+    OwningEntity.update(
+        name="OE-generic",
+        owning_entity_id="OE-generic"
+    )
+
+    owning_entity = OwningEntity.update(
+        name="OE-generic",
+        owning_entity_id="OE-generic"
+    )
+    assert owning_entity.owning_entity_id == "OE-generic"
+    assert owning_entity.name == "OE-generic"

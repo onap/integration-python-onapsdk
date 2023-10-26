@@ -103,7 +103,9 @@ def test_complex_get_all(mock_send_message_json):
 
 
 @mock.patch.object(CloudRegion, "add_relationship")
-def test_cloud_region_link_to_complex(mock_add_rel):
+@mock.patch.object(CloudRegion, "relationships", new_callable=mock.PropertyMock)
+@mock.patch.object(CloudRegion, "delete_relationship")
+def test_cloud_region_link_to_complex(mock_delete_relationship, mock_relationships, mock_add_rel):
     """Test Cloud Region linking with Complex.
 
     Test Relationship object creation
@@ -123,6 +125,10 @@ def test_cloud_region_link_to_complex(mock_add_rel):
                                          f"v27/cloud-infrastructure/complexes/complex"
                                          f"/test_location_id")
     assert len(relationship.relationship_data) == 1
+
+    mock_relationships.return_value = [relationship]
+    cloud_region.unlink_complex(cmplx)
+    mock_delete_relationship.assert_called_once_with(relationship)
 
 
 @mock.patch.object(Complex, "send_message_json")

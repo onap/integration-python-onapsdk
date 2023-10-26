@@ -13,7 +13,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
+
+from onapsdk.exceptions import ResourceNotFound
 
 from ..aai_element import Relationship, RelationshipLabelEnum
 
@@ -45,3 +47,27 @@ class AaiResourceLinkToComplexMixin:  # pylint: disable=too-few-public-methods
             relationship_label=relationship_label.value,
         )
         self.add_relationship(relationship)
+
+    def unlink_complex(self, cmplx: "Complex") -> None:
+        """Delete relationship with complex resource.
+
+        If relationship doesn't exist do nothing.
+
+        Args:
+            cmplx (Complex): Complex object to delete relationship with.
+
+        """
+        try:
+            for relationship in self.relationships:
+                if relationship.related_to == "complex":
+                    physical_location_id: Optional[str] = relationship.get_relationship_data(
+                        "complex.physical-location-id"
+                    )
+                    if physical_location_id is not None \
+                            and cmplx.physical_location_id == physical_location_id:
+                        self._logger.debug(f"Delete relationship with {cmplx.physical_location_id} "
+                                           "complex")
+                        self.delete_relationship(relationship)
+                        break
+        except ResourceNotFound:
+            self._logger.debug("Resource has no relationships")

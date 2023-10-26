@@ -11,7 +11,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch, PropertyMock
 
 from onapsdk.aai.network.site_resource import SiteResource
 
@@ -57,7 +57,9 @@ def test_site_resource_create(mock_get_by_site_resource_id, mock_send_message):
     mock_get_by_site_resource_id.assert_called_once_with("123")
 
 @patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")
-def test_site_resource_link_to_complex(mock_add_relationship):
+@patch("onapsdk.aai.network.site_resource.SiteResource.relationships", new_callable=PropertyMock)
+@patch("onapsdk.aai.network.site_resource.SiteResource.delete_relationship")
+def test_site_resource_link_to_complex(mock_delete_relationship, mock_relationships, mock_add_relationship):
     cmplx = MagicMock(physical_location_id="test-complex-physical-location-id",
                       url="test-complex-url")
     site_resource = SiteResource("test-site-resource")
@@ -71,6 +73,10 @@ def test_site_resource_link_to_complex(mock_add_relationship):
         "relationship-key": "complex.physical-location-id",
         "relationship-value": "test-complex-physical-location-id",
     }]
+
+    mock_relationships.return_value = [relationship]
+    site_resource.unlink_complex(cmplx)
+    mock_delete_relationship.assert_called_once_with(relationship)
 
 
 @patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")

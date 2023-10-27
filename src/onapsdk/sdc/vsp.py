@@ -180,16 +180,14 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
     def _get_item_version_details(self) -> Dict[Any, Any]:
         """Get vsp item details."""
         if self.created() and self.version:
-            url = "{}/items/{}/versions/{}".format(self._base_url(),
-                                                   self.identifier,
-                                                   self.version)
+            url = f"{self._base_url()}/items/{self.identifier}/versions/{self.version}"
             return self.send_message_json('GET', 'get item version', url)
         return {}
 
     def _upload_action(self, package_to_upload: BinaryIO):
         """Do upload for real."""
-        url = "{}/{}/{}/orchestration-template-candidate".format(
-            self._base_url(), Vsp._sdc_path(), self._version_path())
+        url = (f"{self._base_url()}/{Vsp._sdc_path()}/{self._version_path()}/"
+               "orchestration-template-candidate")
         headers = self.headers.copy()
         headers.pop("Content-Type")
         headers["Accept-Encoding"] = "gzip, deflate"
@@ -217,8 +215,8 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
 
     def _validate_action(self):
         """Do validate for real."""
-        url = "{}/{}/{}/orchestration-template-candidate/process".format(
-            self._base_url(), Vsp._sdc_path(), self._version_path())
+        url = (f"{self._base_url()}/{Vsp._sdc_path()}/{self._version_path()}/"
+               "orchestration-template-candidate/process")
         validate_result = self.send_message_json('PUT',
                                                  'Validate artifacts for Vsp',
                                                  url)
@@ -323,9 +321,8 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
     def _get_vsp_details(self) -> Dict[Any, Any]:
         """Get vsp details."""
         if self.created() and self.version:
-            url = "{}/vendor-software-products/{}/versions/{}".format(
-                self._base_url(), self.identifier, self.version)
-
+            url = (f"{self._base_url()}/vendor-software-products/{self.identifier}/"
+                   f"versions/{self.version}")
             return self.send_message_json('GET', 'get vsp version', url)
         return {}
 

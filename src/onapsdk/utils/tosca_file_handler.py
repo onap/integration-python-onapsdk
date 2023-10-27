@@ -70,7 +70,7 @@ def get_vf_list_from_tosca_file(model: str) -> List:
         if "org.openecomp.resource.vf" in value:
             print(node, value)
             if node not in newlist:
-                search_value = str(node).split(" ")[0]
+                search_value = str(node).split(" ", maxsplit=1)[0]
                 newlist.append(search_value)
     return newlist
 

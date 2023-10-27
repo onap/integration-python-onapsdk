@@ -131,6 +131,6 @@ class LineOfBusiness(AaiResource, AaiResourceLinkToTenantMixin):
         """
         self.send_message(
             "DELETE",
-            f"Delete line of business",
+            "Delete line of business",
             f"{self.url}?resource-version={self.resource_version}"
         )

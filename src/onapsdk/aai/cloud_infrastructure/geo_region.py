@@ -23,7 +23,7 @@ from ..aai_element import AaiResource
 class GeoRegion(AaiResource):  # pylint: disable=too-many-instance-attributes
     """Geo region class."""
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  geo_region_id: str,
                  *,
                  geo_region_name: str = "",

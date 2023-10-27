@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import List, Dict, Iterable
+from typing import List, Dict, Iterable, Optional
 
 from onapsdk.utils.headers_creator import headers_sdnc_creator
 from onapsdk.utils.jinja import jinja_env
@@ -219,7 +219,7 @@ class Topology(SdncElement):
         except KeyError:
             return Topology(topology_id=topology_id)
 
-    def get_node(self, node_id) -> "Node":
+    def get_node(self, node_id) -> Optional["Node"]:
         """Get the node with a specific node_id form the specific topology at SDNC via NETCONF-API.
 
         Returns:
@@ -240,7 +240,8 @@ class Topology(SdncElement):
                         password=node["netconf-node-topology:password"],
                         topology_id=self.topology_id)
         except KeyError:
-            print(f"Error. Node creation skipped.")
+            self._logger.error("Error. Node creation skipped.")
+            return None
 
     def get_all_nodes(self) -> Iterable["Node"]:
         """Get all nodes of the specific topology from SDNC using NETCONF-API.
@@ -264,4 +265,4 @@ class Topology(SdncElement):
                            password=node["netconf-node-topology:password"],
                            topology_id=self.topology_id)
             except KeyError:
-                print(f"Error. Node creation skipped. KeyError")
+                self._logger.error("Error. Node creation skipped. KeyError")

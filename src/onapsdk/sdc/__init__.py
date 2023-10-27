@@ -171,7 +171,7 @@ class SDC(OnapService, ABC):
 
         try:
             result = \
-                cls.send_message_json('GET', "get {}s".format(cls.__name__),
+                cls.send_message_json('GET', f"get {cls.__name__}s",
                                       url, **kwargs)
 
             for obj_info in cls._get_objects_list(result):
@@ -322,13 +322,12 @@ class SdcOnboardable(SDC, ABC):
         self._logger.info("attempting to create %s %s in SDC",
                           type(self).__name__, self.name)
         if not self.exists():
-            url = "{}/{}".format(self._base_create_url(), self._sdc_path())
+            url = f"{self._base_create_url()}/{self._sdc_path()}"
             template = jinja_env().get_template(template_name)
             data = template.render(**kwargs)
             try:
                 create_result = self.send_message_json('POST',
-                                                       "create {}".format(
-                                                           type(self).__name__),
+                                                       f"create {type(self).__name__}",
                                                        url,
                                                        data=data)
             except RequestError as exc:
@@ -336,13 +335,12 @@ class SdcOnboardable(SDC, ABC):
                     "an error occured during creation of %s %s in SDC",
                     type(self).__name__, self.name)
                 raise exc
-            else:
-                self._logger.info("%s %s is created in SDC",
-                                  type(self).__name__, self.name)
-                self._status = const.DRAFT
-                self.identifier = self._get_identifier_from_sdc(create_result)
-                self._version = self._get_version_from_sdc(create_result)
-                self.update_informations_from_sdc_creation(create_result)
+            self._logger.info("%s %s is created in SDC",
+                                type(self).__name__, self.name)
+            self._status = const.DRAFT
+            self.identifier = self._get_identifier_from_sdc(create_result)
+            self._version = self._get_version_from_sdc(create_result)
+            self.update_informations_from_sdc_creation(create_result)
 
         else:
             self._logger.warning("%s %s is already created in SDC",
@@ -371,8 +369,7 @@ class SdcOnboardable(SDC, ABC):
         data = template.render(action=action, const=const)
 
         return self.send_message(self.ACTION_METHOD,
-                                 "{} {}".format(action,
-                                                type(self).__name__),
+                                 f"{action} {type(self).__name__}",
                                  url,
                                  data=data,
                                  **kwargs)

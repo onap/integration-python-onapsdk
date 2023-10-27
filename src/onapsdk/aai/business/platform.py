@@ -126,6 +126,6 @@ class Platform(AaiResource):
         """Delete platform."""
         self.send_message(
             "DELETE",
-            f"Delete platform",
+            "Delete platform",
             f"{self.url}?resource-version={self.resource_version}"
         )

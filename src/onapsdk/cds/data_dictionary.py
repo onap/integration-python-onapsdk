@@ -180,8 +180,8 @@ class DataDictionary(CdsElement):
                 "updatedBy": self.data_dictionary_json["updated-by"],
                 "definition": self.data_dictionary_json
             }
-        except KeyError:
-            raise ValidationError("Raw data dictionary JSON has invalid schema")
+        except KeyError as exc:
+            raise ValidationError("Raw data dictionary JSON has invalid schema") from exc
 
 
 class DataDictionarySet:
@@ -236,7 +236,7 @@ class DataDictionarySet:
         Args:
             dd_file_path (str): Data dictinary file path.
         """
-        with open(dd_file_path, "w") as dd_file:
+        with open(dd_file_path, "w", encoding="utf-8") as dd_file:
             dd_file.write(json.dumps([dd.data_dictionary_json for dd in self.dd_set], indent=4))
 
     @classmethod
@@ -259,7 +259,7 @@ class DataDictionarySet:
         dd_set: DataDictionarySet = DataDictionarySet()
 
         try:
-            with open(dd_file_path, "r") as dd_file:  # type file
+            with open(dd_file_path, "r", encoding="utf-8") as dd_file:  # type file
                 dd_json: dict = json.loads(dd_file.read())
                 for data_dictionary in dd_json:  # type DataDictionary
                     dd_set.add(DataDictionary(data_dictionary, fix_schema=fix_schema))

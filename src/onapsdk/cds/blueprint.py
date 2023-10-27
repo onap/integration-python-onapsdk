@@ -772,8 +772,8 @@ class Blueprint(CdsElement):
         """
         try:
             return next(filter(lambda workflow: workflow.name == workflow_name, self.workflows))
-        except StopIteration:
-            raise ParameterError("Workflow with given name does not exist")
+        except StopIteration as exc:
+            raise ParameterError("Workflow with given name does not exist") from exc
 
     def get_resolved_template(self,  # pylint: disable=too-many-arguments
                               artifact_name: str,

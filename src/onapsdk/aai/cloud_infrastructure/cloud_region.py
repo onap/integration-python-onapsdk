@@ -73,7 +73,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
     Represents A&AI cloud region object.
     """
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  cloud_owner: str,
                  cloud_region_id: str,
                  orchestration_disabled: bool,
@@ -177,7 +177,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
                 "owner-defined-type": owner_defined_type,
             }
         )
-        url: str = (f"{cls.get_all_url()}?{urlencode(filter_parameters)}")
+        url: str = f"{cls.get_all_url()}?{urlencode(filter_parameters)}"
         response_json: Dict[str, List[Dict[str, Any]]] = cls.send_message_json(
             "GET", "get cloud regions", url
         )
@@ -215,15 +215,15 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
         """
         try:
             return next(cls.get_all(cloud_owner=cloud_owner, cloud_region_id=cloud_region_id))
-        except StopIteration:
+        except StopIteration as exc:
             msg = (
                 f'CloudRegion with {cloud_owner}, '
                 f'{cloud_region_id} cloud-id not found. '
             )
-            raise ResourceNotFound(msg)
+            raise ResourceNotFound(msg) from exc
 
     @classmethod
-    def create(cls,  # pylint: disable=too-many-locals
+    def create(cls,  # pylint: disable=too-many-locals, too-many-arguments
                cloud_owner: str,
                cloud_region_id: str,
                orchestration_disabled: bool,
@@ -276,7 +276,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
         return cloud_region
 
     @classmethod
-    def update(cls,  # pylint: disable=too-many-locals
+    def update(cls,  # pylint: disable=too-many-locals, too-many-arguments
                cloud_owner: str,
                cloud_region_id: str,
                orchestration_disabled: bool,

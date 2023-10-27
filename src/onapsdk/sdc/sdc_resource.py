@@ -117,8 +117,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             headers = headers_sdc_tester(SdcResource.headers)
 
         response = self.send_message_json("GET",
-                                          "Deep Load {}".format(
-                                              type(self).__name__),
+                                          f"Deep Load {type(self).__name__}",
                                           url,
                                           headers=headers)
 
@@ -187,8 +186,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         """
         if not action_type:
             action_type = "lifecycleState"
-        return "{}/{}/{}/{}/{}".format(base, self._resource_type, version_path,
-                                       action_type, subpath)
+        return f"{base}/{self._resource_type}/{version_path}/{action_type}/{subpath}"
 
     @classmethod
     def _base_create_url(cls) -> str:
@@ -199,7 +197,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             str: the base url
 
         """
-        return "{}/sdc1/feProxy/rest/v1/catalog".format(cls.base_front_url)
+        return f"{cls.base_front_url}/sdc1/feProxy/rest/v1/catalog"
 
     @classmethod
     def _base_url(cls) -> str:
@@ -210,7 +208,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             str: the base url
 
         """
-        return "{}/sdc/v1/catalog".format(cls.base_back_url)
+        return f"{cls.base_back_url}/sdc/v1/catalog"
 
     @classmethod
     def _get_all_url(cls) -> str:
@@ -221,8 +219,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             str: the url
 
         """
-        return "{}/{}?resourceType={}".format(cls._base_url(), cls._sdc_path(),
-                                              cls.__name__.upper())
+        return f"{cls._base_url()}/{cls._sdc_path()}?resourceType={cls.__name__.upper()}"
 
     @classmethod
     def _get_objects_list(cls, result: List[Dict[str, Any]]
@@ -371,12 +368,20 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         """Really submit the SDC Vf in order to enable it."""
         raise NotImplementedError("SDC is an abstract class")
 
+    def _create_onboard_step(self) -> None:
+        self.create()
+        time.sleep(self._time_wait)
+        self.onboard()
+
+    def _certify_onboard_step(self) -> None:
+        self.certify()
+        time.sleep(self._time_wait)
+        self.onboard()
+
     def onboard(self) -> None:
         """Onboard resource in SDC."""
         if not self.status:
-            self.create()
-            time.sleep(self._time_wait)
-            self.onboard()
+            self._create_onboard_step()
         elif self.status == const.DRAFT:
             for property_to_add in self._properties_to_add:
                 self.add_property(property_to_add)
@@ -386,10 +391,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             time.sleep(self._time_wait)
             self.onboard()
         elif self.status == const.CHECKED_IN:
-            # Checked in status check added
-            self.certify()
-            time.sleep(self._time_wait)
-            self.onboard()
+            self._certify_onboard_step()
         elif self.status == const.CERTIFIED:
             self.load()
 
@@ -594,7 +596,8 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
             StatusError: Resource has not DRAFT status
 
         """
-        data = open(artifact, 'rb').read()
+        with open(artifact, 'rb') as artifact_file:
+            data = artifact_file.read()
         artifact_string = base64.b64encode(data).decode('utf-8')
         if self.status != const.DRAFT:
             msg = "Can't add artifact to resource which is not in DRAFT status"
@@ -931,9 +934,8 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
 
         """
         if self.status == const.DRAFT:
-            url = "{}/{}/{}/resourceInstance".format(self._base_create_url(),
-                                                     self._sdc_path(),
-                                                     self.unique_identifier)
+            url = (f"{self._base_create_url()}/{self._sdc_path()}/"
+                   f"{self.unique_identifier}/resourceInstance")
 
             template = jinja_env().get_template(
                 "add_resource_to_service.json.j2")

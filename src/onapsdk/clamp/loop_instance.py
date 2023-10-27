@@ -343,7 +343,7 @@ class LoopInstance(Clamp):
     def delete(self) -> None:
         """Delete the loop instance."""
         self._logger.debug("Delete %s loop instance", self.name)
-        url = "{}/loop/delete/{}".format(self.base_url(), self.name)
+        url = f"{self.base_url()}/loop/delete/{self.name}"
         self.send_message('PUT',
                           'Delete loop instance',
                           url)

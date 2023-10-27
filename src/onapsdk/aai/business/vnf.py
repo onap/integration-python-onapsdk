@@ -453,8 +453,7 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         if not self.service_instance.active:
-            msg = f'Service orchestration status must be "Active"'
-            raise StatusError(msg)
+            raise StatusError('Service orchestration status must be "Active"')
 
         lob = settings.LOB
         platform = settings.PLATFORM

@@ -139,7 +139,7 @@ class Configuration(InstanceBase):
         """
         url: str = f"{self.url}/rollback"
 
-        params = dict()
+        params = {}
         if config_version is not None:
             params["config-version"] = config_version
         if config_tag is not None:

@@ -1,4 +1,4 @@
-"""Global settings module."""  # pylint: disable=bad-whitespace
+"""Global settings module."""
 #   Copyright 2022 Orange, Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");

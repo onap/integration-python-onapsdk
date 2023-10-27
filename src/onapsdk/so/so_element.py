@@ -107,9 +107,8 @@ class SoElement(OnapService):
             str: the base url
 
         """
-        return "{}/onap/so/infra/serviceInstantiation/{}/serviceInstances".format(
-            cls.base_url, cls.api_version
-        )
+        return (f"{cls.base_url}/onap/so/infra/serviceInstantiation/"
+                f"{cls.api_version}/serviceInstances")
 
     @classmethod
     def get_guis(cls) -> GuiItem:

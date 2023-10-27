@@ -86,7 +86,7 @@ class Service(AaiResource):
         filter_parameters: dict = cls.filter_none_key_values(
             {"service-id": service_id, "service-description": service_description}
         )
-        url: str = (f"{cls.get_all_url()}?{urlencode(filter_parameters)}")
+        url: str = f"{cls.get_all_url()}?{urlencode(filter_parameters)}"
         for service in cls.send_message_json("GET", "get subscriptions", url).get("service", []):
             yield Service(
                 service_id=service["service-id"],

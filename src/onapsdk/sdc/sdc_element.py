@@ -40,8 +40,7 @@ class SdcElement(SdcOnboardable, ABC):
 
         """
         if self.created():
-            url = "{}/items/{}/versions".format(self._base_url(),
-                                                self.identifier)
+            url = f"{self._base_url()}/items/{self.identifier}/versions"
             results: Dict[str, Any] = self.send_message_json('GET', 'get item', url)
             if results["listCount"] > 1:
                 items: List[Dict[str, Any]] = results["results"]
@@ -89,7 +88,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: the base url
 
         """
-        return "{}/sdc1/feProxy/onboarding-api/v1.0".format(cls.base_front_url)
+        return f"{cls.base_front_url}/sdc1/feProxy/onboarding-api/v1.0"
 
     @classmethod
     def _base_create_url(cls) -> str:
@@ -100,7 +99,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: the base url
 
         """
-        return "{}/sdc1/feProxy/onboarding-api/v1.0".format(cls.base_front_url)
+        return f"{cls.base_front_url}/sdc1/feProxy/onboarding-api/v1.0"
 
     def _generate_action_subpath(self, action: str) -> str:
         """
@@ -127,7 +126,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: the end of the path
 
         """
-        return "{}/versions/{}".format(self.identifier, self.version)
+        return f"{self.identifier}/versions/{self.version}"
 
     def _action_url(self, base: str, subpath: str, version_path: str,
                     action_type: str = None) -> str:
@@ -145,8 +144,8 @@ class SdcElement(SdcOnboardable, ABC):
 
         """
         if action_type == const.ARCHIVE:
-            version_path = version_path.split("/")[0]
-        return "{}/{}/{}/actions".format(base, subpath, version_path)
+            version_path = version_path.split("/", maxsplit=1)[0]
+        return f"{base}/{subpath}/{version_path}/actions"
 
     @classmethod
     def _get_objects_list(cls, result: List[Dict[str, Any]]
@@ -172,7 +171,7 @@ class SdcElement(SdcOnboardable, ABC):
             str: the url
 
         """
-        return "{}/{}".format(cls._base_url(), cls._sdc_path())
+        return f"{cls._base_url()}/{cls._sdc_path()}"
 
     @property
     def delete_url(self) -> str:

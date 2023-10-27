@@ -187,6 +187,6 @@ class OwningEntity(AaiResource, AaiResourceLinkToTenantMixin):
         """
         self.send_message(
             "DELETE",
-            f"Delete owning entity",
+            "Delete owning entity",
             f"{self.url}?resource-version={self.resource_version}"
         )

@@ -94,10 +94,10 @@ class Profile(DefinitionBase):
         self.kubernetes_version: str = kubernetes_version
         self.labels: dict = labels
         if self.labels is None:
-            self.labels = dict()
+            self.labels = {}
         self.extra_resource_types: dict = extra_resource_types
         if self.extra_resource_types is None:
-            self.extra_resource_types = dict()
+            self.extra_resource_types = {}
 
     @property
     def url(self) -> str:

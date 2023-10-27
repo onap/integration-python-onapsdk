@@ -54,9 +54,9 @@ class SettingsLoader:
             # Load values from custom settings
             try:
                 module = importlib.import_module(settings_env_value)
-            except ModuleNotFoundError:
+            except ModuleNotFoundError as exc:
                 msg = "Can't import custom settings. Is it under PYTHONPATH?"
-                raise ModuleError(msg)
+                raise ModuleError(msg) from exc
             self.filter_and_set(module)
 
     def __getattribute__(self, name: str) -> Any:

@@ -35,6 +35,6 @@ def load_json_file(path_to_json_file: str) -> str:
     Returns:
         File content as string (str)
     """
-    with open(path_to_json_file) as json_file:
+    with open(path_to_json_file, encoding="utf-8") as json_file:
         data = json.load(json_file)
         return json.dumps(data)

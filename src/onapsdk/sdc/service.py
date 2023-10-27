@@ -229,10 +229,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
         # first Lines are equivalent for all onboard functions but it's more
         # readable
         if not self.status:
-            # equivalent step as in onboard-function in sdc_resource
-            self.create()
-            time.sleep(self._time_wait)
-            self.onboard()
+            self._create_onboard_step()
         elif self.status == const.DRAFT:
             if not any([self.resources, self._properties_to_add]):
                 raise ParameterError("No resources nor properties were given")
@@ -241,10 +238,8 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
             time.sleep(self._time_wait)
             self.onboard()
         elif self.status == const.CHECKED_IN:
-            self.certify()
-            time.sleep(self._time_wait)
-            self.onboard()
-        elif self.status == const.CERTIFIED:
+            self._certify_onboard_step()
+        elif self.status == const.CERTIFIED:  # pylint: disable=duplicate-code
             self.distribute()
             self.onboard()
         elif self.status == const.DISTRIBUTED:
@@ -298,13 +293,12 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
         """
         if not self._tosca_model:
-            url = "{}/services/{}/toscaModel".format(self._base_url(),
-                                                     self.identifier)
+            url = f"{self._base_url()}/services/{self.identifier}/toscaModel"
             headers = self.headers.copy()
             headers["Accept"] = "application/octet-stream"
             self._tosca_model = self.send_message(
                 "GET",
-                "Download Tosca Model for {}".format(self.name),
+                f"Download Tosca Model for {self.name}",
                 url,
                 headers=headers).content
         return self._tosca_model
@@ -612,13 +606,11 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
     def get_tosca(self, paths) -> None:
         """Get Service tosca files and save it."""
-        url = "{}/services/{}/toscaModel".format(self._base_url(),
-                                                 self.identifier)
+        url = f"{self._base_url()}/services/{self.identifier}/toscaModel"
         headers = self.headers.copy()
         headers["Accept"] = "application/octet-stream"
         result = self.send_message("GET",
-                                   "Download Tosca Model for {}".format(
-                                       self.name),
+                                   f"Download Tosca Model for {self.name}",
                                    url,
                                    headers=headers)
         if result:
@@ -626,7 +618,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
     def _create_tosca_file(self, paths, result: Response) -> None:
         """Create Service Tosca files from HTTP response."""
-        csar_filename = "service-{}-csar.csar".format(self.name)
+        csar_filename = f"service-{self.name}-csar.csar"
         makedirs(paths, exist_ok=True)
         with open((paths + csar_filename), 'wb') as csar_file:
             for chunk in result.iter_content(chunk_size=128):
@@ -639,8 +631,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
     def _check_distributed(self) -> bool:
         """Check if service is distributed and update status accordingly."""
-        url = "{}/services/distribution/{}".format(self._base_create_url(),
-                                                   self.distribution_id)
+        url = f"{self._base_create_url()}/services/distribution/{self.distribution_id}"
         headers = headers_sdc_creator(SdcResource.headers)
 
         status = {}
@@ -649,8 +640,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
         try:
             result = self.send_message_json("GET",
-                                            "Check distribution for {}".format(
-                                                self.name),
+                                            f"Check distribution for {self.name}",
                                             url,
                                             headers=headers)
         except ResourceNotFound:
@@ -688,12 +678,10 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
     def load_metadata(self) -> None:
         """Load Metada of Service and retrieve informations."""
-        url = "{}/services/{}/distribution".format(self._base_create_url(),
-                                                   self.identifier)
+        url = f"{self._base_create_url()}/services/{self.identifier}/distribution"
         headers = headers_sdc_creator(SdcResource.headers)
         result = self.send_message_json("GET",
-                                        "Get Metadata for {}".format(
-                                            self.name),
+                                        f"Get Metadata for {self.name}",
                                         url,
                                         headers=headers)
         if ('distributionStatusOfServiceList' in result
@@ -712,7 +700,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
             str: the url
 
         """
-        return "{}/{}".format(cls._base_url(), cls._sdc_path())
+        return f"{cls._base_url()}/{cls._sdc_path()}"
 
     def _really_submit(self) -> None:
         """Really submit the SDC Service in order to enable it."""

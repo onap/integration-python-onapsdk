@@ -27,7 +27,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
     Collection of physical locations that can house cloud-regions.
     """
 
-    def __init__(self,  # pylint: disable=too-many-locals
+    def __init__(self,  # pylint: disable=too-many-locals, too-many-arguments
                  physical_location_id: str,
                  *,
                  name: str = "",
@@ -124,7 +124,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
                 f"{self.physical_location_id}")
 
     @classmethod
-    def create(cls,  # pylint: disable=too-many-locals
+    def create(cls,  # pylint: disable=too-many-locals, too-many-arguments
                physical_location_id: str,
                *,
                name: str = "",
@@ -189,7 +189,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
         return complex_object
 
     @classmethod
-    def update(cls,  # pylint: disable=too-many-locals
+    def update(cls,  # pylint: disable=too-many-locals, too-many-arguments
                physical_location_id: str,
                *,
                name: str = "",
@@ -294,7 +294,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
                 "identity-url": identity_url,
             }
         )
-        url: str = (f"{cls.get_all_url()}?{urlencode(filter_parameters)}")
+        url: str = f"{cls.get_all_url()}?{urlencode(filter_parameters)}"
         for complex_json in cls.send_message_json("GET",
                                                   "get cloud regions",
                                                   url).get("complex", []):

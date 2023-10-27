@@ -141,8 +141,8 @@ class Property:  # pylint: disable=too-many-instance-attributes, too-few-public-
         try:
             return next(filter(lambda x: x.unique_id == self.get_input_values[0].get("inputId"),
                                self.sdc_resource.inputs))
-        except StopIteration:
-            raise ParameterError("Property input does not exist")
+        except StopIteration as exc:
+            raise ParameterError("Property input does not exist") from exc
 
     @property
     def value(self) -> Any:

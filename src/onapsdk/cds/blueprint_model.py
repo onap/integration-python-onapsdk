@@ -110,9 +110,9 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
                 tags=blueprint_model["blueprintModel"]['tags']
             )
 
-        except ResourceNotFound:
+        except ResourceNotFound as exc:
             raise ResourceNotFound(f"BlueprintModel blueprint_model_id='{blueprint_model_id}"
-                                   f" not found")
+                                   f" not found") from exc
 
     @classmethod
     def get_by_name_and_version(cls, blueprint_name: str,
@@ -151,9 +151,10 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
                 tags=blueprint_model["blueprintModel"]['tags']
             )
 
-        except ResourceNotFound:
+        except ResourceNotFound as exc:
             raise ResourceNotFound(f"BlueprintModel blueprint_name='{blueprint_name}"
-                                   f" and blueprint_version='{blueprint_version}' not found")
+                                   f" and blueprint_version='{blueprint_version}' "
+                                   "not found") from exc
 
     @classmethod
     def get_all(cls) -> Iterator["BlueprintModel"]:

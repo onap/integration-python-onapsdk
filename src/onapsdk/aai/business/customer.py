@@ -207,9 +207,9 @@ class ServiceSubscription(AaiResource):
         """
         try:
             return next(self.cloud_regions)
-        except StopIteration:
+        except StopIteration as exc:
             msg = f"No cloud region for service subscription '{self.name}'"
-            raise ParameterError(msg)
+            raise ParameterError(msg) from exc
 
     @property
     def tenant(self) -> "Tenant":
@@ -226,9 +226,9 @@ class ServiceSubscription(AaiResource):
         """
         try:
             return next(self.tenants)
-        except StopIteration:
+        except StopIteration as exc:
             msg = f"No tenants for service subscription '{self.name}'"
-            raise ParameterError(msg)
+            raise ParameterError(msg) from exc
 
     @property
     def _cloud_regions_tenants_data(self) -> Iterator["ServiceSubscriptionCloudRegionTenantData"]:
@@ -441,7 +441,7 @@ class Customer(AaiResource):
                 "subscriber-type": subscriber_type,
             }
         )
-        url: str = (f"{cls.get_all_url()}?{urlencode(filter_parameters)}")
+        url: str = f"{cls.get_all_url()}?{urlencode(filter_parameters)}"
         for customer in cls.send_message_json("GET", "get customers", url).get("customer", []):
             yield Customer(
                 global_customer_id=customer["global-customer-id"],

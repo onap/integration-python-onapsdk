@@ -99,7 +99,10 @@ class AaiElement(OnapService):
     base_url = settings.AAI_URL
     api_version = "/aai/" + settings.AAI_API_VERSION
     headers = headers_aai_creator(OnapService.headers)
-    patch_headers = headers_aai_creator(OnapService.patch_headers)
+    patch_headers = headers_aai_creator({
+        "Content-Type": "application/merge-patch+json",
+        "Accept": "application/json",
+    })
 
     @classmethod
     def get_guis(cls) -> GuiItem:

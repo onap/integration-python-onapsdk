@@ -79,10 +79,7 @@ class OnapService(ABC):
         "Content-Type": "application/json",
         "Accept": "application/json",
     }
-    patch_headers: Dict[str, str] = {
-        "Content-Type": "application/merge-patch+json",
-        "Accept": "application/json",
-    }
+    patch_headers: Dict[str, str] = headers.copy()
     proxy: Dict[str, str] = None
     permanent_headers: PermanentHeadersCollection = PermanentHeadersCollection()
 

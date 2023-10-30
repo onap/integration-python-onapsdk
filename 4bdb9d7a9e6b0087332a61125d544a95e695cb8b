@@ -1,0 +1,8 @@
+Code-Review+2: Marek Szwa?kiewicz <marek.szwalkiewicz@external.t-mobile.pl>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: Marek Szwa?kiewicz <marek.szwalkiewicz@external.t-mobile.pl>
+Submitted-at: Mon, 30 Oct 2023 13:12:04 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/python-onapsdk/+/136338
+Project: integration/python-onapsdk
+Branch: refs/heads/master

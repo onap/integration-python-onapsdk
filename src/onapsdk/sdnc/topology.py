@@ -20,6 +20,12 @@ from onapsdk.utils.jinja import jinja_env
 from .sdnc_element import SdncElement
 
 
+NETCONF_NODE_TOPOLOGY_HOST: str = "netconf-node-topology:host"
+NETCONF_NODE_TOPOLOGY_PORT: str = "netconf-node-topology:port"
+NETCONF_NODE_TOPOLOGY_USERNAME: str = "netconf-node-topology:username"
+NETCONF_NODE_TOPOLOGY_PASSWORD: str = "netconf-node-topology:password"
+
+
 class Node(SdncElement):
     """SDNC Node."""
 
@@ -76,10 +82,10 @@ class Node(SdncElement):
         node_json_template = {
             "node": {
                 "node-id": "",
-                "netconf-node-topology:host": "",
-                "netconf-node-topology:port": 0,
-                "netconf-node-topology:username": "",
-                "netconf-node-topology:password": ""
+                NETCONF_NODE_TOPOLOGY_HOST: "",
+                NETCONF_NODE_TOPOLOGY_PORT: 0,
+                NETCONF_NODE_TOPOLOGY_USERNAME: "",
+                NETCONF_NODE_TOPOLOGY_PASSWORD: ""
             }
         }
         self.send_message(
@@ -109,10 +115,10 @@ class Node(SdncElement):
         node_json_template = {
             "node": {
                 "node-id": "",
-                "netconf-node-topology:host": "",
-                "netconf-node-topology:port": 0,
-                "netconf-node-topology:username": "",
-                "netconf-node-topology:password": ""
+                NETCONF_NODE_TOPOLOGY_HOST: "",
+                NETCONF_NODE_TOPOLOGY_PORT: 0,
+                NETCONF_NODE_TOPOLOGY_USERNAME: "",
+                NETCONF_NODE_TOPOLOGY_PASSWORD: ""
             }
         }
         self.send_message(
@@ -234,10 +240,10 @@ class Topology(SdncElement):
         try:
             node = node_object["network-topology:node"][0]
             return Node(node_id=node["node-id"],
-                        host=node["netconf-node-topology:host"],
-                        port=node["netconf-node-topology:port"],
-                        username=node["netconf-node-topology:username"],
-                        password=node["netconf-node-topology:password"],
+                        host=node[NETCONF_NODE_TOPOLOGY_HOST],
+                        port=node[NETCONF_NODE_TOPOLOGY_PORT],
+                        username=node[NETCONF_NODE_TOPOLOGY_USERNAME],
+                        password=node[NETCONF_NODE_TOPOLOGY_PASSWORD],
                         topology_id=self.topology_id)
         except KeyError:
             self._logger.error("Error. Node creation skipped.")
@@ -259,10 +265,10 @@ class Topology(SdncElement):
         for node in nodes:
             try:
                 yield Node(node_id=node["node-id"],
-                           host=node["netconf-node-topology:host"],
-                           port=node["netconf-node-topology:port"],
-                           username=node["netconf-node-topology:username"],
-                           password=node["netconf-node-topology:password"],
+                           host=node[NETCONF_NODE_TOPOLOGY_HOST],
+                           port=node[NETCONF_NODE_TOPOLOGY_PORT],
+                           username=node[NETCONF_NODE_TOPOLOGY_USERNAME],
+                           password=node[NETCONF_NODE_TOPOLOGY_PASSWORD],
                            topology_id=self.topology_id)
             except KeyError:
                 self._logger.error("Error. Node creation skipped. KeyError")

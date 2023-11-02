@@ -36,8 +36,8 @@ class AvailabilityZone:
 
     name: str
     hypervisor_type: str
-    operational_status: str = None
-    resource_version: str = None
+    operational_status: Optional[str] = None
+    resource_version: Optional[str] = None
 
 
 @dataclass
@@ -49,22 +49,22 @@ class EsrSystemInfo:  # pylint: disable=too-many-instance-attributes
     password: str
     system_type: str
     resource_version: str
-    system_name: str = None
-    esr_type: str = None
-    vendor: str = None
-    version: str = None
-    service_url: str = None
-    protocol: str = None
-    ssl_cacert: str = None
+    system_name: Optional[str] = None
+    esr_type: Optional[str] = None
+    vendor: Optional[str] = None
+    version: Optional[str] = None
+    service_url: Optional[str] = None
+    protocol: Optional[str] = None
+    ssl_cacert: Optional[str] = None
     ssl_insecure: Optional[bool] = None
-    ip_address: str = None
-    port: str = None
-    cloud_domain: str = None
-    default_tenant: str = None
+    ip_address: Optional[str] = None
+    port: Optional[str] = None
+    cloud_domain: Optional[str] = None
+    default_tenant: Optional[str] = None
     passive: Optional[bool] = None
-    remote_path: str = None
-    system_status: str = None
-    openstack_region_id: str = None
+    remote_path: Optional[str] = None
+    system_status: Optional[str] = None
+    openstack_region_id: Optional[str] = None
 
 
 class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToProjectMixin):  # pylint: disable=too-many-instance-attributes
@@ -73,7 +73,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
     Represents A&AI cloud region object.
     """
 
-    def __init__(self,  # pylint: disable=too-many-arguments
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments
                  cloud_owner: str,
                  cloud_region_id: str,
                  orchestration_disabled: bool,
@@ -558,7 +558,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
                     availability_zone_operational_status=availability_zone_operational_status)
         )
 
-    def add_esr_system_info(self,  # pylint: disable=too-many-arguments, too-many-locals
+    def add_esr_system_info(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                             esr_system_info_id: str,
                             user_name: str,
                             password: str,

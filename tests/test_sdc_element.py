@@ -83,8 +83,8 @@ def test_get_guis(send_message_mock):
     send_message_mock.return_value.url = "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/portal"
     gui_results = SDC.get_guis()
     assert type(gui_results) == GuiList
-    assert gui_results.guilist[0].url == send_message_mock.return_value.url
-    assert gui_results.guilist[0].status == send_message_mock.return_value.status_code
+    assert gui_results.guis[0].url == send_message_mock.return_value.url
+    assert gui_results.guis[0].status == send_message_mock.return_value.status_code
 
 @mock.patch.object(SDC, "get_all")
 @mock.patch.object(Vsp, "created")

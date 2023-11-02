@@ -28,9 +28,9 @@ from .service import ServiceInstance
 class ServiceSubscriptionCloudRegionTenantData:
     """Dataclass to store cloud regions and tenants data for service subscription."""
 
-    cloud_owner: str = None
-    cloud_region_id: str = None
-    tenant_id: str = None
+    cloud_owner: Optional[str] = None
+    cloud_region_id: Optional[str] = None
+    tenant_id: Optional[str] = None
 
 
 @dataclass

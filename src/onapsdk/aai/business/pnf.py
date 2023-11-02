@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """Pnf instance class."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_instance: "ServiceInstance",
                  pnf_name: str,
                  in_maint: bool,

@@ -22,5 +22,5 @@ def test_get_guis(send_message_mock):
     component = SdncElement()
     gui_results = component.get_guis()
     assert type(gui_results) == GuiList
-    assert len(gui_results.guilist) == 2
-    # assert gui_results.guilist[0].status == send_message_mock.return_value.status_code
+    assert len(gui_results.guis) == 2
+    # assert gui_results.guis[0].status == send_message_mock.return_value.status_code

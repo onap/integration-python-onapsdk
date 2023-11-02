@@ -14,7 +14,7 @@
 #   limitations under the License.
 import logging
 from abc import ABC
-from typing import Any, Dict, Iterator, List, Union
+from typing import Any, Dict, Iterator, List, Optional, Union
 import base64
 import time
 
@@ -47,8 +47,8 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         """Initialize the object."""
         super().__init__(name)
         self.version_filter: str = version
-        self._unique_uuid: str = None
-        self._unique_identifier: str = None
+        self._unique_uuid: Optional[str] = None
+        self._unique_identifier: Optional[str] = None
         self._resource_type: str = "resources"
         self._properties_to_add: List[Property] = properties or []
         self._inputs_to_add: Union[Property, NestedInput] = inputs or []
@@ -106,7 +106,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         """Load Object information from SDC."""
         self.exists()
 
-    def deep_load(self) -> None:
+    def deep_load(self) -> None:  # NOSONAR
         """Deep load Object informations from SDC."""
         url = (
             f"{self.base_front_url}/sdc1/feProxy/rest/v1/"
@@ -334,7 +334,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
     # pylint: disable=too-many-return-statements
     @staticmethod
     def _parse_sdc_status(sdc_status: str, distribution_state: str,
-                          logger: logging.Logger) -> str:
+                          logger: logging.Logger) -> Optional[str]:
         """
         Parse SDC status in order to normalize it.
 

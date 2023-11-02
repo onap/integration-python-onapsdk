@@ -117,7 +117,7 @@ class Property:  # pylint: disable=too-many-instance-attributes, too-few-public-
         return self.name == obj.name and self.property_type == obj.property_type
 
     @property
-    def input(self) -> Input:
+    def input(self) -> Optional[Input]:
         """Property input.
 
         Returns property Input object.

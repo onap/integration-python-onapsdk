@@ -30,7 +30,9 @@ from .vnf import VnfInstance
 class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """Service instanve class."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments, too-many-locals
+    ACTIVE_STATUS_MESSAGE = 'Service orchestration status must be "Active"'
+
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_subscription: "ServiceSubscription",
                  instance_id: str,
                  instance_name: str = None,
@@ -150,7 +152,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
             Iterator[ Union[NetworkInstance, VnfInstance]]: [description]
 
         """
-        if not relationship_related_to_type in ["l3-network", "generic-vnf", "pnf"]:
+        if relationship_related_to_type not in ["l3-network", "generic-vnf", "pnf"]:
             msg = (
                 f'Invalid "relationship_related_to_type" value. '
                 f'Provided "{relationship_related_to_type}". '
@@ -167,7 +169,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                     self)
 
     @classmethod
-    def create(cls, service_subscription: "ServiceSubscription",  # pylint: disable=too-many-arguments, too-many-locals
+    def create(cls, service_subscription: "ServiceSubscription",  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                instance_id: str,
                instance_name: str = None,
                service_type: str = None,
@@ -389,7 +391,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         if not self.active:
-            raise StatusError('Service orchestration status must be "Active"')
+            raise StatusError(self.ACTIVE_STATUS_MESSAGE)
 
         if a_la_carte:
             return VnfInstantiation.instantiate_ala_carte(
@@ -447,7 +449,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         if not self.active:
-            raise StatusError('Service orchestration status must be "Active"')
+            raise StatusError(self.ACTIVE_STATUS_MESSAGE)
 
         return PnfInstantiation.instantiate_macro(
             self,
@@ -497,7 +499,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         if not self.active:
-            raise StatusError('Service orchestration status must be "Active"')
+            raise StatusError(self.ACTIVE_STATUS_MESSAGE)
 
         return NetworkInstantiation.instantiate_ala_carte(
             self,

@@ -28,7 +28,7 @@ from .vf_module import VfModuleInstance
 class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """VNF Instance class."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_instance: "ServiceInstance",
                  vnf_id: str,
                  vnf_type: str,

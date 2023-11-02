@@ -32,6 +32,8 @@ from onapsdk.exceptions import (APIError, ConnectionFailed, InvalidResponse,
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+APPLICATION_JSON: str = "application/json"
+
 
 class OnapService(ABC):
     """
@@ -74,13 +76,13 @@ class OnapService(ABC):
                 yield ph_call()
 
     _logger: logging.Logger = logging.getLogger(__qualname__)
-    server: str = None
+    server: Optional[str] = None
     headers: Dict[str, str] = {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+        "Content-Type": APPLICATION_JSON,
+        "Accept": APPLICATION_JSON,
     }
     patch_headers: Dict[str, str] = headers.copy()
-    proxy: Dict[str, str] = None
+    proxy: Optional[Dict[str, str]] = None
     permanent_headers: PermanentHeadersCollection = PermanentHeadersCollection()
 
     def __init_subclass__(cls):
@@ -95,7 +97,7 @@ class OnapService(ABC):
         """Initialize the service."""
 
     @classmethod
-    def send_message(cls, method: str, action: str, url: str,  # pylint: disable=too-many-locals
+    def send_message(cls, method: str, action: str, url: str,  # pylint: disable=too-many-locals  # NOSONAR
                      **kwargs) -> Union[requests.Response, None]:
         """
         Send a message to an ONAP service.
@@ -161,7 +163,7 @@ class OnapService(ABC):
                 cls.server, action,
                 response.text if (response is not None and
                                   response.headers.get("Content-Type", "") in \
-                                      ["application/json", "text/plain"]) else "n/a")
+                                      [APPLICATION_JSON, "text/plain"]) else "n/a")
 
             response.raise_for_status()
             return response
@@ -285,7 +287,7 @@ class OnapService(ABC):
             backoff_factor=backoff_factor,
         )
         adapter = HTTPAdapter(max_retries=retry)
-        session.mount('http://', adapter)
+        session.mount('http://', adapter)  # NOSONAR
         session.mount('https://', adapter)
         return session
 

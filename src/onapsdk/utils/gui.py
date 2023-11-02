@@ -26,10 +26,10 @@ class GuiItem:
 class GuiList:
     """Class to list all the GUIs."""
 
-    guilist: List[GuiItem]
+    guis: List[GuiItem]
 
     def add(self, element):
         """Add a GUi to GUI list."""
         if not isinstance(element, GuiItem):
             raise AttributeError
-        self.guilist.append(element)
+        self.guis.append(element)

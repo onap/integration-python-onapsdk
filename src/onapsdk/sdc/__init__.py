@@ -232,7 +232,7 @@ class SDC(OnapService, ABC):
         return True
 
     @classmethod
-    def get_guis(cls) -> GuiItem:
+    def get_guis(cls) -> GuiList:
         """Retrieve the status of the SDC GUIs.
 
         Only one GUI is referenced for SDC
@@ -258,9 +258,9 @@ class SdcOnboardable(SDC, ABC):
     def __init__(self, name: str = None) -> None:
         """Initialize the object."""
         super().__init__(name)
-        self._identifier: str = None
-        self._status: str = None
-        self._version: str = None
+        self._identifier: Optional[str] = None
+        self._status: Optional[str] = None
+        self._version: Optional[str] = None
 
     @property
     def identifier(self) -> str:

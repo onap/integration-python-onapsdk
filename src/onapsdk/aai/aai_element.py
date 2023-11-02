@@ -105,7 +105,7 @@ class AaiElement(OnapService):
     })
 
     @classmethod
-    def get_guis(cls) -> GuiItem:
+    def get_guis(cls) -> GuiList:
         """Retrieve the status of the AAI GUIs.
 
         Only one GUI is referenced for AAI

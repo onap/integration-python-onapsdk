@@ -21,7 +21,7 @@ from .instance import Instance
 class NetworkInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """Network instance class."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_instance: "ServiceInstance",
                  network_id: str,
                  is_bound_to_vpn: bool,
@@ -49,7 +49,7 @@ class NetworkInstance(Instance):  # pylint: disable=too-many-instance-attributes
                  widget_model_version: str = None,
                  selflink: str = None,
                  operational_status: str = None,
-                 is_trunked: bool = None):
+                 is_trunked: bool = None) -> None:
         """Network instance object initialization.
 
         Args:

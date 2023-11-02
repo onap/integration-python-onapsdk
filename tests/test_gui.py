@@ -43,9 +43,9 @@ class GuiTestingBase(unittest.TestCase):
         test = GuiList([])
         test.add(gui1)
         test.add(gui2)
-        assert len(test.guilist) == 2
-        assert test.guilist[0].status == 184
-        assert test.guilist[1].url == 'url2'
+        assert len(test.guis) == 2
+        assert test.guis[0].status == 184
+        assert test.guis[1].url == 'url2'
 
     def test_add_bad_gui_item(self):
         with self.assertRaises(AttributeError):

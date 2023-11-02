@@ -485,19 +485,6 @@ def test_upload_not_OK(mock_send, mock_status):
 
 @mock.patch.object(Vsp, 'load_status')
 @mock.patch.object(Vsp, 'send_message')
-def test_upload_error_in_response(mock_send, mock_status):
-    """Don't update status if submission NOK."""
-    vsp = Vsp()
-    vsp._status = const.DRAFT
-    mock_send.return_value = mock.MagicMock(text='{"status": "Failure"}')
-    vsp._version = "1234"
-    vsp._identifier = "12345"
-    with pytest.raises(APIError):
-        vsp.upload_package('data')
-    mock_send.assert_called_once_with('POST', 'upload ZIP for Vsp', "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/12345/versions/1234/orchestration-template-candidate", files={'upload': 'data'}, headers={'Accept': 'application/json', 'USER_ID': 'cs0008', 'Authorization': 'Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=', 'X-ECOMP-InstanceID': 'onapsdk', 'Accept-Encoding': 'gzip, deflate'})
-
-@mock.patch.object(Vsp, 'load_status')
-@mock.patch.object(Vsp, 'send_message')
 def test_upload_OK(mock_send, mock_status):
     """Don't update status if submission NOK."""
     vsp = Vsp()

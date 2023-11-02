@@ -15,7 +15,7 @@
 
 import json
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from onapsdk.configuration import settings
 from onapsdk.exceptions import ResourceNotFound
@@ -42,14 +42,14 @@ class BaseCategory(SDC, ABC):  # pylint: disable=too-many-instance-attributes
 
         """
         super().__init__(name)
-        self.normalized_name: str = None
-        self.unique_id: str = None
-        self.icons: List[str] = None
-        self.subcategories: List[Dict[str, str]] = None
-        self.version: str = None
-        self.owner_id: str = None
-        self.empty: bool = None
-        self.type: str = None
+        self.normalized_name: Optional[str] = None
+        self.unique_id: Optional[str] = None
+        self.icons: Optional[List[str]] = None
+        self.subcategories: Optional[List[Dict[str, str]]] = None
+        self.version: Optional[str] = None
+        self.owner_id: Optional[str] = None
+        self.empty: Optional[str] = None
+        self.type: Optional[str] = None
 
     @classmethod
     def _get_all_url(cls) -> str:
@@ -235,8 +235,9 @@ class ResourceCategory(BaseCategory):
         category_obj: "ResourceCategory" = super().get(name=name)
         if not subcategory:
             return category_obj
-        filtered_subcategories: Dict[str, str] = list(filter(lambda x: x["name"] == subcategory,
-                                                             category_obj.subcategories))
+        filtered_subcategories: List[Dict[str, str]] = list(
+            filter(lambda x: x["name"] == subcategory,
+                   category_obj.subcategories))
         if not filtered_subcategories:
             raise ResourceNotFound(f"Subcategory {subcategory} does not exist.")
         category_obj.subcategories = filtered_subcategories

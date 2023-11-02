@@ -16,7 +16,7 @@ import json
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict
+from typing import Dict, Optional
 
 from onapsdk.configuration import settings
 from onapsdk.sdc.service import Service
@@ -32,11 +32,11 @@ from onapsdk.utils.gui import GuiItem, GuiList
 class SoElement(OnapService):
     """Mother Class of all SO elements."""
 
-    name: str = None
+    name: Optional[str] = None
     _server: str = "SO"
     base_url = settings.SO_URL
     api_version = settings.SO_API_VERSION
-    _status: str = None
+    _status: Optional[str] = None
 
     @property
     def headers(self):
@@ -111,7 +111,7 @@ class SoElement(OnapService):
                 f"{cls.api_version}/serviceInstances")
 
     @classmethod
-    def get_guis(cls) -> GuiItem:
+    def get_guis(cls) -> GuiList:
         """Retrieve the status of the SO GUIs.
 
         Only one GUI is referenced for SO: SO monitor

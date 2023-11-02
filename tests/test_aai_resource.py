@@ -56,5 +56,5 @@ def test_get_guis(send_message_mock):
     send_message_mock.return_value.url = "https://aai.api.sparky.simpledemo.onap.org:30220/services/aai/webapp/index.html#/browse"
     gui_results = component.get_guis()
     assert type(gui_results) == GuiList
-    assert gui_results.guilist[0].url == send_message_mock.return_value.url
-    assert gui_results.guilist[0].status == send_message_mock.return_value.status_code
+    assert gui_results.guis[0].url == send_message_mock.return_value.url
+    assert gui_results.guis[0].status == send_message_mock.return_value.status_code

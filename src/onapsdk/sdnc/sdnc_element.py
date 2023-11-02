@@ -23,7 +23,7 @@ class SdncElement(OnapService):
     base_url = settings.SDNC_URL
 
     @classmethod
-    def get_guis(cls) -> GuiItem:
+    def get_guis(cls) -> GuiList:
         """Retrieve the status of the SDNC GUIs.
 
         There are 2 GUIS

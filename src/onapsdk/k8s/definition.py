@@ -72,7 +72,7 @@ class Profile(DefinitionBase):
                  kubernetes_version: str,
                  labels: dict = None,
                  release_name: str = None,
-                 extra_resource_types: list = None) -> None:
+                 extra_resource_types: dict = None) -> None:
         """Profile object initialization.
 
         Args:
@@ -83,7 +83,7 @@ class Profile(DefinitionBase):
             namespace (str): Namespace that service is created in
             kubernetes_version (str): Required Kubernetes version
             labels (dict): Extra Labels for k8s resources
-            extra_resource_types (list): Extra k8s resources types (GVK) for status monitoring
+            extra_resource_types (dict): Extra k8s resources types (GVK) for status monitoring
         """
         super().__init__(rb_name, rb_version)
         self.profile_name: str = profile_name

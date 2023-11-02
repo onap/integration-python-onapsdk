@@ -30,7 +30,7 @@ class CdsElement(OnapService, ABC):
     auth: tuple = settings.CDS_AUTH
 
     @classmethod
-    def get_guis(cls) -> GuiItem:
+    def get_guis(cls) -> GuiList:
         """Retrieve the status of the CDS GUIs.
 
         Only one GUI is referenced for CDS: CDS UI

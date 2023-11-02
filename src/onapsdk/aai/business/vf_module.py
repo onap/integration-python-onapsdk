@@ -22,7 +22,7 @@ from .instance import Instance
 class VfModuleInstance(Instance):  # pylint: disable=too-many-instance-attributes
     """Vf module instance class."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  vnf_instance: "VnfInstance",
                  vf_module_id: str,
                  is_base_vf_module: bool,

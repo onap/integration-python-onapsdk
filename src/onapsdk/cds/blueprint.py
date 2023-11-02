@@ -241,9 +241,9 @@ class Workflow(CdsElement):
         self.name: str = cba_workflow_name
         self.workflow_data: dict = cba_workflow_data
         self.blueprint: "Blueprint" = blueprint
-        self._steps: List[self.WorkflowStep] = None
-        self._inputs: List[self.WorkflowInput] = None
-        self._outputs: List[self.WorkflowOutput] = None
+        self._steps: Optional[List[self.WorkflowStep]] = None
+        self._inputs: Optional[List[self.WorkflowInput]] = None
+        self._outputs: Optional[List[self.WorkflowOutput]] = None
 
     def __repr__(self) -> str:
         """Representation of object.
@@ -425,7 +425,7 @@ class ResolvedTemplate(CdsElement):
             str: Retrieve resolved template url
 
         """
-        params_dict: Dict[str, str] = urlencode(dict(filter(lambda item: item[1] is not None, {
+        params_dict: str = urlencode(dict(filter(lambda item: item[1] is not None, {
             "bpName": self.blueprint.metadata.template_name,
             "bpVersion": self.blueprint.metadata.template_version,
             "artifactName": self.artifact_name,
@@ -534,9 +534,9 @@ class Blueprint(CdsElement):
         """
         super().__init__()
         self.cba_file_bytes: bytes = cba_file_bytes
-        self._cba_metadata: CbaMetadata = None
-        self._cba_mappings: MappingSet = None
-        self._cba_workflows: List[Workflow] = None
+        self._cba_metadata: Optional[CbaMetadata] = None
+        self._cba_mappings: Optional[MappingSet] = None
+        self._cba_workflows: Optional[List[Workflow]] = None
 
     @property
     def url(self) -> str:

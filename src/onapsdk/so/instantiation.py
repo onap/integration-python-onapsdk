@@ -136,8 +136,8 @@ class VnfParameters:
     """
 
     name: str
-    vnf_parameters: Iterable["InstantiationParameter"] = None
-    vfmodule_parameters: Iterable["VfmoduleParameters"] = None
+    vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None
+    vfmodule_parameters: Optional[Iterable["VfmoduleParameters"]] = None
 
 @dataclass
 class VfmoduleParameters:
@@ -147,7 +147,7 @@ class VfmoduleParameters:
     """
 
     name: str
-    vfmodule_parameters: Iterable["InstantiationParameter"] = None
+    vfmodule_parameters: Optional[Iterable["InstantiationParameter"]] = None
 
 
 @dataclass
@@ -194,7 +194,7 @@ class Subnet:  # pylint: disable=too-many-instance-attributes
     name: str
     start_address: str
     gateway_address: str
-    role: str = None
+    role: Optional[str] = None
     cidr_mask: str = "24"
     ip_version: str = "4"
     dhcp_enabled: bool = False
@@ -384,7 +384,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
         self.vnf = vnf
 
     @classmethod
-    def create_from_request_response(cls, request_response: dict) -> "VnfInstantiation":
+    def create_from_request_response(cls, request_response: dict) -> "VnfInstantiation":  # NOSONAR
         """Create VNF instantiation object based on request details.
 
         Raises:
@@ -399,7 +399,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
         """
         if request_response.get("request", {}).get("requestScope") == "vnf" and \
             request_response.get("request", {}).get("requestType") == "createInstance":
-            service: SdcService = None
+            service: Optional[SdcService] = None
             for related_instance in request_response.get("request", {}).get("requestDetails", {})\
                     .get("relatedInstanceList", []):
                 if related_instance.get("relatedInstance", {}).get("modelInfo", {})\
@@ -408,7 +408,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                         .get("modelInfo", {}).get("modelName"))
             if not service:
                 raise ResourceNotFound("No related service in Vnf instance details response")
-            vnf: Vnf = None
+            vnf: Optional[Vnf] = None
             for service_vnf in service.vnfs:
                 if service_vnf.name == request_response.get("request", {})\
                     .get("requestDetails", {}).get("modelInfo", {}).get("modelCustomizationName"):
@@ -725,7 +725,7 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
         """
         if request_response.get("request", {}).get("requestScope") == "pnf" and \
             request_response.get("request", {}).get("requestType") == "createInstance":
-            service: SdcService = None
+            service: Optional[SdcService] = None
             for related_instance in request_response.get("request", {}).get("requestDetails", {})\
                     .get("relatedInstanceList", []):
                 if related_instance.get("relatedInstance", {}).get("modelInfo", {})\
@@ -734,7 +734,7 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                         .get("modelInfo", {}).get("modelName"))
             if not service:
                 raise ResourceNotFound("No related service in Pnf instance details response")
-            pnf: Pnf = None
+            pnf: Optional[Pnf] = None
             for service_pnf in service.pnfs:
                 if service_pnf.name == request_response.get("request", {})\
                     .get("requestDetails", {}).get("modelInfo", {}).get("modelCustomizationName"):
@@ -969,7 +969,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
 
     # pylint: disable=too-many-arguments, too-many-locals
     @classmethod
-    def instantiate_macro(cls,
+    def instantiate_macro(cls,  # NOSONAR
                           sdc_service: "SdcService",
                           customer: "Customer",
                           owning_entity: OwningEntity,

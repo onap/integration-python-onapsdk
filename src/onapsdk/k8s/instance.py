@@ -208,7 +208,7 @@ class Configuration(InstanceBase):
         """
         config: dict = self.send_message_json(
             "GET",
-            "Get Configuration",
+            "Get Configuration by version",
             f"{self.url}/version/{config_version}"
         )
         return self.__class__(
@@ -253,7 +253,7 @@ class Configuration(InstanceBase):
         """
         config: dict = self.send_message_json(
             "GET",
-            "Get Configuration",
+            "Get Configuration by tag",
             f"{self.url}/tag/{config_tag}"
         )
         return self.__class__(
@@ -526,7 +526,7 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
 
         """
         for config in self.send_message_json("GET",
-                                             "Get configurations",
+                                             "Get all configurations",
                                              f"{self.url}/config"):
             yield self.config_class(
                 self.instance_id,
@@ -552,7 +552,7 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
 
         config: dict = self.send_message_json(
             "GET",
-            "Get Configuration",
+            "Get Configuration by name",
             url
         )
         return self.config_class(

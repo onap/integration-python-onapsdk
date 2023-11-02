@@ -14,7 +14,7 @@
 #   limitations under the License.
 from abc import ABC
 from enum import Enum
-from typing import Iterator
+from typing import Iterator, Optional
 from uuid import uuid4
 
 from onapsdk.aai.business.customer import Customer
@@ -216,7 +216,7 @@ class Service(Nbi):
                       service.get("href"))
 
     @property
-    def customer(self) -> Customer:
+    def customer(self) -> Optional[Customer]:
         """Service order Customer object.
 
         Returns:
@@ -228,7 +228,7 @@ class Service(Nbi):
         return Customer.get_by_global_customer_id(self._customer_id)
 
     @property
-    def service_specification(self) -> ServiceSpecification:
+    def service_specification(self) -> Optional[ServiceSpecification]:
         """Service specification.
 
         Returns:
@@ -322,7 +322,7 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
                 f"service_instance_name={self.service_instance_name}, state={self.state})")
 
     @property
-    def customer(self) -> Customer:
+    def customer(self) -> Optional[Customer]:
         """Get customer object used in service order.
 
         Returns:
@@ -337,7 +337,7 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
         return self._customer
 
     @property
-    def service_specification(self) -> ServiceSpecification:
+    def service_specification(self) -> Optional[ServiceSpecification]:
         """Service order service specification used in order item.
 
         Returns:

@@ -20,6 +20,10 @@ from onapsdk.onap_service import OnapService
 from onapsdk.utils.jinja import jinja_env
 
 
+WARN_MSG = ("VID is deprecated and shouldn't be used! "
+            "It's not a part of the ONAP release since Istanbul.")
+
+
 class Vid(OnapService, ABC):
     """VID base class."""
 
@@ -32,8 +36,7 @@ class Vid(OnapService, ABC):
         Args:
             name (str): Resource name
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         super().__init__()
         self.name: str = name
 
@@ -57,8 +60,7 @@ class Vid(OnapService, ABC):
             Vid: Created VID resource
 
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         cls.send_message(
             "POST",
             f"Declare VID resource with {name} name",
@@ -81,8 +83,7 @@ class OwningEntity(Vid):
             str: Url used for ownint entity creation
 
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         return f"{cls.base_url}{cls.api_version}/maintenance/category_parameter/owningEntity"
 
 
@@ -97,8 +98,7 @@ class Project(Vid):
             str: Url used for project creation
 
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         return f"{cls.base_url}{cls.api_version}/maintenance/category_parameter/project"
 
 
@@ -113,8 +113,7 @@ class LineOfBusiness(Vid):
             str: Url used for line of business creation
 
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         return f"{cls.base_url}{cls.api_version}/maintenance/category_parameter/lineOfBusiness"
 
 
@@ -129,6 +128,5 @@ class Platform(Vid):
             str: Url used for platform creation
 
         """
-        warn("VID is deprecated and shouldn't be used! "
-             "It's not a part of the ONAP release since Istanbul.")
+        warn(WARN_MSG)
         return f"{cls.base_url}{cls.api_version}/maintenance/category_parameter/platform"

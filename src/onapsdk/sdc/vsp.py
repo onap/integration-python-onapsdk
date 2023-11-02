@@ -18,7 +18,7 @@ from typing import BinaryIO
 from typing import Callable
 from typing import Dict
 
-from onapsdk.exceptions import APIError, ParameterError
+from onapsdk.exceptions import ParameterError
 from onapsdk.sdc.sdc_element import SdcElement
 from onapsdk.sdc.vendor import Vendor
 import onapsdk.constants as const
@@ -42,8 +42,8 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
     VSP_PATH = "vendor-software-products"
     headers = headers_sdc_creator(SdcElement.headers)
 
-    def __init__(self, name: str = None, package: BinaryIO = None,
-                 vendor: Vendor = None):
+    def __init__(self, name: Optional[str] = None, package: Optional[BinaryIO] = None,
+                 vendor: Optional[Vendor] = None):
         """
         Initialize vsp object.
 
@@ -52,10 +52,10 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
 
         """
         super().__init__()
-        self._csar_uuid: str = None
-        self._vendor: Vendor = vendor or None
+        self._csar_uuid: Optional[str] = None
+        self._vendor: Optional[Vendor] = vendor
         self.name: str = name or "ONAP-test-VSP"
-        self.package = package or None
+        self.package: Optional[BinaryIO] = package
 
     @property
     def status(self):
@@ -192,26 +192,11 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         headers.pop("Content-Type")
         headers["Accept-Encoding"] = "gzip, deflate"
         data = {'upload': package_to_upload}
-        upload_result = self.send_message('POST',
-                                          'upload ZIP for Vsp',
-                                          url,
-                                          headers=headers,
-                                          files=data)
-        if upload_result:
-            # TODO https://jira.onap.org/browse/SDC-3505  pylint: disable=W0511
-            response_json = json.loads(upload_result.text)
-            if response_json["status"] != "Success":
-                self._logger.error(
-                    "an error occured during file upload for Vsp %s",
-                    self.name)
-                raise APIError(response_json)
-            # End TODO https://jira.onap.org/browse/SDC-3505
-            self._logger.info("Files for Vsp %s have been uploaded",
-                              self.name)
-        else:
-            self._logger.error(
-                "an error occured during file upload for Vsp %s",
-                self.name)
+        self.send_message('POST',
+                          'upload ZIP for Vsp',
+                          url,
+                          headers=headers,
+                          files=data)
 
     def _validate_action(self):
         """Do validate for real."""

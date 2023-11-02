@@ -25,7 +25,7 @@ from ..mixins.link_to_project import AaiResourceLinkToProjectMixin
 class SiteResource(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToProjectMixin):  # pylint: disable=too-many-instance-attributes
     """Site resource class."""
 
-    def __init__(self,  # pylint: disable=too-many-locals, too-many-arguments
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-locals, too-many-arguments
                  site_resource_id: str,
                  *,
                  site_resource_name: str = "",
@@ -175,7 +175,7 @@ class SiteResource(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkTo
                             resource_version=site_resource_data.get("resource-version", ""))
 
     @classmethod
-    def create(cls,  # pylint: disable=too-many-arguments
+    def create(cls,  # NOSONAR  # pylint: disable=too-many-arguments
                site_resource_id: str,
                site_resource_name: Optional[str] = None,
                description: Optional[str] = None,

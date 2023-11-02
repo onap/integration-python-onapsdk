@@ -170,15 +170,15 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
             self.category_name = sdc_values["category"]
         self.resources = resources or []
         self._instantiation_type: Optional[ServiceInstantiationType] = instantiation_type
-        self._distribution_id: str = None
-        self._distributed: bool = False
+        self._distribution_id: Optional[str] = None
+        self._distributed: Optional[bool] = False
         self._resource_type: str = "services"
-        self._tosca_model: bytes = None
-        self._tosca_template: str = None
-        self._vnfs: list = None
-        self._pnfs: list = None
-        self._networks: list = None
-        self._vf_modules: list = None
+        self._tosca_model: Optional[bytes] = None
+        self._tosca_template: Optional[str] = None
+        self._vnfs: Optional[list] = None
+        self._pnfs: Optional[list] = None
+        self._networks: Optional[list] = None
+        self._vf_modules: Optional[list] = None
 
     @classmethod
     def get_by_unique_uuid(cls, unique_uuid: str) -> "Service":
@@ -332,33 +332,32 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
             model_instance_name=self.name,
             component=component
         )
-        if node_template_type is Vnf:
-            if component.group_instances:
-                for vf_module in component.group_instances:
-                    if not any([property_def["name"] == "vf_module_label"] and \
-                            property_def["value"] == "base_template_dummy_ignore" for \
-                                property_def in vf_module["properties"]):
-                        node_template.vf_modules.append(VfModule(
-                            name=vf_module["name"],
-                            group_type=vf_module["type"],
-                            model_name=vf_module["groupName"],
-                            model_version_id=vf_module["groupUUID"],
-                            model_invariant_uuid=vf_module["invariantUUID"],
-                            model_version=vf_module["version"],
-                            model_customization_id=vf_module["customizationUUID"],
-                            properties=(
-                                Property(
-                                    name=property_def["name"],
-                                    property_type=property_def["type"],
-                                    description=property_def["description"],
-                                    value=property_def["value"]
-                                ) for property_def in vf_module["properties"] \
-                                    if property_def["value"] and not (
-                                        property_def["name"] == "vf_module_label" and \
-                                            property_def["value"] == "base_template_dummy_ignore"
-                                    )
-                            )
-                        ))
+        if node_template_type is Vnf and component.group_instances:
+            for vf_module in component.group_instances:
+                if not any([property_def["name"] == "vf_module_label"] and \
+                        property_def["value"] == "base_template_dummy_ignore" for \
+                            property_def in vf_module["properties"]):
+                    node_template.vf_modules.append(VfModule(
+                        name=vf_module["name"],
+                        group_type=vf_module["type"],
+                        model_name=vf_module["groupName"],
+                        model_version_id=vf_module["groupUUID"],
+                        model_invariant_uuid=vf_module["invariantUUID"],
+                        model_version=vf_module["version"],
+                        model_customization_id=vf_module["customizationUUID"],
+                        properties=(
+                            Property(
+                                name=property_def["name"],
+                                property_type=property_def["type"],
+                                description=property_def["description"],
+                                value=property_def["value"]
+                            ) for property_def in vf_module["properties"] \
+                                if property_def["value"] and not (
+                                    property_def["name"] == "vf_module_label" and \
+                                        property_def["value"] == "base_template_dummy_ignore"
+                                )
+                        )
+                    ))
         return node_template
 
     def __has_component_type(self, origin_type: str) -> bool:
@@ -629,7 +628,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
         except BadZipFile as exc:
             self._logger.exception(exc)
 
-    def _check_distributed(self) -> bool:
+    def _check_distributed(self) -> None:
         """Check if service is distributed and update status accordingly."""
         url = f"{self._base_create_url()}/services/distribution/{self.distribution_id}"
         headers = headers_sdc_creator(SdcResource.headers)
@@ -656,7 +655,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
         self._distributed = True
 
     def _update_components_status(self, status: Dict[str, bool],
-                                  result: Response) -> Dict[str, bool]:
+                                  result: Dict[str, Any]) -> Dict[str, bool]:
         """Update components distribution status."""
         distrib_list = result['distributionStatusList']
         self._logger.debug("[SDC][Get Distribution] distrib_list = %s",

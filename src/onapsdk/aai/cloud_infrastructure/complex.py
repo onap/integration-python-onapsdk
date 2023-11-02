@@ -27,7 +27,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
     Collection of physical locations that can house cloud-regions.
     """
 
-    def __init__(self,  # pylint: disable=too-many-locals, too-many-arguments
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-locals, too-many-arguments
                  physical_location_id: str,
                  *,
                  name: str = "",
@@ -124,7 +124,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
                 f"{self.physical_location_id}")
 
     @classmethod
-    def create(cls,  # pylint: disable=too-many-locals, too-many-arguments
+    def create(cls,  # NOSONAR  # pylint: disable=too-many-locals, too-many-arguments
                physical_location_id: str,
                *,
                name: str = "",
@@ -189,7 +189,7 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
         return complex_object
 
     @classmethod
-    def update(cls,  # pylint: disable=too-many-locals, too-many-arguments
+    def update(cls,  # NOSONAR  # pylint: disable=too-many-locals, too-many-arguments
                physical_location_id: str,
                *,
                name: str = "",

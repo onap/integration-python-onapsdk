@@ -28,7 +28,7 @@ class IdentityService:  # pylint: disable=too-many-instance-attributes
     """Class to store identity service details."""
 
     identity_id: str
-    url: str = "http://1.2.3.4:5000/v2.0"
+    url: str = "http://1.2.3.4:5000/v2.0"  # NOSONAR
     mso_id: str = "onapsdk_user"
     mso_pass: str = "mso_pass_onapsdk"
     project_domain_name: str = "NULL"

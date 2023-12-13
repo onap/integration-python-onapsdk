@@ -242,9 +242,8 @@ class Dataspace(CpsElement):
         self.send_message(
             "POST",
             "Create schema set",
-            f"{self._url}/dataspaces/{self.name}/schema-sets/",
+            f"{self._url}/dataspaces/{self.name}/schema-sets?schema-set-name={schema_set_name}",
             files={"file": schema_set},
-            data={"schema-set-name": schema_set_name},
             headers={},  # Leave headers empty to fill it correctly by `requests` library
             auth=self.auth
         )

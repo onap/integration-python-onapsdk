@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "340174ca_5300bd10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7846
+      },
+      "writtenOn": "2023-12-13T13:25:02Z",
+      "side": 1,
+      "message": "Looks good. URL is consistent with the url defined in CPS 😊",
+      "revId": "1b15687adc819767360c5fcedfad21b5f4b277c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

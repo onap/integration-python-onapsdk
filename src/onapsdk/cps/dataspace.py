@@ -15,8 +15,9 @@
 
 from functools import wraps
 from typing import Any, BinaryIO, Dict, Iterable, Union
-from ..exceptions import (APIError, ResourceNotFound)
+from urllib.parse import urljoin
 
+from ..exceptions import (APIError, ResourceNotFound)
 from .anchor import Anchor
 from .cps_element import CpsElement
 from .schemaset import SchemaSet, SchemaSetModuleReference
@@ -52,7 +53,7 @@ class Dataspace(CpsElement):
             str: Dataspace url
 
         """
-        return f"{self._url}/dataspaces/{self.name}"
+        return urljoin(self._url, f"dataspaces/{self.name}/")
 
     def exception_handler(function): # pylint: disable= no-self-argument
         """Exception handler.
@@ -84,7 +85,8 @@ class Dataspace(CpsElement):
         cls.send_message(
             "POST",
             f"Create {dataspace_name} dataspace",
-            f"{cls._url}/dataspaces?dataspace-name={dataspace_name}",
+            urljoin(cls._url, "dataspaces"),
+            params={"dataspace-name": dataspace_name},
             auth=cls.auth
         )
         return Dataspace(dataspace_name)
@@ -104,7 +106,7 @@ class Dataspace(CpsElement):
         dataspace_data = cls.send_message_json(
             "GET",
             f"Get {dataspace_name} dataspace",
-            f"{cls._url}/admin/dataspaces/{dataspace_name}",
+            urljoin(cls._url, f"admin/dataspaces/{dataspace_name}/"),
             auth=cls.auth
         )
         return Dataspace(name=dataspace_data["name"])
@@ -123,8 +125,10 @@ class Dataspace(CpsElement):
         """
         self.send_message(
             "POST",
-            "Get all CPS dataspace schemasets",
-            f"{self.url}/anchors/?schema-set-name={schema_set.name}&anchor-name={anchor_name}",
+            f"Create {anchor_name} anchor",
+            urljoin(self.url, "anchors"),
+            params={"schema-set-name": schema_set.name,
+                    "anchor-name": anchor_name},
             auth=self.auth
         )
         return Anchor(name=anchor_name, schema_set=schema_set)
@@ -143,7 +147,7 @@ class Dataspace(CpsElement):
             for anchor_data in self.send_message_json(\
                 "GET",\
                 "Get all CPS dataspace anchors",\
-                f"{self.url}/anchors",\
+                urljoin(self.url, "anchors"),\
                 auth=self.auth\
             ):
                 yield Anchor(name=anchor_data["name"],
@@ -171,7 +175,7 @@ class Dataspace(CpsElement):
         anchor_data: Dict[str, Any] = self.send_message_json(
             "GET",
             f"Get {anchor_name} anchor",
-            f"{self.url}/anchors/{anchor_name}",
+            urljoin(self.url, f"anchors/{anchor_name}"),
             auth=self.auth
         )
         return Anchor(name=anchor_data["name"],
@@ -188,7 +192,7 @@ class Dataspace(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {anchor_name} anchor",
-            f"{self.url}/anchors/{anchor_name}",
+            urljoin(self.url, f"anchors/{anchor_name}"),
             auth=self.auth
         )
 
@@ -206,7 +210,7 @@ class Dataspace(CpsElement):
         schema_set_data: Dict[str, Any] = self.send_message_json(
             "GET",
             f"Get CPS dataspace {schema_set_name} schemaset",
-            f"{self._url}/dataspaces/{self.name}/schema-sets/{schema_set_name}",
+            urljoin(self._url, f"dataspaces/{self.name}/schema-sets/{schema_set_name}"),
             auth=self.auth
         )
         return SchemaSet(
@@ -242,7 +246,8 @@ class Dataspace(CpsElement):
         self.send_message(
             "POST",
             "Create schema set",
-            f"{self._url}/dataspaces/{self.name}/schema-sets?schema-set-name={schema_set_name}",
+            urljoin(self._url, f"dataspaces/{self.name}/schema-sets"),
+            params={"schema-set-name": schema_set_name},
             files={"file": schema_set},
             headers={},  # Leave headers empty to fill it correctly by `requests` library
             auth=self.auth
@@ -254,6 +259,7 @@ class Dataspace(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {self.name} dataspace",
-            f"{self._url}/dataspaces?dataspace-name={self.name}",
+            urljoin(self._url, "dataspaces"),
+            params={"dataspace-name": self.name},
             auth=self.auth
         )

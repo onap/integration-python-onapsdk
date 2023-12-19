@@ -15,6 +15,7 @@
 
 from dataclasses import dataclass
 from typing import List, Optional, TYPE_CHECKING
+from urllib.parse import urljoin
 
 from .cps_element import CpsElement
 
@@ -69,6 +70,6 @@ class SchemaSet(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {self.name} schema set",
-            f"{self._url}/dataspaces/{self.dataspace.name}/schema-sets/{self.name}",
+            urljoin(self._url, f"dataspaces/{self.dataspace.name}/schema-sets/{self.name}"),
             auth=self.auth
         )

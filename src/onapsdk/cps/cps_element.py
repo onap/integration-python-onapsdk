@@ -22,5 +22,5 @@ from onapsdk.onap_service import OnapService
 class CpsElement(OnapService):
     """Mother Class of all CPS elements."""
 
-    _url: str = urljoin(settings.CPS_URL, f"cps/api/{settings.CPS_VERSION}")
+    _url: str = urljoin(settings.CPS_URL, f"cps/api/{settings.CPS_VERSION}/")
     auth: tuple = settings.CPS_AUTH

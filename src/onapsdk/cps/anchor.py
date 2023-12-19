@@ -14,6 +14,7 @@
 #   limitations under the License.
 
 from typing import Any, Dict, TYPE_CHECKING
+from urllib.parse import urljoin
 
 from .cps_element import CpsElement
 
@@ -57,12 +58,14 @@ class Anchor(CpsElement):
             str: Anchor url
 
         """
-        return f"{self._url}/dataspaces/{self.schema_set.dataspace.name}/anchors/{self.name}"
+        return urljoin(self._url,
+                       f"dataspaces/{self.schema_set.dataspace.name}/anchors/{self.name}/")
 
     def delete(self) -> None:
         """Delete anchor."""
+        # For some reason CPS API does not strip ending '/' character so it has to be removed here.
         self.send_message(
-            "DELETE", f"Delete {self.name} anchor", self.url, auth=self.auth
+            "DELETE", f"Delete {self.name} anchor", self.url.rstrip("/"), auth=self.auth
         )
 
     def create_node(self, node_data: str) -> None:
@@ -77,7 +80,7 @@ class Anchor(CpsElement):
         self.send_message(
             "POST",
             f"Create {self.name} anchor node",
-            f"{self.url}/nodes",
+            urljoin(self.url, "nodes"),
             data=node_data,
             auth=self.auth,
         )
@@ -100,8 +103,9 @@ class Anchor(CpsElement):
         return self.send_message_json(
             "GET",
             f"Get {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/node?xpath={xpath}"
-            f"&descendants={descendants}",
+            urljoin(self.url, "node"),
+            params={"xpath": xpath,
+                    "descendants": descendants},
             auth=self.auth
         )
 
@@ -120,7 +124,8 @@ class Anchor(CpsElement):
         self.send_message(
             "PATCH",
             f"Update {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/nodes?xpath={xpath}",
+            urljoin(self.url, "nodes"),
+            params={"xpath": xpath},
             data=node_data,
             auth=self.auth,
         )
@@ -138,7 +143,8 @@ class Anchor(CpsElement):
         self.send_message(
             "PUT",
             f"Replace {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/nodes?xpath={xpath}",
+            urljoin(self.url, "nodes"),
+            params={"xpath": xpath},
             data=node_data,
             auth=self.auth,
         )
@@ -154,7 +160,8 @@ class Anchor(CpsElement):
         self.send_message(
             "POST",
             f"Add element to {self.name} anchor node with {xpath} xpath",
-            f"{self.url}/list-nodes?xpath={xpath}",
+            urljoin(self.url, "list-nodes"),
+            params={"xpath": xpath},
             data=node_data,
             auth=self.auth,
         )
@@ -176,7 +183,9 @@ class Anchor(CpsElement):
         return self.send_message_json(
             "GET",
             f"Get {self.name} anchor node with {query} query",
-            f"{self.url}/nodes/query?cps-path={query}&include-descendants={include_descendants}",
+            urljoin(self.url, "nodes/query"),
+            params={"cps-path": query,
+                    "include-descendants": include_descendants},
             auth=self.auth,
         )
 
@@ -192,6 +201,7 @@ class Anchor(CpsElement):
         self.send_message(
             "DELETE",
             f"Delete {self.name} anchor nodes with {xpath} xpath",
-            f"{self.url}/nodes?xpath={xpath}",
+            urljoin(self.url, "nodes"),
+            params={"xpath": xpath},
             auth=self.auth,
         )

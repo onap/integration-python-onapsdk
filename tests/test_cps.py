@@ -177,7 +177,7 @@ def test_anchor_delete(mock_send_message):
     anchor.delete()
     mock_send_message.assert_called_once()
     url = mock_send_message.call_args[0][2]
-    assert anchor.url in url
+    assert anchor.url.rstrip("/") in url
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_create_node(mock_send_message):
@@ -192,71 +192,71 @@ def test_anchor_get_node(mock_send_message_json):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.get_node("test-xpath")
     mock_send_message_json.assert_called_once()
-    url = mock_send_message_json.call_args[0][2]
-    assert "xpath=test-xpath" in url
-    assert "descendants=0" in url
+    params = mock_send_message_json.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath"
+    assert "descendants" in params and params["descendants"] == 0
 
     mock_send_message_json.reset_mock()
     anchor.get_node("test-xpath-2", descendants=-1)
     mock_send_message_json.assert_called_once()
-    url = mock_send_message_json.call_args[0][2]
-    assert "xpath=test-xpath-2" in url
-    assert "descendants=-1" in url
+    params = mock_send_message_json.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath-2"
+    assert "descendants" in params and params["descendants"] == -1
 
     mock_send_message_json.reset_mock()
     anchor.get_node("test-xpath-3", descendants=2)
     mock_send_message_json.assert_called_once()
-    url = mock_send_message_json.call_args[0][2]
-    assert "xpath=test-xpath-3" in url
-    assert "descendants=2" in url
+    params = mock_send_message_json.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath-3"
+    assert "descendants" in params and params["descendants"] == 2
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_update_node(mock_send_message):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.update_node("test-xpath", '{"test": "data"}')
     mock_send_message.assert_called_once()
-    url = mock_send_message.call_args[0][2]
-    assert "xpath=test-xpath" in url
+    params = mock_send_message.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath"
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_replace_node(mock_send_message):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.replace_node("test-xpath", '{"test": "data"}')
     mock_send_message.assert_called_once()
-    url = mock_send_message.call_args[0][2]
-    assert "xpath=test-xpath" in url
+    params = mock_send_message.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath"
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_add_list_node(mock_send_message):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.add_list_node("test-xpath", '{"test": "data"}')
     mock_send_message.assert_called_once()
-    url = mock_send_message.call_args[0][2]
-    assert "xpath=test-xpath" in url
+    params = mock_send_message.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath"
 
 @mock.patch("onapsdk.cps.Anchor.send_message_json")
 def test_anchor_query_node(mock_send_message_json):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.query_node("/test-query")
     mock_send_message_json.assert_called_once()
-    url = mock_send_message_json.call_args[0][2]
-    assert "cps-path=/test-query" in url
-    assert "include-descendants=False" in url
+    params = mock_send_message_json.call_args.kwargs["params"]
+    assert "cps-path" in params and params["cps-path"] == "/test-query"
+    assert "include-descendants" in params and params["include-descendants"] is False
 
     mock_send_message_json.reset_mock()
     anchor.query_node("/test-query1", include_descendants=True)
     mock_send_message_json.assert_called_once()
-    url = mock_send_message_json.call_args[0][2]
-    assert "cps-path=/test-query1" in url
-    assert "include-descendants=True" in url
+    params = mock_send_message_json.call_args.kwargs["params"]
+    assert "cps-path" in params and params["cps-path"] == "/test-query1"
+    assert "include-descendants" in params and params["include-descendants"] is True
 
 @mock.patch("onapsdk.cps.Anchor.send_message")
 def test_anchor_delete_nodes(mock_send_message):
     anchor = Anchor(name="test_anchor", schema_set=mock.MagicMock())
     anchor.delete_nodes("test-xpath")
     mock_send_message.assert_called_once()
-    url = mock_send_message.call_args[0][2]
-    assert "xpath=test-xpath" in url
+    params = mock_send_message.call_args.kwargs["params"]
+    assert "xpath" in params and params["xpath"] == "test-xpath"
 
 @mock.patch("onapsdk.cps.Dataspace.send_message")
 def test_dataspace_create_anchor_except(mock_send_message_json):

@@ -14,7 +14,7 @@
 #   limitations under the License.
 from abc import ABC
 from enum import Enum
-from typing import Iterator, Optional
+from typing import Iterator, Optional, List
 from uuid import uuid4
 
 from onapsdk.aai.business.customer import Customer
@@ -493,3 +493,114 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
         """
         return self.status not in [self.StatusEnum.ACKNOWLEDGED,
                                    self.StatusEnum.IN_PROGRESS]
+
+
+# Import the Nbi class
+class Resource(Nbi):  # pylint: disable=too-many-instance-attributes, too-many-arguments
+    """A class representing resource-related operations using NBI."""
+
+    def __init__(self,  # pylint: disable=too-many-instance-attributes, too-many-arguments
+                 unique_id: str,
+                 href: str,
+                 resource_type: Optional[str],
+                 base_type: str,
+                 value: str,
+                 life_cycle_state: str,
+                 resource_specification: dict,
+                 resource_characteristics: Optional[List[dict]],
+                 related_party: list,
+                 note: Optional[List[dict]],
+                 place: Optional[dict],
+                 serial_number: Optional[str],
+                 version_number: Optional[str]) -> None:
+        """Service object initialization.
+
+        Args:
+            unique_id (str): Resource id ,
+            href (str): Resource object href,
+            resource_type (str, optional): Type of resource,
+            base_type (str): Base type of resource,
+            value (str): Name of resource,
+            life_cycle_state (str): current state of resource,
+            resource_specification (dict): Resource specification,
+            resource_characteristics (list[dict], optional): List of resource characteristics,
+            related_party (list): List of related party in current resource,
+            note (list[dict], optional): List of note,
+            place (dict, optional): resource location
+            serial_number(str, optional),
+            version_number(str, optional)
+        """
+        super().__init__()
+        self.unique_id: str = unique_id
+        self.href: str = href
+        self.resource_type: Optional[str] = resource_type
+        self.base_type: str = base_type
+        self.value: str = value
+        self.life_cycle_state: str = life_cycle_state
+        self.resource_specification: dict = resource_specification
+        self.resource_characteristics: Optional[List[dict]] = resource_characteristics
+        self.related_party: list = related_party
+        self.note: Optional[List[dict]] = note
+        self.place: Optional[dict] = place
+        self.serial_number: Optional[str] = serial_number
+        self.version_number: Optional[str] = version_number
+
+    @classmethod
+    def get_all_resources(cls) -> Iterator["Resource"]:
+        """
+        Get a list of all resource from the NBI.
+
+        Returns:
+            Iterator[Resource]: This function will return list of resource object
+        """
+        resource_json = cls.send_message_json("GET", "Get resources from NBI",
+                                         f"{cls.base_url}{cls.api_version}/resource/")
+
+        # Converting response json to list of Response object
+        for resource in resource_json:
+
+            yield Resource(
+            resource["id"],
+            resource["href"],
+            resource.get("@type"),
+            resource["@baseType"],
+            resource["value"],
+            resource["lifeCyleState"],
+            resource["resourceSpecification"],
+            resource.get("resourceCharacteristics"),
+            resource["relatedParty"],
+            resource.get("note"),
+            resource.get("place"),
+            resource.get("serialNumber"),
+            resource.get("versionNumber")
+            )
+
+
+    @classmethod
+    def get_specific_resource(cls, resource_id: str) -> "Resource":
+        """
+        Get a specific resource by ID from the NBI.
+
+        Args:
+            resource_id (str): The ID of the resource to retrieve.
+
+        Returns:
+            Resource: An instance of the Resource class representing the specific resource.
+        """
+        response = cls.send_message_json("GET", "Get resources from NBI",
+                                         f"{cls.base_url}{cls.api_version}/resource/{resource_id}")
+        return Resource(
+            response["id"],
+            response["href"],
+            response.get("@type"),
+            response["@baseType"],
+            response["value"],
+            response["lifeCyleState"],
+            response["resourceSpecification"],
+            response.get("resourceCharacteristics"),
+            response["relatedParty"],
+            response.get("note"),
+            response.get("place"),
+            response.get("serialNumber"),
+            response.get("versionNumber")
+        )

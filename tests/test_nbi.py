@@ -14,9 +14,11 @@
 from collections import namedtuple
 from unittest import mock
 
+import pytest
 from onapsdk.aai.business import Customer
 from onapsdk.exceptions import RequestError
-from onapsdk.nbi import Nbi, Service, ServiceOrder, ServiceSpecification
+from onapsdk.nbi import Nbi, Service, ServiceOrder, ServiceSpecification, Resource
+
 
 SERVICE_SPECIFICATION = {
     "id": "a80c901c-6593-491f-9465-877e5acffb46",
@@ -297,6 +299,115 @@ SERVICE_ORDER_STATE_UNKNOWN = {
     'state': 'lalala'
 }
 
+RESOURCES = [
+    {
+        "id": "0efe5f46-7233-495d-826e-9d177b1866b4",
+        "href": "/nbi/api/v4/resource/0efe5f46-7233-495d-826e-9d177b1866b4",
+        "@type": "test_pnf_rollback/null",
+        "@baseType": "LogicalResource",
+        "value": "vnf-name-test-19-12",
+        "lifeCyleState": "Active",
+        "resourceSpecification": {
+            "id": "22e67c4a-f652-43d0-8975-63006c442718"
+        },
+        "resourceCharacteristics": [
+            {
+                "name": "prov-status",
+                "value": "NVTPROV"
+            },
+            {
+                "name": "in-maint",
+                "value": "false"
+            }
+        ],
+        "relatedParty": [
+            {
+                "id": "pnf_macro_customer",
+                "role": "ONAPcustomer"
+            }
+        ],
+        "note": [
+            {
+                "text": "vnf-name-test-19-12 is available on k8sregionfour"
+            }
+        ],
+        "place": {
+            "id": "k8sregionfour",
+            "name": "gnb-cucp-sim-76d58f7bd7-sq8g5",
+            "role": "e728fdf9dc5914e2595d6cb9444da113f6042e29d52058c1424434879b600794"
+        }
+    },
+    {
+        "id": "cf7b9996-1ae5-49b2-baf6-797599f5d89b",
+        "href": "/nbi/api/v4/resource/cf7b9996-1ae5-49b2-baf6-797599f5d89b",
+        "@type": "Demo service/null",
+        "@baseType": "LogicalResource",
+        "value": "test_abhimanyu_04",
+        "lifeCyleState": "Active",
+        "resourceSpecification": {
+            "id": "836398af-de68-404f-bf39-5d3cacfe92ae"
+        },
+        "resourceCharacteristics": [
+            {
+                "name": "prov-status",
+                "value": "NVTPROV"
+            },
+            {
+                "name": "in-maint",
+                "value": "false"
+            }
+        ],
+        "relatedParty": [
+            {
+                "id": "pnf_macro_customer",
+                "role": "ONAPcustomer"
+            }
+        ],
+        "note": [
+            {
+                "text": "test_abhimanyu_04 is available on "
+            }
+        ]
+    }
+]
+
+RESOURCE = {
+    "id": "0efe5f46-7233-495d-826e-9d177b1866b4",
+    "href": "/nbi/api/v4/resource/0efe5f46-7233-495d-826e-9d177b1866b4",
+    "@type": "test_pnf_rollback/null",
+    "@baseType": "LogicalResource",
+    "value": "vnf-name-test-19-12",
+    "lifeCyleState": "Active",
+    "resourceSpecification": {
+        "id": "22e67c4a-f652-43d0-8975-63006c442718"
+    },
+    "resourceCharacteristics": [
+        {
+            "name": "prov-status",
+            "value": "NVTPROV"
+        },
+        {
+            "name": "in-maint",
+            "value": "false"
+        }
+    ],
+    "relatedParty": [
+        {
+            "id": "pnf_macro_customer",
+            "role": "ONAPcustomer"
+        }
+    ],
+    "note": [
+        {
+            "text": "vnf-name-test-19-12 is available on k8sregionfour"
+        }
+    ],
+    "place": {
+        "id": "k8sregionfour",
+        "name": "gnb-cucp-sim-76d58f7bd7-sq8g5",
+        "role": "e728fdf9dc5914e2595d6cb9444da113f6042e29d52058c1424434879b600794"
+    }
+}
 
 @mock.patch.object(Nbi, "send_message")
 def test_nbi(mock_send_message):
@@ -553,3 +664,28 @@ def test_service_order_wait_for_finish():
             rv = namedtuple("Value", ["return_value"])
             service_order._wait_for_finish(rv)
             assert rv.return_value
+
+@mock.patch.object(Resource, "send_message_json")
+def test_query_resource_get_all(mock_query_resource_get_all):
+    mock_query_resource_get_all.return_value = RESOURCES
+    resources = Resource.get_all_resources()
+    resource = next(resources)
+    assert type(resource) == Resource
+    assert resource.unique_id is not None
+    mock_query_resource_get_all.return_value = []
+    resources = Resource.get_all_resources()
+    with pytest.raises(StopIteration):
+        next(resources)
+    mock_query_resource_get_all.return_value = []
+    resources = Resource.get_all_resources()
+    resource = next(resources, None)
+    assert resource is None
+
+@mock.patch.object(Resource, "send_message_json")
+def test_query_resource_get_specific_resource(mock_specific_resource):
+    resource_id = "0efe5f46-7233-495d-826e-9d177b1866b4"
+    mock_specific_resource.return_value = RESOURCE
+    resource = Resource.get_specific_resource(resource_id)
+    assert type(resource) == Resource
+    assert resource.unique_id == RESOURCE.get("id")
+    assert resource.href == RESOURCE.get("href")

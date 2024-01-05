@@ -224,7 +224,7 @@ class OnapService(ABC):
                 requests can be used here.
 
         Raises:
-            InvalidResponse: if JSON coudn't be decoded
+            InvalidResponse: if JSON couldn't be decoded
             RequestError: if other exceptions weren't caught or didn't raise
             APIError/ResourceNotFound: send_message() got an HTTP error code
             ConnectionFailed: connection can't be established

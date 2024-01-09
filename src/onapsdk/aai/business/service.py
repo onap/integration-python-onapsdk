@@ -131,10 +131,10 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def _get_related_instance(self,
                               related_instance_class: Union[Type[NetworkInstance],
-                                                            Type[VnfInstance]],
-                              relationship_related_to_type: str) -> Iterator[\
-                                                                        Union[NetworkInstance,
-                                                                              VnfInstance]]:
+                              Type[VnfInstance]],
+                              relationship_related_to_type: str) -> Iterator[ \
+            Union[NetworkInstance,
+            VnfInstance]]:
         """Iterate through related service instances.
 
         This is method which for given `relationship_related_to_type` creates iterator
@@ -161,7 +161,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
             raise ParameterError(msg)
         for relationship in self.relationships:
             if relationship.related_to == relationship_related_to_type:
-                yield related_instance_class.create_from_api_response(\
+                yield related_instance_class.create_from_api_response( \
                     self.send_message_json("GET",
                                            (f"Get {self.instance_id} "
                                             f"{related_instance_class.__class__.__name__}"),
@@ -169,7 +169,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                     self)
 
     @classmethod
-    def create(cls, service_subscription: "ServiceSubscription",  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+    def create(cls, service_subscription: "ServiceSubscription",
+               # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                instance_id: str,
                instance_name: str = None,
                service_type: str = None,
@@ -256,9 +257,9 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
             input_parameters
         )
         cls.send_message("PUT",
-                         f"Create service instance {instance_id} for "\
+                         f"Create service instance {instance_id} for " \
                          f"{service_subscription.service_type} service subscription",
-                         f"{service_subscription.url}/service-instances/service-instance/"\
+                         f"{service_subscription.url}/service-instances/service-instance/" \
                          f"{instance_id}",
                          data=jinja_env()
                          .get_template("aai_service_instance_create.json.j2")
@@ -526,3 +527,40 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
         """
         self._logger.debug("Delete %s service instance", self.instance_id)
         return ServiceDeletionRequest.send_request(self, a_la_carte)
+
+    def delete_from_aai(self,
+                        service_subscription: "ServiceSubscription",
+                        instance_id: str,
+                        service_type: str = None) -> "ServiceInstance":
+        """Send request to AAI to delete service instance.
+
+        Args:
+            service_subscription (ServiceSubscription): service subscription which is belongs to
+            instance_id (str): Uniquely identifies this instance of a service
+            service_type (str, optional): String capturing type of service.Defaults to None.
+
+        """
+        customer_instance = service_subscription.customer
+        customer_id = customer_instance.global_customer_id
+
+        # calling GET api to get resource_version of service instance
+        response = self.send_message_json("GET",
+                                          f"GET service instance {instance_id} for ",
+                                          f"{self.base_url}{self.api_version}/business/"
+                                          f"customers/customer/"
+                                          f"{customer_id}/service-subscriptions/"
+                                          f"service-subscription/"
+                                          f"{service_type}/service-instances/service-instance/"
+                                          f"{instance_id}")
+
+        resource_version = str(response.get('resource-version', ''))
+
+        # calling delete api to delete service instance from AAI
+        self.send_message("DELETE",
+                          f"Delete service instance {instance_id} for ",
+                          f"{self.base_url}{self.api_version}/business/customers/customer/"
+                          f"{customer_id}/service-subscriptions/"
+                          f"service-subscription/"
+                          f"{service_type}/service-instances/service-instance/"
+                          f"{instance_id}?"
+                          f"resource-version={resource_version}")

@@ -21,7 +21,6 @@ from onapsdk.so.deletion import ServiceDeletionRequest
 from onapsdk.so.instantiation import NetworkInstantiation, VnfInstantiation
 from onapsdk.exceptions import StatusError
 
-
 RELATIONSHIPS_VNF = {
     "relationship": [
         {
@@ -33,7 +32,6 @@ RELATIONSHIPS_VNF = {
     ]
 }
 
-
 RELATIONSHIPS_NETWORK = {
     "relationship": [
         {
@@ -44,7 +42,6 @@ RELATIONSHIPS_NETWORK = {
         }
     ]
 }
-
 
 NETWORK_INSTANCE = {
     'network-id': '49dab38b-3a5b-47e5-9cd6-b8d069d6109d',
@@ -157,11 +154,10 @@ NETWORK_INSTANCE = {
     }
 }
 
-
 COUNT = {
-    "results":[
+    "results": [
         {
-            "service-instance":29
+            "service-instance": 29
         }
     ]
 }
@@ -269,7 +265,27 @@ def test_service_instance_sdc_service(mock_service_get_by_unique_uuid):
     si.sdc_service
     mock_service_get_by_unique_uuid.assert_called_once_with("1234")
 
+
 @mock.patch.object(ServiceInstance, "send_message_json")
 def test_service_instance_count(mock_send_message_json):
     mock_send_message_json.return_value = COUNT
     assert ServiceInstance.count(service_subscription=mock.MagicMock())
+
+
+@mock.patch.object(ServiceInstance, "send_message")
+def test_service_deletion_request(mock_service_deletion_send_message):
+    mock_instance = mock.MagicMock()
+    mock_instance.instance_id = "test_instance_id"
+
+    mock_service_subscription = mock.MagicMock()
+    mock_instance.service_subscription = mock_service_subscription
+
+    mock_service_type = mock.MagicMock()
+    mock_instance.service_type = "test_service_type"
+
+    mock_self = mock.MagicMock()
+
+    service_instance_deletion = ServiceInstance. \
+        delete_from_aai(self=mock_self, instance_id=mock_instance,
+                        service_type=mock_service_type,
+                        service_subscription=mock_service_subscription)

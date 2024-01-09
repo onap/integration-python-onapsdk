@@ -170,9 +170,9 @@ class Service(Nbi):
         super().__init__()
         self.name: str = name
         self.service_id: str = service_id
-        self._service_specification_name: str = service_specification_name
+        self.service_specification_name: str = service_specification_name
         self._service_specification_id: str = service_specification_id
-        self._customer_id: str = customer_id
+        self.customer_id: str = customer_id
         self.customer_role: str = customer_role
         self.href: str = href
 
@@ -185,8 +185,8 @@ class Service(Nbi):
         """
         return (f"Service(name={self.name}, service_id={self.service_id}, "
                 f"service_specification_id={self._service_specification_id}, "
-                f"service_specification_name={self._service_specification_name}, "
-                f"customer_id={self._customer_id}, "
+                f"service_specification_name={self.service_specification_name}, "
+                f"customer_id={self.customer_id}, "
                 f"customer_role={self.customer_role}, "
                 f"href={self.href})")
 
@@ -223,9 +223,9 @@ class Service(Nbi):
             Customer: Customer object
 
         """
-        if not self._customer_id:
+        if not self.customer_id:
             return None
-        return Customer.get_by_global_customer_id(self._customer_id)
+        return Customer.get_by_global_customer_id(self.customer_id)
 
     @property
     def service_specification(self) -> Optional[ServiceSpecification]:

@@ -364,16 +364,16 @@ def test_service_get_all(mock_service_specification_get_by_id,
 
     assert service.name == "test6"
     assert service.service_id == "5c855390-7c39-4fe4-b164-2029b09de57c"
-    assert service._service_specification_name == "testService9"
+    assert service.service_specification_name == "testService9"
     assert service._service_specification_id == "125727ad-8660-423e-b4a1-99cd4a749f45"
-    assert service._customer_id == "generic"
+    assert service.customer_id == "generic"
     assert service.customer_role == "ONAPcustomer"
     assert service.href == "service/5c855390-7c39-4fe4-b164-2029b09de57c"
 
     assert service.customer is not None
-    mock_customer_get_by_id.assert_called_once_with(service._customer_id)
+    mock_customer_get_by_id.assert_called_once_with(service.customer_id)
 
-    service._customer_id = None
+    service.customer_id = None
     assert service.customer is None
 
     assert service.service_specification is not None
@@ -390,9 +390,9 @@ def test_service_get_all(mock_service_specification_get_by_id,
 
     assert service.name == "test7"
     assert service.service_id == "6a855390-7c39-4fe4-b164-2029b09de57d"
-    assert service._service_specification_name == "testService9"
+    assert service.service_specification_name == "testService9"
     assert service._service_specification_id == "125727ad-8660-423e-b4a1-99cd4a749f45"
-    assert service._customer_id == "test_customer"
+    assert service.customer_id == "test_customer"
     assert service.customer_role == "ONAPcustomer"
     assert service.href == "service/6a855390-7c39-4fe4-b164-2029b09de57d"
 

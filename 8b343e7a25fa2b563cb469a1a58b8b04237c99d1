@@ -16,6 +16,23 @@
       "message": "done",
       "revId": "8b343e7a25fa2b563cb469a1a58b8b04237c99d1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a9b685_5d8a0c2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2024-01-09T08:07:49Z",
+      "side": 1,
+      "message": "@Sreeja is it still valid? Sorry for a long time of that, could you kindly rebase that change so I would review it again",
+      "revId": "8b343e7a25fa2b563cb469a1a58b8b04237c99d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }

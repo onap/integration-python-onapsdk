@@ -33,7 +33,8 @@ class APIError(RequestError):
 
     def __init__(self,
                  message: Optional[str] = None,
-                 response_status_code: Optional[int] = None) -> None:
+                 response_status_code: Optional[int] = None,
+                 response_text: Optional[str] = None) -> None:
         """Init api error exception.
 
         Save message and optional response status code.
@@ -48,6 +49,7 @@ class APIError(RequestError):
         else:
             super().__init__()
         self._response_status_code: int = response_status_code if response_status_code else 0
+        self._response_text: Optional[str] = response_text
 
     @property
     def response_status_code(self) -> int:
@@ -68,6 +70,26 @@ class APIError(RequestError):
 
         """
         self._response_status_code = status_code
+
+    @property
+    def response_text(self) -> Optional[str]:
+        """Response status code property.
+
+        Returns:
+            int: Response status code. If not set, returns 0
+
+        """
+        return self._response_text
+
+    @response_text.setter
+    def response_text(self, response_text: str) -> None:
+        """Response status code property setter.
+
+        Args:
+            status_code (int): Response status code
+
+        """
+        self._response_text = response_text
 
 
 class InvalidResponse(RequestError):

@@ -175,11 +175,13 @@ class OnapService(ABC):
             msg = f'Code: {cause.response.status_code}. Info: {cause.response.text}.'
 
             if cause.response.status_code == 404:
-                exc = ResourceNotFound(msg)
+                exc = ResourceNotFound(msg,
+                                       response_status_code=cause.response.status_code,
+                                       response_text=cause.response.text)
             else:
-                exc = APIError(msg)
-
-            exc.response_status_code = cause.response.status_code
+                exc = APIError(msg,
+                               response_status_code=cause.response.status_code,
+                               response_text=cause.response.text)
 
             raise exc from cause
 

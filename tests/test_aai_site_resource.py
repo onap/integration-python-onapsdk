@@ -101,3 +101,4 @@ def test_site_resource_link_to_site_resource(mock_add_relationship):
         "relationship-key": "site_resource.site-resource-id",
         "relationship-value": "test-site-resource-id",
     }]
+

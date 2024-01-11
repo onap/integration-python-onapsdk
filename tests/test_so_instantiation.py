@@ -1359,3 +1359,24 @@ def test_so_service_vnf_load_from_yaml():
     assert len(so_vnf_vf_module_2.parameters) == 2
     assert so_vnf_vf_module_2.parameters["param-vfm2"] == "value-vfm2"
     assert so_vnf_vf_module_2.parameters["param-vfm3"] == "value-vfm3"
+
+
+@mock.patch.object(NetworkInstantiation, "send_message_json")
+@mock.patch.object(NetworkPreload, "send_message_json")
+def test_network_instantiation(mock_network_preload, mock_network_instantiation_send_message):
+    aai_service_instance_mock = mock.MagicMock()
+    aai_service_instance_mock.instance_id = "test_instance_id"
+    vnf_instantiation = NetworkInstantiation. \
+        instantiate_macro(aai_service_instance=aai_service_instance_mock,
+                          network_object=mock.MagicMock(),
+                          line_of_business="test_lob",
+                          platform="test_platform",
+                          cloud_region=mock.MagicMock(),
+                          tenant=mock.MagicMock(),
+                          network_details=mock.MagicMock())
+    mock_network_instantiation_send_message.assert_called_once()
+    method, _, url = mock_network_instantiation_send_message.call_args[0]
+    assert method == "POST"
+    assert url == (f"{NetworkInstantiation.base_url}/onap/so/infra/serviceInstantiation/"
+                   f"{NetworkInstantiation.api_version}/serviceInstances/"
+                   f"{aai_service_instance_mock.instance_id}/networks")

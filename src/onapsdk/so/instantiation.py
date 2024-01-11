@@ -220,6 +220,24 @@ class Subnet:  # pylint: disable=too-many-instance-attributes
             raise ParameterError(msg)
 
 
+
+@dataclass
+class NetworkDetailsElement:  # pylint: disable=too-many-instance-attributes
+    """Class to store network details child resource parameters."""
+
+    network_details_element_type: Optional[str]
+    network_details_element_parameters: Dict[str, str]
+    child_resources: Optional[List["NetworkDetailsElement"]] = None
+
+
+@dataclass
+class NetworkDetails:  # pylint: disable=too-many-instance-attributes
+    """Class to store network details instantiation parameters."""
+
+    network_type: str
+    vnf_id: str
+    child_resources: List[NetworkDetailsElement]
+    related_to: List[NetworkDetailsElement]
 class Instantiation(OrchestrationRequest, ABC):
     """Abstract class used for instantiation."""
 
@@ -1236,6 +1254,67 @@ class NetworkInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-ma
                 platform=platform,
                 service_instance=aai_service_instance,
                 subnets=subnets
+            ),
+            headers=headers_so_creator(OnapService.headers)
+        )
+        return cls(
+            name=network_instance_name,
+            request_id=response["requestReferences"]["requestId"],
+            instance_id=response["requestReferences"]["instanceId"],
+            line_of_business=line_of_business,
+            platform=platform,
+            network=network_object
+        )
+
+    @classmethod
+    def instantiate_macro(cls,  # pylint: disable=too-many-arguments
+                          aai_service_instance: "ServiceInstance",
+                          network_object: "Network",
+                          line_of_business: str,
+                          platform: str,
+                          cloud_region: "CloudRegion",
+                          tenant: "Tenant",
+                          network_instance_name: str = None,
+                          subnets: Iterable[Subnet] = None,
+                          network_details: "NetworkDetails" = None) -> "NetworkInstantiation":
+        """Instantiate Network using a'la carte method.
+
+        Args:
+            aai_service_instance (Service Instance object) : AAI Service Instance obj
+            network_object (Network): Network to instantiate
+            line_of_business (str): LineOfBusiness name to use in instantiation request
+            platform (str): Platform name to use in instantiation request
+            cloud_region (CloudRegion): Cloud region to use in instantiation request.
+            tenant (Tenant): Tenant to use in instnatiation request.
+            network_instance_name (str, optional): Network instance name. Defaults to None.
+            subnets(Array) : subnet array
+            network_details : generic network structure
+
+        Returns:
+            NetworkInstantiation: NetworkInstantiation object
+
+        """
+        if network_instance_name is None:
+            network_instance_name = \
+                f"Python_ONAP_SDK_network_instance_{str(uuid4())}"
+        response: dict = cls.send_message_json(
+            "POST",
+            f"Instantiate {aai_service_instance.sdc_service.name} ",
+            (f"{cls.base_url}/onap/so/infra/serviceInstantiation/{cls.api_version}/"
+             f"serviceInstances/{aai_service_instance.instance_id}/networks"),
+            data=jinja_env().get_template("instantiate_network_vnf_macro_base.json.j2").
+            render(
+                instance_name=network_instance_name,
+                network=network_object,
+                service=aai_service_instance.sdc_service,
+                cloud_region=cloud_region or \
+                             next(aai_service_instance.service_subscription.cloud_regions),
+                tenant=tenant or next(aai_service_instance.service_subscription.tenants),
+                line_of_business=line_of_business,
+                platform=platform,
+                service_instance=aai_service_instance,
+                subnets=subnets,
+                network_details=network_details
             ),
             headers=headers_so_creator(OnapService.headers)
         )

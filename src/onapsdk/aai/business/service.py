@@ -467,10 +467,12 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                     network: "Network",
                     line_of_business: "LineOfBusiness",
                     platform: "Platform",
+                    a_la_carte: bool = True,
                     cloud_region: "CloudRegion" = None,
                     tenant: "Tenant" = None,
                     network_instance_name: str = None,
-                    subnets: Iterator["Subnet"] = None) -> "NetworkInstantiation":
+                    subnets: Iterator["Subnet"] = None,
+                    network_details: "NetworkDetails" = None) -> "NetworkInstantiation":
         """Add network into service instance.
 
         Instantiate vl.
@@ -491,6 +493,9 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                 If no value is provided it's going to be
                 "Python_ONAP_SDK_network_instance_{str(uuid4())}".
                 Defaults to None.
+            subnets(Subnet list, Optional): subnets use in instantiation request.
+            a_la_carte (bool): instantiation type for vnf. Defaults to True.
+            network_details(NetworkDetails) : generic NetworkDetails structure.
 
         Raises:
             StatusError: Service orchestration status is not "Active"
@@ -502,7 +507,23 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
         if not self.active:
             raise StatusError(self.ACTIVE_STATUS_MESSAGE)
 
-        return NetworkInstantiation.instantiate_ala_carte(
+        if a_la_carte:
+            return NetworkInstantiation.instantiate_ala_carte(
+                self,
+                network,
+                line_of_business,
+                platform,
+                cloud_region=cloud_region,
+                tenant=tenant,
+                network_instance_name=network_instance_name,
+                subnets=subnets
+            )
+
+        if network_details.vnf_id is None:
+            msg = '"vnf_id" is required on instantiate_macro method'
+            raise ParameterError(msg)
+
+        return NetworkInstantiation.instantiate_macro(
             self,
             network,
             line_of_business,
@@ -510,8 +531,10 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
             cloud_region=cloud_region,
             tenant=tenant,
             network_instance_name=network_instance_name,
-            subnets=subnets
+            subnets=subnets,
+            network_details=network_details
         )
+
 
     def delete(self, a_la_carte: bool = True) -> "ServiceDeletionRequest":
         """Create service deletion request.

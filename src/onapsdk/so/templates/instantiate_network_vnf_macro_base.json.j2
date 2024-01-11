@@ -1,0 +1,144 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "instanceName": "{{ instance_name }}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "test",
+            "productFamilyId": "{{ service_instance.model_invariant_id }}"
+        },
+        "modelInfo": {
+            "modelType": "network",
+            "modelInvariantId": "{{ network.model_invariant_id }}",
+            "modelVersionId": "{{ network.model_version_id }}",
+            "modelName": "{{ network.model_name }}",
+            "modelVersion": "{{ network.model_version }}",
+            "modelCustomizationId": "{{ network.model_customization_id }}",
+            "modelCustomizationName": "{{ network.name }}"
+        },
+        "requestParameters": {
+            "userParams": [
+                {
+                    "Homing_Solution": "none"
+                },
+                {
+                    "service": {
+                        "resources": {
+                            "networks": [
+                                {
+                                    "modelInfo": {
+                                            "modelType": "network",
+                                            "modelInvariantId": "{{ network.model_invariant_id }}",
+                                            "modelVersionId": "{{ network.model_version_id }}",
+                                            "modelName": "{{ network.model_name }}",
+                                            "modelVersion": "{{ network.model_version }}",
+                                            "modelCustomizationId": "{{ network.model_customization_id }}",
+                                            "modelCustomizationName": "{{ network.name }}"
+                                    },
+                                    "cloudConfiguration": {
+                                         "tenantId": "{{ tenant.tenant_id }}",
+                                         "cloudOwner": "{{ cloud_region.cloud_owner }}",
+                                         "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
+                                    },
+                                    "productFamilyId": "network-test",
+                                    "instanceName": "network1",
+                                    "networkDetails": [
+                                        {
+                                            "networkType": "{{ network_details.network_type }}",
+                                            "vnf-id": "{{ network_details.vnf_id }}"{% if network_details.child_resources %},{% endif %}
+                                            {% if network_details.child_resources %}
+                                            "child-resources": [
+                                                {% for child_resource in network_details.child_resources %}
+                                                {
+                                                    "{{ child_resource.network_details_element_type }}": {
+                                                        {% for key, value in child_resource.network_details_element_parameters.items() %}
+                                                        "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}{% if loop.last and child_resource.child_resources %},{% endif %}
+                                                        {% endfor %}
+                                                        {% if child_resource.child_resources %}
+                                                        "child-resources": [
+                                                            {% for child_resource_child_resource in child_resource.child_resources %}
+                                                                {
+                                                                {% for key, value in child_resource_child_resource.network_details_element_parameters.items() %}
+                                                                "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                                                {% endfor %}
+                                                                }{% if not loop.last %},{% endif %}
+                                                            {% endfor %}
+                                                        ]
+                                                        {% endif %}
+                                                    }
+                                                }{% if not loop.last %},{% endif %}
+                                                {% endfor %}
+                                            ],
+                                            {% endif %}
+                                            {% if network_details.related_to %}
+                                            "related-to": [
+                                                {% for related_to in network_details.related_to %}
+                                                {
+                                                    "{{ related_to.network_details_element_type }}": {
+                                                        {% for key, value in related_to.network_details_element_parameters.items() %}
+                                                        "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}{% if loop.last and related_to.child_resources %},{% endif %}
+                                                        {% endfor %}
+                                                        {% if related_to.child_resources %}
+                                                        "child-resources": [
+                                                            {% for related_to_child_resource in related_to.child_resources %}
+                                                                {
+                                                                {% for key, value in related_to_child_resource.network_details_element_parameters.items() %}
+                                                                "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                                                {% endfor %}
+                                                                }{% if not loop.last %},{% endif %}
+                                                            {% endfor %}
+                                                        ]
+                                                        {% endif %}
+                                                    }
+                                                }{% if not loop.last %},{% endif %}
+                                                {% endfor %}
+                                            ]
+                                            {% endif %}
+                                        }
+                                    ],
+                                    "instanceParams": []
+                                }
+                            ]
+                        },
+                        "modelInfo": {
+                            "modelType": "network",
+                            "modelInvariantId": "{{ network.model_invariant_id }}",
+                            "modelVersionId": "{{ network.model_version_id }}",
+                            "modelName": "{{ network.model_name }}",
+                            "modelVersion": "{{ network.model_version }}",
+                            "modelCustomizationId": "{{ network.model_customization_id }}",
+                            "modelCustomizationName": "{{ network.name }}"
+                        },
+                        "instanceParams": []
+                    }
+                }
+            ],
+            "aLaCarte": false,
+            "testApi": "GR_API"
+        },
+        "cloudConfiguration": {
+            "tenantId": "{{ tenant.tenant_id }}",
+            "cloudOwner": "{{ cloud_region.cloud_owner }}",
+            "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
+        },
+        "lineOfBusiness": {
+            "lineOfBusinessName": "{{ line_of_business }}"
+        },
+        "platform": {
+            "platformName": "{{ platform }}"
+        },
+        "relatedInstanceList": [{
+            "relatedInstance": {
+                "instanceId": "{{ service_instance.instance_id }}",
+                "modelInfo": {
+                    "modelType": "service",
+                    "modelName": "{{ service.name }}",
+                    "modelInvariantId": "{{ service.unique_uuid }}",
+                    "modelVersion": "1.0",
+                    "modelVersionId": "{{ service.identifier }}"
+                }
+            }
+        }]
+    },
+    "serviceInstanceId" : "{{ service_instance.instance_id }}"
+}

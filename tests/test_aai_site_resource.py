@@ -101,3 +101,22 @@ def test_site_resource_link_to_site_resource(mock_add_relationship):
         "relationship-key": "site_resource.site-resource-id",
         "relationship-value": "test-site-resource-id",
     }]
+
+
+@patch("onapsdk.aai.network.site_resource.SiteResource.add_relationship")
+def test_site_resource_link_to_cell(mock_add_relationship):
+    cell = MagicMock(cell_id="test-cell-id",
+                      url="test-cell-url")
+    site_resource = SiteResource("test-site-resource")
+    site_resource.link_to_cell(cell)
+    mock_add_relationship.assert_called_once()
+    relationship = mock_add_relationship.call_args[0][0]
+    assert relationship.related_to == "cell"
+    assert relationship.related_link == "test-cell-url"
+    assert relationship.relationship_label == "org.onap.relationships.inventory.ControlledBy"
+    assert relationship.relationship_data == [{
+        "relationship-key": "cell.cell-id",
+        "relationship-value": "test-cell-id",
+    }]
+
+

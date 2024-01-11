@@ -21,6 +21,8 @@ from onapsdk.so.deletion import ServiceDeletionRequest
 from onapsdk.so.instantiation import NetworkInstantiation, VnfInstantiation
 from onapsdk.exceptions import StatusError
 
+from src.onapsdk.so.instantiation import NetworkDetails
+
 RELATIONSHIPS_VNF = {
     "relationship": [
         {
@@ -245,6 +247,24 @@ def test_service_instance_add_network(mock_sdc_service, mock_network_instantiati
                                  mock.MagicMock())
     mock_network_instantiation.assert_called_once()
 
+@mock.patch.object(NetworkInstantiation, "instantiate_macro")
+@mock.patch.object(ServiceInstance, "sdc_service", new_callable=mock.PropertyMock)
+def test_service_instance_generic_network(mock_sdc_service, mock_network_instantiation):
+    service_instance = ServiceInstance(service_subscription=mock.MagicMock(),
+                                       instance_id="test_service_instance_id")
+    service_instance.orchestration_status = "Active"
+    network_details = NetworkDetails(vnf_id="vnf_id",
+                                     network_type="generic-network",
+                                     child_resources=mock.MagicMock(),
+                                     related_to=mock.MagicMock())
+    service_instance.add_network(mock.MagicMock(),
+                                 mock.MagicMock(),
+                                 mock.MagicMock(),
+                                 a_la_carte=False,
+                                 tenant=mock.MagicMock(),
+                                 cloud_region=mock.MagicMock(),
+                                 network_details=network_details)
+    mock_network_instantiation.assert_called_once()
 
 @mock.patch.object(ServiceDeletionRequest, "send_request")
 @mock.patch.object(ServiceInstance, "sdc_service", new_callable=mock.PropertyMock)

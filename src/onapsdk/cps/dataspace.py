@@ -106,7 +106,7 @@ class Dataspace(CpsElement):
         dataspace_data = cls.send_message_json(
             "GET",
             f"Get {dataspace_name} dataspace",
-            urljoin(cls._url, f"admin/dataspaces/{dataspace_name}/"),
+            urljoin(cls._url, f"admin/dataspaces/{dataspace_name}"),
             auth=cls.auth
         )
         return Dataspace(name=dataspace_data["name"])

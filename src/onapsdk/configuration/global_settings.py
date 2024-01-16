@@ -62,7 +62,6 @@ SO_MONITOR_GUI_SERVICE = f"{SO_URL}/"
 SDC_GUI_SERVICE = f"{SDC_FE_URL}/sdc1/portal"
 SDNC_DG_GUI_SERVICE = f"{SDNC_URL}/nifi/"
 SDNC_ODL_GUI_SERVICE = f"{SDNC_URL}/odlux/index.html"
-
 DCAEMOD_GUI_SERVICE = f"{DCAEMOD_URL}/"
 HOLMES_GUI_SERVICE = f"{HOLMES_URL}/iui/holmes/default.html"
 POLICY_GUI_SERVICE = f"{POLICY_URL}/onap/login.html"
@@ -74,3 +73,12 @@ LOB = "Onapsdk_lob"
 PLATFORM = "Onapsdk_platform"
 
 DEFAULT_REQUEST_TIMEOUT = 60
+
+# SDC DISTRIBUTION
+SDC_SERVICE_DISTRIBUTION_COMPONENTS = [
+    "SO-sdc-controller",
+    "aai-model-loader",
+    "sdnc-sdc-listener",
+    "policy-distribution-id",
+    "multicloud-k8s"
+]

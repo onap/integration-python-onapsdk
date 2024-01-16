@@ -1,5 +1,5 @@
-"""Version module."""
-#   Copyright 2022 Orange, Deutsche Telekom AG
+"""SDC VL module."""
+#   Copyright 2024 Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -11,6 +11,20 @@
 #   distributed under the License is distributed on an "AS IS" BASIS,
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
-#   limitations under the License.
+#   limitations under the License.from onapsdk.sdc2.sdc import ResoureTypeEnum
+from onapsdk.sdc2.sdc import ResoureTypeEnum
+from onapsdk.sdc2.sdc_resource import SDCResourceTypeObject
 
-__version__ = "12.11.0"
+
+class Vl(SDCResourceTypeObject):
+    """VL class."""
+
+    @classmethod
+    def resource_type(cls) -> ResoureTypeEnum:
+        """VL resource type.
+
+        Returns:
+            ResoureTypeEnum: VL resource type enum value
+
+        """
+        return ResoureTypeEnum.VL

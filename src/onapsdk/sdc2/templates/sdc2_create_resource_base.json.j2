@@ -1,0 +1,21 @@
+{
+    "name": "{{ name }}",
+    "contactId": "{{ user_id }}",
+    "componentType": "RESOURCE",
+    {% if category.name != "Allotted Resource" and vsp is not none %}
+    "csarUUID": "{{ vsp.csar_uuid }}",
+    "csarVersion": "1.0",
+    {% endif %}
+    "categories": [{
+      "name": "{{ category.name }}",
+      "uniqueId": "{{ category.unique_id }}",
+      "subcategories": [{
+        "name": "{{ subcategory.name }}",
+        "uniqueId": "{{ subcategory.unique_id }}"
+      }]
+    }],
+    "resourceType": "{% block resource_type %}{% endblock %}",
+    "description": "{{ description }}",
+    "vendorName": "{{ vendor.name }}",
+    "vendorRelease": "1.0"
+}

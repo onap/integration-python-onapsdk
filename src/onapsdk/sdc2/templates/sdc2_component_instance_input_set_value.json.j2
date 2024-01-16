@@ -1,0 +1,13 @@
+[
+    {
+        "name":"{{ component_instance_input.name }}",
+        "parentUniqueId":"{{ component_instance_input.component_instance.unique_id }}",
+        "type":"{{ component_instance_input.input_type }}",
+        "uniqueId":"{{ component_instance_input.unique_id }}",
+        "value":"{{ value }}",
+        "definition":{{ component_instance_input.definition | tojson }},
+        "toscaPresentation":{
+            "ownerId":"{{ component_instance_input.component_instance.unique_id }}"
+        }
+    }
+]

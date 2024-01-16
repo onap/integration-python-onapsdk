@@ -42,7 +42,7 @@ def jinja_env() -> Environment:
                            PackageLoader("onapsdk.k8s"),
                            PackageLoader("onapsdk.nbi"),
                            PackageLoader("onapsdk.sdc"),
-                           PackageLoader("onapsdk.sdnc"),
+                           PackageLoader("onapsdk.sdc2"),
                            PackageLoader("onapsdk.sdnc"),
                            PackageLoader("onapsdk.so"),
                            PackageLoader("onapsdk.ves"),

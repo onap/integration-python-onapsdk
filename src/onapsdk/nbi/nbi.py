@@ -88,7 +88,7 @@ class ServiceSpecification(Nbi):
         """Service specification representation.
 
         Returns:
-            str: Service specification object human readable representation
+            str: Service specification object human-readable representation
 
         """
         return (f"ServiceSpecification(unique_id={self.unique_id}, name={self.name}, "
@@ -134,6 +134,33 @@ class ServiceSpecification(Nbi):
             f"Get service specification with {service_specification_id} ID from NBI",
             f"{cls.base_url}{cls.api_version}/serviceSpecification/{service_specification_id}"
         )
+        return ServiceSpecification(
+            service_specification.get("id"),
+            service_specification.get("name"),
+            service_specification.get("invariantUUID"),
+            service_specification.get("category"),
+            service_specification.get("distributionStatus"),
+            service_specification.get("version"),
+            service_specification.get("lifecycleStatus"),
+        )
+
+    @classmethod
+    def specification_input_schema(cls, service_specification_id: str) -> "ServiceSpecification":
+        """Retrieve the input schema for a specific service specification.
+
+        Args:
+            service_specification_id (str): Unique identifier for the service specification.
+
+        Returns:
+            ServiceSpecification: Service specification object.
+        """
+        service_specification: dict = cls.send_message_json(
+            "GET",
+            f"Get service specification with {service_specification_id} ID from NBI",
+            f"{cls.base_url}{cls.api_version}/serviceSpecification/{service_specification_id}/"
+            f"specificationInputSchema"
+        )
+
         return ServiceSpecification(
             service_specification.get("id"),
             service_specification.get("name"),

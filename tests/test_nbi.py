@@ -459,6 +459,19 @@ def test_service_specification_get_by_id(mock_service_specification_send_message
     assert service_specification.lifecycle_status == "CERTIFIED"
 
 
+@mock.patch.object(ServiceSpecification, "send_message_json")
+def test_specification_input_schema(mock_service_specification_schema_send_message):
+    mock_service_specification_schema_send_message.return_value = SERVICE_SPECIFICATION
+    service_specification_schema = ServiceSpecification.specification_input_schema("test")
+    assert service_specification_schema.unique_id == "a80c901c-6593-491f-9465-877e5acffb46"
+    assert service_specification_schema.name == "testService1"
+    assert service_specification_schema.invariant_uuid == "217deaa7-dfc3-41d8-aa53-bb009029c09f"
+    assert service_specification_schema.category == "Network Service"
+    assert service_specification_schema.distribution_status == "DISTRIBUTED"
+    assert service_specification_schema.version == "1.0"
+    assert service_specification_schema.lifecycle_status == "CERTIFIED"
+
+
 @mock.patch.object(Service, "send_message_json")
 @mock.patch.object(Customer, "get_by_global_customer_id")
 @mock.patch.object(ServiceSpecification, "get_by_id")

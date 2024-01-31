@@ -37,7 +37,6 @@ from onapsdk.so.instantiation import (
     VnfOperation,
     PnfInstantiation
 )
-from onapsdk.vid import Vid
 from onapsdk.aai.business.owning_entity import OwningEntity
 
 
@@ -576,10 +575,9 @@ def test_network_instantiation_with_cr_and_tenant(mock_network_preload, mock_net
     assert network_instantiation.name == "test"
 
 
-@mock.patch.object(Vid, "send_message")
 @mock.patch.object(VnfInstantiation, "send_message_json")
 @mock.patch("onapsdk.so.instantiation.SdcService")
-def test_vnf_instantiation_get_by_vnf_instance_name(mock_sdc_service, mock_send_message_json, mock_send):
+def test_vnf_instantiation_get_by_vnf_instance_name(mock_sdc_service, mock_send_message_json):
     mock_sdc_service.return_value.vnfs = []
     mock_send_message_json.return_value = {}
     with pytest.raises(InvalidResponse):
@@ -702,10 +700,9 @@ def test_vnf_instantiation_get_by_vnf_instance_name(mock_sdc_service, mock_send_
     assert VnfInstantiation.get_by_vnf_instance_name("test_vnf_instance_name") is not None
 
 
-@mock.patch.object(Vid, "send_message")
 @mock.patch.object(PnfInstantiation, "send_message_json")
 @mock.patch("onapsdk.so.instantiation.SdcService")
-def test_pnf_instantiation_get_by_pnf_instance_name(mock_sdc_service, mock_send_message_json, mock_send):
+def test_pnf_instantiation_get_by_pnf_instance_name(mock_sdc_service, mock_send_message_json):
     mock_sdc_service.return_value.pnfs = []
     mock_send_message_json.return_value = {}
     with pytest.raises(InvalidResponse):

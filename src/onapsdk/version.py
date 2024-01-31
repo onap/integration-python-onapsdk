@@ -13,4 +13,4 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-__version__ = "12.11.0"
+__version__ = "13.0.0"

@@ -14,12 +14,10 @@
 #   limitations under the License.
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, Any
-import warnings
 
 from onapsdk.so.so_element import SoElement
 from onapsdk.onap_service import OnapService
-from onapsdk.utils.headers_creator import headers_so_creator, headers_so_catelog_db_creator
+from onapsdk.utils.headers_creator import headers_so_creator
 from onapsdk.utils.jinja import jinja_env
 
 
@@ -82,17 +80,3 @@ class SoDbAdapter(SoElement, ABC):
             headers=headers_so_creator(OnapService.headers)
         )
         return response
-
-    @classmethod
-    def get_service_vnf_info(cls, identifier: str) -> Dict[Any, Any]:
-        """Get Service VNF and VF details.
-
-        Returns:
-            The response in a dict format
-
-        """
-        warnings.warn("That method is deprecated and it's going to be removed. Please use "
-                      "onapsdk.so.ecomp.Ecomp.get_service_vnf_info instead.")
-        url = f"{cls.base_url}/ecomp/mso/catalog/v2/serviceVnfs?serviceModelUuid={identifier}"
-        headers = headers_so_catelog_db_creator(OnapService.headers)
-        return cls.send_message_json("GET", "Get Service Details", url, headers=headers)

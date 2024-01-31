@@ -123,14 +123,3 @@ def test_add_cloud_site(mock_send_message_json):
     assert response['clli'] == "test_clli_0"
     assert response['orchestrator'] == "multicloud"
     assert response['identity_service_id'] == "test_identity_0"
-
-@mock.patch.object(SoDbAdapter, "send_message_json")
-def test_get_service_vnf_info(mock_send_message_json):
-    mock_send_message_json.return_value = ADD_CLOUD_SITE_RESPONSE
-
-    response = SoDbAdapter.get_service_vnf_info(identifier="test_id_0")
-    assert response['region_id'] == "test_region_0"
-    assert response['aic_version'] == "2.5"
-    assert response['clli'] == "test_clli_0"
-    assert response['orchestrator'] == "multicloud"
-    assert response['identity_service_id'] == "test_identity_0"

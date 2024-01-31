@@ -45,6 +45,5 @@ def jinja_env() -> Environment:
                            PackageLoader("onapsdk.sdc2"),
                            PackageLoader("onapsdk.sdnc"),
                            PackageLoader("onapsdk.so"),
-                           PackageLoader("onapsdk.ves"),
-                           PackageLoader("onapsdk.vid")
+                           PackageLoader("onapsdk.ves")
                        ]))

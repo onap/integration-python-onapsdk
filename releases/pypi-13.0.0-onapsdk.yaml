@@ -1,0 +1,4 @@
+pypi_project: onapsdk
+python_version: '3.8'
+version: 13.0.0
+log_dir: integration-python-onapsdk-pypi-merge-master/54/

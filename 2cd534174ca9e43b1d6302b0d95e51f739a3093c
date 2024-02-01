@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Submitted-at: Thu, 01 Feb 2024 07:56:51 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/python-onapsdk/+/137100
+Project: integration/python-onapsdk
+Branch: refs/heads/master

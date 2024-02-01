@@ -16,7 +16,7 @@ import os
 
 import pytest
 
-from onapsdk.msb.k8s import (
+from onapsdk.k8s import (
     Definition,
     Instance,
     ConnectivityInfo)

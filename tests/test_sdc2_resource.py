@@ -12,3 +12,7 @@ def test_build_exclude_types_query():
         assert query.count("excludeTypes=") == 12
         with raises(ValueError):
             parse_qs(query)["excludeTypes"].index(resource_type.value)
+        for other_resource_type in ResoureTypeEnum:
+            if other_resource_type == resource_type:
+                continue
+            parse_qs(query)["excludeTypes"].index(other_resource_type.value)

@@ -267,7 +267,7 @@ class SDCResource(SDCCatalog):  # pylint: disable=too-many-instance-attributes
             str: HTTP query
 
         """
-        return "&".join([f"excludeTypes={exclude_type}" for exclude_type in
+        return "&".join([f"excludeTypes={exclude_type.value}" for exclude_type in
                          ResoureTypeEnum.iter_without_resource_type(type_to_not_exclude)])
 
     @classmethod

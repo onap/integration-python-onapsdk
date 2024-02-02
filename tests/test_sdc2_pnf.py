@@ -253,9 +253,9 @@ def test_lifecycle_operation(mock_update, mock_send_message_json):
         method, log, url = mock_send_message_json.mock_calls[0].args
         data = mock_send_message_json.mock_calls[0].kwargs["data"]
         assert method == "POST"
-        assert log.startswith(f"Request lifecycle operation {lifecycle_operation}")
-        assert url.endswith(f"sdc2/rest/v1/catalog/resources/{pnf_unique_id}/lifecycleState/{lifecycle_operation}")
-        assert json.loads(data)["userRemarks"] == str(lifecycle_operation).lower()
+        assert log.startswith(f"Request lifecycle operation {lifecycle_operation.value}")
+        assert url.endswith(f"sdc2/rest/v1/catalog/resources/{pnf_unique_id}/lifecycleState/{lifecycle_operation.value}")
+        assert json.loads(data)["userRemarks"] == str(lifecycle_operation.value).lower()
         mock_update.assert_called_once_with(return_dict)
 
 

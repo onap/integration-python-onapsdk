@@ -403,14 +403,14 @@ class SDCResource(SDCCatalog):  # pylint: disable=too-many-instance-attributes
         """
         response: Dict[str, Any] = self.send_message_json(
             "POST",
-            (f"Request lifecycle operation {lifecycle_operation} on "
+            (f"Request lifecycle operation {lifecycle_operation.value} on "
              f"{self.__class__.__name__.upper()} object {self.name}"),
             urljoin(self.base_back_url,
                     (f"sdc2/rest/v1/catalog/{self.catalog_type()}/"
-                     f"{self.unique_id}/lifecycleState/{lifecycle_operation}")),
+                     f"{self.unique_id}/lifecycleState/{lifecycle_operation.value}")),
             data=jinja_env().get_template(
                 self.LIFECYCLE_OPERATION_TEMPLATE).render(
-                    lifecycle_operation=lifecycle_operation)
+                    lifecycle_operation=lifecycle_operation.value)
         )
         self.update(response)
 

@@ -350,8 +350,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def add_vnf(self,  # pylint: disable=too-many-arguments
                 vnf: "Vnf",
-                line_of_business: "LineOfBusiness",
-                platform: "Platform",
+                line_of_business: str,
+                platform: str,
                 cloud_region: "CloudRegion" = None,
                 tenant: "Tenant" = None,
                 vnf_instance_name: str = None,
@@ -365,8 +365,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         Args:
             vnf (Vnf): Vnf from service configuration to instantiate
-            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
-            platform (Platform): Platform to use in instantiation request
+            line_of_business (str): LineOfBusiness name to use in instantiation request
+            platform (str): Platform name to use in instantiation request
             cloud_region (CloudRegion, optional): Cloud region to use in instantiation request.
                 Defaults to None.
                 THAT PROPERTY WILL BE REQUIRED IN ONE OF THE FUTURE RELEASE. REFACTOR YOUR CODE
@@ -422,8 +422,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def add_pnf(self,  # pylint: disable=too-many-arguments
                 pnf: "Pnf",
-                line_of_business: "LineOfBusiness",
-                platform: "Platform",
+                line_of_business: str,
+                platform: str,
                 pnf_instance_name: str = None,
                 customer: "Customer" = None,
                 service_subscription: "ServiceSubscription" = None,
@@ -435,8 +435,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         Args:
             pnf (Pnf): Pnf from service configuration to instantiate
-            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
-            platform (Platform): Platform to use in instantiation request
+            line_of_business (str): LineOfBusiness name to use in instantiation request
+            platform (str): Platform name to use in instantiation request
             customer (Customer): Customer to use in instantiation request
             service_subscription(ServiceSubscription):  ServiceSubscription
             pnf_instance_name (str): PNF instantiation name
@@ -465,8 +465,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def add_network(self,  # pylint: disable=too-many-arguments
                     network: "Network",
-                    line_of_business: "LineOfBusiness",
-                    platform: "Platform",
+                    line_of_business: str,
+                    platform: str,
                     a_la_carte: bool = True,
                     cloud_region: "CloudRegion" = None,
                     tenant: "Tenant" = None,
@@ -479,8 +479,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         Args:
             network (Network): Network from service configuration to instantiate
-            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
-            platform (Platform): Platform to use in instantiation request
+            line_of_business (str): LineOfBusiness name to use in instantiation request
+            platform (str): Platform name to use in instantiation request
             cloud_region (CloudRegion, optional): Cloud region to use in instantiation request.
                 Defaults to None.
                 THAT PROPERTY WILL BE REQUIRED IN ONE OF THE FUTURE RELEASE. REFACTOR YOUR CODE

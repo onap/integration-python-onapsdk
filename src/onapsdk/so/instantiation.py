@@ -490,7 +490,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
 
         Args:
             vnf_object (Vnf): Vnf to instantiate
-            line_of_business_object (LineOfBusiness): LineOfBusiness to use in instantiation request
+            line_of_business_object (str): LineOfBusiness name to use in instantiation request
             platform_object (Platform): Platform to use in instantiation request
             cloud_region (CloudRegion): Cloud region to use in instantiation request.
             tenant (Tenant): Tenant to use in instnatiation request.
@@ -553,7 +553,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
         Args:
             aai_service_instance (ServiceInstance): Service instance associated with request
             vnf_object (Vnf): Vnf to instantiate
-            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
+            line_of_business (str): LineOfBusiness name to use in instantiation request
             platform (Platform): Platform to use in instantiation request
             cloud_region (CloudRegion): Cloud region to use in instantiation request.
             tenant (Tenant): Tenant to use in instantiation request.
@@ -639,7 +639,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
             vnf_object(VnfObject): vnf object
             operation_type (VnfOperation): name of the operation to trigger
             aai_service_instance (AaiService): Service Instance object from aai
-            line_of_business (LineOfBusiness): LineOfBusiness name to use
+            line_of_business (str): LineOfBusiness name to use
                 in instantiation request
             platform (Platform): Platform name to use in instantiation request
             sdc_service (SdcService): Service model information
@@ -817,7 +817,7 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
         Args:
             aai_service_instance (ServiceInstance): Service instance associated with request
             pnf_object (Pnf): Pnf to instantiate
-            line_of_business (LineOfBusiness): LineOfBusiness to use in instantiation request
+            line_of_business (str): LineOfBusiness name to use in instantiation request
             platform (Platform): Platform to use in instantiation request
             sdc_service(SdcService): service model to instantiate
             pnf_instance_name (str, optional): Pnf instance name. Defaults to None.
@@ -1011,9 +1011,9 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
             customer (Customer): Customer to use in instantiation request
             owning_entity (OwningEntity): Owning entity to use in instantiation request
             project (Project): Project name to use in instantiation request
-            line_of_business_object (LineOfBusiness): LineOfBusiness name to use
+            line_of_business (str): LineOfBusiness name to use
                 in instantiation request
-            platform_object (Platform): Platform name to use in instantiation request
+            platform (str): Platform name to use in instantiation request
             aai_service (AaiService): Service object from aai sdc
             cloud_region (CloudRegion): Cloud region to use in instantiation request
             tenant (Tenant): Tenant to use in instantiation request

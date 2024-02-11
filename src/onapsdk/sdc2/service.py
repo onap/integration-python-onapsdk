@@ -466,11 +466,13 @@ class Service(SDCResource, SDCResourceCreateMixin):
             Iterable[ServiceDistribution]: Service distributions iterator
 
         """
-        for distribution_status_dict in reversed(self.send_message_json(
+        for distribution_status_dict in sorted(self.send_message_json(
             "GET",
             f"Request Service {self.name} distributions",
             urljoin(self.base_back_url, f"sdc2/rest/v1/catalog/services/{self.uuid}/distribution/")
-        ).get("distributionStatusOfServiceList", [])):
+        ).get("distributionStatusOfServiceList", []),
+                                               key=lambda dist: dist["timestamp"],
+                                               reverse=True):
             yield ServiceDistribution(distribution_status_dict["distributionID"],
                                       distribution_status_dict["timestamp"],
                                       distribution_status_dict["userId"],

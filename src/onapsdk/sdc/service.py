@@ -686,8 +686,10 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
         if ('distributionStatusOfServiceList' in result
                 and len(result['distributionStatusOfServiceList']) > 0):
             # API changed and the latest distribution is not added to the end
-            # of distributions list but inserted as the first one.
-            dist_status = result['distributionStatusOfServiceList'][0]
+            # of distributions list but comes in random order
+            dist_status = sorted(result['distributionStatusOfServiceList'],
+                                 key=lambda dist: dist["timestamp"],
+                                 reverse=True)[0]
             self._distribution_id = dist_status['distributionID']
 
     @classmethod

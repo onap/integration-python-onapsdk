@@ -639,11 +639,12 @@ def test_load_metadata_bad_json(mock_send):
 @mock.patch.object(Service, 'send_message_json')
 def test_load_metadata_OK(mock_send):
     mock_send.return_value = {'distributionStatusOfServiceList': [
-        {'distributionID': "11"}, {'distributionID': "12"}]}
+        {'distributionID': "11", "timestamp": "2024-02-15 08:44:59.537 UTC"},
+        {'distributionID': "12", "timestamp": "2024-02-18 07:28:53.388 UTC"}]}
     svc = Service()
     svc.identifier = "1"
     svc.load_metadata()
-    assert svc._distribution_id == "11"
+    assert svc._distribution_id == "12"
     mock_send.assert_called_once_with(
         'GET', 'Get Metadata for ONAP-test-Service',
         'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/rest/v1/catalog/services/1/distribution',

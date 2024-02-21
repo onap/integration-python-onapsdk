@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "95dc7c9d8d44788c4bdb6cdb7cc0b0d6957d82ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62887fb3_a6677f2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2024-02-21T05:54:39Z",
+      "side": 1,
+      "message": "Change version on src/version.py and tests/test_version.py",
+      "revId": "95dc7c9d8d44788c4bdb6cdb7cc0b0d6957d82ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }

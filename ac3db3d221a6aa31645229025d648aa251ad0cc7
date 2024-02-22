@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63fcdf14_fbdc14f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3091
+      },
+      "writtenOn": "2024-02-22T08:40:32Z",
+      "side": 1,
+      "message": "please let\u0027s try to fix it (i like to have a view on it) and decide late to remove it fully",
+      "revId": "ac3db3d221a6aa31645229025d648aa251ad0cc7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

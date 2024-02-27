@@ -143,7 +143,7 @@ class ServiceDistribution(SDC):
         notified_components_set: Set[str] = {
             distribution.component_id for distribution in self.distribution_status_list
         }
-        return notified_components_set == set(settings.SDC_SERVICE_DISTRIBUTION_COMPONENTS)
+        return set(settings.SDC_SERVICE_DISTRIBUTION_COMPONENTS).issubset(notified_components_set)
 
     @property
     def _no_distribution_errors_test(self) -> bool:

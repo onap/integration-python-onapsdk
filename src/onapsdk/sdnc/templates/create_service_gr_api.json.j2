@@ -6,13 +6,13 @@
     "{{key}}":
         {%- if value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}}
         {%- elif value == "" %}{}
-        {%- else %}"{{value}}"
+        {% else %}"{{value}}"
         {%- endif %}
-      {%- else %}
+      {% else %}
     "{{key}}":
         {%- if value is mapping %}{{value|replace("'",'"')|replace("True","true")|replace("False","false")}},
         {%- elif value == "" %}{},
-        {%- else %}"{{value}}",
+        {% else %}"{{value}}",
         {%- endif %}
       {%- endif %}
     {%- endfor %}

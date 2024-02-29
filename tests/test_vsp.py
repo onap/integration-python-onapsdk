@@ -391,7 +391,7 @@ def test_submit_OK(mock_send, mock_status):
     """Don't update status if submission NOK."""
     vsp = Vsp()
     vsp._status = const.COMMITED
-    expected_data = '{\n\n  "action": "Submit"\n}'
+    expected_data = '{\n  "action": "Submit"\n}'
     vsp._version = "1234"
     vsp._identifier = "12345"
     vsp.submit()
@@ -415,7 +415,7 @@ def test_create_csar_not_OK(mock_send, mock_status):
     vsp = Vsp()
     vsp._status = const.CERTIFIED
     mock_send.return_value = {}
-    expected_data = '{\n\n  "action": "Create_Package"\n}'
+    expected_data = '{\n  "action": "Create_Package"\n}'
     vsp._version = "1234"
     vsp._identifier = "12345"
     vsp.create_csar()
@@ -432,7 +432,7 @@ def test_create_csar_OK(mock_send, mock_status):
     result.status_code = 201
     result._content = json.dumps({'packageId': "64"}).encode('UTF-8')
     mock_send.return_value = result
-    expected_data = '{\n\n  "action": "Create_Package"\n}'
+    expected_data = '{\n  "action": "Create_Package"\n}'
     vsp._version = "1234"
     vsp._identifier = "12345"
     vsp.create_csar()
@@ -455,7 +455,7 @@ def test_commit_OK(mock_send, mock_status):
     """Don't update status if submission NOK."""
     vsp = Vsp()
     vsp._status = const.VALIDATED
-    expected_data = '{\n\n  "commitRequest":{"message":"ok"},\n\n  "action": "Commit"\n}'
+    expected_data = '{\n  "commitRequest":{"message":"ok"},\n\n  "action": "Commit"\n}'
     vsp._version = "1234"
     vsp._identifier = "12345"
     vsp.commit()
@@ -797,4 +797,4 @@ def test_archive_vsp(mock_send, mock_load):
     mock_send.assert_called_once_with("PUT",
                                       "ARCHIVE Vsp",
                                       "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items/1232/actions",
-                                      data='{\n\n  "action": "ARCHIVE"\n}')
+                                      data='{\n  "action": "ARCHIVE"\n}')

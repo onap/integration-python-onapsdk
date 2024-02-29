@@ -45,55 +45,55 @@
                                     "networkDetails": [
                                         {
                                             "networkType": "{{ network_details.network_type }}",
-                                            "vnf-id": "{{ network_details.vnf_id }}"{% if network_details.child_resources %},{% endif %}
-                                            {% if network_details.child_resources %}
+                                            "vnf-id": "{{ network_details.vnf_id }}"{%- if network_details.child_resources %},{%- endif %}
+                                            {%- if network_details.child_resources %}
                                             "child-resources": [
                                                 {% for child_resource in network_details.child_resources %}
                                                 {
                                                     "{{ child_resource.network_details_element_type }}": {
                                                         {% for key, value in child_resource.network_details_element_parameters.items() %}
-                                                        "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}{% if loop.last and child_resource.child_resources %},{% endif %}
+                                                        "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}{%- if loop.last and child_resource.child_resources %},{%- endif %}
                                                         {% endfor %}
-                                                        {% if child_resource.child_resources %}
+                                                        {%- if child_resource.child_resources %}
                                                         "child-resources": [
                                                             {% for child_resource_child_resource in child_resource.child_resources %}
                                                                 {
                                                                 {% for key, value in child_resource_child_resource.network_details_element_parameters.items() %}
-                                                                "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                                                "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}
                                                                 {% endfor %}
-                                                                }{% if not loop.last %},{% endif %}
+                                                                }{%- if not loop.last %},{%- endif %}
                                                             {% endfor %}
                                                         ]
-                                                        {% endif %}
+                                                        {%- endif %}
                                                     }
-                                                }{% if not loop.last %},{% endif %}
+                                                }{%- if not loop.last %},{%- endif %}
                                                 {% endfor %}
                                             ],
-                                            {% endif %}
-                                            {% if network_details.related_to %}
+                                            {%- endif %}
+                                            {%- if network_details.related_to %}
                                             "related-to": [
                                                 {% for related_to in network_details.related_to %}
                                                 {
                                                     "{{ related_to.network_details_element_type }}": {
                                                         {% for key, value in related_to.network_details_element_parameters.items() %}
-                                                        "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}{% if loop.last and related_to.child_resources %},{% endif %}
+                                                        "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}{%- if loop.last and related_to.child_resources %},{%- endif %}
                                                         {% endfor %}
-                                                        {% if related_to.child_resources %}
+                                                        {%- if related_to.child_resources %}
                                                         "child-resources": [
                                                             {% for related_to_child_resource in related_to.child_resources %}
                                                                 {
                                                                 {% for key, value in related_to_child_resource.network_details_element_parameters.items() %}
-                                                                "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                                                "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}
                                                                 {% endfor %}
-                                                                }{% if not loop.last %},{% endif %}
+                                                                }{%- if not loop.last %},{%- endif %}
                                                             {% endfor %}
                                                         ]
-                                                        {% endif %}
+                                                        {%- endif %}
                                                     }
-                                                }{% if not loop.last %},{% endif %}
+                                                }{%- if not loop.last %},{%- endif %}
                                                 {% endfor %}
                                             ]
-                                            {% endif %}
+                                            {%- endif %}
                                         }
                                     ],
                                     "instanceParams": []

@@ -205,7 +205,7 @@ def test_submit_certified_NOK(mock_send, mock_load, mock_exists):
     vendor = Vendor()
     vendor._identifier = "12345"
     mock_send.side_effect = RequestError
-    expected_data = '{\n\n  "action": "Submit"\n}'
+    expected_data = '{\n  "action": "Submit"\n}'
     vendor._status = "Draft"
     vendor._version = "1234"
     with pytest.raises(RequestError) as err:
@@ -225,7 +225,7 @@ def test_submit_certified_OK(mock_send, mock_load, mock_exists):
     vendor._version = "1234"
     vendor.identifier = "12345"
     mock_send.return_value = mock.Mock()
-    expected_data = '{\n\n  "action": "Submit"\n}'
+    expected_data = '{\n  "action": "Submit"\n}'
     vendor.submit()
     mock_send.assert_called_once_with("PUT", "Submit Vendor", 'https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models/12345/versions/1234/actions', data=expected_data)
     assert vendor.status == const.CERTIFIED
@@ -324,4 +324,4 @@ def test_vendor_archive(mock_send, mock_load):
     mock_send.assert_called_once_with("PUT",
                                       "ARCHIVE Vendor",
                                       "https://sdc.api.fe.simpledemo.onap.org:30207/sdc1/feProxy/onboarding-api/v1.0/items/12345/actions",
-                                      data='{\n\n  "action": "ARCHIVE"\n}')
+                                      data='{\n  "action": "ARCHIVE"\n}')

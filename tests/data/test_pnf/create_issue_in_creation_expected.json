@@ -1,0 +1,54 @@
+{
+  "artifacts": {},
+  "attributes": [],
+  "capabilities": {},
+  "categories": [
+    {
+      "normalizedName": "generic",
+      "name": "Generic",
+      "uniqueId": "resourceNewCategory.generic",
+      "subcategories": [
+        {
+          "empty": false,
+          "groupings": null,
+          "icons": [
+            "objectStorage",
+            "compute"
+          ],
+          "name": "Abstract",
+          "normalizedName": "abstract",
+          "ownerId": null,
+          "type": null,
+          "uniqueId": "resourceNewCategory.generic.abstract",
+          "version": null
+        }
+      ],
+      "version": null,
+      "ownerId": null,
+      "empty": false,
+      "type": null,
+      "icons": null
+    }
+  ],
+  "componentInstances": [],
+  "componentInstancesAttributes": {},
+  "componentInstancesProperties": {},
+  "componentType": "RESOURCE",
+  "contactId": "cs0008",
+  "csarUUID": "None",
+  "csarVersion": "1.0",
+  "vendorName": "Generic-Vendor",
+  "deploymentArtifacts": {},
+  "description": "PNF",
+  "icon": "defaulticon",
+  "name": "ONAP-test-PNF",
+  "properties": [],
+  "groups": [],
+  "requirements": {},
+  "resourceType": "PNF",
+  "tags": [
+    "ONAP-test-PNF"
+  ],
+  "toscaArtifacts": {},
+  "vendorRelease": "1.0"
+}

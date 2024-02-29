@@ -22,11 +22,11 @@
                 "schemaType":"",
                 "type":"{{ property.property_type }}",
                 "uniqueId":"{{ sdc_resource.unique_identifier }}.{{ property.name }}",
-                {% if property.value is not none %}
+                {%- if property.value is not none %}
                 "value":"{{ property.value }}",
                 {% else %}
                 "value":null,
-                {% endif %}
+                {%- endif %}
                 "definition":false,
                 "getInputValues":null,
                 "parentPropertyType":null,

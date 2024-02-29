@@ -2,11 +2,11 @@
     "requestDetails": {
         "requestInfo": {
             "suppressRollback": false,
-            {% if aai_service %}
+            {%- if aai_service %}
             "productFamilyId":"{{ aai_service.service_id }}",
-            {% else %}
+            {%- else %}
             "productFamilyId": "1234",
-            {% endif %}
+            {%- endif %}
             "requestorId": "demo",
             "instanceName": "{{ service_instance_name }}",
             "source": "VID"
@@ -18,13 +18,13 @@
 			"modelName": "{{ sdc_service.name }}",
             "modelVersion": "1.0"
         },
-        {% if sdc_service.has_vnfs %}
+        {%- if sdc_service.has_vnfs %}
         "cloudConfiguration": {
             "tenantId": "{{ tenant.tenant_id }}",
             "cloudOwner": "{{ cloud_region.cloud_owner }}",
             "lcpCloudRegionId": "{{ cloud_region.cloud_region_id }}"
         },
-        {% endif %}
+        {%- endif %}
         "subscriberInfo": {
             "globalSubscriberId": "{{ customer.global_customer_id }}"
         },
@@ -36,19 +36,19 @@
                 {
                     "Homing_Solution": "none"
                 },
-                {% if enable_multicloud %}
+                {%- if enable_multicloud %}
                 {
                     "name":"orchestrator",
                     "value":"multicloud"
                 },
-                {% endif %}
+                {%- endif %}
                 {
                     "service": {
                         "instanceParams": [],
                         "instanceName": "{{ service_instance_name }}",
                         "resources": {
                             {% block pnfs %}
-                            {% if sdc_service.pnfs %}
+                            {%- if sdc_service.pnfs %}
                             "pnfs":[
                                 {% for pnf in sdc_service.pnfs  %}
                                 {
@@ -78,14 +78,14 @@
                                     "productFamilyId":"{{ aai_service.service_id }}",
                                     "instanceParams":[],
                                     "instanceName":"{{ service_instance_name }}"
-                                }{% if not loop.last %},{% endif %}
+                                }{%- if not loop.last %},{%- endif %}
                                 {% endfor %}
                             ]
-                                {% if sdc_service.vnfs %},{% endif %}
-                            {% endif %}
+                                {%- if sdc_service.vnfs %},{%- endif %}
+                            {%- endif %}
                             {% endblock %}
                             {% block vnfs %}
-                            {% if sdc_service.vnfs %}
+                            {%- if sdc_service.vnfs %}
                             "vnfs": [
                                 {% for vnf in sdc_service.vnfs %}
                                 {
@@ -113,11 +113,11 @@
                                     "instanceParams": [
                                         {
                                             {% for vnf_parameter in vnf_parameters %}
-                                            {% if vnf_parameter.name == vnf.model_name %}
+                                            {%- if vnf_parameter.name == vnf.model_name %}
                                             {% for parameter in vnf_parameter.vnf_parameters %}
-                                            "{{ parameter.name }}": "{{ parameter.value }}"{% if not loop.last %},{% endif %}
+                                            "{{ parameter.name }}": "{{ parameter.value }}"{%- if not loop.last %},{%- endif %}
                                             {% endfor %}
-                                            {% endif %}
+                                            {%- endif %}
                                             {% endfor %}
                                         }
                                     ],
@@ -135,27 +135,27 @@
                                             "instanceParams": [
                                                 {
                                                     {% for vnf_parameter in vnf_parameters %}
-                                                    {% if vnf_parameter.name == vnf.model_name %}
+                                                    {%- if vnf_parameter.name == vnf.model_name %}
                                                     {% set mylist = vf_module.name.split('..') %}
                                                     {% set item = mylist|length-2 %}
                                                     {% for vf_module_parameter in vnf_parameter.vfmodule_parameters %}
-                                                    {% if vf_module_parameter.name == mylist[item] %}
+                                                    {%- if vf_module_parameter.name == mylist[item] %}
                                                     {% for parameter in vf_module_parameter.vfmodule_parameters %}
-                                                    "{{ parameter.name }}": "{{ parameter.value }}"{% if not loop.last %},{% endif %}
+                                                    "{{ parameter.name }}": "{{ parameter.value }}"{%- if not loop.last %},{%- endif %}
                                                     {% endfor %}
-                                                    {% endif %}
+                                                    {%- endif %}
                                                     {% endfor %}
-                                                    {% endif %}
+                                                    {%- endif %}
                                                     {% endfor %}
                                                 }
                                             ]
-                                        }{% if not loop.last %},{% endif %}
+                                        }{%- if not loop.last %},{%- endif %}
                                         {% endfor %}
                                     ]
-                                }{% if not loop.last %},{% endif %}
+                                }{%- if not loop.last %},{%- endif %}
                                 {% endfor %}
                             ]
-                            {% endif %}
+                            {%- endif %}
                             {% endblock %}
                         },
                         "modelInfo": {

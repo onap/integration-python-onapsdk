@@ -21,15 +21,15 @@
                     "start-address": "{{ subnet.start_address }}",
                     "cidr-mask": "{{ subnet.cidr_mask }}",
                     "ip-version": "{{ subnet.ip_version }}",
-                    {% if subnet.dhcp_enabled %}
+                    {%- if subnet.dhcp_enabled %}
                     "dhcp-enabled": "Y",
                     "dhcp-start-address": "{{ subnet.dhcp_start_address }}",
                     "dhcp-end-address": "{{ subnet.dhcp_end_address }}",
-                    {% else %}
+                    {%- else %}
                     "dhcp-enabled": "N",
-                    {% endif %}
+                    {%- endif %}
                     "gateway-address": "{{ subnet.gateway_address }}"
-                }{% if not loop.last %},{% endif %}
+                }{%- if not loop.last %},{%- endif %}
                 {% endfor %}
             ]
         },

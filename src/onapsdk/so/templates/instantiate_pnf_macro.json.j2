@@ -59,11 +59,11 @@
                                     "instanceParams": [
                                         {
                                             {% for pnf_parameter in pnf_parameters %}
-                                            {% if pnf_parameter.name == pnf.model_name %}
+                                            {%- if pnf_parameter.name == pnf.model_name %}
                                             {% for parameter in pnf_parameter.pnf_parameters %}
-                                            "{{ parameter.name }}": "{{ parameter.value }}"{% if not loop.last %},{% endif %}
+                                            "{{ parameter.name }}": "{{ parameter.value }}"{%- if not loop.last %},{%- endif %}
                                             {% endfor %}
-                                            {% endif %}
+                                            {%- endif %}
                                             {% endfor %}
                                         }
                                     ],

@@ -205,7 +205,7 @@ def test_submit_certified_NOK(mock_send, mock_load, mock_exists):
     vendor = Vendor()
     vendor._identifier = "12345"
     mock_send.side_effect = RequestError
-    expected_data = '{\n\n  "action": "Submit"\n}'
+    expected_data = '{\n  "action": "Submit"\n}'
     vendor._status = "Draft"
     vendor._version = "1234"
     with pytest.raises(RequestError) as err:

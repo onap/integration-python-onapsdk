@@ -10,6 +10,6 @@
         },
         "instanceName": "{{ module.metadata.vfModuleModelName }}",
         "instanceParams": []
-    }{% if not loop.last %},{% endif %}
+    }{%- if not loop.last %},{%- endif %}
 {% endfor %}
 ]

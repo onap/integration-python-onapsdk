@@ -16,6 +16,7 @@
 from unittest import mock
 from unittest.mock import MagicMock
 from pathlib import Path
+import json
 
 import pytest
 
@@ -181,7 +182,6 @@ def test_create_already_exists(mock_category, mock_send, mock_exists):
 @mock.patch.object(Pnf, 'send_message_json')
 @mock.patch.object(Pnf, "category", new_callable=mock.PropertyMock)
 def test_create_issue_in_creation(mock_category, mock_send, mock_exists):
-# def test_create_issue_in_creation(mock_send, mock_exists):
     """Do nothing if not created but issue during creation."""
     pnf = Pnf()
     vsp = Vsp()
@@ -190,7 +190,8 @@ def test_create_issue_in_creation(mock_category, mock_send, mock_exists):
     vsp.create_csar = MagicMock(return_value=True)
     vsp.vendor = vendor
     pnf.vsp = vsp
-    expected_data = '{\n    "artifacts": {},\n    "attributes": [],\n    "capabilities": {},\n      "categories": [\n    {\n      "normalizedName": "generic",\n      "name": "Generic",\n      "uniqueId": "resourceNewCategory.generic",\n      "subcategories": [{"empty": false, "groupings": null, "icons": ["objectStorage", "compute"], "name": "Abstract", "normalizedName": "abstract", "ownerId": null, "type": null, "uniqueId": "resourceNewCategory.generic.abstract", "version": null}],\n      "version": null,\n      "ownerId": null,\n      "empty": false,\n      "type": null,\n      "icons": null\n    }\n  ],\n    "componentInstances": [],\n    "componentInstancesAttributes": {},\n    "componentInstancesProperties": {},\n    "componentType": "RESOURCE",\n    "contactId": "cs0008",\n    \n    "csarUUID": "None",\n    "csarVersion": "1.0",\n    "vendorName": "Generic-Vendor",\n    \n    "deploymentArtifacts": {},\n    "description": "PNF",\n    "icon": "defaulticon",\n    "name": "ONAP-test-PNF",\n    "properties": [],\n    "groups": [],\n    "requirements": {},\n    "resourceType": "PNF",\n    "tags": ["ONAP-test-PNF"],\n    "toscaArtifacts": {},\n    "vendorRelease": "1.0"\n}'
+    with open('tests/data/test_pnf_create_issue_in_creation_expected.json', mode='rb') as file:
+        expected_data = json.load(file)
     mock_exists.return_value = False
     mock_send.side_effect = RequestError
     rc = ResourceCategory(

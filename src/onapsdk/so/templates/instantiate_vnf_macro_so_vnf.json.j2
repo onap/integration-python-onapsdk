@@ -69,7 +69,7 @@
                                     "instanceParams": [
                                         {
                                             {% for key, value in so_vnf.parameters.items() %}
-                                            "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                            "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}
                                             {% endfor %}
                                         }
                                     ],
@@ -78,33 +78,33 @@
                                         {
                                             "modelInfo": {
 
-                                                {% if vnf.model_name == so_vnf.model_name %}
+                                                {%- if vnf.model_name == so_vnf.model_name %}
                                                 {% for sdc_vf_module in vnf.vf_modules %}
                                                 {% set mylist = sdc_vf_module.name.split('..') %}
                                                 {% set item = mylist|length-2 %}
-                                                {% if vf_module.model_name == mylist[item] %}
+                                                {%- if vf_module.model_name == mylist[item] %}
                                                 "modelName": "{{ sdc_vf_module.model_name }}",
                                                 "modelVersionId": "{{ sdc_vf_module.model_version_id}}",
                                                 "modelInvariantUuid": "{{ sdc_vf_module.model_invariant_uuid }}",
                                                 "modelVersion": "{{ sdc_vf_module.model_version }}",
                                                 "modelCustomizationId": "{{ sdc_vf_module.model_customization_id }}"
-                                                {% endif %}
+                                                {%- endif %}
                                                 {% endfor %}
-                                                {% endif %}
+                                                {%- endif %}
 
                                             },
                                             "instanceName": "{{ vf_module.instance_name }}",
-                                            {% if vf_module.processing_priority %}
+                                            {%- if vf_module.processing_priority %}
                                             "processingPriority": "{{ vf_module.processing_priority }}",
-                                            {% endif %}
+                                            {%- endif %}
                                             "instanceParams": [
                                                 {
                                                     {% for key, value in vf_module.parameters.items() %}
-                                                    "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                                                    "{{ key }}": "{{ value }}"{%- if not loop.last %},{%- endif %}
                                                     {% endfor %}
                                                 }
                                             ]
-                                        }{% if not loop.last %},{% endif %}
+                                        }{%- if not loop.last %},{%- endif %}
                                         {% endfor %}
                                     ]
                                 }

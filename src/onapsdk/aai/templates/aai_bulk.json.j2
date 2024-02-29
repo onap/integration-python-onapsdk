@@ -5,7 +5,7 @@
         "action": "{{ operation.action }}",
         "uri": "{{ operation.uri }}",
         "body": {{ operation.body }}
-    }{% if not loop.last %},{% endif %}
+    }{%- if not loop.last %},{%- endif %}
     {% endfor %}
     ]
 }

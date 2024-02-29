@@ -15,7 +15,7 @@
         "updated-by": "Python ONAP SDK",
         "sources": {
             {% for source in mapping.dictionary_sources %}
-                {% if source == "input" %}
+                {%- if source == "input" %}
                     "input": {
                         "type": "source-input"
                     },
@@ -41,7 +41,7 @@
                         "type": "unknown",
                         "properties": {}
                     },
-                {% endif %}
+                {%- endif %}
             {% endfor %}
             "default": {
                 "type": "source-default",

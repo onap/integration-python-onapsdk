@@ -2,10 +2,10 @@
     "name": "{{ name }}",
     "contactId": "{{ user_id }}",
     "componentType": "RESOURCE",
-    {% if category.name != "Allotted Resource" and vsp is not none %}
+    {%- if category.name != "Allotted Resource" and vsp is not none %}
     "csarUUID": "{{ vsp.csar_uuid }}",
     "csarVersion": "1.0",
-    {% endif %}
+    {%- endif %}
     "categories": [{
       "name": "{{ category.name }}",
       "uniqueId": "{{ category.unique_id }}",

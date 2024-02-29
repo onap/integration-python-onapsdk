@@ -16,6 +16,7 @@
 from unittest import mock
 from unittest.mock import MagicMock
 from pathlib import Path
+import json
 
 import pytest
 
@@ -181,7 +182,6 @@ def test_create_already_exists(mock_category, mock_send, mock_exists):
 @mock.patch.object(Pnf, 'send_message_json')
 @mock.patch.object(Pnf, "category", new_callable=mock.PropertyMock)
 def test_create_issue_in_creation(mock_category, mock_send, mock_exists):
-# def test_create_issue_in_creation(mock_send, mock_exists):
     """Do nothing if not created but issue during creation."""
     pnf = Pnf()
     vsp = Vsp()

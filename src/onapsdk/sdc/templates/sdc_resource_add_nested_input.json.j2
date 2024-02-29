@@ -19,9 +19,9 @@
                 {# "schemaType":"", #}
                 "type":"{{ input.input_type }}",
                 "uniqueId":"{{ sdc_resource.unique_identifier }}.{{ input.name }}",
-                {% if input.default_value is not none %}
+                {%- if input.default_value is not none %}
                 "value":"{{ input.default_value }}",
-                {% endif %}
+                {%- endif %}
                 "definition":false
                 {# "type":"{{ input.input_type }}", #}
             }

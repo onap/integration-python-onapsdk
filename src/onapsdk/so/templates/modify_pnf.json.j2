@@ -32,7 +32,7 @@
                         "instanceParams": [],
                         "resources": {
                             {% block pnfs %}
-                            {% if service.pnfs %}
+                            {%- if service.pnfs %}
                             "pnfs": [
                                 {% for pnf in service.pnfs  %}
                                 {
@@ -71,7 +71,7 @@
                                 }
                                 {% endfor %}
                             ]
-                            {% endif %}
+                            {%- endif %}
                             {% endblock %}
                         }
                     }

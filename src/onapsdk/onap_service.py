@@ -126,6 +126,7 @@ class OnapService(ABC):
         basic_auth: Dict[str, str] = kwargs.pop('basic_auth', None)
         exception = kwargs.pop('exception', None)
         timeout = kwargs.pop('timeout', None)
+        retries = kwargs.pop('retries', settings.DEFAULT_REQUEST_RETRIES)
         if method == "PATCH":
             headers = kwargs.pop('headers', cls.patch_headers).copy()
         else:
@@ -136,7 +137,7 @@ class OnapService(ABC):
         data = kwargs.get('data', None)
         try:
             # build the request with the requested method
-            session = cls.__requests_retry_session(timeout=timeout)
+            session = cls.__requests_retry_session(retries=retries, timeout=timeout)
             if cert:
                 session.cert = cert
             OnapService._set_basic_auth_if_needed(basic_auth, session)
@@ -257,7 +258,7 @@ class OnapService(ABC):
         raise exception
 
     @staticmethod
-    def __requests_retry_session(retries: int = 10,
+    def __requests_retry_session(retries: int = settings.DEFAULT_REQUEST_RETRIES,
                                  backoff_factor: float = 0.3,
                                  session: requests.Session = None,
                                  timeout: int = None

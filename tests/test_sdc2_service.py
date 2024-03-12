@@ -613,3 +613,73 @@ def test_service_distribution_distributon_status_list(mock_send_message_json):
     assert sd.distribution_status_list[0].status == distribution_status_data["status"]
     assert sd.distribution_status_list[0].url == distribution_status_data["url"]
     assert sd.distribution_status_list[0].error_reason == distribution_status_data["errorReason"]
+
+
+@patch("onapsdk.sdc2.service.ServiceDistribution.send_message_json")
+def test_service_distribution_distributon_status_list_with_errors(mock_send_message_json):
+    mock_send_message_json.return_value = {
+        "distributionStatusList": []
+    }
+    sd = ServiceDistribution(
+        distribution_id=str(uuid4()),
+        timestamp=str(randint(0, maxsize)),
+        user_id=str(uuid4()),
+        deployment_status=str(uuid4())
+    )
+    assert sd.distribution_status_list == []
+
+    distribution_status_data_null_error_reason = {
+        "omfComponentID": str(uuid4()),
+        "timestamp": str(randint(0, maxsize)),
+        "status": str(uuid4()),
+        "url": str(uuid4()),
+        "errorReason": "null"
+    }
+    mock_send_message_json.return_value = {
+        "distributionStatusList": [distribution_status_data_null_error_reason]
+    }
+    sd._distribution_status_list = None
+    assert len(sd.distribution_status_list) == 1
+    assert not sd.distribution_status_list[0].failed
+
+    distribution_status_data_artifact_not_used_error_reason = {
+        "omfComponentID": str(uuid4()),
+        "timestamp": str(randint(0, maxsize)),
+        "status": str(uuid4()),
+        "url": str(uuid4()),
+        "errorReason": "The artifact has not been used by the modules defined in the resource"
+    }
+    mock_send_message_json.return_value = {
+        "distributionStatusList": [distribution_status_data_artifact_not_used_error_reason]
+    }
+    sd._distribution_status_list = None
+    assert len(sd.distribution_status_list) == 1
+    assert not sd.distribution_status_list[0].failed
+
+    distribution_status_data_already_deployed_status = {
+        "omfComponentID": str(uuid4()),
+        "timestamp": str(randint(0, maxsize)),
+        "status": "ALREADY_DEPLOYED",
+        "url": str(uuid4()),
+        "errorReason": str(uuid4())
+    }
+    mock_send_message_json.return_value = {
+        "distributionStatusList": [distribution_status_data_already_deployed_status]
+    }
+    sd._distribution_status_list = None
+    assert len(sd.distribution_status_list) == 1
+    assert not sd.distribution_status_list[0].failed
+
+    distribution_status_data_any_error_reason = {
+        "omfComponentID": str(uuid4()),
+        "timestamp": str(randint(0, maxsize)),
+        "status": str(uuid4()),
+        "url": str(uuid4()),
+        "errorReason": str(uuid4())
+    }
+    mock_send_message_json.return_value = {
+        "distributionStatusList": [distribution_status_data_any_error_reason]
+    }
+    sd._distribution_status_list = None
+    assert len(sd.distribution_status_list) == 1
+    assert sd.distribution_status_list[0].failed

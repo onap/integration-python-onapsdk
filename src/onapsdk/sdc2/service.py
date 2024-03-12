@@ -25,6 +25,10 @@ from onapsdk.sdc2.sdc_user import SdcUser
 from onapsdk.utils.jinja import jinja_env  # type: ignore
 
 
+ARTIFACT_NOT_USED_ERROR_REASON = \
+    "The artifact has not been used by the modules defined in the resource"
+
+
 class ServiceInstantiationType(Enum):
     """Service instantiation type enum class.
 
@@ -55,18 +59,20 @@ class ServiceDistribution(SDC):
 
         @property
         def failed(self) -> bool:
-            """Flad to determine if distribution status is failed or not.
+            """Flag to determine if distribution status is failed or not.
 
             If error reason of distribution status is not empty it doesn't mean
                 always that distribution failed at all. On some cases that means
                 that service was already distributed on that component. That's why
-                we checks also if status is not "ALREADY_DEPLOYED".
+                we checks also if status is not "ALREADY_DEPLOYED". On SO there is also
+                an error "The artifact has not been used..." which also shouldn't
+                be treated as an error.
 
             Returns:
                 bool: True if distribution on component failed or not.
 
             """
-            return self.error_reason != "null" and \
+            return self.error_reason not in ["null", ARTIFACT_NOT_USED_ERROR_REASON] and \
                 self.status != "ALREADY_DEPLOYED"
 
     def __init__(self,  # pylint: disable=too-many-arguments

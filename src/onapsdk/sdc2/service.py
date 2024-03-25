@@ -58,6 +58,19 @@ class ServiceDistribution(SDC):
         error_reason: str
 
         @property
+        def distributed(self) -> bool:
+            """Flag to detrmine if status is distributed.
+
+            If status is not DOWNLOAD_OK it means that component is not yet
+                distributed and we need to wait for status update.
+
+            Returns:
+                bool: True if distribution of component was completed.
+
+            """
+            return self.status == "DOWNLOAD_OK"
+
+        @property
         def failed(self) -> bool:
             """Flag to determine if distribution status is failed or not.
 
@@ -137,17 +150,19 @@ class ServiceDistribution(SDC):
 
     @property
     def _distribution_components_test(self) -> bool:
-        """Test to check if all required components were notified about distribution.
+        """Test to check if all required components were notified and downloaded artifacts.
 
         List of required components can be configured via SDC_SERVICE_DISTRIBUTION_COMPONENTS
             setting value.
 
         Returns:
-            bool: True if all required components were notified, False otherwise
+            bool: True if all required components were notified and artifacts were downloaded
+                False otherwise
 
         """
         notified_components_set: Set[str] = {
-            distribution.component_id for distribution in self.distribution_status_list
+            distribution.component_id for distribution in filter(
+                lambda item: item.distributed, self.distribution_status_list)
         }
         return set(settings.SDC_SERVICE_DISTRIBUTION_COMPONENTS).issubset(notified_components_set)
 

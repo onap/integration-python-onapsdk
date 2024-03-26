@@ -546,9 +546,21 @@ def test_service_distribution_distribution_components_test(mock_distribution_sta
         ServiceDistribution.DistributionStatus(
             component_id=component_id,
             timestamp=str(randint(0, maxsize)),
+            status=str(uuid4()),
+            url=str(uuid4()),
+            error_reason="null"
+        ) for component_id in list(
+            settings.SDC_SERVICE_DISTRIBUTION_DESIRED_STATE.keys())
+    ]
+    assert sd._distribution_components_test is False
+
+    mock_distribution_status_list.return_value = [
+        ServiceDistribution.DistributionStatus(
+            component_id=component_id,
+            timestamp=str(randint(0, maxsize)),
             status="DOWNLOAD_OK",
             url=str(uuid4()),
-            error_reason=str(uuid4())
+            error_reason="null"
         ) for component_id in settings.SDC_SERVICE_DISTRIBUTION_COMPONENTS
     ]
     assert sd._distribution_components_test is True
@@ -559,7 +571,7 @@ def test_service_distribution_distribution_components_test(mock_distribution_sta
             timestamp=str(randint(0, maxsize)),
             status="DOWNLOAD_OK",
             url=str(uuid4()),
-            error_reason=str(uuid4())
+            error_reason="null"
         ) for component_id in settings.SDC_SERVICE_DISTRIBUTION_COMPONENTS + ["additional-test-component"]
     ]
     assert sd._distribution_components_test is True

@@ -68,7 +68,10 @@ class ServiceDistribution(SDC):
                 bool: True if distribution of component was completed.
 
             """
-            return self.status == "DOWNLOAD_OK"
+            return not self.failed and (
+                self.component_id not in settings.SDC_SERVICE_DISTRIBUTION_DESIRED_STATE
+                or self.status == settings.SDC_SERVICE_DISTRIBUTION_DESIRED_STATE[
+                    self.component_id])
 
         @property
         def failed(self) -> bool:

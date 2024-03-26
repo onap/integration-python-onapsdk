@@ -84,3 +84,12 @@ SDC_SERVICE_DISTRIBUTION_COMPONENTS = [
     "policy-distribution-id",
     "multicloud-k8s"
 ]
+
+# SDC DISTRIBUTION DESIRD STATE
+# FOR OTHER COMPONENTS NOTIFICATION IS ENOUGH
+SDC_SERVICE_DISTRIBUTION_DESIRED_STATE = {
+    "SO-sdc-controller": "DOWNLOAD_OK",
+    "aai-model-loader": "DOWNLOAD_OK",
+    "sdnc-sdc-listener": "DOWNLOAD_OK",
+    "policy-distribution-id": "DOWNLOAD_OK",
+}

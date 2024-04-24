@@ -21,7 +21,7 @@ from onapsdk.aai.business.customer import FeasibilityCheckAndReservationJob
 from onapsdk.aai.cloud_infrastructure import CloudRegion, Tenant
 from onapsdk.msb.multicloud import Multicloud
 from onapsdk.sdc.service import Service as SdcService
-from onapsdk.exceptions import ParameterError, ResourceNotFound
+from onapsdk.exceptions import APIError, ParameterError, ResourceNotFound
 
 SIMPLE_CUSTOMER = {
     "customer": [
@@ -268,6 +268,26 @@ def test_customer_service_tenant_relations(mock_send):
     res = list(customer.service_subscriptions)
     assert len(res) == 2
     assert res[0].service_type == "freeradius"
+
+
+@mock.patch.object(Customer, 'send_message_json')
+def test_customer_service_no_data(mock_send):
+    """Test the retrieval of service/tenant relations in A&AI."""
+    mock_send.return_value = SIMPLE_CUSTOMER
+    customer = next(Customer.get_all())
+    mock_send.side_effect = ResourceNotFound
+    res = list(customer.service_subscriptions)
+    assert len(res) == 0
+
+
+@mock.patch.object(Customer, 'send_message_json')
+def test_customer_service_api_error(mock_send):
+    """Test the retrieval of service/tenant relations in A&AI."""
+    mock_send.return_value = SIMPLE_CUSTOMER
+    customer = next(Customer.get_all())
+    mock_send.side_effect = APIError
+    res = list(customer.service_subscriptions)
+    assert len(res) == 0
 
 
 @mock.patch.object(Customer, "send_message_json")

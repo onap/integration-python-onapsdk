@@ -25,7 +25,7 @@ from onapsdk.exceptions import ModuleError
 
 def test_global_settings():
     """Test global settings."""
-    assert len(settings._settings) == 56
+    assert len(settings._settings) == 64
     assert settings.AAI_URL == "https://aai.api.sparky.simpledemo.onap.org:30233"
     assert settings.CDS_URL == "http://portal.api.simpledemo.onap.org:30449"
     assert settings.SDNC_URL == "https://sdnc.api.simpledemo.onap.org:30267"
@@ -39,7 +39,7 @@ def test_global_settings():
     assert settings.VID_URL == "https://vid.api.simpledemo.onap.org:30200"
     assert settings.CLAMP_URL == "https://clamp.api.simpledemo.onap.org:30258"
     assert settings.VES_URL == "http://ves.api.simpledemo.onap.org:30417"
-    assert settings.DMAAP_URL   == "http://dmaap.api.simpledemo.onap.org:3904"
+    assert settings.DMAAP_URL == "http://dmaap.api.simpledemo.onap.org:3904"
     assert settings.NBI_URL == "https://nbi.api.simpledemo.onap.org:30274"
     assert settings.DCAEMOD_URL == ""
     assert settings.HOLMES_URL == "https://aai.api.sparky.simpledemo.onap.org:30293"
@@ -65,6 +65,14 @@ def test_global_settings():
     assert settings.POLICY_PAP_URL == "http://policy-pap.simpledemo.onap.org"
     assert settings.POLICY_PDP_URL == "http://policy-xacml-pdp.simpledemo.onap.org"
     assert settings.POLICY_PDP_AUTH == "Basic aGVhbHRoY2hlY2s6emIhWHp0RzM0"
+    assert settings.KAFKA_BOOTSTRAP_SERVERS == "onap-strimzi-kafka-bootstrap"
+    assert settings.KAFKA_SECURITY_PROTOCOL == "SASL_PLAINTEXT"
+    assert settings.KAFKA_SASL_MECHANISM == "SCRAM-SHA-512"
+    assert settings.KAFKA_GROUP_ID == "consumer3"
+    assert settings.KAFKA_ENABLE_AUTO_COMMIT == True
+    assert settings.KAFKA_AUTO_OFFSET_RESET == "EARLIEST"
+    assert settings.KAFKA_CONSUMER_TIMEOUT_MS == 1000
+    assert settings.KAFKA_CONSUMER_THREAD_SLEEP == 10
     assert hasattr(settings, "AAI_AUTH")
     assert hasattr(settings, "CDS_AUTH")
     assert hasattr(settings, "SDC_AUTH")
@@ -74,6 +82,7 @@ def test_global_settings():
     assert hasattr(settings, "SO_CAT_DB_AUTH")
     assert hasattr(settings, "SDC_SERVICE_DISTRIBUTION_COMPONENTS")
     assert hasattr(settings, "SDC_SERVICE_DISTRIBUTION_DESIRED_STATE")
+
 
 def test_settings_load_custom():
     """Test if custom settings is loaded correctly."""

@@ -14,7 +14,7 @@
 #   limitations under the License.
 import importlib
 import os
-from typing import Any
+from typing import Any, Iterable, Optional
 
 from onapsdk.exceptions import ModuleError, SettingsError
 
@@ -34,7 +34,7 @@ class SettingsLoader:
         The module has to be uder PYTHONPATH.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, modules: Optional[Iterable["module"]] = None) -> None:
         """Load settings.
 
         Load global settings and optionally load custom one.
@@ -49,13 +49,18 @@ class SettingsLoader:
         # Load values from global_settings (only uppercase)
         self.filter_and_set(global_settings)
 
+        # Load values from optional provided modules
+        if modules:
+            for module in modules:
+                self.filter_and_set(module)
+
         settings_env_value: str = os.environ.get(SETTINGS_ENV)
         if settings_env_value:
             # Load values from custom settings
             try:
                 module = importlib.import_module(settings_env_value)
             except ModuleNotFoundError as exc:
-                msg = "Can't import custom settings. Is it under PYTHONPATH?"
+                msg = f"Can't import custom settings. Is it under PYTHONPATH? Error: {exc.msg}"
                 raise ModuleError(msg) from exc
             self.filter_and_set(module)
 

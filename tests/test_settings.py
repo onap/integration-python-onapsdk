@@ -11,6 +11,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import importlib
 import os
 import sys
 from pathlib import PurePath
@@ -80,5 +81,16 @@ def test_settings_load_custom():
 def test_invalid_custom_settings():
     """Test if loading invalid custom settings raises ModuleError."""
     os.environ[SETTINGS_ENV] = "non.existings.package"
-    with pytest.raises(ModuleError):
-        SettingsLoader()
+    try:
+        with pytest.raises(ModuleError):
+            SettingsLoader()
+    finally:
+        os.environ.pop(SETTINGS_ENV)
+
+
+def test_additional_module():
+    sys.path.append(str(PurePath(__file__).parent))
+    module = importlib.import_module("data.tests_settings")
+    custom_settings = SettingsLoader(modules=(module,))
+    assert custom_settings.AAI_URL == "http://tests.settings.py:1234"
+    assert custom_settings.TEST_VALUE == "test"

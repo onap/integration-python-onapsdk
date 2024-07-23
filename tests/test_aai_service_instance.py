@@ -294,18 +294,9 @@ def test_service_instance_count(mock_send_message_json):
 
 @mock.patch.object(ServiceInstance, "send_message")
 def test_service_deletion_request(mock_service_deletion_send_message):
-    mock_instance = mock.MagicMock()
-    mock_instance.instance_id = "test_instance_id"
 
-    mock_service_subscription = mock.MagicMock()
-    mock_instance.service_subscription = mock_service_subscription
-
-    mock_service_type = mock.MagicMock()
-    mock_instance.service_type = "test_service_type"
-
-    mock_self = mock.MagicMock()
-
-    service_instance_deletion = ServiceInstance. \
-        delete_from_aai(self=mock_self, instance_id=mock_instance,
-                        service_type=mock_service_type,
-                        service_subscription=mock_service_subscription)
+    si = ServiceInstance(service_subscription=mock.MagicMock(),
+                         instance_id="test_service_instance_id")
+    si.delete_from_aai()
+    mock_service_deletion_send_message.assert_called()
+    assert mock_service_deletion_send_message.call_count == 2

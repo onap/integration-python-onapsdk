@@ -551,39 +551,16 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
         self._logger.debug("Delete %s service instance", self.instance_id)
         return ServiceDeletionRequest.send_request(self, a_la_carte)
 
-    def delete_from_aai(self,
-                        service_subscription: "ServiceSubscription",
-                        instance_id: str,
-                        service_type: str = None) -> "ServiceInstance":
-        """Send request to AAI to delete service instance.
-
-        Args:
-            service_subscription (ServiceSubscription): service subscription which is belongs to
-            instance_id (str): Uniquely identifies this instance of a service
-            service_type (str, optional): String capturing type of service.Defaults to None.
-
-        """
-        customer_instance = service_subscription.customer
-        customer_id = customer_instance.global_customer_id
-
+    def delete_from_aai(self) -> "ServiceInstance":
+        """Send request to AAI to delete service instance."""
         # calling GET api to get resource_version of service instance
         response = self.send_message_json("GET",
-                                          f"GET service instance {instance_id} for ",
-                                          f"{self.base_url}{self.api_version}/business/"
-                                          f"customers/customer/"
-                                          f"{customer_id}/service-subscriptions/"
-                                          f"service-subscription/"
-                                          f"{service_type}/service-instances/service-instance/"
-                                          f"{instance_id}")
+                                          f"GET service instance {self.instance_id} for ",
+                                          self.url)
 
         resource_version = str(response.get('resource-version', ''))
 
         # calling delete api to delete service instance from AAI
         self.send_message("DELETE",
-                          f"Delete service instance {instance_id} for ",
-                          f"{self.base_url}{self.api_version}/business/customers/customer/"
-                          f"{customer_id}/service-subscriptions/"
-                          f"service-subscription/"
-                          f"{service_type}/service-instances/service-instance/"
-                          f"{instance_id}?"
-                          f"resource-version={resource_version}")
+                          f"Delete service instance {self.instance_id} for ",
+                          f"{self.url}?resource-version={resource_version}")

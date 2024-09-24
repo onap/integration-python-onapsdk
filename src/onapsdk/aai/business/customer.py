@@ -150,7 +150,7 @@ class ServiceSubscription(AaiResource):
         """
         for service_instance in \
             self.send_message_json("GET",
-                                   (f"Get all service instances for {self.service_type} service "
+                                   (f"Get all service instances for{self.service_type} service "
                                     f"subscription"),
                                    f"{self.url}/service-instances").get("service-instance", []):
             yield ServiceInstance(
@@ -667,3 +667,150 @@ class Customer(AaiResource):
             "Delete customer",
             self.url
         )
+
+
+class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-many-instance-attributes
+    """An instance of FeasibilityCheckAndReservationJob class."""
+
+    def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+                 feasibility_check_and_reservation_job_id: str,
+                 job_name: str,
+                 feasibility_result: str,
+                 resource_version: str = None,
+                 resource_reservation: bool = None,
+                 creation_time: str = None,
+                 recommendation_request: bool = None,
+                 requested_reservation_expiration: str = None,
+                 infeasible_reason: str = None,
+                 resource_reservation_status: str = None,
+                 reservation_failure_reason: str = None,
+                 reservation_expiration: str = None,
+                 recommended_requirements: str = None,
+                 feasibility_details: str = None,
+                 data_owner: str = None,
+                 data_source: str = None,
+                 data_source_version: str = None,
+                 feasibility_time_windows: list = None,
+                 slice_profiles: list = None,
+                 service_profiles: list = None,
+                 relationship_list: dict = None) -> None:
+        """Initialize FeasibilityCheckAndReservationJob class object.
+
+        Args:
+            feasibility_check_and_reservation_job_id (str): Unique identifier of the job.
+            job_name (str): Name of the feasibility service job.
+            feasibility_result (str): Result of the feasibility check (FEASIBLE or INFEASIBLE).
+            resource_version (str, optional): Used for optimistic concurrency.
+            resource_reservation (bool, optional): Represents resource reservation requirement.
+            creation_time (str, optional): The time when the job is created.
+            recommendation_request (bool, optional): Represents request for
+            recommended network slice requirements.
+            requested_reservation_expiration (str, optional): Validity period of
+             the resource reservation.
+            infeasible_reason (str, optional): Additional reason if the feasibility
+             check result is infeasible.
+            resource_reservation_status (str, optional): Resource reservation result
+             for the feasibility check job.
+            reservation_failure_reason (str, optional): Additional reason if the reservation fails.
+            reservation_expiration (str, optional): Actual validity period of the
+             resource reservation.
+            recommended_requirements (str, optional): Recommended network slicing
+             related requirements.
+            feasibility_details (str, optional): Additional details about the feasibility check.
+            data_owner (str, optional): Entity responsible for managing this inventory object.
+            data_source (str, optional): Upstream source of the data.
+            data_source_version (str, optional): Version of the upstream source.
+            feasibility_time_windows (list, optional): Feasibility time windows.
+            slice_profiles (list, optional): Slice profiles.
+            service_profiles (list, optional): Service profiles.
+            relationship_list (dict, optional): Relationship list.
+        """
+        super().__init__()
+        self.feasibility_check_and_reservation_job_id = feasibility_check_and_reservation_job_id
+        self.job_name = job_name
+        self.feasibility_result = feasibility_result
+        self.resource_version = resource_version
+        self.resource_reservation = resource_reservation
+        self.creation_time = creation_time
+        self.recommendation_request = recommendation_request
+        self.requested_reservation_expiration = requested_reservation_expiration
+        self.infeasible_reason = infeasible_reason
+        self.resource_reservation_status = resource_reservation_status
+        self.reservation_failure_reason = reservation_failure_reason
+        self.reservation_expiration = reservation_expiration
+        self.recommended_requirements = recommended_requirements
+        self.feasibility_details = feasibility_details
+        self.data_owner = data_owner
+        self.data_source = data_source
+        self.data_source_version = data_source_version
+        self.feasibility_time_windows = feasibility_time_windows or []
+        self.slice_profiles = slice_profiles or []
+        self.service_profiles = service_profiles or []
+        self.relationship_list = relationship_list or {}
+
+    @classmethod
+    def get_reservation_job(cls, global_customer_id: str,
+                            service_subscription: str,
+                            feasibility_check_and_reservation_job_id:
+                            str) -> "FeasibilityCheckAndReservationJob":
+        """
+        Get a specific reservation job by ID from the AAI.
+
+        Args:
+            global_customer_id(str): ID of the customer
+            service_subscription(str): Type of service subscription
+            feasibility_check_and_reservation_job_id(str): ID of the reservation job
+
+        Returns:
+            FeasibilityCheckAndReservationJob: An instance of the
+            FeasibilityCheckAndReservationJob class
+            representing the specific FeasibilityCheckAndReservationJob.
+
+        """
+        url = f"{cls.base_url}{cls.api_version}/business/customers/customer" \
+              f"/{global_customer_id}/service-subscriptions/service-subscription" \
+              f"/{service_subscription}/feasibility-check-and-reservation-jobs" \
+              f"/feasibility-check-and-reservation-job" \
+              f"/{feasibility_check_and_reservation_job_id}?depth=all"
+        try:
+            response = cls.send_message_json("GET",
+                                             "Get FeasibilityCheckAndReservationJob from AAI",
+                                             url)
+            return FeasibilityCheckAndReservationJob(
+                feasibility_check_and_reservation_job_id=response.get(
+                    "feasibility-check-and-reservation-job-id"),
+                job_name=response.get("job-name"),
+                feasibility_result=response.get("feasibility-result"),
+                resource_version=response.get("resource-version"),
+                resource_reservation=response.get("resource-reservation"),
+                creation_time=response.get("creation-time"),
+                recommendation_request=response.get("recommendation-request"),
+                requested_reservation_expiration=response.get("requested-reservation-expiration"),
+                infeasible_reason=response.get("infeasible-reason"),
+                resource_reservation_status=response.get("resource-reservation-status"),
+                reservation_failure_reason=response.get("reservation-failure-reason"),
+                reservation_expiration=response.get("reservation-expiration"),
+                recommended_requirements=response.get("recommended-requirements"),
+                feasibility_details=response.get("feasibility-details"),
+                data_owner=response.get("data-owner"),
+                data_source=response.get("data-source"),
+                data_source_version=response.get("data-source-version"),
+                feasibility_time_windows=response.get("feasibility-time-windows"),
+                slice_profiles=response.get("slice-profiles"),
+                service_profiles=response.get("service-profiles"),
+                relationship_list=response.get("relationship-list")
+            )
+        except ResourceNotFound as e:
+            cls._logger.error("Error retrieving reservation job %s:", e)
+            return None
+
+    def delete(self, global_customer_id: str, service_subscription: str) -> None:
+        """Delete reservation job."""
+        self.send_message("DELETE",
+                          f"Delete reservation job {self.feasibility_check_and_reservation_job_id}",
+                          f"{self.base_url}{self.api_version}/business/customers/customer"
+                          f"/{global_customer_id}/service-subscriptions/service-subscription"
+                          f"/{service_subscription}/feasibility-check-"
+                          f"and-reservation-jobs/feasibility-check-and-reservation-job"
+                          f"/{self.feasibility_check_and_reservation_job_id}"
+                          f"?resource-version={self.resource_version}")

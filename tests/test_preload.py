@@ -80,7 +80,7 @@ def test_vf_module_preload_gr_api(mock_send_message_json):
     method, description, url = mock_send_message_json.call_args[0]
     assert method == "POST"
     assert description == "Upload VF module preload using GENERIC-RESOURCE-API"
-    assert url == (f"{VfModulePreload.base_url}/restconf/operations/"
+    assert url == (f"{VfModulePreload.base_url}/rests/operations/"
                    "GENERIC-RESOURCE-API:preload-vf-module-topology-operation")
 
 

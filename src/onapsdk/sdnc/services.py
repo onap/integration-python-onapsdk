@@ -62,7 +62,7 @@ class Service(SdncElement):
         for service in cls.send_message_json(
                 "GET",
                 "Get SDNC services",
-                f"{cls.base_url}/restconf/config/GENERIC-RESOURCE-API:services"
+                f"{cls.base_url}/rests/data/GENERIC-RESOURCE-API:services"
         ).get('services', {}).get('service', []):
             try:
                 service_data = service["service-data"]
@@ -111,7 +111,7 @@ class Service(SdncElement):
         self.send_message(
             "POST",
             "Create a service using GENERIC-RESOURCES-API",
-            (f"{self.base_url}/restconf/config/"
+            (f"{self.base_url}/rests/data/"
              "GENERIC-RESOURCE-API:services"),
             data=jinja_env().get_template(
                 "create_service_gr_api.json.j2").

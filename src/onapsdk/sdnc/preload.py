@@ -67,7 +67,7 @@ class PreloadInformation(Preload):
             cls.send_message_json(\
                 "GET",\
                 "Get SDNC preload information",\
-                f"{cls.base_url}/restconf/operational/GENERIC-RESOURCE-API:preload-information"
+                f"{cls.base_url}/rests/data/GENERIC-RESOURCE-API:preload-information"
                                  ).get('preload-information', {}).get('preload-list', []):
             yield PreloadInformation(preload_id=preload_information["preload-id"],
                                      preload_type=preload_information["preload-type"],
@@ -94,7 +94,7 @@ class NetworkPreload(Preload):
         cls.send_message_json(
             "POST",
             "Upload Network preload using GENERIC-RESOURCE-API",
-            (f"{cls.base_url}/restconf/operations/"
+            (f"{cls.base_url}/rests/operations/"
              "GENERIC-RESOURCE-API:preload-network-topology-operation"),
             data=jinja_env().get_template(
                 "instantiate_network_ala_carte_upload_preload_gr_api.json.j2").
@@ -135,7 +135,7 @@ class VfModulePreload(Preload):
         cls.send_message_json(
             "POST",
             "Upload VF module preload using GENERIC-RESOURCE-API",
-            (f"{cls.base_url}/restconf/operations/"
+            (f"{cls.base_url}/rests/operations/"
              "GENERIC-RESOURCE-API:preload-vf-module-topology-operation"),
             data=jinja_env().get_template(
                 "instantiate_vf_module_ala_carte_upload_preload_gr_api.json.j2").

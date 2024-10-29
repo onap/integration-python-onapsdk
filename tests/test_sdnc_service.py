@@ -172,7 +172,7 @@ def test_sdnc_service_gr_api_create(mock_send_message):
     method, description, url = mock_send_message.call_args[0]
     assert method == "POST"
     assert description == "Create a service using GENERIC-RESOURCES-API"
-    assert url == (f"{Service.base_url}/restconf/config/"
+    assert url == (f"{Service.base_url}/rests/data/"
                    "GENERIC-RESOURCE-API:services")
 
 

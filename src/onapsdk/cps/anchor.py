@@ -205,3 +205,22 @@ class Anchor(CpsElement):
             params={"xpath": xpath},
             auth=self.auth,
         )
+
+    def delta(self, data: dict, xpath: str = "/") -> None:
+        """Get node delta.
+
+        Use delta feature to get the difference between the anchor's node
+            data and the data sent in the request
+
+        Args:
+            data (dict): Data to be sent to CPS.
+            xpath (str, optional): Anchor xpath. Defaults to "/".
+
+        """
+        self.send_message_json("POST",
+                          f"Get {self.name} anchor node delta for {xpath} xpath",
+                          f"{urljoin(self.url, 'delta')}",
+                          params={"xpath": xpath},
+                          auth=self.auth,
+                          headers={},
+                          files={"json": (None, data)})

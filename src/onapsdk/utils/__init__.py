@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def get_zulu_time_isoformat() -> str:
@@ -23,7 +23,7 @@ def get_zulu_time_isoformat() -> str:
         str: Actual Zulu time.
 
     """
-    return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
 
 def load_json_file(path_to_json_file: str) -> str:

@@ -15,7 +15,8 @@
 import json
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
+
 from io import BytesIO
 from typing import Any, Dict, Generator, Iterator, List, Optional
 from urllib.parse import urlencode
@@ -346,7 +347,7 @@ class Workflow(CdsElement):
                 "originatorId": "onapsdk",
                 "requestId": str(uuid4()),
                 "subRequestId": str(uuid4()),
-                "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             },
             "actionIdentifiers": {
                 "blueprintName": self.blueprint.metadata.template_name,

@@ -53,6 +53,11 @@ NBI_API_VERSION             = "/nbi/api/v4"
 DCAEMOD_URL                 = ""
 HOLMES_URL                  = "https://aai.api.sparky.simpledemo.onap.org:30293"
 POLICY_URL                  = ""
+POLICY_API_URL              = "http://policy-api.simpledemo.onap.org"
+POLICY_API_AUTH             = "Basic cG9saWN5YWRtaW46emIhWHp0RzM0"
+POLICY_PAP_URL              = "http://policy-pap.simpledemo.onap.org"
+POLICY_PDP_URL              = "http://policy-xacml-pdp.simpledemo.onap.org"
+POLICY_PDP_AUTH             = "Basic aGVhbHRoY2hlY2s6emIhWHp0RzM0"
 
 ## GUI
 AAI_GUI_URL = "https://aai.api.sparky.simpledemo.onap.org:30220"

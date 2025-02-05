@@ -700,3 +700,46 @@ def test_feasibility_check_and_reservation_job_init():
     assert job.job_name == job_name
     assert job.feasibility_result == feasibility_result
     assert job.resource_version == resource_version
+
+
+@mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message_json')
+def test_get_reservation_all_jobs(mock_send_message_json):
+    mock_response = {"feasibility-check-and-reservation-job":[
+        {
+            "feasibility-check-and-reservation-job-id": "job1",
+            "job-name": "Test Job",
+            "feasibility-result": "FEASIBLE",
+            "resource-version": "v1"
+        }, {
+            "feasibility-check-and-reservation-job-id": "job2",
+            "job-name": "Test Job 2",
+            "feasibility-result": "FEASIBLE",
+            "resource-version": "v1"
+        }
+    ]}
+    mock_send_message_json.return_value = mock_response
+
+    service_subscription = mock.MagicMock(
+        url=f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer/customer1/service-subscriptions/service-subscription/test_type/")
+
+    result = list(FeasibilityCheckAndReservationJob.get_all(
+        service_subscription
+    ))
+
+    mock_send_message_json.assert_called_once_with(
+        "GET",
+        "Get A&AI feasibility check and reservation jobs",
+        f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer"
+        f"/customer1/service-subscriptions/service-subscription"
+        f"/test_type/feasibility-check-and-reservation-jobs/"
+    )
+
+    assert len(result) == 2
+    assert result[0].feasibility_check_and_reservation_job_id == "job1"
+    assert result[0].job_name == "Test Job"
+    assert result[0].feasibility_result == "FEASIBLE"
+    assert result[0].resource_version == "v1"
+    assert result[1].feasibility_check_and_reservation_job_id == "job2"
+    assert result[1].job_name == "Test Job 2"
+    assert result[1].feasibility_result == "FEASIBLE"
+    assert result[1].resource_version == "v1"

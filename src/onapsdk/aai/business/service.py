@@ -13,7 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from typing import Iterator, Type, Union, Iterable, Optional
+from typing import Dict, Iterator, Type, Union, Iterable, Optional
+from urllib.parse import urlencode
 
 from onapsdk.exceptions import StatusError, ParameterError
 from onapsdk.sdc.service import Service
@@ -280,6 +281,72 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         """
         return f"{service_subscription.url}/service-instances/"
+
+    @classmethod
+    def create_from_api_response(cls, service_subscription: "ServiceSubscription",
+                                 api_response: Dict[str, Optional[str]]) -> "ServiceInstance":
+        """Create service instace from API response object.
+
+        Args:
+            service_subscription (ServiceSubscription): Service subscription that
+                service instance belongs to
+            api_response (Dict[str, Optional[str]]): Service Instance API response object
+
+        Returns:
+            ServiceInstance: Service instance created using given API response
+
+        """
+        return cls(
+                service_subscription=service_subscription,
+                instance_id=api_response.get("service-instance-id"),
+                instance_name=api_response.get("service-instance-name"),
+                service_type=api_response.get("service-type"),
+                service_role=api_response.get("service-role"),
+                environment_context=api_response.get("environment-context"),
+                workload_context=api_response.get("workload-context"),
+                created_at=api_response.get("created-at"),
+                updated_at=api_response.get("updated-at"),
+                description=api_response.get("description"),
+                model_invariant_id=api_response.get("model-invariant-id"),
+                model_version_id=api_response.get("model-version-id"),
+                persona_model_version=api_response.get("persona-model-version"),
+                widget_model_id=api_response.get("widget-model-id"),
+                widget_model_version=api_response.get("widget-model-version"),
+                bandwith_total=api_response.get("bandwidth-total"),
+                vhn_portal_url=api_response.get("vhn-portal-url"),
+                service_instance_location_id=api_response.get("service-instance-location-id"),
+                resource_version=api_response.get("resource-version"),
+                selflink=api_response.get("selflink"),
+                orchestration_status=api_response.get("orchestration-status"),
+                input_parameters=api_response.get("input-parameters")
+            )
+
+    @classmethod
+    def get_all(cls,
+                service_subscription: "ServiceSubscription",
+                service_type: Optional[str] = None) -> Iterator["ServiceInstance"]:
+        """Get all service instances for service subscription.
+
+        Call an API to retrieve all service instances for given service subscription.
+            It can be filtered by service-type.
+
+        Args:
+            service_subscription (ServiceSubscription): service subscription object
+            subscriber_name (str): subscriber-name to filter customers by. Defaults to None.
+            subscriber_type (str): subscriber-type to filter customers by. Defaults to None.
+
+        """
+        filter_parameters: dict = cls.filter_none_key_values(
+            {
+                "service-type": service_type,
+            }
+        )
+        all_url: str = cls.get_all_url(service_subscription=service_subscription)
+        url: str = f"{all_url}?{urlencode(filter_parameters)}"
+        for service_instance in cls.send_message_json("GET",
+                                                      "get service instances",
+                                                      url).get("service-instance", []):
+            yield cls.create_from_api_response(service_subscription, service_instance)
 
     @property
     def url(self) -> str:

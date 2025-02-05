@@ -17,6 +17,7 @@ from unittest import mock
 import pytest
 
 from onapsdk.aai.business import Customer, ServiceSubscription
+from onapsdk.aai.business.customer import FeasibilityCheckAndReservationJob
 from onapsdk.aai.cloud_infrastructure import CloudRegion, Tenant
 from onapsdk.msb.multicloud import Multicloud
 from onapsdk.sdc.service import Service as SdcService
@@ -392,6 +393,7 @@ def test_customer_delete(mock_send):
         customer.url
     )
 
+
 @mock.patch.object(Customer, "send_message")
 @mock.patch.object(Customer, "send_message_json")
 def test_customer_update(mock_send_json, mock_send):
@@ -607,3 +609,94 @@ def test_delete_cloud_region(mock_send_message):
 def test_customer_count(mock_send_message_json):
     mock_send_message_json.return_value = CUSTOMERS_COUNT
     assert Customer.count() == 12
+
+
+@mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message_json')
+def test_get_reservation_job_success(mock_send_message_json):
+    mock_response = {
+        "feasibility-check-and-reservation-job-id": "job1",
+        "job-name": "Test Job",
+        "feasibility-result": "FEASIBLE",
+        "resource-version": "v1"
+    }
+    mock_send_message_json.return_value = mock_response
+
+    global_customer_id = "customer1"
+    service_subscription = "subscription1"
+    job_id = "job1"
+
+    result = FeasibilityCheckAndReservationJob.get_reservation_job(
+        global_customer_id, service_subscription, job_id
+    )
+
+    mock_send_message_json.assert_called_once_with(
+        "GET",
+        "Get FeasibilityCheckAndReservationJob from AAI",
+        f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer"
+        f"/{global_customer_id}/service-subscriptions/service-subscription"
+        f"/{service_subscription}/feasibility-check-and-reservation-jobs"
+        f"/feasibility-check-and-reservation-job"
+        f"/{job_id}?depth=all"
+    )
+
+    assert result.feasibility_check_and_reservation_job_id == "job1"
+    assert result.job_name == "Test Job"
+    assert result.feasibility_result == "FEASIBLE"
+    assert result.resource_version == "v1"
+
+
+@mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message_json')
+def test_get_reservation_job_not_found(mock_send_message_json):
+    mock_send_message_json.side_effect = ResourceNotFound("Job not found")
+    global_customer_id = "customer1"
+    service_subscription = "subscription1"
+    job_id = "job1"
+
+    result = FeasibilityCheckAndReservationJob.get_reservation_job(
+        global_customer_id, service_subscription, job_id
+    )
+
+    mock_send_message_json.assert_called_once()
+    assert result is None
+
+
+@mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message')
+def test_delete_reservation_job_success(mock_send_message):
+    global_customer_id = "customer1"
+    service_subscription = "subscription1"
+    job_id = "job1"
+    resource_version = "v1"
+    job = FeasibilityCheckAndReservationJob(
+        feasibility_check_and_reservation_job_id=job_id,
+        job_name="Test Job",
+        feasibility_result="FEASIBLE",
+        resource_version=resource_version
+    )
+    job.delete(global_customer_id, service_subscription)
+    mock_send_message.assert_called_once_with(
+        "DELETE",
+        f"Delete reservation job {job_id}",
+        f"{job.base_url}{job.api_version}/business/customers/customer"
+        f"/{global_customer_id}/service-subscriptions/service-subscription"
+        f"/{service_subscription}/feasibility-check-and-reservation-jobs/"
+        f"feasibility-check-and-reservation-job/{job_id}?resource-version={resource_version}"
+    )
+
+
+def test_feasibility_check_and_reservation_job_init():
+    job_id = "job1"
+    job_name = "Feasibility Job"
+    feasibility_result = "FEASIBLE"
+    resource_version = "v1"
+
+    job = FeasibilityCheckAndReservationJob(
+        feasibility_check_and_reservation_job_id=job_id,
+        job_name=job_name,
+        feasibility_result=feasibility_result,
+        resource_version=resource_version
+    )
+
+    assert job.feasibility_check_and_reservation_job_id == job_id
+    assert job.job_name == job_name
+    assert job.feasibility_result == feasibility_result
+    assert job.resource_version == resource_version

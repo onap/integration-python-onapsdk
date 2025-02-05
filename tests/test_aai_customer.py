@@ -621,20 +621,20 @@ def test_get_reservation_job_success(mock_send_message_json):
     }
     mock_send_message_json.return_value = mock_response
 
-    global_customer_id = "customer1"
-    service_subscription = "subscription1"
+    service_subscription = mock.MagicMock(
+        url=f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer/customer1/service-subscriptions/service-subscription/test_type/")
     job_id = "job1"
 
     result = FeasibilityCheckAndReservationJob.get_reservation_job(
-        global_customer_id, service_subscription, job_id
+        service_subscription, job_id
     )
 
     mock_send_message_json.assert_called_once_with(
         "GET",
         "Get FeasibilityCheckAndReservationJob from AAI",
         f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer"
-        f"/{global_customer_id}/service-subscriptions/service-subscription"
-        f"/{service_subscription}/feasibility-check-and-reservation-jobs"
+        f"/customer1/service-subscriptions/service-subscription"
+        f"/test_type/feasibility-check-and-reservation-jobs"
         f"/feasibility-check-and-reservation-job"
         f"/{job_id}?depth=all"
     )
@@ -648,12 +648,10 @@ def test_get_reservation_job_success(mock_send_message_json):
 @mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message_json')
 def test_get_reservation_job_not_found(mock_send_message_json):
     mock_send_message_json.side_effect = ResourceNotFound("Job not found")
-    global_customer_id = "customer1"
-    service_subscription = "subscription1"
     job_id = "job1"
 
     result = FeasibilityCheckAndReservationJob.get_reservation_job(
-        global_customer_id, service_subscription, job_id
+        mock.MagicMock(), job_id
     )
 
     mock_send_message_json.assert_called_once()
@@ -662,23 +660,24 @@ def test_get_reservation_job_not_found(mock_send_message_json):
 
 @mock.patch.object(FeasibilityCheckAndReservationJob, 'send_message')
 def test_delete_reservation_job_success(mock_send_message):
-    global_customer_id = "customer1"
-    service_subscription = "subscription1"
+    service_subscription = mock.MagicMock(
+        url=f"{FeasibilityCheckAndReservationJob.base_url}{FeasibilityCheckAndReservationJob.api_version}/business/customers/customer/customer1/service-subscriptions/service-subscription/test_type/")
     job_id = "job1"
     resource_version = "v1"
     job = FeasibilityCheckAndReservationJob(
+        service_subscription,
         feasibility_check_and_reservation_job_id=job_id,
         job_name="Test Job",
         feasibility_result="FEASIBLE",
         resource_version=resource_version
     )
-    job.delete(global_customer_id, service_subscription)
+    job.delete()
     mock_send_message.assert_called_once_with(
         "DELETE",
         f"Delete reservation job {job_id}",
         f"{job.base_url}{job.api_version}/business/customers/customer"
-        f"/{global_customer_id}/service-subscriptions/service-subscription"
-        f"/{service_subscription}/feasibility-check-and-reservation-jobs/"
+        f"/customer1/service-subscriptions/service-subscription"
+        f"/test_type/feasibility-check-and-reservation-jobs/"
         f"feasibility-check-and-reservation-job/{job_id}?resource-version={resource_version}"
     )
 
@@ -690,6 +689,7 @@ def test_feasibility_check_and_reservation_job_init():
     resource_version = "v1"
 
     job = FeasibilityCheckAndReservationJob(
+        mock.MagicMock(),
         feasibility_check_and_reservation_job_id=job_id,
         job_name=job_name,
         feasibility_result=feasibility_result,

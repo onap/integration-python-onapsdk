@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from .customer import Customer, ServiceSubscription
+from .customer import Customer, FeasibilityCheckAndReservationJob, ServiceSubscription
 from .instance import Instance
 from .line_of_business import LineOfBusiness
 from .network import NetworkInstance

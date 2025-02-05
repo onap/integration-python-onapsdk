@@ -153,30 +153,7 @@ class ServiceSubscription(AaiResource):
                                    (f"Get all service instances for {self.service_type} service "
                                     f"subscription"),
                                    f"{self.url}/service-instances").get("service-instance", []):
-            yield ServiceInstance(
-                service_subscription=self,
-                instance_id=service_instance.get("service-instance-id"),
-                instance_name=service_instance.get("service-instance-name"),
-                service_type=service_instance.get("service-type"),
-                service_role=service_instance.get("service-role"),
-                environment_context=service_instance.get("environment-context"),
-                workload_context=service_instance.get("workload-context"),
-                created_at=service_instance.get("created-at"),
-                updated_at=service_instance.get("updated-at"),
-                description=service_instance.get("description"),
-                model_invariant_id=service_instance.get("model-invariant-id"),
-                model_version_id=service_instance.get("model-version-id"),
-                persona_model_version=service_instance.get("persona-model-version"),
-                widget_model_id=service_instance.get("widget-model-id"),
-                widget_model_version=service_instance.get("widget-model-version"),
-                bandwith_total=service_instance.get("bandwidth-total"),
-                vhn_portal_url=service_instance.get("vhn-portal-url"),
-                service_instance_location_id=service_instance.get("service-instance-location-id"),
-                resource_version=service_instance.get("resource-version"),
-                selflink=service_instance.get("selflink"),
-                orchestration_status=service_instance.get("orchestration-status"),
-                input_parameters=service_instance.get("input-parameters")
-            )
+            yield ServiceInstance.create_from_api_response(self, service_instance)
 
     @property
     def tenant_relationships(self) -> Iterator["Relationship"]:

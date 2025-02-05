@@ -13,8 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from dataclasses import dataclass
-from typing import Iterable, Iterator, Optional
-from urllib.parse import urlencode
+from typing import Any, Dict, Iterable, Iterator, Optional
+from urllib.parse import urlencode, urljoin
 
 from onapsdk.utils.jinja import jinja_env
 from onapsdk.exceptions import APIError, ParameterError, ResourceNotFound
@@ -673,6 +673,7 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
     """An instance of FeasibilityCheckAndReservationJob class."""
 
     def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+                 service_subscription: "ServiceSubscription",
                  feasibility_check_and_reservation_job_id: str,
                  job_name: str,
                  feasibility_result: str,
@@ -697,6 +698,7 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
         """Initialize FeasibilityCheckAndReservationJob class object.
 
         Args:
+            service_subscription (ServiceSubscription): Service subscription
             feasibility_check_and_reservation_job_id (str): Unique identifier of the job.
             job_name (str): Name of the feasibility service job.
             feasibility_result (str): Result of the feasibility check (FEASIBLE or INFEASIBLE).
@@ -726,6 +728,7 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
             relationship_list (dict, optional): Relationship list.
         """
         super().__init__()
+        self.service_subscription: "ServiceSubscription" = service_subscription
         self.feasibility_check_and_reservation_job_id = feasibility_check_and_reservation_job_id
         self.job_name = job_name
         self.feasibility_result = feasibility_result
@@ -748,35 +751,84 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
         self.service_profiles = service_profiles or []
         self.relationship_list = relationship_list or {}
 
-    @classmethod
-    def get_reservation_job(cls, global_customer_id: str,
-                            service_subscription: str,
-                            feasibility_check_and_reservation_job_id:
-                            str) -> "FeasibilityCheckAndReservationJob":
-        """
-        Get a specific reservation job by ID from the AAI.
-
-        Args:
-            global_customer_id(str): ID of the customer
-            service_subscription(str): Type of service subscription
-            feasibility_check_and_reservation_job_id(str): ID of the reservation job
+    def __repr__(self) -> str:
+        """Feasibility check and reservation job object representation.
 
         Returns:
-            FeasibilityCheckAndReservationJob: An instance of the
-            FeasibilityCheckAndReservationJob class
-            representing the specific FeasibilityCheckAndReservationJob.
+            str: FeasibilityCheckAndReservationJob object representation
 
         """
-        url = f"{cls.base_url}{cls.api_version}/business/customers/customer" \
-              f"/{global_customer_id}/service-subscriptions/service-subscription" \
-              f"/{service_subscription}/feasibility-check-and-reservation-jobs" \
-              f"/feasibility-check-and-reservation-job" \
-              f"/{feasibility_check_and_reservation_job_id}?depth=all"
-        try:
-            response = cls.send_message_json("GET",
-                                             "Get FeasibilityCheckAndReservationJob from AAI",
-                                             url)
-            return FeasibilityCheckAndReservationJob(
+        return ("FeasibilityCheckAndReservationJob(feasibility_check_and_reservation_job_id"
+                f"={self.feasibility_check_and_reservation_job_id})")
+
+    @classmethod
+    def single_url(cls,
+                   service_subscription: ServiceSubscription,
+                   feasibility_check_and_reservation_job_id: str,
+                   depth: bool = False) -> str:
+        """Get an url to fetch single feasibility check and reservation job.
+
+        Args:
+            service_subscription (ServiceSubscription): Service subscription object
+            feasibility_check_and_reservation_job_id (str): ID of feasibility check
+                and reservation job object
+            depth (bool, optional): Flag to determine if all object's information
+                should be returned. Defaults to False.
+
+        Returns:
+            str: Feasibility check and reservation object
+
+        """
+        url: str =  urljoin(f"{service_subscription.url.rstrip('/')}/",
+                            ("feasibility-check-and-reservation-jobs/"
+                             "feasibility-check-and-reservation-job/"
+                             f"{feasibility_check_and_reservation_job_id}"))
+        if depth:
+            return urljoin(url, "?" + urlencode({"depth": "all"}))
+        return url
+
+    @property
+    def url(self) -> str:
+        """Feasibility check and reservation job's url.
+
+        Returns:
+            str: Resource's url
+
+        """
+        return self.single_url(self.service_subscription,
+                               self.feasibility_check_and_reservation_job_id)
+
+    @classmethod
+    def get_all_url(cls,  # pylint: disable=arguments-differ
+                    service_subscription: ServiceSubscription,
+                    depth: bool = False) -> str:
+        """Return url to get all feasibility check and reservation jobs.
+
+        Returns:
+            str: Url to get all feasibility check and reservation jobs
+
+        """
+        url = urljoin(f"{service_subscription.url.rstrip('/')}/",
+                      "feasibility-check-and-reservation-jobs/")
+        if depth:
+            return urljoin(url, "?" + urlencode({"depth": "all"}))
+        return url
+
+    @classmethod
+    def create_from_api_response(cls,
+                                 service_subscription: ServiceSubscription,
+                                 response: Dict[str, Any]) -> "FeasibilityCheckAndReservationJob":
+        """Create feasibility check and reservation job object from it's api response dictionary.
+
+        Args:
+            service_subscription (ServiceSubscription): Service subscription object
+            response (Dict[str, Any]): API response dictionary
+
+        Returns:
+            FeasibilityCheckAndReservationJob: Feasibility check and reservation job object
+        """
+        return cls(
+                service_subscription=service_subscription,
                 feasibility_check_and_reservation_job_id=response.get(
                     "feasibility-check-and-reservation-job-id"),
                 job_name=response.get("job-name"),
@@ -799,18 +851,56 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
                 slice_profiles=response.get("slice-profiles"),
                 service_profiles=response.get("service-profiles"),
                 relationship_list=response.get("relationship-list")
-            )
+        )
+
+    @classmethod
+    def get_reservation_job(cls, service_subscription: ServiceSubscription,
+                            feasibility_check_and_reservation_job_id: str
+                            ) -> "FeasibilityCheckAndReservationJob":
+        """
+        Get a specific reservation job by ID from the AAI.
+
+        Args:
+            global_customer_id(str): ID of the customer
+            service_subscription(str): Type of service subscription
+            feasibility_check_and_reservation_job_id(str): ID of the reservation job
+
+        Returns:
+            FeasibilityCheckAndReservationJob: An instance of the
+            FeasibilityCheckAndReservationJob class
+            representing the specific FeasibilityCheckAndReservationJob.
+
+        """
+        try:
+            response = cls.send_message_json("GET",
+                                             "Get FeasibilityCheckAndReservationJob from AAI",
+                                             cls.single_url(
+                                                 service_subscription,
+                                                 feasibility_check_and_reservation_job_id,
+                                                 depth=True))
+            return cls.create_from_api_response(service_subscription, response)
         except ResourceNotFound as e:
             cls._logger.error("Error retrieving reservation job %s:", e)
             return None
 
-    def delete(self, global_customer_id: str, service_subscription: str) -> None:
+    @classmethod
+    def get_all(cls,
+                service_subscription: "ServiceSubscription"
+                ) -> Iterator["FeasibilityCheckAndReservationJob"]:
+        """Get all feasibility check and reservation jobs.
+
+        Yields:
+            FeasibilityCheckAndReservationJob: FeasibilityCheckAndReservationJob object
+
+        """
+        for resource in cls.send_message_json("GET",
+                                              "Get A&AI feasibility check and reservation jobs",
+                                              cls.get_all_url(service_subscription))\
+                                                .get("feasibility-check-and-reservation-job", []):
+            yield cls.create_from_api_response(service_subscription, resource)
+
+    def delete(self) -> None:
         """Delete reservation job."""
         self.send_message("DELETE",
                           f"Delete reservation job {self.feasibility_check_and_reservation_job_id}",
-                          f"{self.base_url}{self.api_version}/business/customers/customer"
-                          f"/{global_customer_id}/service-subscriptions/service-subscription"
-                          f"/{service_subscription}/feasibility-check-"
-                          f"and-reservation-jobs/feasibility-check-and-reservation-job"
-                          f"/{self.feasibility_check_and_reservation_job_id}"
-                          f"?resource-version={self.resource_version}")
+                          f"{self.url}?resource-version={self.resource_version}")

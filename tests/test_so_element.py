@@ -12,6 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import json
 from unittest import mock
 
 from onapsdk.so.so_element import SoElement
@@ -26,3 +27,15 @@ def test_get_guis(send_message_mock):
     assert type(gui_results) == GuiList
     assert gui_results.guis[0].url == send_message_mock.return_value.url
     assert gui_results.guis[0].status == send_message_mock.return_value.status_code
+
+
+@mock.patch("onapsdk.so.so_element.Vf")
+def test_get_vnf_model_info(_):
+    vnf_model_info = SoElement.get_vnf_model_info("test_vf")
+    assert json.loads(vnf_model_info)["modelType"] == "vnf"
+
+
+@mock.patch("onapsdk.so.so_element.Service")
+def test_get_service_model_info(_):
+    service_model_info = SoElement.get_service_model_info("test_service")
+    assert json.loads(service_model_info)["modelType"] == "service"

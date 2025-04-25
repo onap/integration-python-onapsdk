@@ -788,3 +788,14 @@ def test_service_instance_create(mock_send):
     mock_send.assert_called_once()
     method, description, url = mock_send.call_args[0]
     assert method == "PUT"
+
+
+@mock.patch.object(ServiceInstance, "send_message_json")
+@mock.patch.object(ServiceInstance, "create_from_api_response")
+def test_service_instance_get_all(mock_create_from_api, mock_send_message_json):
+    mock_send_message_json.return_value = {}
+    assert list(ServiceInstance.get_all(mock.MagicMock())) == []
+
+    mock_send_message_json.return_value = {"service-instance": [{}]}
+    assert len(list(ServiceInstance.get_all(mock.MagicMock()))) == 1
+    mock_create_from_api.assert_called_once()

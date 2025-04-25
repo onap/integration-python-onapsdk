@@ -26,8 +26,8 @@ from onapsdk.sdc2.sdc_user import SdcUser
 from onapsdk.utils.headers_creator import headers_sdc_artifact_upload  # type: ignore
 from onapsdk.utils.jinja import jinja_env  # type: ignore
 from onapsdk.sdc2.sdc_category import ResourceCategory, SdcSubCategory
-from onapsdk.sdc.vendor import Vendor  # type: ignore
-from onapsdk.sdc.vsp import Vsp  # type: ignore
+from onapsdk.sdc2.vendor import Vendor  # type: ignore
+from onapsdk.sdc2.vsp import Vsp  # type: ignore
 
 
 class LifecycleOperation(Enum):  # pylint: disable=too-few-public-methods

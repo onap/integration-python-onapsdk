@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, Sequence, Optional, Set
 from urllib.parse import urljoin
+from opentelemetry import trace
 
 from onapsdk.configuration import settings  # type: ignore
 from onapsdk.sdc2.sdc import SDC, ResoureTypeEnum
@@ -23,6 +24,8 @@ from onapsdk.sdc2.sdc_category import SdcCategory, ServiceCategory
 from onapsdk.sdc2.sdc_resource import SDCResource, SDCResourceCreateMixin
 from onapsdk.sdc2.sdc_user import SdcUser
 from onapsdk.utils.jinja import jinja_env  # type: ignore
+
+tracer = trace.get_tracer(__name__)
 
 
 ARTIFACT_NOT_USED_ERROR_REASON = \
@@ -477,6 +480,7 @@ class Service(SDCResource, SDCResourceCreateMixin):
         return f"sdc2/rest/v1/catalog/services/{object_id}/artifacts"
 
     @property
+    @tracer.start_as_current_span("Service.distributions")
     def distributions(self) -> Iterator[ServiceDistribution]:
         """Get service distributions.
 
@@ -503,6 +507,7 @@ class Service(SDCResource, SDCResourceCreateMixin):
                                       distribution_status_dict["deployementStatus"])
 
     @property
+    @tracer.start_as_current_span("Service.latest_distribution")
     def latest_distribution(self) -> Optional[ServiceDistribution]:
         """Get the latest distribution of the service.
 

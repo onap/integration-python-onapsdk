@@ -1075,7 +1075,8 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                     enable_multicloud=enable_multicloud,
                     service_subscription=service_subscription
                 ),
-            headers=headers_so_creator(OnapService.headers)
+            headers=headers_so_creator(OnapService.headers),
+            timeout=90
             )
         return cls(
             name=service_instance_name,

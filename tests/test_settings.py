@@ -25,7 +25,7 @@ from onapsdk.exceptions import ModuleError
 
 def test_global_settings():
     """Test global settings."""
-    assert len(settings._settings) == 64
+    assert len(settings._settings) == 65
     assert settings.AAI_URL == "https://aai.api.sparky.simpledemo.onap.org:30233"
     assert settings.CDS_URL == "http://portal.api.simpledemo.onap.org:30449"
     assert settings.SDNC_URL == "https://sdnc.api.simpledemo.onap.org:30267"
@@ -38,6 +38,7 @@ def test_global_settings():
     assert settings.SDB_ONBOARDING_BE_URL == "http://sdc-onboarding-be.onap.svc.cluster.local:8081"
     assert settings.VID_URL == "https://vid.api.simpledemo.onap.org:30200"
     assert settings.CLAMP_URL == "https://clamp.api.simpledemo.onap.org:30258"
+    assert settings.CLAMP_ACM_URL == "http://policy-clamp-runtime-acm.onap:6969"
     assert settings.VES_URL == "http://ves.api.simpledemo.onap.org:30417"
     assert settings.DMAAP_URL == "http://dmaap.api.simpledemo.onap.org:3904"
     assert settings.NBI_URL == "https://nbi.api.simpledemo.onap.org:30274"

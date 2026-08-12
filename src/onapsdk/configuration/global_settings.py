@@ -59,6 +59,7 @@ POLICY_API_AUTH             = "Basic cG9saWN5YWRtaW46emIhWHp0RzM0"
 POLICY_PAP_URL              = "http://policy-pap.simpledemo.onap.org"
 POLICY_PDP_URL              = "http://policy-xacml-pdp.simpledemo.onap.org"
 POLICY_PDP_AUTH             = "Basic aGVhbHRoY2hlY2s6emIhWHp0RzM0"
+CLAMP_ACM_URL               = "http://policy-clamp-runtime-acm.onap:6969"
 
 ## GUI
 AAI_GUI_URL = "https://aai.api.sparky.simpledemo.onap.org:30220"

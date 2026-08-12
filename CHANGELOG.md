@@ -5,6 +5,10 @@
 ### Added
 
 - add opentelemetry `@tracer` decorator to `Service.distributions` method
+- `Acm` class for the CLAMP automation composition management runtime API
+  (commission, prime, instantiate, deploy and the matching teardown calls).
+- `Policy.get_policy_status` for the PAP policy deployment status endpoint.
+- `CLAMP_ACM_URL` setting pointing at the in-cluster runtime-acm service.
 
 ### Removed
 

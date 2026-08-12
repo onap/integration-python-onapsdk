@@ -131,3 +131,19 @@ def test_undeploy_success(mock_send_message):
         settings.POLICY_PAP_URL + "/policy/pap/v1/pdps/policies/policy-123",
         headers=Policy.headers, data=None
     )
+
+
+@patch("onapsdk.policy.policy.Policy.send_message")
+def test_get_policy_status_success(mock_send_message):
+    mock_response = MagicMock(spec=Response)
+    mock_response.json.return_value = {"policy": {"name": "onap.policy.test",
+                                                  "version": "1.0.0"},
+                                       "state": "SUCCESS"}
+    mock_send_message.return_value = mock_response
+    response = Policy.get_policy_status("defaultGroup", "onap.policy.test", "1.0.0")
+    assert response.json()["state"] == "SUCCESS"
+    mock_send_message.assert_called_once_with(
+        "GET", "Get policy deployment status",
+        settings.POLICY_PAP_URL + "/policy/pap/v1/policies/status/defaultGroup/onap.policy.test/1.0.0",
+        headers=Policy.headers, data=None
+    )

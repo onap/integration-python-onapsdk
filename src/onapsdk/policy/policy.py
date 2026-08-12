@@ -134,6 +134,24 @@ class Policy(OnapService):  # type: ignore
                                 , get_url, cls.headers)
 
     @classmethod
+    def get_policy_status(cls, pdp_group: str, policy_name: str,
+                          policy_version: str) -> Optional['Response']:
+        """Get the deployment status of a policy in a PDP group.
+
+        Args:
+            pdp_group (str): The name of the PDP group,
+            policy_name (str): The name of the policy,
+            policy_version (str): The version of the policy
+
+        Returns:
+            Optional[Response]: Response object or None if something goes wrong
+        """
+        status_url: str = f"/policy/pap/v1/policies/status/{pdp_group}/" \
+                          f"{policy_name}/{policy_version}"
+        return cls.send_request("GET", "Get policy deployment status",
+                                settings.POLICY_PAP_URL, status_url, cls.headers)
+
+    @classmethod
     def decision(cls, decision_request: Dict[Any, Any]) -> Optional['Response']:
         """Get decision response for request.
 

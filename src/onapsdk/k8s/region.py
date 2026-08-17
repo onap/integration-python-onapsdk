@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Optional, Any, Dict
 
 from .k8splugin_service import K8sPlugin, QueryResourceStatusMixin, ResourceStatus
 from .connectivity_info import ConnectivityInfo
@@ -49,8 +49,8 @@ class CloudRegion(K8sPlugin, QueryResourceStatusMixin):
     @classmethod
     def create(cls,
                cloud_region_id: str,
-               cloud_owner: str = None,
-               kubeconfig: bytes = None) -> "CloudRegion":
+               cloud_owner: Optional[str] = None,
+               kubeconfig: Optional[bytes] = None) -> "CloudRegion":
         """Create Cloud Region.
 
         Args:
@@ -80,9 +80,9 @@ class CloudRegion(K8sPlugin, QueryResourceStatusMixin):
     def query_resources(self,
                         kind: str,
                         api_version: str,
-                        namespace: str = None,
-                        name: str = None,
-                        labels: dict = None) -> "CloudRegionStatus":
+                        namespace: Optional[str] = None,
+                        name: Optional[str] = None,
+                        labels: Optional[dict] = None) -> "CloudRegionStatus":
         """Query for resources in the cloud region.
 
         Args:

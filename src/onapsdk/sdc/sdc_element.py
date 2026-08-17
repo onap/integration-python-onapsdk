@@ -26,7 +26,7 @@ class SdcElement(SdcOnboardable, ABC):
     ACTION_TEMPLATE = 'sdc_element_action.json.j2'
     ACTION_METHOD = 'PUT'
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: Optional[str] = None) -> None:
         """Initialize the object."""
         super().__init__(name=name)
         self.human_readable_version: Optional[str] = None
@@ -129,7 +129,7 @@ class SdcElement(SdcOnboardable, ABC):
         return f"{self.identifier}/versions/{self.version}"
 
     def _action_url(self, base: str, subpath: str, version_path: str,
-                    action_type: str = None) -> str:
+                    action_type: Optional[str] = None) -> str:
         """
         Generate action URL for SDC.
 

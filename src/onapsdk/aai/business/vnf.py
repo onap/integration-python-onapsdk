@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from typing import Iterable, Iterator
+from typing import Optional, Iterable, Iterator
 
 from onapsdk.exceptions import ResourceNotFound, StatusError
 from onapsdk.so.deletion import VnfDeletionRequest
@@ -34,51 +34,51 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
                  vnf_type: str,
                  in_maint: bool,
                  is_closed_loop_disabled: bool,
-                 vnf_name: str = None,
-                 service_id: str = None,
-                 regional_resource_zone: str = None,
-                 prov_status: str = None,
-                 operational_status: str = None,
-                 equipment_role: str = None,
-                 orchestration_status: str = None,
-                 vnf_package_name: str = None,
-                 vnf_discriptor_name: str = None,
-                 job_id: str = None,
-                 heat_stack_id: str = None,
-                 mso_catalog_key: str = None,
-                 management_option: str = None,
-                 ipv4_oam_address: str = None,
-                 ipv4_loopback0_address: str = None,
-                 nm_lan_v6_address: str = None,
-                 management_v6_address: str = None,
-                 vcpu: int = None,
-                 vcpu_units: str = None,
-                 vmemory: int = None,
-                 vmemory_units: str = None,
-                 vdisk: int = None,
-                 vdisk_units: str = None,
-                 nshd: int = None,
-                 nvm: int = None,
-                 nnet: int = None,
-                 resource_version: str = None,
-                 encrypted_access_flag: bool = None,
-                 model_invariant_id: str = None,
-                 model_version_id: str = None,
-                 persona_model_version: str = None,
-                 model_customization_id: str = None,
-                 widget_model_id: str = None,
-                 widget_model_version: str = None,
-                 as_number: str = None,
-                 regional_resource_subzone: str = None,
-                 nf_type: str = None,
-                 nf_function: str = None,
-                 nf_role: str = None,
-                 nf_naming_code: str = None,
-                 selflink: str = None,
-                 ipv4_oam_gateway_address: str = None,
-                 ipv4_oam_gateway_address_prefix_length: int = None,
-                 vlan_id_outer: int = None,
-                 nm_profile_name: str = None) -> None:
+                 vnf_name: Optional[str] = None,
+                 service_id: Optional[str] = None,
+                 regional_resource_zone: Optional[str] = None,
+                 prov_status: Optional[str] = None,
+                 operational_status: Optional[str] = None,
+                 equipment_role: Optional[str] = None,
+                 orchestration_status: Optional[str] = None,
+                 vnf_package_name: Optional[str] = None,
+                 vnf_discriptor_name: Optional[str] = None,
+                 job_id: Optional[str] = None,
+                 heat_stack_id: Optional[str] = None,
+                 mso_catalog_key: Optional[str] = None,
+                 management_option: Optional[str] = None,
+                 ipv4_oam_address: Optional[str] = None,
+                 ipv4_loopback0_address: Optional[str] = None,
+                 nm_lan_v6_address: Optional[str] = None,
+                 management_v6_address: Optional[str] = None,
+                 vcpu: Optional[int] = None,
+                 vcpu_units: Optional[str] = None,
+                 vmemory: Optional[int] = None,
+                 vmemory_units: Optional[str] = None,
+                 vdisk: Optional[int] = None,
+                 vdisk_units: Optional[str] = None,
+                 nshd: Optional[int] = None,
+                 nvm: Optional[int] = None,
+                 nnet: Optional[int] = None,
+                 resource_version: Optional[str] = None,
+                 encrypted_access_flag: Optional[bool] = None,
+                 model_invariant_id: Optional[str] = None,
+                 model_version_id: Optional[str] = None,
+                 persona_model_version: Optional[str] = None,
+                 model_customization_id: Optional[str] = None,
+                 widget_model_id: Optional[str] = None,
+                 widget_model_version: Optional[str] = None,
+                 as_number: Optional[str] = None,
+                 regional_resource_subzone: Optional[str] = None,
+                 nf_type: Optional[str] = None,
+                 nf_function: Optional[str] = None,
+                 nf_role: Optional[str] = None,
+                 nf_naming_code: Optional[str] = None,
+                 selflink: Optional[str] = None,
+                 ipv4_oam_gateway_address: Optional[str] = None,
+                 ipv4_oam_gateway_address_prefix_length: Optional[int] = None,
+                 vlan_id_outer: Optional[int] = None,
+                 nm_profile_name: Optional[str] = None) -> None:
         """Vnf instance object initialization.
 
         Args:
@@ -356,10 +356,10 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def add_vf_module(self,  # pylint: disable=too-many-arguments
                       vf_module: "VfModule",
-                      cloud_region: "CloudRegion" = None,
-                      tenant: "Tenant" = None,
-                      vf_module_instance_name: str = None,
-                      vnf_parameters: Iterable["InstantiationParameter"] = None,
+                      cloud_region: Optional["CloudRegion"] = None,
+                      tenant: Optional["Tenant"] = None,
+                      vf_module_instance_name: Optional[str] = None,
+                      vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None,
                       use_preload: bool = True
                       ) -> "VfModuleInstantiation":
         """Instantiate vf module for that VNF instance.
@@ -395,7 +395,7 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
         )
 
     def update(self,
-               vnf_parameters: Iterable["InstantiationParameter"] = None
+               vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None
                ) -> VnfInstantiation:
         """Update vnf instance.
 
@@ -439,7 +439,7 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
     def _execute_so_action(self,
                            operation_type: VnfOperation,
-                           vnf_parameters: Iterable["InstantiationParameter"] = None
+                           vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None
                            ) -> VnfInstantiation:
         """Execute SO workflow for selected operation.
 
@@ -477,7 +477,8 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
             so_service=so_input
         )
 
-    def _build_so_input(self, vnf_params: Iterable[InstantiationParameter] = None) -> SoService:
+    def _build_so_input(self,
+                        vnf_params: Optional[Iterable[InstantiationParameter]] = None) -> SoService:
         """Prepare so_input with params retrieved from existing service instance.
 
         Args:

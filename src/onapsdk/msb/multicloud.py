@@ -13,6 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from typing import Optional
+
 from .msb_service import MSB
 
 
@@ -25,7 +27,7 @@ class Multicloud(MSB):
     def register_vim(cls,
                      cloud_owner: str,
                      cloud_region_id: str,
-                     default_tenant: str = None) -> None:
+                     default_tenant: Optional[str] = None) -> None:
         """Register a VIM instance to ONAP.
 
         Args:

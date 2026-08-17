@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Any, Dict, Iterator
+from typing import Optional, Any, Dict, Iterator
 from urllib.parse import urlencode
 
 from onapsdk.utils.jinja import jinja_env
@@ -265,10 +265,10 @@ class Complex(AaiResource, AaiResourceLinkToGeoRegionMixin):  # pylint: disable=
 
     @classmethod
     def get_all(cls,
-                physical_location_id: str = None,
-                data_center_code: str = None,
-                complex_name: str = None,
-                identity_url: str = None) -> Iterator["Complex"]:
+                physical_location_id: Optional[str] = None,
+                data_center_code: Optional[str] = None,
+                complex_name: Optional[str] = None,
+                identity_url: Optional[str] = None) -> Iterator["Complex"]:
         """Get all complexes from A&AI.
 
         Call A&AI API to get all complex objects.

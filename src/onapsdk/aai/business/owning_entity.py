@@ -14,7 +14,7 @@
 #   limitations under the License.
 
 from uuid import uuid4
-from typing import Iterator
+from typing import Optional, Iterator
 
 from onapsdk.utils.jinja import jinja_env
 from onapsdk.exceptions import ResourceNotFound
@@ -130,7 +130,7 @@ class OwningEntity(AaiResource, AaiResourceLinkToTenantMixin):
         raise ResourceNotFound(msg)
 
     @classmethod
-    def create(cls, name: str, owning_entity_id: str = None) -> "OwningEntity":
+    def create(cls, name: str, owning_entity_id: Optional[str] = None) -> "OwningEntity":
         """Create owning entity A&AI resource.
 
         Args:

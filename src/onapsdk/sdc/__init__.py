@@ -32,7 +32,7 @@ class SDC(OnapService, ABC):
     base_front_url = settings.SDC_FE_URL
     base_back_url = settings.SDC_BE_URL
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: Optional[str] = None) -> None:
         """Initialize SDC."""
         super().__init__()
         self.name: str = name
@@ -255,7 +255,7 @@ class SdcOnboardable(SDC, ABC):
     ACTION_TEMPLATE: str
     ACTION_METHOD: str
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: Optional[str] = None) -> None:
         """Initialize the object."""
         super().__init__(name)
         self._identifier: Optional[str] = None
@@ -346,7 +346,7 @@ class SdcOnboardable(SDC, ABC):
             self._logger.warning("%s %s is already created in SDC",
                                  type(self).__name__, self.name)
 
-    def _action_to_sdc(self, action: str, action_type: str = None,
+    def _action_to_sdc(self, action: str, action_type: Optional[str] = None,
                        **kwargs) -> Response:
         """
         Really do an action in the SDC.
@@ -461,7 +461,7 @@ class SdcOnboardable(SDC, ABC):
                     base: str,
                     subpath: str,
                     version_path: str,
-                    action_type: str = None) -> str:
+                    action_type: Optional[str] = None) -> str:
         """
         Generate action URL for SDC.
 

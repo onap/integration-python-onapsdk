@@ -12,6 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from typing import Optional
 from onapsdk.utils.jinja import jinja_env
 from .k8splugin_service import RemovableK8sPlugin
 
@@ -75,7 +76,7 @@ class ConnectivityInfo(RemovableK8sPlugin):
     def create(cls,
                cloud_region_id: str,
                cloud_owner: str,
-               kubeconfig: bytes = None) -> "ConnectivityInfo":
+               kubeconfig: Optional[bytes] = None) -> "ConnectivityInfo":
         """Create Connectivity Info.
 
         Args:

@@ -4,4 +4,5 @@ pylint
 pytest
 pytest-cov
 pydocstyle
+mypy
 requests-mock

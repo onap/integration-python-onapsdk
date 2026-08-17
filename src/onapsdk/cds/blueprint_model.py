@@ -37,7 +37,7 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
                  artifact_name: Optional[str] = None,
                  published: str = 'N',
                  updated_by: Optional[str] = None,
-                 tags: Optional[str] = None):
+                 tags: Optional[str] = None) -> None:
         """Blueprint Model initialization.
 
         Args:
@@ -198,7 +198,7 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
 
         return Blueprint(cba_file_bytes=cba_package.content)
 
-    def save(self, dst_file_path: str):
+    def save(self, dst_file_path: str) -> None:
         """Save blueprint model to file.
 
         Args:
@@ -214,7 +214,7 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
             for chunk in cba_package.iter_content(chunk_size=128):
                 content.write(chunk)
 
-    def delete(self):
+    def delete(self) -> None:
         """Delete blueprint model."""
         self.send_message(
             "DELETE",

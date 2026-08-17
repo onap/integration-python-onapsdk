@@ -88,7 +88,7 @@ class Dmaap(DmaapService):
     @classmethod
     def post_event(cls,
                    topic: str,
-                   event: str):
+                   event: str) -> None:
         """Post an event on given topic.
 
         Post an event on given topic by calling DMaaP REST API

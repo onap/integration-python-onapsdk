@@ -35,7 +35,7 @@ class Vendor(SdcElement):
     VENDOR_PATH = "vendor-license-models"
     headers = headers_sdc_creator(SdcElement.headers)
 
-    def __init__(self, name: Optional[str] = None):
+    def __init__(self, name: Optional[str] = None) -> None:
         """
         Initialize vendor object.
 

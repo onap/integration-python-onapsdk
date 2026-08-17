@@ -48,7 +48,7 @@ class Vf(SdcResource):
                  vsp: Optional[Vsp] = None, properties: Optional[List[Property]] = None,
                  inputs: Optional[Union[Property, NestedInput]] = None,
                  category: Optional[str] = None, subcategory: Optional[str] = None,
-                 vendor: Optional[Vendor] = None):
+                 vendor: Optional[Vendor] = None) -> None:
         """
         Initialize vf object.
 

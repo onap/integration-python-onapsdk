@@ -39,7 +39,7 @@ class SoElement(OnapService):
     _status: Optional[str] = None
 
     @property
-    def headers(self):
+    def headers(self) -> Dict[str, str]:
         """Create headers for SO request.
 
         It is used as a property because x-transactionid header should be unique for each request.
@@ -47,13 +47,13 @@ class SoElement(OnapService):
         return headers_so_creator(OnapService.headers)
 
     @classmethod
-    def get_subscription_service_type(cls, vf_name):
+    def get_subscription_service_type(cls, vf_name) -> str:
         """Retrieve the model info of the VFs."""
         vf_object = Vf(name=vf_name)
         return vf_object.name
 
     @classmethod
-    def get_service_model_info(cls, service_name):
+    def get_service_model_info(cls, service_name) -> str:
         """Retrieve Service Model info."""
         service = Service(name=service_name)
         template_service = jinja_env().get_template("service_instance_model_info.json.j2")
@@ -69,7 +69,7 @@ class SoElement(OnapService):
         return json.dumps(parsed, indent=4)
 
     @classmethod
-    def get_vnf_model_info(cls, vf_name):
+    def get_vnf_model_info(cls, vf_name) -> str:
         """Retrieve the model info of the VFs."""
         vf_object = Vf(name=vf_name)
         template_service = jinja_env().get_template("vnf_model_info.json.j2")

@@ -15,11 +15,11 @@
 import json
 import string
 import secrets
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from onapsdk.exceptions import ValidationError
 
-def get_parameter_from_yaml(parameter: str, config_file: str):
+def get_parameter_from_yaml(parameter: str, config_file: str) -> Any:
     """Get the value of a given parameter in file.yaml.
 
     Parameter must be given in string format with dots

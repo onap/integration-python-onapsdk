@@ -44,7 +44,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
                  sdc_values: Optional[Dict[str, str]] = None,
                  properties: Optional[List[Property]] = None,
                  inputs: Optional[Union[Property, NestedInput]] = None,
-                 category: Optional[str] = None, subcategory: Optional[str] = None):
+                 category: Optional[str] = None, subcategory: Optional[str] = None) -> None:
         """Initialize the object."""
         super().__init__(name)
         self.version_filter: str = version
@@ -581,7 +581,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         raise ResourceNotFound(f"SDC resource has no {input_name} input")
 
     def add_deployment_artifact(self, artifact_type: str, artifact_label: str,
-                                artifact_name: str, artifact: str):
+                                artifact_name: str, artifact: str) -> None:
         """
         Add deployment artifact to resource.
 

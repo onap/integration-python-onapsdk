@@ -22,7 +22,7 @@ from onapsdk.configuration import settings
 
 def headers_sdc_creator(base_header: Dict[str, str],
                         user: str = "cs0008",
-                        authorization: Optional[str] = None):
+                        authorization: Optional[str] = None) -> Dict[str, str]:
     """
     Create the right headers for SDC creator type.
 
@@ -41,7 +41,7 @@ def headers_sdc_creator(base_header: Dict[str, str],
 
 def headers_sdc_tester(base_header: Dict[str, str],
                        user: str = "jm0007",
-                       authorization: Optional[str] = None):
+                       authorization: Optional[str] = None) -> Dict[str, str]:
     """
     Create the right headers for SDC tester type.
 
@@ -60,7 +60,7 @@ def headers_sdc_tester(base_header: Dict[str, str],
 
 def headers_sdc_governor(base_header: Dict[str, str],
                          user: str = "gv0001",
-                         authorization: Optional[str] = None):
+                         authorization: Optional[str] = None) -> Dict[str, str]:
     """
     Create the right headers for SDC governor type.
 
@@ -79,7 +79,7 @@ def headers_sdc_governor(base_header: Dict[str, str],
 
 def headers_sdc_operator(base_header: Dict[str, str],
                          user: str = "op0001",
-                         authorization: Optional[str] = None):
+                         authorization: Optional[str] = None) -> Dict[str, str]:
     """
     Create the right headers for SDC operator type.
 
@@ -98,7 +98,7 @@ def headers_sdc_operator(base_header: Dict[str, str],
 
 def headers_sdc_generic(base_header: Dict[str, str],
                         user: str,
-                        authorization: Optional[str] = None):
+                        authorization: Optional[str] = None) -> Dict[str, str]:
     """
     Create the right headers for SDC generic type.
 
@@ -119,7 +119,7 @@ def headers_sdc_generic(base_header: Dict[str, str],
     return headers
 
 
-def headers_aai_creator(base_header: Dict[str, str]):
+def headers_aai_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for AAI creator type.
 
@@ -137,7 +137,7 @@ def headers_aai_creator(base_header: Dict[str, str]):
     return headers
 
 
-def headers_so_creator(base_header: Dict[str, str]):
+def headers_so_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for SO creator type.
 
@@ -155,7 +155,7 @@ def headers_so_creator(base_header: Dict[str, str]):
     headers["cache-control"] = "no-cache"
     return headers
 
-def headers_so_catelog_db_creator(base_header: Dict[str, str]):
+def headers_so_catelog_db_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for SO creator type.
 
@@ -173,7 +173,7 @@ def headers_so_catelog_db_creator(base_header: Dict[str, str]):
     headers["cache-control"] = "no-cache"
     return headers
 
-def headers_msb_creator(base_header: Dict[str, str]):
+def headers_msb_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for MSB.
 
@@ -189,7 +189,7 @@ def headers_msb_creator(base_header: Dict[str, str]):
     return headers
 
 
-def headers_sdnc_creator(base_header: Dict[str, str]):
+def headers_sdnc_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for SDNC.
 
@@ -207,7 +207,7 @@ def headers_sdnc_creator(base_header: Dict[str, str]):
     return headers
 
 
-def headers_sdc_artifact_upload(base_header: Dict[str, str], data: str):
+def headers_sdc_artifact_upload(base_header: Dict[str, str], data: str) -> Dict[str, str]:
     """
     Create the right headers for sdc artifact upload.
 
@@ -229,7 +229,7 @@ def headers_sdc_artifact_upload(base_header: Dict[str, str], data: str):
     headers["Content-MD5"] = content
     return headers
 
-def headers_clamp_creator(base_header: Dict[str, str]):
+def headers_clamp_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for CLAMP generic type.
 

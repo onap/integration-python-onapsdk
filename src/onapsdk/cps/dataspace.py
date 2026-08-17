@@ -14,7 +14,7 @@
 #   limitations under the License.
 
 from functools import wraps
-from typing import Any, BinaryIO, Dict, Iterable, Union
+from typing import Any, BinaryIO, Callable, Dict, Iterable, Union
 from urllib.parse import urljoin
 
 from ..exceptions import (APIError, ResourceNotFound)
@@ -55,14 +55,14 @@ class Dataspace(CpsElement):
         """
         return urljoin(self._url, f"dataspaces/{self.name}/")
 
-    def exception_handler(function): # pylint: disable= no-self-argument
+    def exception_handler(function) -> Callable: # pylint: disable= no-self-argument
         """Exception handler.
 
         Handling APIError and throwing ResourceNotFound if Data space does not exist.
 
         """
         @wraps(function)
-        def wrapper(*args):
+        def wrapper(*args) -> Any:
             try:
                 return function(*args) # pylint: disable= not-callable
             except APIError as error:

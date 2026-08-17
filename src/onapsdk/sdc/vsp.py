@@ -43,7 +43,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
     headers = headers_sdc_creator(SdcElement.headers)
 
     def __init__(self, name: Optional[str] = None, package: Optional[BinaryIO] = None,
-                 vendor: Optional[Vendor] = None):
+                 vendor: Optional[Vendor] = None) -> None:
         """
         Initialize vsp object.
 
@@ -57,8 +57,11 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         self.name: str = name or "ONAP-test-VSP"
         self.package: Optional[BinaryIO] = package
 
+    # Widened from the SdcElement.status declaration on purpose: load_status()
+    # leaves _status as None for a VSP that has not been created yet, which
+    # onboard() below relies on.
     @property
-    def status(self):
+    def status(self) -> Optional[str]:
         """Return and load the status."""
         self.load_status()
         return self._status
@@ -184,7 +187,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
             return self.send_message_json('GET', 'get item version', url)
         return {}
 
-    def _upload_action(self, package_to_upload: BinaryIO):
+    def _upload_action(self, package_to_upload: BinaryIO) -> None:
         """Do upload for real."""
         url = (f"{self._base_url()}/{Vsp._sdc_path()}/{self._version_path()}/"
                "orchestration-template-candidate")
@@ -198,7 +201,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
                           headers=headers,
                           files=data)
 
-    def _validate_action(self):
+    def _validate_action(self) -> None:
         """Do validate for real."""
         url = (f"{self._base_url()}/{Vsp._sdc_path()}/{self._version_path()}/"
                "orchestration-template-candidate/process")
@@ -213,7 +216,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
                 "an error occured during artifacts validation for Vsp %s",
                 self.name)
 
-    def _generic_action(self, action=None):
+    def _generic_action(self, action=None) -> None:
         """Do a generic action for real."""
         if action:
             if action == const.ARCHIVE:
@@ -221,7 +224,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
             else:
                 self._action_to_sdc(action, action_type="lifecycleState")
 
-    def _create_csar_action(self):
+    def _create_csar_action(self) -> None:
         """Create CSAR package for real."""
         result = self._action_to_sdc(const.CREATE_PACKAGE,
                                      action_type="lifecycleState")

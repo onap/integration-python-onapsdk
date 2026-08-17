@@ -28,7 +28,7 @@ class GuiList:
 
     guis: List[GuiItem]
 
-    def add(self, element):
+    def add(self, element) -> None:
         """Add a GUi to GUI list."""
         if not isinstance(element, GuiItem):
             raise AttributeError

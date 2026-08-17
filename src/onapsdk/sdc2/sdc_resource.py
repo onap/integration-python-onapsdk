@@ -46,7 +46,7 @@ class LifecycleOperation(Enum):  # pylint: disable=too-few-public-methods
 class LifecycleState(Enum):  # pylint: disable=too-few-public-methods
     """Resources lifecycle states enum."""
 
-    def _generate_next_value_(name, *_, **__):  # pylint: disable=no-self-argument
+    def _generate_next_value_(name, *_, **__) -> str:  # pylint: disable=no-self-argument
         """Return the upper-cased version of the member name."""
         return name.upper()  # pylint: disable=no-member
 
@@ -420,7 +420,7 @@ class SDCResource(SDCCatalog):  # pylint: disable=too-many-instance-attributes
                                 artifact_name: str,
                                 artifact_file_path: str,
                                 artifact_group_type: str = "DEPLOYMENT",
-                                artifact_description: str = "ONAP SDK ARTIFACT"):
+                                artifact_description: str = "ONAP SDK ARTIFACT") -> None:
         """
         Add deployment artifact to resource.
 
@@ -554,7 +554,7 @@ class SDCResourceTypeObject(SDCResource, ABC):  # pylint: disable=too-few-public
                  tags: Optional[Sequence[str]] = None,
                  last_updater_user_id: Optional[str] = None,
                  creation_date: Optional[int] = None,
-                 all_versions: Optional[Dict[str, Any]] = None):
+                 all_versions: Optional[Dict[str, Any]] = None) -> None:
         """Initialise SDC resource type object.
 
         Args:

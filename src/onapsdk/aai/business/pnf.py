@@ -276,7 +276,7 @@ class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
         self._logger.debug("Delete %s pnf", self.pnf_name)
         return PnfDeletionRequest.send_request(self, a_la_carte)
 
-    def delete_from_aai(self):
+    def delete_from_aai(self) -> None:
         """DELETE PNF from AAI.
 
         Send request to AAI to delete PNF from inventory
@@ -298,7 +298,7 @@ class PnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
 
         self._logger.debug("AAI Delete response status code is %s", delete_response.status_code)
 
-    def put_in_aai(self):
+    def put_in_aai(self) -> None:
         """PUT PNF in AAI.
 
         Send request to AAI to put PNF in inventory

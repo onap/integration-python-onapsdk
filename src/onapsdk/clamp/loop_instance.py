@@ -277,17 +277,17 @@ class LoopInstance(Clamp):
         self._logger.info(("Files for op policy config %s have been uploaded to loop's"
                            "Op policy"), self.name)
 
-    def submit(self):
+    def submit(self) -> bool:
         """Submit policies to policy engine."""
         state = self.details["components"]["POLICY"]["componentState"]["stateName"]
         return state == "SENT_AND_DEPLOYED"
 
-    def stop(self):
+    def stop(self) -> bool:
         """Undeploy Policies from policy engine."""
         state = self.details["components"]["POLICY"]["componentState"]["stateName"]
         return state == "SENT"
 
-    def restart(self):
+    def restart(self) -> bool:
         """Redeploy policies to policy engine."""
         state = self.details["components"]["POLICY"]["componentState"]["stateName"]
         return state == "SENT_AND_DEPLOYED"

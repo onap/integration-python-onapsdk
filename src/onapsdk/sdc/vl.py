@@ -23,7 +23,7 @@ class Vl(SdcResource):
     """ONAP Vl Object used for SDC operations."""
 
     def __init__(self, name: str, version: Optional[str] = None,
-                 sdc_values: Optional[Dict[str, str]] = None):
+                 sdc_values: Optional[Dict[str, str]] = None) -> None:
         """Initialize Vl object.
 
         Vl has to exists in SDC.

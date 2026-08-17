@@ -35,7 +35,7 @@ class Consumer(threading.Thread):
         record_queue (Queue): The queue to store consumed records.
     """
 
-    def __init__(self, username, password, topic, record_queue):
+    def __init__(self, username, password, topic, record_queue) -> None:
         """
         Initialize the Consumer instance.
 
@@ -52,7 +52,7 @@ class Consumer(threading.Thread):
         self.topic = topic
         self.record_queue = record_queue
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Stop the consumer thread.
 
@@ -60,7 +60,7 @@ class Consumer(threading.Thread):
         """
         self.stop_event.set()
 
-    def run(self):
+    def run(self) -> None:
         """
         Start consuming messages from the Kafka topic.
 
@@ -92,7 +92,7 @@ class Consumer(threading.Thread):
         consumer.close()
 
 
-def get_events_for_topic(username, password, topic, consumer_group=None):
+def get_events_for_topic(username, password, topic, consumer_group=None) -> list:
     """
     Run the Kafka consumer with the provided parameters.
 
@@ -123,7 +123,7 @@ def get_events_for_topic(username, password, topic, consumer_group=None):
     return consumer_records
 
 
-def publish_event_on_topic(username, password, data, topic):
+def publish_event_on_topic(username, password, data, topic) -> None:
     """
     Run the Kafka producer with the provided parameters.
 

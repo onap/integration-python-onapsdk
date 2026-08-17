@@ -192,7 +192,7 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                service_instance_location_id: Optional[str] = None,
                selflink: Optional[str] = None,
                orchestration_status: Optional[str] = None,
-               input_parameters: Optional[str] = None):
+               input_parameters: Optional[str] = None) -> "ServiceInstance":
         """Service instance creation.
 
         Args:

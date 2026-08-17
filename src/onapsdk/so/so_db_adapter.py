@@ -14,6 +14,7 @@
 #   limitations under the License.
 from abc import ABC
 from dataclasses import dataclass
+from typing import Any, Dict
 
 from onapsdk.so.so_element import SoElement
 from onapsdk.onap_service import OnapService
@@ -49,7 +50,7 @@ class SoDbAdapter(SoElement, ABC):
                        complex_id: str,
                        identity_service: IdentityService,
                        orchestrator: str = "multicloud"
-                       ):
+                       ) -> Dict[Any, Any]:
         """Add cloud_site data with identity_service to SO db.
 
         Args:

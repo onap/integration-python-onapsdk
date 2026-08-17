@@ -44,7 +44,7 @@ class DefinitionBase(RemovableK8sPlugin):
         """
         return f"{self.base_url_and_version()}/rb/definition/{self.rb_name}/{self.rb_version}"
 
-    def upload_artifact(self, package: Optional[bytes] = None):
+    def upload_artifact(self, package: Optional[bytes] = None) -> None:
         """Upload artifact.
 
         Args:
@@ -235,7 +235,7 @@ class Definition(DefinitionBase):
         self.labels: dict = labels
 
     @classmethod
-    def get_all(cls):
+    def get_all(cls) -> Iterator["Definition"]:
         """Get all definitions.
 
         Yields:
@@ -432,7 +432,7 @@ class Definition(DefinitionBase):
             GVK.to_list_of_gvk(profile.get("extra-resource-types"))
         )
 
-    def get_all_configuration_templates(self):
+    def get_all_configuration_templates(self) -> Iterator[ConfigurationTemplate]:
         """Get all configuration templates.
 
         Yields:

@@ -14,7 +14,7 @@ class Vsp(SdcOnboardingApiItem):
     vsp_create_template: str = "sdc2_create_vsp.json.j2"
     vsp_create_package_template: str = "sdc2_action_onboarding_api_item.json.j2"
 
-    def __init__(self, name, item_type, item_id, description, owner, status, properties):  # pylint: disable=too-many-arguments
+    def __init__(self, name, item_type, item_id, description, owner, status, properties) -> None:  # pylint: disable=too-many-arguments
         """Init VSP object."""
         super().__init__(name, item_type, item_id, description, owner, status, properties)
         self._csar_uuid: str = None
@@ -130,7 +130,7 @@ class Vsp(SdcOnboardingApiItem):
                 raise ValidationError("VSP file cannot be processed")
             self._logger.error("VSP file processing error!")
 
-    def create_package(self):
+    def create_package(self) -> None:
         """Create VSP package."""
         response: dict = self.send_message_json(
             "PUT",

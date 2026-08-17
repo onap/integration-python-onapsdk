@@ -23,7 +23,7 @@ class Vfc(SdcResource):
     """ONAP VFC Object used for SDC operations."""
 
     def __init__(self, name: str, version: Optional[str] = None,
-                 sdc_values: Optional[Dict[str, str]] = None):
+                 sdc_values: Optional[Dict[str, str]] = None) -> None:
         """Initialize VFC object.
 
         Vfc has to exist in SDC.

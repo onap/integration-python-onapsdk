@@ -26,7 +26,7 @@ class Tenant(AaiResource):  # pylint: disable=too-many-instance-attributes
                  tenant_id: str,
                  tenant_name: str,
                  tenant_context: Optional[str] = None,
-                 resource_version: Optional[str] = None):
+                 resource_version: Optional[str] = None) -> None:
         """Tenant object initialization.
 
         Tenant object represents A&AI Tenant resource.

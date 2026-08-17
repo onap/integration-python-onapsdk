@@ -130,7 +130,7 @@ class K8sPlugin(OnapService):
     headers = OnapService.headers
 
     @classmethod
-    def base_url_and_version(cls):
+    def base_url_and_version(cls) -> str:
         """Return base url with api version.
 
         Returns base url with api version

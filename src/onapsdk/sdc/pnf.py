@@ -45,7 +45,7 @@ class Pnf(SdcResource):
                  sdc_values: Optional[Dict[str, str]] = None, vsp: Optional[Vsp] = None,
                  properties: Optional[List[Property]] = None,
                  inputs: Optional[Union[Property, NestedInput]] = None,
-                 category: Optional[str] = None, subcategory: Optional[str] = None):
+                 category: Optional[str] = None, subcategory: Optional[str] = None) -> None:
         """
         Initialize pnf object.
 

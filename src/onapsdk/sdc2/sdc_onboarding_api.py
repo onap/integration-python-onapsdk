@@ -92,7 +92,7 @@ class SdcOnboardingApiItemVersion(SdcOnboardingApi):
                  status: SdcOnboardingApiVersionStatus,
                  creation_time: int,
                  modification_time: int,
-                 additional_info: dict):
+                 additional_info: dict) -> None:
         """Init onboarding api item version object.
 
         Args:
@@ -151,7 +151,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
                  description: str,
                  owner: str,
                  status: str,
-                 properties: dict):
+                 properties: dict) -> None:
         """Onboarding item init.
 
         Args:
@@ -171,7 +171,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         self.properties: dict = properties
         self._version: Optional[str] = None
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         """Init a subclass.
         
         During subclass init a subclass registry is going to be filled
@@ -322,12 +322,12 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
                 return item
         raise ResourceNotFound(f"{subclass.get_item_type()} with {name} name not found")
 
-    def update(self):
+    def update(self) -> None:
         """Update an item status."""
         updated_version: SdcOnboardingApiItem = self.get_by_name(self.name)
         self.status = updated_version.status
 
-    def _action(self, item_action: SdcOnboardingApiItemAction):
+    def _action(self, item_action: SdcOnboardingApiItemAction) -> None:
         """Perform an item action.
 
         Args:
@@ -344,15 +344,15 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         )
         self.update()
 
-    def archive(self):
+    def archive(self) -> None:
         """Archive an item."""
         self._action(SdcOnboardingApiItemAction.ARCHIVE)
 
-    def restore(self):
+    def restore(self) -> None:
         """Restore an item."""
         self._action(SdcOnboardingApiItemAction.RESTORE)
 
-    def _version_action(self, version_acton: SdcOnboardingApiItemVersionAction):
+    def _version_action(self, version_acton: SdcOnboardingApiItemVersionAction) -> None:
         """Perform a version action.
 
         Args:
@@ -370,11 +370,11 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         )
         self.update()
 
-    def commit_version(self):
+    def commit_version(self) -> None:
         """Commit version."""
         self._version_action(SdcOnboardingApiItemVersionAction.COMMIT)
 
-    def submit(self, submit_request_message: str = "ONAP SDK SDC onboarding API submit"):
+    def submit(self, submit_request_message: str = "ONAP SDK SDC onboarding API submit") -> None:
         """Perform a submit action on latest item version.
 
         Args:
@@ -391,7 +391,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         )
         self.update()
 
-    def delete(self):
+    def delete(self) -> None:
         """Delete onboarding API item."""
         self.send_message(
             "DELETE",

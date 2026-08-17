@@ -29,6 +29,7 @@ from urllib3.util.retry import Retry
 from onapsdk.configuration import settings
 from onapsdk.exceptions import (APIError, ConnectionFailed, InvalidResponse,
                                 NoGuiError, RequestError, ResourceNotFound)
+from onapsdk.utils.gui import GuiList
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -85,7 +86,7 @@ class OnapService(ABC):
     proxy: Optional[Dict[str, str]] = None
     permanent_headers: PermanentHeadersCollection = PermanentHeadersCollection()
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         """Subclass initialization.
 
         Add _logger property for any OnapService with it's class name as a logger name
@@ -204,7 +205,7 @@ class OnapService(ABC):
         raise exception
 
     @classmethod
-    def _set_basic_auth_if_needed(cls, basic_auth, session):
+    def _set_basic_auth_if_needed(cls, basic_auth, session) -> None:
         if basic_auth:
             session.auth = (basic_auth.get('username'),
                             basic_auth.get('password'))
@@ -337,6 +338,6 @@ class OnapService(ABC):
         OnapService._logger.debug("Set permanent header %s", header)
 
     @classmethod
-    def get_guis(cls):
+    def get_guis(cls) -> GuiList:
         """Return the list of GUI and its status."""
         raise NoGuiError

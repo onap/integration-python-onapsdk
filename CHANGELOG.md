@@ -9,6 +9,13 @@
 - `Policy.get_policy_status` for the PAP policy deployment status endpoint.
 - `CLAMP_ACM_URL` setting pointing at the in-cluster runtime-acm service.
 
+### Changed
+
+- Every function and method in the package now carries a return annotation, so
+  type checkers no longer skip their bodies. This is an annotation-only change
+  with one exception: `OnapService.get_guis` is declared as returning `GuiList`,
+  the type all of its overrides already returned.
+
 ### Fixed
 
 - `onapsdk.so.instantiation` could not be imported before another `onapsdk`

@@ -161,7 +161,7 @@ class Topology(SdncElement):
 
     def __init__(self,
                  topology_id: str = "topology-netconf",
-                 nodes: Optional[List[Node]] = None):
+                 nodes: Optional[List[Node]] = None) -> None:
         """Topology information initialization.
 
         Args:

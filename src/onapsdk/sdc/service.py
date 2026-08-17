@@ -138,7 +138,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
                  instantiation_type: Optional[ServiceInstantiationType] = \
                      None,
                  category: Optional[str] = None, role: str = "",
-                 function: str = "", service_type: str = ""):
+                 function: str = "", service_type: str = "") -> None:
         """
         Initialize service object.
 
@@ -851,7 +851,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
 
     def add_artifact_to_vf(self, vnf_name: str, artifact_type: str,
-                           artifact_name: str, artifact: Optional[BinaryIO] = None):
+                           artifact_name: str, artifact: Optional[BinaryIO] = None) -> None:
         """
         Add artifact to vf.
 

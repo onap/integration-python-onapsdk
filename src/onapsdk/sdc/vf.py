@@ -53,7 +53,7 @@ class Vf(SdcResource):
         Initialize vf object.
 
         Args:
-            name (optional): the name of the vf
+            name (str, optional): the name of the vf
             version (str, optional): the version of the vf
             vsp (Vsp, optional): VSP object related with the Vf object.
                 Defaults to None.

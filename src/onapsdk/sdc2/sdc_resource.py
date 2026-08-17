@@ -138,7 +138,7 @@ class SDCResource(SDCCatalog):  # pylint: disable=too-many-instance-attributes
         Copy relevant properties from object.
 
         Args:
-            obj (Sdc): the object to "copy"
+            obj (SDCCatalog): the object to "copy"
 
         Raises:
             NotImplementedError: this is an abstract method.

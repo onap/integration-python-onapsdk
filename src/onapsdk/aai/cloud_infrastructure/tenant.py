@@ -32,7 +32,7 @@ class Tenant(AaiResource):  # pylint: disable=too-many-instance-attributes
         Tenant object represents A&AI Tenant resource.
 
         Args:
-            cloud_region (str): Cloud region object
+            cloud_region (CloudRegion): Cloud region object
             tenant_id (str): Unique Tenant ID
             tenant_name (str): Tenant name
             tenant_context (str, optional): Tenant context. Defaults to None.

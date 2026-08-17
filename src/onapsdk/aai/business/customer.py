@@ -621,7 +621,7 @@ class Customer(AaiResource):
         """Delete SDC Service subscription.
 
         Args:
-            service_sub (str): Value defined by orchestration to identify this service
+            service_sub (ServiceSubscription): Service subscription to delete
                 across ONAP.
         """
         self.send_message(
@@ -839,7 +839,7 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
 
         Args:
             global_customer_id(str): ID of the customer
-            service_subscription(str): Type of service subscription
+            service_subscription (ServiceSubscription): Service subscription of the job
             feasibility_check_and_reservation_job_id(str): ID of the reservation job
 
         Returns:

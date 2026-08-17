@@ -48,7 +48,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         Initialize vsp object.
 
         Args:
-            name (optional): the name of the vsp
+            name (str, optional): the name of the vsp
 
         """
         super().__init__()
@@ -103,7 +103,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         Upload given zip file into SDC as artifacts for this Vsp.
 
         Args:
-            package_to_upload (file): the zip file to upload
+            package_to_upload (BinaryIO): the zip file to upload
 
         """
         self._action("upload package",
@@ -116,7 +116,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         Upload given zip file into SDC as artifacts for this Vsp.
 
         Args:
-            package_to_upload (file): the zip file to upload
+            package_to_upload (BinaryIO): the zip file to upload
 
         """
         self._action("update package",
@@ -241,7 +241,7 @@ class Vsp(SdcElement): # pylint: disable=too-many-instance-attributes
         Args:
             action_name (str): The name of the action (for the logs)
             right_status (str): The status that the object must be
-            action_function (function): the function to perform if OK
+            action_function (Callable[['Vsp'], None]): the function to perform if OK
 
         """
         self._logger.info("attempting to %s for %s in SDC", action_name,

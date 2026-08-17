@@ -81,7 +81,8 @@ class Property:  # pylint: disable=too-many-instance-attributes, too-few-public-
             description (Optional[str], optional): [description]. Defaults to None.
             unique_id (Optional[str], optional): [description]. Defaults to None.
             parent_unique_id (Optional[str], optional): [description]. Defaults to None.
-            sdc_resource (Optional[, optional): [description]. Defaults to None.
+            sdc_resource (SdcResource, optional): SDC resource the property
+                belongs to. Defaults to None.
             value (Optional[Any], optional): [description]. Defaults to None.
             get_input_values (Optional[List[Dict[str, str]]], optional): [description].
                 Defaults to None.

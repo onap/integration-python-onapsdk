@@ -73,10 +73,10 @@ class APIError(RequestError):
 
     @property
     def response_text(self) -> Optional[str]:
-        """Response status code property.
+        """Response text property.
 
         Returns:
-            int: Response status code. If not set, returns 0
+            Optional[str]: Response text. If not set, returns None
 
         """
         return self._response_text

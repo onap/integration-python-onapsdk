@@ -69,7 +69,7 @@ class ResourceStatus:
         Args:
             GVK (str): GVK of resource
             name (str): name of resource
-            status (str): full status of resource
+            status (dict): full status of resource
         """
         super().__init__()
         self.name: str = status["name"]

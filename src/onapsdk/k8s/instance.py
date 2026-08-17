@@ -351,7 +351,7 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
         """Get all instantiated Kubernetes resources.
 
         Yields:
-            Instantiation: Instantiation object
+            Instance: Instance object
 
         """
         for resource in cls.send_message_json("GET",
@@ -371,7 +371,7 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
             instance_id (str): instance ID
 
         Returns:
-            Instantiation: Instantiation object
+            Instance: Instance object
 
         """
         url: str = f"{cls.base_url_and_version()}/instance/{instance_id}"

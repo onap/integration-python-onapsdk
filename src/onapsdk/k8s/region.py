@@ -56,7 +56,7 @@ class CloudRegion(K8sPlugin, QueryResourceStatusMixin):
         Args:
             cloud_region_id (str): Cloud region ID
             cloud_owner (str): Cloud owner name
-            kubeconfig (str): kubernetes cluster kubeconfig
+            kubeconfig (bytes, optional): kubernetes cluster kubeconfig
 
         Returns:
             CloudRegion: Created region object

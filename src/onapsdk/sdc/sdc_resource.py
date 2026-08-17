@@ -308,7 +308,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         Update instance with details from SDC.
 
         Args:
-            details ([type]): [description]
+            details (Dict[str, Any]): the details from SDC
 
         """
     def update_informations_from_sdc_creation(self,
@@ -318,7 +318,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         Update instance with details from SDC after creation.
 
         Args:
-            details ([type]): the details from SDC
+            details (Dict[str, Any]): the details from SDC
 
         """
         self.unique_uuid = details['invariantUUID']

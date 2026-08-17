@@ -177,7 +177,7 @@ class NetworkInstance(Instance):  # pylint: disable=too-many-instance-attributes
             service_instance (ServiceInstance): Service instance with which network is related
 
         Returns:
-            VnfInstance: VnfInstance object
+            NetworkInstance: NetworkInstance object
 
         """
         return cls(service_instance=service_instance,

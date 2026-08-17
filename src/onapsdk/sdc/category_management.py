@@ -229,7 +229,7 @@ class ResourceCategory(BaseCategory):
             ResourceNotFound: Subcategory with given name does not exist
 
         Returns:
-            BaseCategory: BaseCategory instance
+            ResourceCategory: ResourceCategory instance
 
         """
         category_obj: "ResourceCategory" = super().get(name=name)

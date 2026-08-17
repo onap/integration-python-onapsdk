@@ -444,7 +444,7 @@ class VnfInstance(Instance):  # pylint: disable=too-many-instance-attributes
         """Execute SO workflow for selected operation.
 
         Args:
-            operation_type (str): Name of the operation to execute.
+            operation_type (VnfOperation): Name of the operation to execute.
             vnf_parameters (Iterable["InstantiationParameter"], Optional): list of instantiation
             parameters for update operation.
 

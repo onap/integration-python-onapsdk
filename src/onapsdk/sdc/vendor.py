@@ -40,7 +40,7 @@ class Vendor(SdcElement):
         Initialize vendor object.
 
         Args:
-            name (optional): the name of the vendor
+            name (str, optional): the name of the vendor
 
         """
         super().__init__()

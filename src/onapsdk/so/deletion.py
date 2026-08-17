@@ -25,7 +25,7 @@ class DeletionRequest(OrchestrationRequest, ABC):
     """Deletion request base class."""
 
     @classmethod
-    def send_request(cls, instance: "AaiResource", a_la_carte: bool = True) -> "Deletion":
+    def send_request(cls, instance: "AaiResource", a_la_carte: bool = True) -> "DeletionRequest":
         """Abstract method to send instance deletion request.
 
         Raises:
@@ -41,7 +41,7 @@ class VfModuleDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ance
     @classmethod
     def send_request(cls,
                      instance: "VfModuleInstance",
-                     a_la_carte: bool = True) -> "VfModuleDeletion":
+                     a_la_carte: bool = True) -> "VfModuleDeletionRequest":
         """Send request to SO to delete VNF instance.
 
         Args:
@@ -49,7 +49,7 @@ class VfModuleDeletionRequest(DeletionRequest):  # pytest: disable=too-many-ance
             a_la_carte (boolean): deletion mode
 
         Returns:
-            VnfDeletionRequest: Deletion request object
+            VfModuleDeletionRequest: Deletion request object
 
         """
         cls._logger.debug("VF module %s deletion request", instance.vf_module_id)
@@ -171,7 +171,7 @@ class NetworkDeletionRequest(DeletionRequest):  # pylint: disable=too-many-ances
     @classmethod
     def send_request(cls,
                      instance: "NetworkInstance",
-                     a_la_carte: bool = True) -> "VnfDeletionRequest":
+                     a_la_carte: bool = True) -> "NetworkDeletionRequest":
         """Send request to SO to delete Network instance.
 
         Args:

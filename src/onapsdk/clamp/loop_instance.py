@@ -300,7 +300,7 @@ class LoopInstance(Clamp):
             func (function): function of action to be done (submit, stop, restart)
 
         Returns:
-            action state : failed or done
+            bool: True if the action succeeded, False otherwise
 
         """
         url = f"{self.base_url()}/loop/{func.__name__}/{self.name}"

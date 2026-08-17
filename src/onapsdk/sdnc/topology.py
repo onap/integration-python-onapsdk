@@ -166,7 +166,7 @@ class Topology(SdncElement):
 
         Args:
             topology_id (str):  Topology instance id
-            nodes (list): List of nodes inside the topology
+            nodes (List[Node], optional): List of nodes inside the topology
         """
         super().__init__()
         self.topology_id: str = topology_id
@@ -187,7 +187,7 @@ class Topology(SdncElement):
         """Get all topologies from SDNC using NETCONF-API.
 
         Yields:
-            : Topology object
+            Topology: Topology object
         """
         topologies = cls.send_message_json("GET",
                                            "Get all topologies from SDNC using NETCONF-API",
@@ -253,7 +253,7 @@ class Topology(SdncElement):
         """Get all nodes of the specific topology from SDNC using NETCONF-API.
 
         Yields:
-            : Node object
+            Node: Node object
         """
         nodes_object = self.send_message_json("GET",
                                               "Get all nodes from SDNC using NETCONF-API",

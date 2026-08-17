@@ -64,7 +64,7 @@ class SdcOnboardingApi(SDC, ABC):
         """Get onboarding API raw items.
 
         Args:
-            item_type (SdcOnboardingApiItemTypeEnum | None, optional): Item type. Defaults to None.
+            item_type (SdcOnboardingApiItemTypeEnum, optional): Item type. Defaults to None.
 
         Yields:
             Iterator[dict]: JSON object of an onboarding API item.
@@ -195,7 +195,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
             api_response (dict): Item API response object.
 
         Returns:
-            SdcOnboardingApiItem: Item object
+            SdcOnboardingApiItemT: Item object
 
         """
         subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]
@@ -295,7 +295,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         """Get all items.
 
         Yields:
-            SdcOnboardingApiItem: Item object.
+            SdcOnboardingApiItemT: Item object.
 
         """
         subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]
@@ -313,7 +313,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
             ResourceNotFound: Item with given name not found.
 
         Returns:
-            SdcOnboardingApiItem: Item with given name
+            SdcOnboardingApiItemT: Item with given name
 
         """
         subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]

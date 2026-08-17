@@ -233,8 +233,8 @@ def headers_clamp_creator(base_header: Dict[str, str]) -> Dict[str, str]:
     """
     Create the right headers for CLAMP generic type.
 
+    Args:
         base_header (Dict[str, str]): the base header to use
-        data (str): payload data used to create an md5 content header
 
     Returns:
         Dict[str, str]: the needed headers

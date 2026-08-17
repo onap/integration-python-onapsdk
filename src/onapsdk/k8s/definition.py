@@ -227,7 +227,7 @@ class Definition(DefinitionBase):
             rb_version (str): Definition version
             chart_name (str): Chart name, optional field, will be detected if it is not provided
             description (str): Definition description
-            labels (str): Labels
+            labels (dict): Labels
         """
         super().__init__(rb_name, rb_version)
         self.chart_name: str = chart_name
@@ -292,7 +292,7 @@ class Definition(DefinitionBase):
             rb_version (str): Definition version
             chart_name (str): Chart name, optional field, will be detected if it is not provided
             description (str): Definition description
-            labels (str): Labels
+            labels (dict, optional): Labels
 
         Returns:
             Definition: Created object

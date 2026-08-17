@@ -50,7 +50,7 @@ class Pnf(SdcResource):
         Initialize pnf object.
 
         Args:
-            name (optional): the name of the pnf
+            name (str, optional): the name of the pnf
             version (str, optional): the version of a PNF object
 
         """

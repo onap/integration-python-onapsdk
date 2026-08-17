@@ -666,7 +666,7 @@ class Blueprint(CdsElement):
         If mapping reqires other source than input it should be updated before upload to CDS.
 
         Returns:
-            Generator[DataDictionary, None, None]: DataDictionary objects.
+            DataDictionarySet: Set of DataDictionary objects.
 
         """
         dd_set: DataDictionarySet = DataDictionarySet()

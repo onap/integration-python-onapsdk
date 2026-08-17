@@ -64,8 +64,8 @@ class SoDbAdapter(SoElement, ABC):
             cloud_sites data will not (shouldn't) be overwrite!
             SOCatalogDB REST API has some limitations reported: https://jira.onap.org/browse/SO-2727
 
-        Return:
-            response object
+        Returns:
+            Dict[Any, Any]: SO API response
         """
         response = cls.send_message_json(
             "POST",

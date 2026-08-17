@@ -57,7 +57,7 @@ class Service(SdncElement):
         """Get all uploaded services using GENERIC-RESOURCES-API.
 
         Yields:
-            Services: Service object
+            Service: Service object
         """
         for service in cls.send_message_json(
                 "GET",

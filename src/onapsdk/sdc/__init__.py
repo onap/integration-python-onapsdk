@@ -381,7 +381,7 @@ class SdcOnboardable(SDC, ABC):
         Update instance with details from SDC.
 
         Args:
-            details ([type]): [description]
+            details (Dict[str, Any]): the details from SDC
 
         """
     @abstractmethod
@@ -392,7 +392,7 @@ class SdcOnboardable(SDC, ABC):
         Update instance with details from SDC after creation.
 
         Args:
-            details ([type]): the details from SDC
+            details (Dict[str, Any]): the details from SDC
 
         """
 

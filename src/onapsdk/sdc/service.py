@@ -864,7 +864,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
             vnf_name (str): the vnf which we want to add the artifact
             artifact_type (str): all SDC artifact types are supported (DCAE_*, HEAT_*, ...)
             artifact_name (str): the artifact file name including its extension
-            artifact (str): binary data to upload
+            artifact (BinaryIO, optional): binary data to upload
 
         """
         missing_identifier = self.get_nf_unique_id(vnf_name)

@@ -9,6 +9,13 @@
 - `Policy.get_policy_status` for the PAP policy deployment status endpoint.
 - `CLAMP_ACM_URL` setting pointing at the in-cluster runtime-acm service.
 
+### Fixed
+
+- `onapsdk.so.instantiation` could not be imported before another `onapsdk`
+  module: an import cycle through the eager re-exports in
+  `onapsdk.aai.business` raised `ImportError`. The A&AI business re-exports are
+  now resolved lazily; the package exposes the same names as before.
+
 ## v14.4.0
 
 ### Added

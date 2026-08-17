@@ -12,6 +12,8 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from typing import Optional
+
 #from onapsdk.aai.cloud_infrastructure.cloud_region import CloudRegion
 from ..aai_element import AaiResource
 
@@ -23,8 +25,8 @@ class Tenant(AaiResource):  # pylint: disable=too-many-instance-attributes
                  cloud_region: "CloudRegion",
                  tenant_id: str,
                  tenant_name: str,
-                 tenant_context: str = None,
-                 resource_version: str = None):
+                 tenant_context: Optional[str] = None,
+                 resource_version: Optional[str] = None):
         """Tenant object initialization.
 
         Tenant object represents A&AI Tenant resource.

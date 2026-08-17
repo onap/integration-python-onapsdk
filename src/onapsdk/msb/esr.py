@@ -12,6 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from typing import Optional
 from onapsdk.utils.jinja import jinja_env
 from .msb_service import MSB
 
@@ -31,12 +32,12 @@ class ESR(MSB):
                      auth_info_username: str,
                      auth_info_password: str,
                      auth_info_url: str,
-                     owner_defined_type: str = None,
-                     cloud_zone: str = None,
-                     physical_location_id: str = None,
-                     cloud_extra_info: str = None,
-                     auth_info_ssl_cacert: str = None,
-                     auth_info_ssl_insecure: bool = None) -> None:
+                     owner_defined_type: Optional[str] = None,
+                     cloud_zone: Optional[str] = None,
+                     physical_location_id: Optional[str] = None,
+                     cloud_extra_info: Optional[str] = None,
+                     auth_info_ssl_cacert: Optional[str] = None,
+                     auth_info_ssl_insecure: Optional[bool] = None) -> None:
         """Register VIM.
 
         Args:

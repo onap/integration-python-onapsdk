@@ -154,10 +154,10 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
 
     @classmethod
     def get_all(cls,
-                cloud_owner: str = None,
-                cloud_region_id: str = None,
-                cloud_type: str = None,
-                owner_defined_type: str = None) -> Iterator["CloudRegion"]:
+                cloud_owner: Optional[str] = None,
+                cloud_region_id: Optional[str] = None,
+                cloud_type: Optional[str] = None,
+                owner_defined_type: Optional[str] = None) -> Iterator["CloudRegion"]:
         """Get all A&AI cloud regions.
 
         Cloud regions can be filtered by 4 parameters: cloud-owner,
@@ -456,7 +456,8 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
         self._logger.debug("Cloud region %s has no related complex", self.cloud_region_id)
         return None
 
-    def add_tenant(self, tenant_id: str, tenant_name: str, tenant_context: str = None) -> None:
+    def add_tenant(self, tenant_id: str, tenant_name: str,
+                   tenant_context: Optional[str] = None) -> None:
         """Add tenant to cloud region.
 
         Args:
@@ -537,7 +538,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
     def add_availability_zone(self,
                               availability_zone_name: str,
                               availability_zone_hypervisor_type: str,
-                              availability_zone_operational_status: str = None) -> None:
+                              availability_zone_operational_status: Optional[str] = None) -> None:
         """Add avaiability zone to cloud region.
 
         Args:
@@ -563,23 +564,23 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
                             user_name: str,
                             password: str,
                             system_type: str,
-                            system_name: str = None,
-                            esr_type: str = None,
-                            vendor: str = None,
-                            version: str = None,
-                            service_url: str = None,
-                            protocol: str = None,
-                            ssl_cacert: str = None,
+                            system_name: Optional[str] = None,
+                            esr_type: Optional[str] = None,
+                            vendor: Optional[str] = None,
+                            version: Optional[str] = None,
+                            service_url: Optional[str] = None,
+                            protocol: Optional[str] = None,
+                            ssl_cacert: Optional[str] = None,
                             ssl_insecure: Optional[bool] = None,
-                            ip_address: str = None,
-                            port: str = None,
-                            cloud_domain: str = None,
-                            default_tenant: str = None,
+                            ip_address: Optional[str] = None,
+                            port: Optional[str] = None,
+                            cloud_domain: Optional[str] = None,
+                            default_tenant: Optional[str] = None,
                             passive: Optional[bool] = None,
-                            remote_path: str = None,
-                            system_status: str = None,
-                            openstack_region_id: str = None,
-                            resource_version: str = None) -> None:
+                            remote_path: Optional[str] = None,
+                            system_status: Optional[str] = None,
+                            openstack_region_id: Optional[str] = None,
+                            resource_version: Optional[str] = None) -> None:
         """Add external system info to cloud region.
 
         Args:
@@ -637,7 +638,7 @@ class CloudRegion(AaiResource, AaiResourceLinkToComplexMixin, AaiResourceLinkToP
                     resource_version=resource_version)
         )
 
-    def register_to_multicloud(self, default_tenant: str = None) -> None:
+    def register_to_multicloud(self, default_tenant: Optional[str] = None) -> None:
         """Register cloud to multicloud using MSB API.
 
         Args:

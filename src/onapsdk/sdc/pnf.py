@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Dict, List, Union
+from typing import Optional, Dict, List, Union
 from onapsdk.exceptions import ParameterError
 
 from onapsdk.sdc.sdc_resource import SdcResource
@@ -39,10 +39,13 @@ class Pnf(SdcResource):
 
     """
 
-    def __init__(self, name: str = None, version: str = None, vendor: Vendor = None, # pylint: disable=too-many-arguments
-                 sdc_values: Dict[str, str] = None, vsp: Vsp = None,
-                 properties: List[Property] = None, inputs: Union[Property, NestedInput] = None,
-                 category: str = None, subcategory: str = None):
+    def __init__(self, name: Optional[str] = None,  # pylint: disable=too-many-arguments
+                 version: Optional[str] = None,
+                 vendor: Optional[Vendor] = None,
+                 sdc_values: Optional[Dict[str, str]] = None, vsp: Optional[Vsp] = None,
+                 properties: Optional[List[Property]] = None,
+                 inputs: Optional[Union[Property, NestedInput]] = None,
+                 category: Optional[str] = None, subcategory: Optional[str] = None):
         """
         Initialize pnf object.
 

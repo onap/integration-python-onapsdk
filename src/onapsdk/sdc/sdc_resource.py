@@ -40,10 +40,11 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
     ACTION_METHOD = 'POST'
     headers = headers_sdc_creator(SdcOnboardable.headers)
 
-    def __init__(self, name: str = None, version: str = None, # pylint: disable=too-many-arguments
-                 sdc_values: Dict[str, str] = None, properties: List[Property] = None,
-                 inputs: Union[Property, NestedInput] = None,
-                 category: str = None, subcategory: str = None):
+    def __init__(self, name: Optional[str] = None, version: Optional[str] = None, # pylint: disable=too-many-arguments
+                 sdc_values: Optional[Dict[str, str]] = None,
+                 properties: Optional[List[Property]] = None,
+                 inputs: Optional[Union[Property, NestedInput]] = None,
+                 category: Optional[str] = None, subcategory: Optional[str] = None):
         """Initialize the object."""
         super().__init__(name)
         self.version_filter: str = version
@@ -167,7 +168,7 @@ class SdcResource(SdcOnboardable, ABC):  # pylint: disable=too-many-instance-att
         return self.unique_identifier
 
     def _action_url(self, base: str, subpath: str, version_path: str,
-                    action_type: str = None) -> str:
+                    action_type: Optional[str] = None) -> str:
         """
         Generate action URL for SDC.
 

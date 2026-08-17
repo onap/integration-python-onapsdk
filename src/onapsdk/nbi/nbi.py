@@ -280,11 +280,11 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
                  category: str,
                  external_id: str,
                  service_instance_name: str,
-                 state: str = None,
-                 customer: Customer = None,
-                 customer_id: str = None,
-                 service_specification: ServiceSpecification = None,
-                 service_specification_id: str = None) -> None:
+                 state: Optional[str] = None,
+                 customer: Optional[Customer] = None,
+                 customer_id: Optional[str] = None,
+                 service_specification: Optional[ServiceSpecification] = None,
+                 service_specification_id: Optional[str] = None) -> None:
         """Service order object initialization.
 
         Args:
@@ -414,8 +414,8 @@ class ServiceOrder(Nbi, WaitForFinishMixin):  # pylint: disable=too-many-instanc
     def create(cls,
                customer: Customer,
                service_specification: ServiceSpecification,
-               name: str = None,
-               external_id: str = None) -> "ServiceOrder":
+               name: Optional[str] = None,
+               external_id: Optional[str] = None) -> "ServiceOrder":
         """Create service order.
 
         Returns:

@@ -260,8 +260,8 @@ class OnapService(ABC):
     @staticmethod
     def __requests_retry_session(retries: int = settings.DEFAULT_REQUEST_RETRIES,
                                  backoff_factor: float = 0.3,
-                                 session: requests.Session = None,
-                                 timeout: int = None
+                                 session: Optional[requests.Session] = None,
+                                 timeout: Optional[int] = None
                                  ) -> requests.Session:
         """
         Create a request Session with retries.

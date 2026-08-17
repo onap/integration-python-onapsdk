@@ -13,6 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from typing import Optional
+
 from onapsdk.so.deletion import VfModuleDeletionRequest
 from onapsdk.exceptions import ResourceNotFound
 
@@ -27,19 +29,19 @@ class VfModuleInstance(Instance):  # pylint: disable=too-many-instance-attribute
                  vf_module_id: str,
                  is_base_vf_module: bool,
                  automated_assignment: bool,
-                 vf_module_name: str = None,
-                 heat_stack_id: str = None,
-                 resource_version: str = None,
-                 model_invariant_id: str = None,
-                 orchestration_status: str = None,
-                 persona_model_version: str = None,
-                 model_version_id: str = None,
-                 model_customization_id: str = None,
-                 widget_model_id: str = None,
-                 widget_model_version: str = None,
-                 contrail_service_instance_fqdn: str = None,
-                 module_index: int = None,
-                 selflink: str = None) -> None:
+                 vf_module_name: Optional[str] = None,
+                 heat_stack_id: Optional[str] = None,
+                 resource_version: Optional[str] = None,
+                 model_invariant_id: Optional[str] = None,
+                 orchestration_status: Optional[str] = None,
+                 persona_model_version: Optional[str] = None,
+                 model_version_id: Optional[str] = None,
+                 model_customization_id: Optional[str] = None,
+                 widget_model_id: Optional[str] = None,
+                 widget_model_version: Optional[str] = None,
+                 contrail_service_instance_fqdn: Optional[str] = None,
+                 module_index: Optional[int] = None,
+                 selflink: Optional[str] = None) -> None:
         """Vf module initialization.
 
         Args:

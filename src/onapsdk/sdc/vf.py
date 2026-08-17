@@ -42,11 +42,13 @@ class Vf(SdcResource):
 
     """
 
-    def __init__(self, name: str = None, version: str = None, sdc_values: Dict[str, str] = None,  # pylint: disable=too-many-arguments
-                 vsp: Vsp = None, properties: List[Property] = None,
-                 inputs: Union[Property, NestedInput] = None,
-                 category: str = None, subcategory: str = None,
-                 vendor: Vendor = None):
+    def __init__(self, name: Optional[str] = None,  # pylint: disable=too-many-arguments
+                 version: Optional[str] = None,
+                 sdc_values: Optional[Dict[str, str]] = None,
+                 vsp: Optional[Vsp] = None, properties: Optional[List[Property]] = None,
+                 inputs: Optional[Union[Property, NestedInput]] = None,
+                 category: Optional[str] = None, subcategory: Optional[str] = None,
+                 vendor: Optional[Vendor] = None):
         """
         Initialize vf object.
 

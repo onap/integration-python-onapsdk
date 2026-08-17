@@ -64,7 +64,7 @@ class OnapService(ABC):
         ph_dict: Dict[str, Any] = field(default_factory=dict)
         ph_call: List[Callable] = field(default_factory=list)
 
-        def __iter__(self) -> Iterator[Dict[str, any]]:
+        def __iter__(self) -> Iterator[Dict[str, Any]]:
             """Iterate through the headers.
 
             For dictionary based headers just return the dict and

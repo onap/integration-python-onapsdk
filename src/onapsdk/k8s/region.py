@@ -97,13 +97,13 @@ class CloudRegion(K8sPlugin, QueryResourceStatusMixin):
 
         """
         url = f"{self.base_url_and_version()}/query"
-        status: Dict[Any] = self.query_resource_status(url,
-                                                       cloud_region=self.cloud_region_id,
-                                                       api_version=api_version,
-                                                       kind=kind,
-                                                       namespace=namespace,
-                                                       name=name,
-                                                       labels=labels)
+        status: Dict[str, Any] = self.query_resource_status(url,
+                                                            cloud_region=self.cloud_region_id,
+                                                            api_version=api_version,
+                                                            kind=kind,
+                                                            namespace=namespace,
+                                                            name=name,
+                                                            labels=labels)
         return CloudRegionStatus(
             resource_count=int(status["resourceCount"]),
             resources_status=[ResourceStatus(res_status) for

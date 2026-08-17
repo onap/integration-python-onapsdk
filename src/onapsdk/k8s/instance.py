@@ -606,11 +606,11 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
 
         """
         url = f"{self.url}/query"
-        status: Dict[Any] = self.query_resource_status(url,
-                                                       api_version=api_version,
-                                                       kind=kind,
-                                                       name=name,
-                                                       labels=labels)
+        status: Dict[str, Any] = self.query_resource_status(url,
+                                                            api_version=api_version,
+                                                            kind=kind,
+                                                            name=name,
+                                                            labels=labels)
         return InstanceStatus(
             self.instance_id,
             request=self.request_class(status["request"]),

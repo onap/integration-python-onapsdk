@@ -1,13 +1,15 @@
 """SDC onboarding API module."""
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Iterator, Optional, Type
+from typing import Iterator, Optional, Type, TypeVar
 from urllib.parse import urljoin
 
 from onapsdk.configuration import settings
 from onapsdk.sdc2.sdc import SDC
 from onapsdk.exceptions import ResourceNotFound
 from onapsdk.utils.jinja import jinja_env  # type: ignore
+
+SdcOnboardingApiItemT = TypeVar("SdcOnboardingApiItemT", bound="SdcOnboardingApiItem")
 
 
 class SdcOnboardingApiItemTypeEnum(Enum):
@@ -185,7 +187,8 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         """Get an item type."""
 
     @classmethod
-    def create_from_response(cls, api_response: dict) -> "SdcOnboardingApiItem":
+    def create_from_response(cls: Type[SdcOnboardingApiItemT],
+                             api_response: dict) -> SdcOnboardingApiItemT:
         """Create an item from response.
 
         Args:
@@ -195,7 +198,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
             SdcOnboardingApiItem: Item object
 
         """
-        subclass: Type[SdcOnboardingApiItem] = cls.subclass_registry[cls.get_item_type()]
+        subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]
         return subclass(
             api_response["name"],
             api_response["type"],
@@ -288,19 +291,19 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
         return next(iter(sorted(self.versions, key=lambda version: version.creation_time)))
 
     @classmethod
-    def get_all(cls) -> Iterator["SdcOnboardingApiItem"]:
+    def get_all(cls: Type[SdcOnboardingApiItemT]) -> Iterator[SdcOnboardingApiItemT]:
         """Get all items.
 
         Yields:
             SdcOnboardingApiItem: Item object.
 
         """
-        subclass: Type[SdcOnboardingApiItem] = cls.subclass_registry[cls.get_item_type()]
+        subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]
         for raw_item in cls.get_raw_items(cls.get_item_type()):
             yield subclass.create_from_response(raw_item)
 
     @classmethod
-    def get_by_name(cls, name: str) -> "SdcOnboardingApiItem":
+    def get_by_name(cls: Type[SdcOnboardingApiItemT], name: str) -> SdcOnboardingApiItemT:
         """Get an item by name.
 
         Args:
@@ -313,7 +316,7 @@ class SdcOnboardingApiItem(SdcOnboardingApi, ABC):
             SdcOnboardingApiItem: Item with given name
 
         """
-        subclass: Type[SdcOnboardingApiItem] = cls.subclass_registry[cls.get_item_type()]
+        subclass: Type[SdcOnboardingApiItemT] = cls.subclass_registry[cls.get_item_type()]
         for item in subclass.get_all():
             if item.name == name:
                 return item

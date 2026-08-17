@@ -15,6 +15,7 @@
 from abc import ABC, abstractmethod
 from ctypes import c_bool
 from multiprocessing import Process, Value
+from multiprocessing.sharedctypes import Synchronized
 from time import sleep
 
 
@@ -51,13 +52,13 @@ class WaitForFinishMixin(ABC):
 
         """
 
-    def _wait_for_finish(self, return_value: Value) -> bool:
+    def _wait_for_finish(self, return_value: Synchronized) -> None:
         """Wait until object task is finished.
 
         Method called in another process.
 
         Args:
-            return_value(Value): value shared with main process to pass there
+            return_value(Synchronized): value shared with main process to pass there
                 if object task was completed or not
 
         """
@@ -87,7 +88,7 @@ class WaitForFinishMixin(ABC):
 
         """
         self._logger.debug(f"Wait until {self.__class__.__name__} task is not finished")
-        return_value: Value = Value(c_bool)
+        return_value: Synchronized = Value(c_bool)
         wait_for_process: Process = Process(target=self._wait_for_finish, args=(return_value,))
         try:
             wait_for_process.start()

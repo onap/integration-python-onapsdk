@@ -24,6 +24,7 @@ from uuid import uuid4
 from zipfile import ZipFile
 
 import oyaml as yaml
+from requests import Response
 
 from onapsdk.utils.jinja import jinja_env
 from onapsdk.exceptions import FileError, ParameterError, ValidationError
@@ -242,9 +243,9 @@ class Workflow(CdsElement):
         self.name: str = cba_workflow_name
         self.workflow_data: dict = cba_workflow_data
         self.blueprint: "Blueprint" = blueprint
-        self._steps: Optional[List[self.WorkflowStep]] = None
-        self._inputs: Optional[List[self.WorkflowInput]] = None
-        self._outputs: Optional[List[self.WorkflowOutput]] = None
+        self._steps: Optional[List["Workflow.WorkflowStep"]] = None
+        self._inputs: Optional[List["Workflow.WorkflowInput"]] = None
+        self._outputs: Optional[List["Workflow.WorkflowOutput"]] = None
 
     def __repr__(self) -> str:
         """Representation of object.
@@ -357,7 +358,7 @@ class Workflow(CdsElement):
             },
             "payload": {f"{self.name}-request": inputs},
         }
-        response: "requests.Response" = self.send_message_json(
+        response: Dict[Any, Any] = self.send_message_json(
             "POST",
             f"Execute {self.blueprint.metadata.template_name} blueprint {self.name} workflow",
             self.url,
@@ -617,7 +618,7 @@ class Blueprint(CdsElement):
             Blueprint: Enriched blueprint object
 
         """
-        response: "requests.Response" = self.send_message(
+        response: Response = self.send_message(
             "POST",
             "Enrich CDS blueprint",
             f"{self.url}/enrich",

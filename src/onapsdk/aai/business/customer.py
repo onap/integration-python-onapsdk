@@ -331,7 +331,7 @@ class Customer(AaiResource):
                  global_customer_id: str,
                  subscriber_name: str,
                  subscriber_type: str,
-                 resource_version: str = None) -> None:
+                 resource_version: Optional[str] = None) -> None:
         """Initialize Customer class object.
 
         Args:
@@ -397,9 +397,9 @@ class Customer(AaiResource):
 
     @classmethod
     def get_all(cls,
-                global_customer_id: str = None,
-                subscriber_name: str = None,
-                subscriber_type: str = None) -> Iterator["Customer"]:
+                global_customer_id: Optional[str] = None,
+                subscriber_name: Optional[str] = None,
+                subscriber_type: Optional[str] = None) -> Iterator["Customer"]:
         """Get all customers.
 
         Call an API to retrieve all customers. It can be filtered
@@ -654,24 +654,24 @@ class FeasibilityCheckAndReservationJob(AaiResource):  # pylint: disable=too-man
                  feasibility_check_and_reservation_job_id: str,
                  job_name: str,
                  feasibility_result: str,
-                 resource_version: str = None,
-                 resource_reservation: bool = None,
-                 creation_time: str = None,
-                 recommendation_request: bool = None,
-                 requested_reservation_expiration: str = None,
-                 infeasible_reason: str = None,
-                 resource_reservation_status: str = None,
-                 reservation_failure_reason: str = None,
-                 reservation_expiration: str = None,
-                 recommended_requirements: str = None,
-                 feasibility_details: str = None,
-                 data_owner: str = None,
-                 data_source: str = None,
-                 data_source_version: str = None,
-                 feasibility_time_windows: list = None,
-                 slice_profiles: list = None,
-                 service_profiles: list = None,
-                 relationship_list: dict = None) -> None:
+                 resource_version: Optional[str] = None,
+                 resource_reservation: Optional[bool] = None,
+                 creation_time: Optional[str] = None,
+                 recommendation_request: Optional[bool] = None,
+                 requested_reservation_expiration: Optional[str] = None,
+                 infeasible_reason: Optional[str] = None,
+                 resource_reservation_status: Optional[str] = None,
+                 reservation_failure_reason: Optional[str] = None,
+                 reservation_expiration: Optional[str] = None,
+                 recommended_requirements: Optional[str] = None,
+                 feasibility_details: Optional[str] = None,
+                 data_owner: Optional[str] = None,
+                 data_source: Optional[str] = None,
+                 data_source_version: Optional[str] = None,
+                 feasibility_time_windows: Optional[list] = None,
+                 slice_profiles: Optional[list] = None,
+                 service_profiles: Optional[list] = None,
+                 relationship_list: Optional[dict] = None) -> None:
         """Initialize FeasibilityCheckAndReservationJob class object.
 
         Args:

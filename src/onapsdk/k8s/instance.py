@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 import json
-from typing import Any, Dict, Iterator
+from typing import Optional, Any, Dict, Iterator
 from dataclasses import dataclass
 
 from onapsdk.utils.jinja import jinja_env
@@ -99,7 +99,7 @@ class Configuration(InstanceBase):
                  description: str,
                  config_version: str,
                  config_tag: str,
-                 values: dict = None) -> None:
+                 values: Optional[dict] = None) -> None:
         """Initialize Configuration object.
 
         Args:
@@ -329,8 +329,8 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
     def __init__(self, instance_id: str,
                  namespace: str,
                  request: InstantiationRequest,
-                 resources: dict = None,
-                 override_values: dict = None) -> None:
+                 resources: Optional[dict] = None,
+                 override_values: Optional[dict] = None) -> None:
         """Instance object initialization.
 
         Args:
@@ -394,8 +394,8 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
                profile_name: str,
                rb_name: str,
                rb_version: str,
-               override_values: dict = None,
-               labels: dict = None) -> "Instance":
+               override_values: Optional[dict] = None,
+               labels: Optional[dict] = None) -> "Instance":
         """Create Instance.
 
         Args:
@@ -441,8 +441,8 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
                 profile_name: str,
                 rb_name: str,
                 rb_version: str,
-                override_values: dict = None,
-                labels: dict = None) -> "Instance":
+                override_values: Optional[dict] = None,
+                labels: Optional[dict] = None) -> "Instance":
         """Upgrade Instance.
 
         Args:
@@ -485,7 +485,7 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
 
     def create_configuration(self, config_name: str,
                              template_name: str,
-                             override_values: dict = None,
+                             override_values: Optional[dict] = None,
                              description="") -> "Configuration":
         """Create configuration instance.
 
@@ -591,8 +591,8 @@ class Instance(InstanceBase, QueryResourceStatusMixin):
     def query_status(self,
                      kind: str,
                      api_version: str,
-                     name: str = None,
-                     labels: dict = None) -> "InstanceStatus":
+                     name: Optional[str] = None,
+                     labels: Optional[dict] = None) -> "InstanceStatus":
         """Query instance status.
 
         Args:

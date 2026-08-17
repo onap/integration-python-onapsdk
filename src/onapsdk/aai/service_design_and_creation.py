@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Iterator
+from typing import Optional, Iterator
 from urllib.parse import urlencode
 
 from onapsdk.utils.jinja import jinja_env
@@ -73,8 +73,8 @@ class Service(AaiResource):
 
     @classmethod
     def get_all(cls,
-                service_id: str = None,
-                service_description: str = None) -> Iterator["Service"]:
+                service_id: Optional[str] = None,
+                service_description: Optional[str] = None) -> Iterator["Service"]:
         """Services iterator.
 
         Stand-in for service model definitions.

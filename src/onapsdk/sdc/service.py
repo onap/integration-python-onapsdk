@@ -129,12 +129,16 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
     SERVICE_PATH = "services"
 
-    def __init__(self, name: str = None, version: str = None, sdc_values: Dict[str, str] = None,  # pylint: disable=too-many-arguments
-                 resources: List[SdcResource] = None, properties: List[Property] = None,
-                 inputs: List[Union[Property, NestedInput]] = None,
+    def __init__(self, name: Optional[str] = None,  # pylint: disable=too-many-arguments
+                 version: Optional[str] = None,
+                 sdc_values: Optional[Dict[str, str]] = None,
+                 resources: Optional[List[SdcResource]] = None,
+                 properties: Optional[List[Property]] = None,
+                 inputs: Optional[List[Union[Property, NestedInput]]] = None,
                  instantiation_type: Optional[ServiceInstantiationType] = \
                      None,
-                 category: str = None, role: str = "", function: str = "", service_type: str = ""):
+                 category: Optional[str] = None, role: str = "",
+                 function: str = "", service_type: str = ""):
         """
         Initialize service object.
 
@@ -847,7 +851,7 @@ class Service(SdcResource):  # pylint: disable=too-many-instance-attributes, too
 
 
     def add_artifact_to_vf(self, vnf_name: str, artifact_type: str,
-                           artifact_name: str, artifact: BinaryIO = None):
+                           artifact_name: str, artifact: Optional[BinaryIO] = None):
         """
         Add artifact to vf.
 

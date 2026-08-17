@@ -17,6 +17,7 @@ from ctypes import c_bool
 from multiprocessing import Process, Value
 from multiprocessing.sharedctypes import Synchronized
 from time import sleep
+from typing import Optional
 
 
 class WaitForFinishMixin(ABC):
@@ -67,7 +68,7 @@ class WaitForFinishMixin(ABC):
         self._logger.info(f"{self.__class__.__name__} task finished")
         return_value.value = self.completed
 
-    def wait_for_finish(self, timeout: float = None) -> bool:
+    def wait_for_finish(self, timeout: Optional[float] = None) -> bool:
         """Wait until object task is finished.
 
         It uses time.sleep with WAIT_FOR_SLEEP_TIME value as a parameter to

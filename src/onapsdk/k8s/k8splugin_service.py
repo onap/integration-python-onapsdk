@@ -14,7 +14,7 @@
 #   limitations under the License.
 from abc import ABC
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Optional, Any, Dict
 from urllib.parse import urlsplit, parse_qs, urlencode, SplitResult
 
 from onapsdk.configuration import settings
@@ -84,10 +84,10 @@ class QueryResourceStatusMixin(ABC):  # pylint: disable=too-few-public-methods
                               query_url: str,
                               api_version: str,
                               kind: str,
-                              namespace: str = None,
-                              name: str = None,
-                              labels: dict = None,
-                              cloud_region: str = None) -> Dict[str, Any]:
+                              namespace: Optional[str] = None,
+                              name: Optional[str] = None,
+                              labels: Optional[dict] = None,
+                              cloud_region: Optional[str] = None) -> Dict[str, Any]:
         """Call a query request.
 
         Args:

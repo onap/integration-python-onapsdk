@@ -23,10 +23,11 @@ from ..aai_element import AaiResource
 class SpPartner(AaiResource):  # pylint: disable=too-many-instance-attributes
     """Sp partner class."""
 
-    def __init__(self, sp_partner_id: str, resource_version: str, url: str = None,  # pylint: disable=too-many-arguments, too-many-locals
-                 callsource: str = None, operational_status: str = None,
-                 model_customization_id: str = None, model_invariant_id: str = None,
-                 model_version_id: str = None) -> None:
+    def __init__(self, sp_partner_id: str, resource_version: str, url: Optional[str] = None,  # pylint: disable=too-many-arguments, too-many-locals
+                 callsource: Optional[str] = None, operational_status: Optional[str] = None,
+                 model_customization_id: Optional[str] = None,
+                 model_invariant_id: Optional[str] = None,
+                 model_version_id: Optional[str] = None) -> None:
         """Sp partner object initialization.
 
         Args:

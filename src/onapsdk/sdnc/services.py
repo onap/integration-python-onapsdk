@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Any, Dict, Iterable
+from typing import Optional, Any, Dict, Iterable
 
 from onapsdk.utils.headers_creator import headers_sdnc_creator
 from onapsdk.utils.jinja import jinja_env
@@ -27,8 +27,8 @@ class Service(SdncElement):
 
     def __init__(self,
                  service_instance_id: str,
-                 service_data: Dict[str, Any] = None,
-                 service_status: Dict[str, Any] = None) -> None:
+                 service_data: Optional[Dict[str, Any]] = None,
+                 service_status: Optional[Dict[str, Any]] = None) -> None:
         """Service information initialization.
 
         Args:

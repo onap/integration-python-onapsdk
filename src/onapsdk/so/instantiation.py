@@ -285,8 +285,8 @@ class VfModuleInstantiation(Instantiation):  # pytest: disable=too-many-ancestor
                               vnf_instance: "VnfInstance",
                               cloud_region: "CloudRegion",
                               tenant: "Tenant",
-                              vf_module_instance_name: str = None,
-                              vnf_parameters: Iterable["InstantiationParameter"] = None,
+                              vf_module_instance_name: Optional[str] = None,
+                              vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None,
                               use_preload: bool = True) -> "VfModuleInstantiation":
         """Instantiate VF module.
 
@@ -483,8 +483,8 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                               cloud_region: "CloudRegion",
                               tenant: "Tenant",
                               sdc_service: "SdcService",
-                              vnf_instance_name: str = None,
-                              vnf_parameters: Iterable["InstantiationParameter"] = None
+                              vnf_instance_name: Optional[str] = None,
+                              vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None
                               ) -> "VnfInstantiation":
         """Instantiate Vnf using a'la carte method.
 
@@ -544,9 +544,9 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                           cloud_region: "CloudRegion",
                           tenant: "Tenant",
                           sdc_service: "SdcService",
-                          vnf_instance_name: str = None,
-                          vnf_parameters: Iterable["InstantiationParameter"] = None,
-                          so_vnf: "SoServiceVnf" = None
+                          vnf_instance_name: Optional[str] = None,
+                          vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None,
+                          so_vnf: Optional["SoServiceVnf"] = None
                           ) -> "VnfInstantiation":
         """Instantiate Vnf using macro method.
 
@@ -630,7 +630,7 @@ class VnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                   line_of_business: str,
                   platform: str,
                   sdc_service: "SdcService",
-                  so_service: "SoService" = None
+                  so_service: Optional["SoService"] = None
                   ) -> "VnfInstantiation":
         """Execute SO action (update or healthcheck) for selected vnf with SO macro request.
 
@@ -808,9 +808,9 @@ class PnfInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-many-a
                           line_of_business: str,
                           platform: str,
                           sdc_service: "SdcService",
-                          pnf_instance_name: str = None,
-                          pnf_parameters: Iterable["InstantiationParameter"] = None,
-                          so_pnf: "SoServicePnf" = None
+                          pnf_instance_name: Optional[str] = None,
+                          pnf_parameters: Optional[Iterable["InstantiationParameter"]] = None,
+                          so_pnf: Optional["SoServicePnf"] = None
                           ) -> "PnfInstantiation":
         """Instantiate Pnf using macro method.
 
@@ -926,7 +926,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                               owning_entity: OwningEntity,
                               project: str,
                               service_subscription: "ServiceSubscription",
-                              service_instance_name: str = None,
+                              service_instance_name: Optional[str] = None,
                               enable_multicloud: bool = False) -> "ServiceInstantiation":
         """Instantiate service using SO a'la carte request.
 
@@ -994,14 +994,14 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           project: str,
                           line_of_business: str,
                           platform: str,
-                          aai_service: "AaiService" = None,
-                          cloud_region: "CloudRegion" = None,
-                          tenant: "Tenant" = None,
-                          service_instance_name: str = None,
-                          vnf_parameters: Iterable["VnfParameters"] = None,
+                          aai_service: Optional["AaiService"] = None,
+                          cloud_region: Optional["CloudRegion"] = None,
+                          tenant: Optional["Tenant"] = None,
+                          service_instance_name: Optional[str] = None,
+                          vnf_parameters: Optional[Iterable["VnfParameters"]] = None,
                           enable_multicloud: bool = False,
-                          so_service: "SoService" = None,
-                          service_subscription: "ServiceSubscription" = None,
+                          so_service: Optional["SoService"] = None,
+                          service_subscription: Optional["ServiceSubscription"] = None,
                           skip_pnf_registration_event: "skip_event" = False
                           ) -> "ServiceInstantiation":
         """Instantiate service using SO macro request.
@@ -1095,7 +1095,7 @@ class ServiceInstantiation(Instantiation):  # pylint: disable=too-many-ancestors
                           operation_svc_type: ServiceOperation,
                           platform: str,
                           sdc_service: "SdcService",
-                          so_service: "SoService" = None
+                          so_service: Optional["SoService"] = None
                           ) -> "ServiceInstantiation":
         """Select Service  with SO macro request.
 
@@ -1214,8 +1214,8 @@ class NetworkInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-ma
                               platform: str,
                               cloud_region: "CloudRegion",
                               tenant: "Tenant",
-                              network_instance_name: str = None,
-                              subnets: Iterable[Subnet] = None) -> "NetworkInstantiation":
+                              network_instance_name: Optional[str] = None,
+                              subnets: Optional[Iterable[Subnet]] = None) -> "NetworkInstantiation":
         """Instantiate Network using a'la carte method.
 
         Args:
@@ -1274,9 +1274,10 @@ class NetworkInstantiation(NodeTemplateInstantiation):  # pylint: disable=too-ma
                           platform: str,
                           cloud_region: "CloudRegion",
                           tenant: "Tenant",
-                          network_instance_name: str = None,
-                          subnets: Iterable[Subnet] = None,
-                          network_details: "NetworkDetails" = None) -> "NetworkInstantiation":
+                          network_instance_name: Optional[str] = None,
+                          subnets: Optional[Iterable[Subnet]] = None,
+                          network_details: Optional["NetworkDetails"] = None
+                          ) -> "NetworkInstantiation":
         """Instantiate Network using a'la carte method.
 
         Args:

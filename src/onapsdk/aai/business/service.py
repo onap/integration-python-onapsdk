@@ -36,26 +36,26 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
     def __init__(self,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                  service_subscription: "ServiceSubscription",
                  instance_id: str,
-                 instance_name: str = None,
-                 service_type: str = None,
-                 service_role: str = None,
-                 environment_context: str = None,
-                 workload_context: str = None,
-                 created_at: str = None,
-                 updated_at: str = None,
-                 resource_version: str = None,
-                 description: str = None,
-                 model_invariant_id: str = None,
-                 model_version_id: str = None,
-                 persona_model_version: str = None,
-                 widget_model_id: str = None,
-                 widget_model_version: str = None,
-                 bandwith_total: str = None,
-                 vhn_portal_url: str = None,
-                 service_instance_location_id: str = None,
-                 selflink: str = None,
-                 orchestration_status: str = None,
-                 input_parameters: str = None) -> None:
+                 instance_name: Optional[str] = None,
+                 service_type: Optional[str] = None,
+                 service_role: Optional[str] = None,
+                 environment_context: Optional[str] = None,
+                 workload_context: Optional[str] = None,
+                 created_at: Optional[str] = None,
+                 updated_at: Optional[str] = None,
+                 resource_version: Optional[str] = None,
+                 description: Optional[str] = None,
+                 model_invariant_id: Optional[str] = None,
+                 model_version_id: Optional[str] = None,
+                 persona_model_version: Optional[str] = None,
+                 widget_model_id: Optional[str] = None,
+                 widget_model_version: Optional[str] = None,
+                 bandwith_total: Optional[str] = None,
+                 vhn_portal_url: Optional[str] = None,
+                 service_instance_location_id: Optional[str] = None,
+                 selflink: Optional[str] = None,
+                 orchestration_status: Optional[str] = None,
+                 input_parameters: Optional[str] = None) -> None:
         """Service instance object initialization.
 
         Args:
@@ -173,26 +173,26 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
     def create(cls, service_subscription: "ServiceSubscription",
                # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
                instance_id: str,
-               instance_name: str = None,
-               service_type: str = None,
-               service_role: str = None,
-               environment_context: str = None,
-               workload_context: str = None,
-               created_at: str = None,
-               updated_at: str = None,
-               resource_version: str = None,
-               description: str = None,
-               model_invariant_id: str = None,
-               model_version_id: str = None,
-               persona_model_version: str = None,
-               widget_model_id: str = None,
-               widget_model_version: str = None,
-               bandwith_total: str = None,
-               vhn_portal_url: str = None,
-               service_instance_location_id: str = None,
-               selflink: str = None,
-               orchestration_status: str = None,
-               input_parameters: str = None):
+               instance_name: Optional[str] = None,
+               service_type: Optional[str] = None,
+               service_role: Optional[str] = None,
+               environment_context: Optional[str] = None,
+               workload_context: Optional[str] = None,
+               created_at: Optional[str] = None,
+               updated_at: Optional[str] = None,
+               resource_version: Optional[str] = None,
+               description: Optional[str] = None,
+               model_invariant_id: Optional[str] = None,
+               model_version_id: Optional[str] = None,
+               persona_model_version: Optional[str] = None,
+               widget_model_id: Optional[str] = None,
+               widget_model_version: Optional[str] = None,
+               bandwith_total: Optional[str] = None,
+               vhn_portal_url: Optional[str] = None,
+               service_instance_location_id: Optional[str] = None,
+               selflink: Optional[str] = None,
+               orchestration_status: Optional[str] = None,
+               input_parameters: Optional[str] = None):
         """Service instance creation.
 
         Args:
@@ -419,11 +419,11 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                 vnf: "Vnf",
                 line_of_business: str,
                 platform: str,
-                cloud_region: "CloudRegion" = None,
-                tenant: "Tenant" = None,
-                vnf_instance_name: str = None,
-                vnf_parameters: Iterable["InstantiationParameter"] = None,
-                so_vnf: "SoServiceVnf" = None,
+                cloud_region: Optional["CloudRegion"] = None,
+                tenant: Optional["Tenant"] = None,
+                vnf_instance_name: Optional[str] = None,
+                vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None,
+                so_vnf: Optional["SoServiceVnf"] = None,
                 a_la_carte: bool = True
                 ) -> "VnfInstantiation":
         """Add vnf into service instance.
@@ -491,10 +491,10 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                 pnf: "Pnf",
                 line_of_business: str,
                 platform: str,
-                pnf_instance_name: str = None,
-                customer: "Customer" = None,
-                service_subscription: "ServiceSubscription" = None,
-                sdc_service: "SdcService" = None,
+                pnf_instance_name: Optional[str] = None,
+                customer: Optional["Customer"] = None,
+                service_subscription: Optional["ServiceSubscription"] = None,
+                sdc_service: Optional["SdcService"] = None,
                 ) -> "PnfInstantiation":
         """Add pnf into service instance.
 
@@ -535,11 +535,11 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                     line_of_business: str,
                     platform: str,
                     a_la_carte: bool = True,
-                    cloud_region: "CloudRegion" = None,
-                    tenant: "Tenant" = None,
-                    network_instance_name: str = None,
-                    subnets: Iterator["Subnet"] = None,
-                    network_details: "NetworkDetails" = None) -> "NetworkInstantiation":
+                    cloud_region: Optional["CloudRegion"] = None,
+                    tenant: Optional["Tenant"] = None,
+                    network_instance_name: Optional[str] = None,
+                    subnets: Optional[Iterator["Subnet"]] = None,
+                    network_details: Optional["NetworkDetails"] = None) -> "NetworkInstantiation":
         """Add network into service instance.
 
         Instantiate vl.

@@ -13,6 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from typing import Optional
+
 from onapsdk.so.deletion import NetworkDeletionRequest
 
 from .instance import Instance
@@ -28,28 +30,28 @@ class NetworkInstance(Instance):  # pylint: disable=too-many-instance-attributes
                  is_provider_network: bool,
                  is_shared_network: bool,
                  is_external_network: bool,
-                 network_name: str = None,
-                 network_type: str = None,
-                 network_role: str = None,
-                 network_technology: str = None,
-                 neutron_network_id: str = None,
-                 service_id: str = None,
-                 network_role_instance: str = None,
-                 resource_version: str = None,
-                 orchestration_status: str = None,
-                 heat_stack_id: str = None,
-                 mso_catalog_key: str = None,
-                 model_invariant_id: str = None,
-                 contrail_network_fqdn: str = None,
-                 persona_model_version: str = None,
-                 model_version_id: str = None,
-                 model_customization_id: str = None,
-                 widget_model_id: str = None,
-                 physical_network_name: str = None,
-                 widget_model_version: str = None,
-                 selflink: str = None,
-                 operational_status: str = None,
-                 is_trunked: bool = None) -> None:
+                 network_name: Optional[str] = None,
+                 network_type: Optional[str] = None,
+                 network_role: Optional[str] = None,
+                 network_technology: Optional[str] = None,
+                 neutron_network_id: Optional[str] = None,
+                 service_id: Optional[str] = None,
+                 network_role_instance: Optional[str] = None,
+                 resource_version: Optional[str] = None,
+                 orchestration_status: Optional[str] = None,
+                 heat_stack_id: Optional[str] = None,
+                 mso_catalog_key: Optional[str] = None,
+                 model_invariant_id: Optional[str] = None,
+                 contrail_network_fqdn: Optional[str] = None,
+                 persona_model_version: Optional[str] = None,
+                 model_version_id: Optional[str] = None,
+                 model_customization_id: Optional[str] = None,
+                 widget_model_id: Optional[str] = None,
+                 physical_network_name: Optional[str] = None,
+                 widget_model_version: Optional[str] = None,
+                 selflink: Optional[str] = None,
+                 operational_status: Optional[str] = None,
+                 is_trunked: Optional[bool] = None) -> None:
         """Network instance object initialization.
 
         Args:

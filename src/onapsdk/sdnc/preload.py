@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Any, Dict, Iterable
+from typing import Optional, Any, Dict, Iterable
 
 from onapsdk.utils.headers_creator import headers_sdnc_creator
 from onapsdk.utils.jinja import jinja_env
@@ -81,7 +81,7 @@ class NetworkPreload(Preload):
     def upload_network_preload(cls,
                                network: "Network",
                                network_instance_name: str,
-                               subnets: Iterable["Subnet"] = None) -> None:
+                               subnets: Optional[Iterable["Subnet"]] = None) -> None:
         """Upload network preload.
 
         Args:
@@ -114,7 +114,8 @@ class VfModulePreload(Preload):
                                  vnf_instance: "VnfInstance",
                                  vf_module_instance_name: str,
                                  vf_module: "VfModule",
-                                 vnf_parameters: Iterable["InstantiationParameter"] = None) -> None:
+                                 vnf_parameters: Optional[Iterable["InstantiationParameter"]] = None
+                                 ) -> None:
         """Upload vf module preload.
 
         Args:

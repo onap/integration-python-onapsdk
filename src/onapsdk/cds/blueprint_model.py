@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from typing import Iterator
+from typing import Optional, Iterator
 from onapsdk.exceptions import ResourceNotFound  # for custom exceptions
 
 from .blueprint import Blueprint
@@ -28,16 +28,16 @@ class BlueprintModel(CdsElement):  # pylint: disable=too-many-instance-attribute
 
     def __init__(self,  # pylint: disable=too-many-arguments
                  blueprint_model_id: str,
-                 artifact_uuid: str = None,
-                 artifact_type: str = None,
-                 artifact_version: str = None,
-                 artifact_description: str = None,
-                 internal_version: str = None,
-                 created_date: str = None,
-                 artifact_name: str = None,
+                 artifact_uuid: Optional[str] = None,
+                 artifact_type: Optional[str] = None,
+                 artifact_version: Optional[str] = None,
+                 artifact_description: Optional[str] = None,
+                 internal_version: Optional[str] = None,
+                 created_date: Optional[str] = None,
+                 artifact_name: Optional[str] = None,
                  published: str = 'N',
-                 updated_by: str = None,
-                 tags: str = None):
+                 updated_by: Optional[str] = None,
+                 tags: Optional[str] = None):
         """Blueprint Model initialization.
 
         Args:

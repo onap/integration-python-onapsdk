@@ -214,7 +214,7 @@ class ResourceCategory(BaseCategory):
         return "Resource Category"
 
     @classmethod
-    def get(cls, name: str, subcategory: str = None) -> "ResourceCategory":  # pylint: disable=arguments-differ
+    def get(cls, name: str, subcategory: Optional[str] = None) -> "ResourceCategory":  # pylint: disable=arguments-differ
         """Get resource category with given name.
 
         It returns resource category with all subcategories by default. You can

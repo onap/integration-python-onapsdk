@@ -12,7 +12,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from typing import Iterator
+from typing import Optional, Iterator
 from dataclasses import dataclass
 from onapsdk.utils.jinja import jinja_env
 from .k8splugin_service import GVK, RemovableK8sPlugin
@@ -44,7 +44,7 @@ class DefinitionBase(RemovableK8sPlugin):
         """
         return f"{self.base_url_and_version()}/rb/definition/{self.rb_name}/{self.rb_version}"
 
-    def upload_artifact(self, package: bytes = None):
+    def upload_artifact(self, package: Optional[bytes] = None):
         """Upload artifact.
 
         Args:
@@ -70,9 +70,9 @@ class Profile(DefinitionBase):
                  profile_name: str,
                  namespace: str,
                  kubernetes_version: str,
-                 labels: dict = None,
-                 release_name: str = None,
-                 extra_resource_types: dict = None) -> None:
+                 labels: Optional[dict] = None,
+                 release_name: Optional[str] = None,
+                 extra_resource_types: Optional[dict] = None) -> None:
         """Profile object initialization.
 
         Args:
@@ -339,9 +339,9 @@ class Definition(DefinitionBase):
     def create_profile(self, profile_name: str,
                        namespace: str,
                        kubernetes_version: str,
-                       release_name: str = None,
-                       labels: dict = None,
-                       extra_resource_types: list = None) -> "Profile":
+                       release_name: Optional[str] = None,
+                       labels: Optional[dict] = None,
+                       extra_resource_types: Optional[list] = None) -> "Profile":
         """Create Profile for Definition.
 
         Args:

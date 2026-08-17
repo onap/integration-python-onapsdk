@@ -14,6 +14,7 @@
 #   limitations under the License.
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from ..aai_element import AaiResource
 
@@ -22,9 +23,9 @@ class Instance(AaiResource, ABC):
     """Abstract instance class."""
 
     def __init__(self,  # pylint: disable=too-many-arguments
-                 resource_version: str = None,
-                 model_invariant_id: str = None,
-                 model_version_id: str = None) -> None:
+                 resource_version: Optional[str] = None,
+                 model_invariant_id: Optional[str] = None,
+                 model_version_id: Optional[str] = None) -> None:
         """Instance initialization.
 
         Args:

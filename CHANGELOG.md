@@ -1,6 +1,10 @@
 # Python ONAP SDK Changelog
 
-## v14.5.0
+## v14.6.0
+
+There is no 14.5.0 release. The release pipeline had already staged a 14.5.0
+artifact built before any of the changes below, and the index it stages to
+rejects re-uploads of a version that exists, so the version was skipped.
 
 ### Added
 

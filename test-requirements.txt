@@ -6,3 +6,5 @@ pytest-cov
 pydocstyle
 mypy
 requests-mock
+# tests/test_setup.py imports setup.py; venvs on Python 3.12+ no longer seed setuptools
+setuptools

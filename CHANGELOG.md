@@ -15,6 +15,11 @@ rejects re-uploads of a version that exists, so the version was skipped.
 
 ### Changed
 
+- Merge builds now publish their snapshot under a PEP 440 development version
+  derived from the Jenkins build number, for example `14.6.0.dev123`, so a merge
+  no longer fails once a version has been staged. Cutting a release now needs the
+  clean version staged with a `stage-release` comment first, because the release
+  job downloads that exact version rather than building it; see the README.
 - Every function and method in the package now carries a return annotation, so
   type checkers no longer skip their bodies. This is an annotation-only change
   with one exception: `OnapService.get_guis` is declared as returning `GuiList`,

@@ -117,3 +117,37 @@ $ PYTHONPATH=$PYTHONPATH:integration_tests/:src/ ONAP_PYTHON_SDK_SETTINGS="local
 ```
 
 Please make sure all the test are passing before creating merge request.
+
+### Snapshots
+
+Every merge to *master* publishes a snapshot to
+[TestPyPI](https://test.pypi.org/project/onapsdk/). Its version carries a PEP 440
+development suffix taken from the Jenkins build number, for example
+*14.6.0.dev123*, so that every merge gets a version of its own — a Python package
+index rejects a re-upload of a version it already holds. To install the latest
+snapshot:
+
+```
+$ pip install --pre --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ onapsdk
+```
+
+The extra index is needed because the dependencies are resolved from PyPI. A
+development version is a pre-release, so a plain `pip install onapsdk` never
+resolves to a snapshot.
+
+### Releasing
+
+The release job does not build anything: it downloads one exact version from
+TestPyPI and re-uploads it to [PyPI](https://pypi.org/project/onapsdk/). That
+version must therefore be staged *without* a development suffix first, which the
+merge job no longer does. To cut a release:
+
+1. Bump `__version__` in *src/onapsdk/version.py* along with the value expected in
+   *tests/test_version.py*, describe the release in *CHANGELOG.md*, and merge that.
+2. Comment `stage-release` on any open change of this project. That triggers
+   *integration-python-onapsdk-pypi-stage-master*, which builds the tip of
+   *master* with the clean version and uploads it to TestPyPI.
+3. Add *releases/pypi-\<version\>-onapsdk.yaml* with `log_dir` set to the stage
+   build that uploaded it, for example
+   *integration-python-onapsdk-pypi-stage-master/12/*. Merging that file triggers
+   the release job, which publishes to PyPI and tags the repository.

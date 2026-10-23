@@ -22,7 +22,7 @@ $ pip install onapsdk
 
 ## Development
 
-Before you start, ensure you have Python installation in version 3.8 or higher.
+Before you start, ensure you have Python installation in version 3.11 or higher.
 Please see [the official Python documentation](https://docs.python.org/3/using/index.html)
 in case you have to upgrade or install certain Python version.
 
@@ -85,12 +85,11 @@ execute *tox*:
 $ tox
 ```
 
-Please note that the above runs unit tests on all major versions of Python available on your
-OS (3.7, 3.8, 3.9). To limit execution to only specific version of Python interpreter,
-use the following example:
+Please note that the above runs the unit tests with Python 3.11. To run them with another
+interpreter installed on your OS, name it explicitly, for example:
 
 ```
-$ tox -e py38
+$ tox -e py312
 ```
 
 ### Integration testing

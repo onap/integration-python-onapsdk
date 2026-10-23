@@ -1,5 +1,13 @@
 # Python ONAP SDK Changelog
 
+## v14.7.0
+
+### Changed
+
+- The package now requires Python 3.11 or newer (`python_requires = >=3.11`).
+  CI runs the unit tests on 3.11; 3.8 and 3.9, the only versions tested so far,
+  are end-of-life. pip on an older interpreter keeps resolving onapsdk 14.6.0.
+
 ## v14.6.0
 
 There is no 14.5.0 release. The release pipeline had already staged a 14.5.0

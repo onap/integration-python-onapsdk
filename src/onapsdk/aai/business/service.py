@@ -170,8 +170,8 @@ class ServiceInstance(Instance):  # pylint: disable=too-many-instance-attributes
                     self)
 
     @classmethod
-    def create(cls, service_subscription: "ServiceSubscription",
-               # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+    def create(cls,  # NOSONAR  # pylint: disable=too-many-arguments, too-many-locals
+               service_subscription: "ServiceSubscription",
                instance_id: str,
                instance_name: Optional[str] = None,
                service_type: Optional[str] = None,

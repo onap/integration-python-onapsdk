@@ -2,6 +2,14 @@
 
 ## v14.7.0
 
+### Fixed
+
+- `OnapService.send_message` no longer logs credentials. It logged the request
+  headers, including `authorization`, at DEBUG on every call and again at ERROR
+  on every HTTP error. Sensitive headers (`authorization`, `proxy-authorization`,
+  `cookie`, `x-auth-token`) are now masked in the debug log and in `set_header`,
+  and the error log reports the HTTP error instead of the headers.
+
 ### Changed
 
 - The package now requires Python 3.11 or newer (`python_requires = >=3.11`).

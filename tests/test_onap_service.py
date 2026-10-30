@@ -1,5 +1,6 @@
 """Test OnapService module."""
 #   Copyright 2022 Orange, Deutsche Telekom AG
+#   Modifications Copyright 2026 Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -12,6 +13,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import logging
 from unittest import mock
 from unittest.mock import ANY
 
@@ -24,7 +26,7 @@ from onapsdk.exceptions import (
     RequestError, APIError, ResourceNotFound, InvalidResponse, ConnectionFailed
 )
 
-from onapsdk.onap_service import OnapService
+from onapsdk.onap_service import OnapService, redact_headers
 from onapsdk.sdc.vendor import Vendor
 
 def http_codes():
@@ -390,3 +392,49 @@ def test_set_header(mock_session):
     assert headers["test-header-dict-key"] == "test-header-dict-value"
     assert "test-header-common-key" in headers
     assert headers["test-header-common-key"] == "test-header-common-value"
+
+
+def test_redact_headers():
+    headers = {"Authorization": "Basic dXNlcjpwYXNz", "proxy-authorization": "Basic eDp5",
+               "Cookie": "JSESSIONID=1", "X-Auth-Token": "tok", "Accept": "application/json"}
+    assert redact_headers(headers) == {
+        "Authorization": "***", "proxy-authorization": "***", "Cookie": "***",
+        "X-Auth-Token": "***", "Accept": "application/json"}
+    assert headers["Authorization"] == "Basic dXNlcjpwYXNz"
+
+
+@mock.patch.object(Session, 'request')
+def test_send_message_does_not_log_auth_header(mock_request, caplog):
+    mocked_response = Response()
+    mocked_response.status_code = 200
+    mock_request.return_value = mocked_response
+
+    with caplog.at_level(logging.DEBUG):
+        OnapService.send_message("GET", 'test get', 'http://my.url/',
+                                 headers={"authorization": "Basic dXNlcjpwYXNz"})
+    assert "dXNlcjpwYXNz" not in caplog.text
+    assert "'authorization': '***'" in caplog.text
+    _, kwargs = mock_request.call_args
+    assert kwargs["headers"]["authorization"] == "Basic dXNlcjpwYXNz"
+
+
+@mock.patch.object(Session, 'request')
+def test_send_message_error_does_not_log_auth_header(mock_request, caplog):
+    mocked_response = Response()
+    mocked_response.status_code = 404
+    mock_request.return_value = mocked_response
+
+    with caplog.at_level(logging.ERROR):
+        with pytest.raises(ResourceNotFound):
+            OnapService.send_message("GET", 'test get', 'http://my.url/',
+                                     headers={"authorization": "Basic dXNlcjpwYXNz"})
+    assert "dXNlcjpwYXNz" not in caplog.text
+    assert "API returned an error: 404" in caplog.text
+
+
+def test_set_header_does_not_log_auth_header(caplog):
+    with caplog.at_level(logging.DEBUG):
+        OnapService.set_header({"Authorization": "Basic dXNlcjpwYXNz"})
+    OnapService.set_header(None)
+    assert "dXNlcjpwYXNz" not in caplog.text
+    assert "'Authorization': '***'" in caplog.text

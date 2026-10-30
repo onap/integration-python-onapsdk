@@ -1,5 +1,6 @@
 """ONAP Service module."""
 #   Copyright 2022 Orange, Deutsche Telekom AG
+#   Modifications Copyright 2026 Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -34,6 +35,13 @@ from onapsdk.utils.gui import GuiList
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 APPLICATION_JSON: str = "application/json"
+SENSITIVE_HEADERS = frozenset({"authorization", "proxy-authorization", "cookie", "x-auth-token"})
+
+
+def redact_headers(headers: Dict[str, Any]) -> Dict[str, Any]:
+    """Return a copy of the headers that is safe to log."""
+    return {key: "***" if key.lower() in SENSITIVE_HEADERS else value
+            for key, value in headers.items()}
 
 
 class OnapService(ABC):
@@ -144,7 +152,7 @@ class OnapService(ABC):
             OnapService._set_basic_auth_if_needed(basic_auth, session)
 
             cls._logger.debug("[%s][%s] sent header: %s", cls.server, action,
-                              headers)
+                              redact_headers(headers))
             cls._logger.debug("[%s][%s] url used: %s", cls.server, action, url)
             cls._logger.debug("[%s][%s] data sent: %s", cls.server, action,
                               data)
@@ -171,8 +179,8 @@ class OnapService(ABC):
             return response
 
         except HTTPError as cause:
-            cls._logger.error("[%s][%s] API returned and error: %s",
-                              cls.server, action, headers)
+            cls._logger.error("[%s][%s] API returned an error: %s",
+                              cls.server, action, cause)
 
             msg = f'Code: {cause.response.status_code}. Info: {cause.response.text}.'
 
@@ -333,9 +341,10 @@ class OnapService(ABC):
             return
         if callable(header):
             OnapService.permanent_headers.ph_call.append(header)
+            OnapService._logger.debug("Set permanent header callable %s", header)
         else:
             OnapService.permanent_headers.ph_dict.update(header)
-        OnapService._logger.debug("Set permanent header %s", header)
+            OnapService._logger.debug("Set permanent header %s", redact_headers(header))
 
     @classmethod
     def get_guis(cls) -> GuiList:

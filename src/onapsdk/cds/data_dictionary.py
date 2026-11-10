@@ -15,6 +15,7 @@
 
 import json
 from logging import getLogger, Logger
+from typing import Iterable
 
 from onapsdk.exceptions import FileError, ValidationError
 
@@ -124,6 +125,53 @@ class DataDictionary(CdsElement):
             data=json.dumps(self.data_dictionary_json)
         )
 
+    @property
+    def definition(self) -> dict:
+        """Resource definition of the data dictionary.
+
+        The single upload endpoint stores the "updatedBy" value of the data dictionary
+            and overwrites the "updated-by" of its definition with it. The bulk endpoint
+            reads the definition only, so the same value is set here to store the same
+            data whichever endpoint is used.
+
+        Raises:
+            ValidationError: Data dictionary has no "definition" or "updatedBy" key
+
+        Returns:
+            dict: Resource definition
+
+        """
+        try:
+            return {**self.data_dictionary_json["definition"],
+                    "updated-by": self.data_dictionary_json["updatedBy"]}
+        except KeyError as exc:
+            raise ValidationError(
+                f"Data dictionary {self.name} has no definition to upload") from exc
+
+    @classmethod
+    def upload_bulk(cls, data_dictionaries: Iterable["DataDictionary"]) -> None:
+        """Upload data dictionaries in one request using CDS API.
+
+        CDS saves all of them in one transaction, so either all or none are stored.
+
+        Args:
+            data_dictionaries (Iterable[DataDictionary]): Data dictionaries to upload
+
+        Raises:
+            ValidationError: Any of the data dictionaries has no definition to upload
+            RequestError: CDS did not store the data dictionaries
+
+        """
+        definitions: list = [data_dictionary.definition for data_dictionary in data_dictionaries]
+        cls.logger.debug("Upload %d data dictionaries", len(definitions))
+        cls.send_message(
+            "POST",
+            "Publish CDS data dictionaries",
+            f"{cls._url}/api/v1/dictionary/definition-bulk",
+            auth=cls.auth,
+            data=json.dumps(definitions)
+        )
+
     def has_valid_schema(self) -> bool:
         """Check data dictionary json schema.
 
@@ -218,17 +266,20 @@ class DataDictionarySet:
         self.dd_set.add(data_dictionary)
 
     def upload(self) -> None:
-        """Upload all data dictionaries using CDS API.
+        """Upload all data dictionaries in one request using CDS API.
+
+        CDS saves all of them in one transaction, so if the request fails none of them
+            is stored. An empty set sends no request.
 
         Raises:
-            RuntimeError: Raises if any data dictionary won't be uploaded to server.
-                Data dictionaries uploaded before the one which raises excepion won't be
-                deleted from server.
+            ValidationError: Any of the data dictionaries has no definition to upload
+            RequestError: CDS did not store the data dictionaries
 
         """
-        self.logger.debug("Upload data dictionary")
-        for data_dictionary in self.dd_set:  # type DataDictionary
-            data_dictionary.upload()  # raise a relevant exception
+        if not self.dd_set:
+            self.logger.debug("No data dictionaries to upload")
+            return
+        DataDictionary.upload_bulk(self.dd_set)
 
     def save_to_file(self, dd_file_path: str) -> None:
         """Save data dictionaries to file.

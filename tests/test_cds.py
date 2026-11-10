@@ -203,8 +203,20 @@ def test_data_dictionary_upload(send_message_mock):
     send_message_mock.assert_called_once()
 
 
-@patch.object(DataDictionary, "send_message")
-def test_data_dictionary_set(send_message_mock):
+def test_data_dictionary_definition():
+    assert DataDictionary(DD_1).definition == DD_1["definition"]
+    assert DataDictionary(RAW_DD).definition == RAW_DD
+
+    dd = DataDictionary({**DD_1, "updatedBy": "other",
+                         "definition": {k: v for k, v in DD_1["definition"].items()
+                                        if k != "updated-by"}})
+    assert dd.definition["updated-by"] == "other"
+
+    with raises(ValidationError):
+        DataDictionary({"name": "test"}, fix_schema=False).definition
+
+
+def test_data_dictionary_set_add():
     dd_set = DataDictionarySet()
 
     dd_set.add(DataDictionary(DD_1))
@@ -216,8 +228,53 @@ def test_data_dictionary_set(send_message_mock):
     dd_set.add(DataDictionary({"name": "test"}, fix_schema=False))
     assert dd_set.length == 2
 
+
+@patch.object(CdsElement, "_url", new_callable=PropertyMock)
+@patch.object(DataDictionary, "send_message")
+def test_data_dictionary_set_upload(send_message_mock, cds_element_url_property_mock):
+    cds_element_url_property_mock.return_value = "http://127.0.0.1"
+    dd_set = DataDictionarySet()
+    dd_set.add(DataDictionary(DD_1))
+    dd_set.add(DataDictionary({**RAW_DD, "name": "other-name"}))
+
     dd_set.upload()
-    assert send_message_mock.call_count == 2
+
+    send_message_mock.assert_called_once()
+    method, _, url = send_message_mock.call_args.args
+    assert method == "POST"
+    assert url == "http://127.0.0.1/api/v1/dictionary/definition-bulk"
+    assert send_message_mock.call_args.kwargs["auth"] == DataDictionary.auth
+    body = json.loads(send_message_mock.call_args.kwargs["data"])
+    assert sorted(body, key=lambda definition: definition["name"]) == [
+        {**RAW_DD, "name": "other-name"}, DD_1["definition"]]
+
+
+@patch.object(DataDictionary, "send_message")
+def test_data_dictionary_set_upload_empty(send_message_mock):
+    DataDictionarySet().upload()
+    send_message_mock.assert_not_called()
+
+
+@patch.object(DataDictionary, "send_message")
+def test_data_dictionary_set_upload_without_definition(send_message_mock):
+    dd_set = DataDictionarySet()
+    dd_set.add(DataDictionary(DD_1))
+    dd_set.add(DataDictionary({"name": "test"}, fix_schema=False))
+
+    with raises(ValidationError):
+        dd_set.upload()
+    send_message_mock.assert_not_called()
+
+
+@patch.object(DataDictionary, "send_message")
+def test_data_dictionary_set_upload_request_error(send_message_mock):
+    send_message_mock.side_effect = RequestError
+    dd_set = DataDictionarySet()
+    dd_set.add(DataDictionary(DD_1))
+
+    with raises(RequestError):
+        dd_set.upload()
+    send_message_mock.assert_called_once()
 
 
 def test_data_dictionary_set_save_to_file_load_from_file():

@@ -1,5 +1,19 @@
 # Python ONAP SDK Changelog
 
+## v14.8.0
+
+### Changed
+
+- `DataDictionarySet.upload` sends all data dictionaries in one request to the
+  CDS `/api/v1/dictionary/definition-bulk` endpoint instead of one request per
+  data dictionary. CDS stores them in one transaction, so a failed upload no
+  longer leaves the data dictionaries before the failing one on the server. The
+  endpoint exists from CDS 1.5.1 (ONAP London) on; older CDS releases answer
+  with an error. An empty set sends no request. Data dictionaries without a
+  `definition` raise `ValidationError` before anything is sent.
+- New `DataDictionary.definition` property and `DataDictionary.upload_bulk`
+  class method; `DataDictionary.upload` still uses the single upload endpoint.
+
 ## v14.7.0
 
 ### Fixed
